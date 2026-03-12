@@ -51,7 +51,7 @@ EXML-OPTIONS:
 
 For installing the opam package manager, see https://opam.ocaml.org/
 
-For installing nmm-ocaml as a local opam package, clone the reposistory and run the following command in its root directory:
+For installing nmm-ocaml as a local opam package, clone this repository and run the following command in its root directory:
 
 ```bash
 opam install .
