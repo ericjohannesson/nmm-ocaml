@@ -5,9 +5,7 @@ exception Error of string
 
 val html_of_exml : Common_utils.t_doc_class -> Xml.xml -> Xml.xml
 (**
-{[html_of_exml doc_class element]}
-
-evaluates recursively to
+[html_of_exml doc_class element] evaluates recursively to
 
 {[
 match element with
@@ -90,7 +88,6 @@ match element with
 |Xml.Element ("clear",[],[]) -> Xml.Element ("div",[("class","clear")],[Xml.PCData ""])
 
 |Xml.Element (tag, _, _) -> raise (Error ("unexpected element: " ^ tag))
-
 ]}
 *)
 

@@ -81,8 +81,7 @@
 
 <pre><span id="VALclass_of_tr_doc"><span class="keyword">val</span> class_of_tr_doc</span> : <code class="type"><a href="Doc_types.html#TYPEtr_doc">Doc_types.tr_doc</a> -&gt; <a href="Common_utils.html#TYPEt_doc_class">t_doc_class</a></code></pre><div class="info ">
 <div class="info-desc">
-<pre class="codepre"><code class="code">class_of_tr_doc doc</code></pre>
-<p>evaluates to</p>
+<p><code class="code">class_of_tr_doc&nbsp;doc</code> evaluates to</p>
 
 <pre class="codepre"><code class="code"><span class="keyword">match</span> doc.fld_doc_main <span class="keyword">with</span>
 <span class="keywordsign">|</span><span class="constructor">Cu_doc_main_chs</span> _ <span class="keywordsign">-&gt;</span> <span class="constructor">DOC_CHS</span>
@@ -94,9 +93,7 @@
 
 <pre><span id="VALstring_of_t_doc_class"><span class="keyword">val</span> string_of_t_doc_class</span> : <code class="type"><a href="Common_utils.html#TYPEt_doc_class">t_doc_class</a> -&gt; string</code></pre><div class="info ">
 <div class="info-desc">
-<pre class="codepre"><code class="code">string_of_t_doc_class doc_class
-</code></pre>
-<p>evaluates to</p>
+<p><code class="code">string_of_t_doc_class&nbsp;doc_class</code> evaluates to</p>
 
 <pre class="codepre"><code class="code"><span class="keyword">match</span> doc_class <span class="keyword">with</span>
 <span class="keywordsign">|</span><span class="constructor">DOC_CHS</span> <span class="keywordsign">-&gt;</span> <span class="string">"doc chs"</span>
@@ -225,8 +222,7 @@
 <h4 id="3_Defaultsettings">Default settings</h4>
 <pre><span id="VALexpand_tag_default"><span class="keyword">val</span> expand_tag_default</span> : <code class="type"><a href="Doc_types.html#TYPEts_tag">Doc_types.ts_tag</a> -&gt; (string * string) option</code></pre><div class="info ">
 <div class="info-desc">
-<pre class="codepre"><code class="code">expand_tag_default tag</code></pre>
-<p>evaluates to</p>
+<p><code class="code">expand_tag_default&nbsp;tag</code> evaluates to</p>
 
 <pre class="codepre"><code class="code">	<span class="keyword">match</span> tag <span class="keyword">with</span>
 	<span class="keywordsign">|</span><span class="constructor">Cs_tag</span> <span class="string">"DEF"</span> <span class="keywordsign">-&gt;</span> <span class="constructor">Some</span> (<span class="string">"DEFINITION"</span>, <span class="string">"Definition"</span>)
@@ -248,11 +244,9 @@
 
 <pre><span id="VALdoc_settings_default"><span class="keyword">val</span> doc_settings_default</span> : <code class="type">unit -&gt; <a href="Common_utils.html#TYPEt_doc_settings">t_doc_settings</a></code></pre><div class="info ">
 <div class="info-desc">
-<pre class="codepre"><code class="code">doc_settings_default ()]
+<p><code class="code">doc_settings_default&nbsp;()</code> evaluates to</p>
 
-evaluates <span class="keyword">to</span>
-
-{
+<pre class="codepre"><code class="code">{
 	doc_width = 68;
 	left_margin = 0;
 	title_indent = 0;
@@ -280,12 +274,12 @@ evaluates <span class="keyword">to</span>
 <pre><span id="VALdoc_settings_of_ts_blks"><span class="keyword">val</span> doc_settings_of_ts_blks</span> : <code class="type"><a href="Common_utils.html#TYPEt_doc_settings">t_doc_settings</a> -&gt;<br>       int -&gt; <a href="Doc_types.html#TYPEts_blks">Doc_types.ts_blks</a> -&gt; <a href="Common_utils.html#TYPEt_doc_settings">t_doc_settings</a></code></pre>
 <pre><span id="VALdoc_settings_of_tr_doc"><span class="keyword">val</span> doc_settings_of_tr_doc</span> : <code class="type"><a href="Doc_types.html#TYPEtr_doc">Doc_types.tr_doc</a> -&gt; <a href="Common_utils.html#TYPEt_doc_settings">t_doc_settings</a></code></pre><div class="info ">
 <div class="info-desc">
-<pre class="codepre"><code class="code">doc_settings_of_tr_doc doc</code></pre>
-<p>Checks if <code class="code">doc</code> has a preamble. If so, it attempts to parse that preamble and adjusts <code class="code">doc_settings_default</code> accordingly (possibly overriding the default settings).</p>
+<p><code class="code">doc_settings_of_tr_doc&nbsp;doc</code> checks if <code class="code">doc</code> has a preamble. If so, it attempts to parse that preamble and adjusts <code class="code">doc_settings_default</code> accordingly (possibly overriding the default settings).</p>
 
 <p>Prints a warning to <code class="code">stderr</code> if parsing fails, and keeps the default value.</p>
 
 <p><code class="code"><span class="constructor">Cs_preamble</span>&nbsp;(preamble&nbsp;:&nbsp;string)</code> is valid for parsing just in case <code class="code">preamble</code> has the following format:</p>
+
 <pre class="verbatim">PREAMBLE := KEY_VALUE [';' KEY_VALUE]*
 
 KEY_VALUE := | 'doc-width=' INT
@@ -523,8 +517,7 @@ INT := ['0'-'9']+
 <pre><span id="VALlvl_of_path"><span class="keyword">val</span> lvl_of_path</span> : <code class="type"><a href="Common_utils.html#TYPEt_path">t_path</a> -&gt; int</code></pre>
 <pre><span id="VALstring_of_ts_c_ref"><span class="keyword">val</span> string_of_ts_c_ref</span> : <code class="type"><a href="Common_utils.html#TYPEt_doc_settings">t_doc_settings</a> -&gt;<br>       <a href="Common_utils.html#TYPEt_cref_table">t_cref_table</a> -&gt;<br>       <a href="Common_utils.html#TYPEt_path">t_path</a> -&gt; <a href="Doc_types.html#TYPEts_c_ref">Doc_types.ts_c_ref</a> -&gt; string</code></pre><div class="info ">
 <div class="info-desc">
-<pre class="codepre"><code class="code">string_of_ts_c_ref doc_settings path c_ref</code></pre>
-<p>attempts to match <code class="code">c_ref</code> ocurring at <code class="code">path</code> with an <code class="code">id</code> in <code class="code">doc_cref_table</code>, and return a string representation of the path to <code class="code">id</code> relative to the closest common ancestor of <code class="code">c_ref</code> and <code class="code">id</code>.</p>
+<p><code class="code">string_of_ts_c_ref&nbsp;doc_settings&nbsp;path&nbsp;c_ref</code> attempts to match <code class="code">c_ref</code> ocurring at <code class="code">path</code> with an <code class="code">id</code> in <code class="code">doc_cref_table</code>, and return a string representation of the path to <code class="code">id</code> relative to the closest common ancestor of <code class="code">c_ref</code> and <code class="code">id</code>.</p>
 
 <p>Prints a warning to <code class="code">stderr</code> if no match is found, and returns <code class="code"><span class="string">"??"</span></code>.</p>
 </div>

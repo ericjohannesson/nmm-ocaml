@@ -13,9 +13,7 @@ type t_doc_class = DOC_CHS | DOC_SECS | DOC_PARS | DOC_BLKS
 
 val class_of_tr_doc: Doc_types.tr_doc -> t_doc_class
 (**
-{[class_of_tr_doc doc]}
-
-evaluates to
+[class_of_tr_doc doc] evaluates to
 
 {[
 match doc.fld_doc_main with
@@ -28,11 +26,7 @@ match doc.fld_doc_main with
 
 val string_of_t_doc_class: t_doc_class -> string
 (**
-{[
-string_of_t_doc_class doc_class
-]}
-
-evaluates to
+[string_of_t_doc_class doc_class] evaluates to
 
 {[
 match doc_class with
@@ -73,9 +67,7 @@ type t_doc_settings = {
 
 val expand_tag_default : Doc_types.ts_tag -> (string * string) option
 (**
-{[expand_tag_default tag]}
-
-evaluates to
+[expand_tag_default tag] evaluates to
 
 {[
 	match tag with
@@ -99,10 +91,9 @@ evaluates to
 
 val doc_settings_default : unit -> t_doc_settings
 (**
-{[doc_settings_default ()]
+[doc_settings_default ()] evaluates to
 
-evaluates to
-
+{[
 {
 	doc_width = 68;
 	left_margin = 0;
@@ -136,13 +127,12 @@ val doc_settings_of_ts_blks : t_doc_settings -> int -> Doc_types.ts_blks -> t_do
 
 val doc_settings_of_tr_doc : Doc_types.tr_doc -> t_doc_settings
 (**
-{[doc_settings_of_tr_doc doc]} 
-
-Checks if [doc] has a preamble. If so, it attempts to parse that preamble and adjusts [doc_settings_default] accordingly (possibly overriding the default settings). 
+[doc_settings_of_tr_doc doc] checks if [doc] has a preamble. If so, it attempts to parse that preamble and adjusts [doc_settings_default] accordingly (possibly overriding the default settings). 
 
 Prints a warning to [stderr] if parsing fails, and keeps the default value.
 
 [Cs_preamble (preamble : string)] is valid for parsing just in case [preamble] has the following format:
+
 {v
 PREAMBLE := KEY_VALUE [';' KEY_VALUE]*
 
@@ -218,9 +208,7 @@ val lvl_of_path : t_path -> int
 
 val string_of_ts_c_ref : t_doc_settings -> t_cref_table -> t_path -> Doc_types.ts_c_ref -> string
 (**
-{[string_of_ts_c_ref doc_settings path c_ref]}
-
-attempts to match [c_ref] ocurring at [path] with an [id] in [doc_cref_table], and return a string representation of the path to [id] relative to the closest common ancestor of [c_ref] and [id]. 
+[string_of_ts_c_ref doc_settings path c_ref] attempts to match [c_ref] ocurring at [path] with an [id] in [doc_cref_table], and return a string representation of the path to [id] relative to the closest common ancestor of [c_ref] and [id]. 
 
 Prints a warning to [stderr] if no match is found, and returns ["??"].
 *)
@@ -246,10 +234,12 @@ val par_restated_of_tr_id : t_doc_settings -> t_cref_table -> t_path -> Doc_type
 
 val string_of_tu_scope : Doc_types.tu_scope -> string
 
+
 val path_to_ch_node : t_path -> t_path
 val path_to_sec_node : t_path -> t_path
 val path_to_app_node : t_path -> t_path
 val path_to_par_node : t_path -> t_path
 
 val check_cref_table : t_doc_settings -> t_cref_table -> t_cref_table
+
 val string_of_tr_id : Doc_types.tr_id -> string
