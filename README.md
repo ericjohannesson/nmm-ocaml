@@ -57,13 +57,13 @@ make bin/nmm-ocaml
 
 ## Installing the opam package
 
+For installing the opam package manager, see https://opam.ocaml.org/
+
 For installing nmm-ocaml as a local opam package, clone the reposistory and run the following command in its root directory:
 
 ```bash
 opam install .
 ```
-
-For installing the opam package manager, see https://opam.ocaml.org/
 
 ## Documentation
 
