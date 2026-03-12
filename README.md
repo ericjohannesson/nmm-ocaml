@@ -57,7 +57,7 @@ For installing nmm-ocaml as a local opam package, clone the reposistory and run 
 opam install .
 ```
 
-This will also build an executable file implementing the command-line interface at `~/.opam/default/bin/nmm-ocaml`.
+This will also build an executable file at `~/.opam/default/bin/nmm-ocaml` which implements the command-line interface.
 
 ## Documentation
 
