@@ -18,20 +18,20 @@ match element with
 
 |Xml.Element ("abstract", _, xml_list) -> Xml.Element ("div", [("class", "abstract");("style","display:block")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("abstract_hdr", _, xml_list) -> (
-	match doc_class with
-	|DOC_CHS -> Xml.Element ("h2", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
-	|DOC_SECS -> Xml.Element ("h3", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
-	|DOC_PARS -> Xml.Element ("h4", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
-	|DOC_BLKS -> Xml.Element ("h5", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
+        match doc_class with
+        |DOC_CHS -> Xml.Element ("h2", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
+        |DOC_SECS -> Xml.Element ("h3", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
+        |DOC_PARS -> Xml.Element ("h4", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
+        |DOC_BLKS -> Xml.Element ("h5", [("class", "abstract_hdr")], List.map (html_of_exml doc_class) xml_list)
 )
 
 |Xml.Element ("refs", _ , xml_list) -> Xml.Element ("div", [("class","refs");("style","display:block")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("refs_hdr", _, xml_list) -> (
-	match doc_class with
-	|DOC_CHS -> Xml.Element ("h2", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
-	|DOC_SECS -> Xml.Element ("h3", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
-	|DOC_PARS -> Xml.Element ("h4", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
-	|DOC_BLKS -> Xml.Element ("h5", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
+        match doc_class with
+        |DOC_CHS -> Xml.Element ("h2", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
+        |DOC_SECS -> Xml.Element ("h3", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
+        |DOC_PARS -> Xml.Element ("h4", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
+        |DOC_BLKS -> Xml.Element ("h5", [("class", "refs_hdr")],List.map (html_of_exml doc_class) xml_list)
 )
 
 |Xml.Element ("doc_main", _, xml_list) -> Xml.Element ("div", [("class", "doc_main");("style","display:block")], List.map (html_of_exml doc_class) xml_list)

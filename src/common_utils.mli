@@ -70,20 +70,20 @@ val expand_tag_default : Doc_types.ts_tag -> (string * string) option
 [expand_tag_default tag] evaluates to
 
 {[
-	match tag with
-	|Cs_tag "DEF" -> Some ("DEFINITION", "Definition")
-	|Cs_tag "PRF" -> Some ("PROOF", "Proof")
-	|Cs_tag "FCT" -> Some ("FACT", "Fact")
-	|Cs_tag "LMA" -> Some ("LEMMA", "Lemma")
-	|Cs_tag "THM" -> Some ("THEOREM", "Theorem")
-	|Cs_tag "RMK" -> Some ("REMARK", "Remark")
-	|Cs_tag "DEFS" -> Some ("DEFINITIONS", "Definitions")
-	|Cs_tag "PRFS" -> Some ("PROOFS", "Proofs")
-	|Cs_tag "FCTS" -> Some ("FACTS", "Facts")
-	|Cs_tag "LMAS" -> Some ("LEMMAS", "Lemmas")
-	|Cs_tag "THMS" -> Some ("THEOREMS", "Theorems")
-	|Cs_tag "RMKS" -> Some ("REMARKS", "Remarks")
-	| _  -> None
+        match tag with
+        |Cs_tag "DEF" -> Some ("DEFINITION", "Definition")
+        |Cs_tag "PRF" -> Some ("PROOF", "Proof")
+        |Cs_tag "FCT" -> Some ("FACT", "Fact")
+        |Cs_tag "LMA" -> Some ("LEMMA", "Lemma")
+        |Cs_tag "THM" -> Some ("THEOREM", "Theorem")
+        |Cs_tag "RMK" -> Some ("REMARK", "Remark")
+        |Cs_tag "DEFS" -> Some ("DEFINITIONS", "Definitions")
+        |Cs_tag "PRFS" -> Some ("PROOFS", "Proofs")
+        |Cs_tag "FCTS" -> Some ("FACTS", "Facts")
+        |Cs_tag "LMAS" -> Some ("LEMMAS", "Lemmas")
+        |Cs_tag "THMS" -> Some ("THEOREMS", "Theorems")
+        |Cs_tag "RMKS" -> Some ("REMARKS", "Remarks")
+        | _  -> None
 
 ]}
 *)
@@ -95,22 +95,22 @@ val doc_settings_default : unit -> t_doc_settings
 
 {[
 {
-	doc_width = 68;
-	left_margin = 0;
-	title_indent = 0;
-	author_indent = 0;
-	abstract_indent = 0;
-	refs_indent = 0;
-	tab_length = 6;
-	abstract_hdr = Some ("ABSTRACT", "Abstract");
-	refs_hdr = Some ("REFERENCES", "References");
-	ch_prefix = Some ("CHAPTER", "Chapter");
-	sec_prefix = Some ("§","§");
-	app_prefix = Some ("§","Appendix");
-	par_prefix = Some ("¶","¶");
-	expand_tag = expand_tag_default;
-	auto_numbering = auto_numbering_default;
-	allow_custom_numbering = false;
+        doc_width = 68;
+        left_margin = 0;
+        title_indent = 0;
+        author_indent = 0;
+        abstract_indent = 0;
+        refs_indent = 0;
+        tab_length = 6;
+        abstract_hdr = Some ("ABSTRACT", "Abstract");
+        refs_hdr = Some ("REFERENCES", "References");
+        ch_prefix = Some ("CHAPTER", "Chapter");
+        sec_prefix = Some ("§","§");
+        app_prefix = Some ("§","Appendix");
+        par_prefix = Some ("¶","¶");
+        expand_tag = expand_tag_default;
+        auto_numbering = auto_numbering_default;
+        allow_custom_numbering = false;
 }
 ]}
 
@@ -168,38 +168,38 @@ v}
 type t_par_node = PAR_AUTO of int | PAR_TAG of (string * string * int)
 
 type t_itm_node = 
-	|ITM_AUTO of string
-	|ITM_CUSTOM of string
-	|ITM_TAG_AUTO of (string * string)
-	|ITM_TAG_CUSTOM of (string * string)
+        |ITM_AUTO of string
+        |ITM_CUSTOM of string
+        |ITM_TAG_AUTO of (string * string)
+        |ITM_TAG_CUSTOM of (string * string)
 
 type t_dsp_line_node = 
-	|DSP_AUTO of string
-	|DSP_CUSTOM of string
-	|DSP_NONE
-	|DSP_TAG_AUTO of (string * string)
-	|DSP_TAG_CUSTOM of (string * string)
+        |DSP_AUTO of string
+        |DSP_CUSTOM of string
+        |DSP_NONE
+        |DSP_TAG_AUTO of (string * string)
+        |DSP_TAG_CUSTOM of (string * string)
 
 type t_node = 
-	|ABSTRACT_NODE
-	|CH_NODE of int
-	|SEC_NODE of int
-	|APP_NODE of int
-	|PAR_NODE of t_par_node
-	|ITM_NODE of t_itm_node
-	|DSP_NODE
-	|BLT_NODE
-	|DSP_LINE_NODE of t_dsp_line_node
-	|REFS_NODE
+        |ABSTRACT_NODE
+        |CH_NODE of int
+        |SEC_NODE of int
+        |APP_NODE of int
+        |PAR_NODE of t_par_node
+        |ITM_NODE of t_itm_node
+        |DSP_NODE
+        |BLT_NODE
+        |DSP_LINE_NODE of t_dsp_line_node
+        |REFS_NODE
 
 type t_path = t_node list 
 
 type t_cref_element = 
-	|Cref_element_ch of Doc_types.tr_ch
-	|Cref_element_sec of Doc_types.tr_sec
-	|Cref_element_par of Doc_types.tr_par_std
-	|Cref_element_blk_itm of Doc_types.tr_blk_itm
-	|Cref_element_dsp_line of Doc_types.tr_dsp_line
+        |Cref_element_ch of Doc_types.tr_ch
+        |Cref_element_sec of Doc_types.tr_sec
+        |Cref_element_par of Doc_types.tr_par_std
+        |Cref_element_blk_itm of Doc_types.tr_blk_itm
+        |Cref_element_dsp_line of Doc_types.tr_dsp_line
 
 
 type t_cref_table = (Doc_types.tr_id * t_path * t_cref_element) list 
