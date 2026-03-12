@@ -1,11 +1,13 @@
 # nmm-ocaml
-Primarily for parsing an XML-representation of parsed nmm source-code, for validating it against an XML-schema, and for compiling it to raw text and HTML with resolved cross-references and labels. Written in OCaml.
+
+Primarily for parsing an XML-representation of parsed nmm source-code, for validating it against an XML-schema, and for compiling it to raw text and HTML with resolved cross-references and labels.
 
 The XML-parser is generated with [ocamllex and ocamlyacc](https://ocaml.org/manual/5.4/lexyacc.html), and the validation relies on [Xml-light](https://github.com/ncannasse/xml-light).
 
 It also includes an experimental LR(1) parser of nmm source-code, generated with [Sedlex](https://github.com/ocaml-community/sedlex) and ocamlyacc.
 
 ## Command-line interface
+
 ```
 USAGE:
 nmm-ocaml [
@@ -44,3 +46,25 @@ EXML-OPTIONS:
   --allow-custom-numbering
   --quiet
 ```
+
+## Building the executable
+
+For building the executable file `nmm-ocaml`, which implements the command-line interface, clone the repository and run the following command in its root directory:
+
+```bash
+make bin/nmm-ocaml
+```
+
+## Installing the opam package
+
+For installing nmm-ocaml as a local opam package, clone the reposistory and run the following command in its root directory:
+
+```bash
+opam install .
+```
+
+For installing the opam package manager, see https://opam.ocaml.org/
+
+## Documentation
+
+Documentation for the opam package can be found at <TODO>
