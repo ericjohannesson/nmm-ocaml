@@ -47,15 +47,7 @@ EXML-OPTIONS:
   --quiet
 ```
 
-## Building the executable
-
-For building the executable file `nmm-ocaml`, which implements the command-line interface, clone the repository and run the following command in its root directory:
-
-```bash
-make bin/nmm-ocaml
-```
-
-## Installing the opam package
+## Installation
 
 For installing the opam package manager, see https://opam.ocaml.org/
 
@@ -65,8 +57,8 @@ For installing nmm-ocaml as a local opam package, clone the reposistory and run 
 opam install .
 ```
 
-This will also build the executable and put it in `~/.opam/default/bin/`.
+This will also build an executable file implementing the command-line interface at `~/.opam/default/bin/nmm-ocaml`.
 
 ## Documentation
 
-Documentation for the opam package can be found at <TODO>
+Documentation for the opam package can be found at docs/index.html
