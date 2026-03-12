@@ -5,7 +5,7 @@ exception Error of string
 
 val txt_of_tr_doc : string list -> Doc_types.tr_doc -> string
 (**
-Implements the raw text semantics of no-markup-markup.
+Implements the raw text semantics for no-markup-markup.
 *)
 
 val exml_of_tr_doc : string list -> Doc_types.tr_doc -> Xml.xml
