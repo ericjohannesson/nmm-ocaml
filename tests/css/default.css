@@ -208,8 +208,15 @@ h2, h3, h4, h5 {
     margin-left : 0;
 }
 
+.inline {
+    display:inline;
+}
 
 /************** BLK *********************/
+
+.inline + p.blk.txt {
+    display : inline;
+}
 
 .blk + .blk {
     margin-top : 1rem;

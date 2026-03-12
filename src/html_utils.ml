@@ -46,11 +46,11 @@ match element with
 |Xml.Element ("par", attr_list, xml_list) -> Xml.Element ("div", ("style","display:block")::attr_list, List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_lbl", _, xml_list) -> Xml.Element ("div",[("class","par_lbl");("style","display:block;float:left")],List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_lbl_hdr", _, xml_list) -> Xml.Element ("h4",[("class","par_lbl hdr");("style","display:block;float:left")],List.map (html_of_exml doc_class) xml_list)
-|Xml.Element ("par_tag",[],xml_list) -> Xml.Element ("div", [("class", "par_tag");("style","display:block;float:left")],List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("par_tag",[],xml_list) -> Xml.Element ("div", [("class", "par_tag");("style","display:block;float:left;")],List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_hdr", _, xml_list) -> Xml.Element ("h4", [("class","par_hdr")], List.map (html_of_exml doc_class) xml_list)
-|Xml.Element ("par_hdr_inline", _, xml_list) -> Xml.Element ("h4", [("class","par_hdr inline");("style","float:left;margin-bottom:0")], List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("par_hdr_inline", _, xml_list) -> Xml.Element ("h4", [("class","par_hdr inline");("style","margin-bottom:0")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_tag_hdr", _, xml_list) -> Xml.Element ("h4", [("class","par_tag hdr")], List.map (html_of_exml doc_class) xml_list)
-|Xml.Element ("par_tag_hdr_inline", _, xml_list) -> Xml.Element ("h4", [("class","par_tag hdr inline");("style","float:left;margin-bottom:0")], List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("par_tag_hdr_inline", _, xml_list) -> Xml.Element ("h4", [("class","par_tag hdr inline");("style","margin-bottom:0")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_main", _ , xml_list) -> Xml.Element ("div", [("class","par_main");("style","display:block")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_main_w_hdr", _ , xml_list) -> Xml.Element ("div", [("class","par_main");("style","display:block")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("par_main_w_hdr_inline", _ , xml_list) -> Xml.Element ("div", [("class","par_main");("style","display:block")], List.map (html_of_exml doc_class) xml_list)
@@ -346,8 +346,15 @@ h2, h3, h4, h5 {
     margin-left : "^ margin_left ^";
 }
 
+.inline {
+    display:inline;
+}
 
 /************** BLK *********************/
+
+.inline + p.blk.txt {
+    display : inline;
+}
 
 .blk + .blk {
     margin-top : 1rem;
