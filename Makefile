@@ -35,7 +35,7 @@ docs: byte
 	cp src/xml_right_parser.mly docs/specs/xml_right_parser.mly.txt
 	cp src/nmm_parser.mly docs/specs/nmm_parser.mly.txt
 	cd byte
-	ocamlfind ocamldoc -t 'Nmm_ocaml' -keep-code -colorize-code -d ../docs -package sedlex.ppx -package uuseg -package xml-light -package str -html doc_types.ml xml_right_parser.mli xml_right_lexer.mli xml_right.mli xml_right.ml ../src/nmm_parser.mli nmm_lexer.mli nmm_lexer.ml doc_of_nmm.mli doc_of_nmm.ml common_utils.mli common_utils.ml txt_utils.mli txt_utils.ml exml_utils.mli exml_utils.ml compiler_of_doc.mli compiler_of_doc.ml axml_of_doc.mli axml_of_doc.ml doc_of_axml.mli doc_of_axml.ml html_utils.mli html_utils.ml main.mli main.ml
+	ocamlfind ocamldoc -t 'Nmm_ocaml' -keep-code -colorize-code -d ../docs -package sedlex.ppx -package uuseg -package xml-light -package str -html doc_types.ml xml_right_parser.mli xml_right_lexer.mli xml_right.mli xml_right.ml nmm_parser.mli nmm_lexer.mli nmm_lexer.ml doc_of_nmm.mli doc_of_nmm.ml common_utils.mli common_utils.ml txt_utils.mli txt_utils.ml exml_utils.mli exml_utils.ml compiler_of_doc.mli compiler_of_doc.ml axml_of_doc.mli axml_of_doc.ml doc_of_axml.mli doc_of_axml.ml html_utils.mli html_utils.ml main.mli main.ml
 	cd -
 
 install: build src/cli.ml
@@ -57,7 +57,7 @@ native: src
 	# generate nmm_parser.ml, nmm_parser.mli:
 	ocamlyacc -v nmm_parser.mly
 	# replace generated mli-file:
-	cp ../src/xml_right_parser.mli xml_right_parser.mli
+	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmx, nmm_parser.cmxi:
 	ocamlopt -c -for-pack Nmm_ocaml nmm_parser.mli
 	# generate xml_right_lexer.ml, xml_right_lexer.mli
@@ -66,6 +66,8 @@ native: src
 	cp ../src/xml_right_lexer.mli xml_right_lexer.mli
 	# generate xml_right_parser.ml, xml_right_parser.mli
 	ocamlyacc -v xml_right_parser.mly
+	# replace generated mli-file:
+	cp ../src/xml_right_parser.mli xml_right_parser.mli
 	# generate xml_right_parser.cmx, xml_right_parser.cmxi:
 	ocamlfind ocamlopt -c -for-pack Nmm_ocaml -package xml-light xml_right_parser.mli
 	# generate cmx-files: 
@@ -82,6 +84,8 @@ byte: src
 	ocamlc -c -for-pack Nmm_ocaml doc_types.ml debug_utils.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
 	ocamlyacc -v nmm_parser.mly
+	# replace generated mli-file:
+	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmo, nmm_parser.cmi:
 	ocamlc -c -for-pack Nmm_ocaml nmm_parser.mli
 	# generate xml_right_lexer.ml, xml_right_lexer.mli
