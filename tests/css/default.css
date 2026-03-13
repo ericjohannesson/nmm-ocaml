@@ -187,14 +187,20 @@ h2, h3, h4, h5 {
 }
 
 .par_tag {
-    font-weight : bold;
+    font-weight  : bold;
     margin-right : 1ch;
+    display      : inline;
 }
 
-.par_hdr, .par_tag.hdr {
-    margin-right  : 2ch;
-    margin-bottom : 1rem;
+.par_hdr {
+    display      : inline;
+    margin-right : 2ch;
 }
+
+h4.par_tag.hdr {
+    margin-right : 2ch;
+}
+
 
 .par_tag + .par_hdr::before {
     content : " (";
@@ -208,9 +214,6 @@ h2, h3, h4, h5 {
     margin-left : 0;
 }
 
-.inline {
-    display:inline;
-}
 
 /************** BLK *********************/
 
@@ -218,7 +221,7 @@ h2, h3, h4, h5 {
     display : inline;
 }
 
-.blk + .blk {
+* + .blk {
     margin-top : 1rem;
 }
 
