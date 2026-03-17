@@ -55,7 +55,7 @@ native: src
 	cd native
 	ocamlopt -c -for-pack Nmm_ocaml doc_types.ml debug_utils.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
-	ocamlyacc -v nmm_parser.mly
+	ocamlyacc --strict nmm_parser.mly
 	# replace generated mli-file:
 	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmx, nmm_parser.cmxi:
@@ -65,7 +65,7 @@ native: src
 	# replace generated mli-file:
 	cp ../src/xml_right_lexer.mli xml_right_lexer.mli
 	# generate xml_right_parser.ml, xml_right_parser.mli
-	ocamlyacc -v xml_right_parser.mly
+	ocamlyacc --strict xml_right_parser.mly
 	# replace generated mli-file:
 	cp ../src/xml_right_parser.mli xml_right_parser.mli
 	# generate xml_right_parser.cmx, xml_right_parser.cmxi:
@@ -83,7 +83,7 @@ byte: src
 	# generate doc_types.cmo, doc_types.cmi:
 	ocamlc -c -for-pack Nmm_ocaml doc_types.ml debug_utils.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
-	ocamlyacc -v nmm_parser.mly
+	ocamlyacc --strict nmm_parser.mly
 	# replace generated mli-file:
 	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmo, nmm_parser.cmi:
@@ -93,7 +93,7 @@ byte: src
 	# replace generated mli-file:
 	cp ../src/xml_right_lexer.mli xml_right_lexer.mli
 	# generate xml_right_parser.ml, xml_right_parser.mli
-	ocamlyacc -v xml_right_parser.mly
+	ocamlyacc --strict xml_right_parser.mly
 	# replace generated mli-file:
 	cp ../src/xml_right_parser.mli xml_right_parser.mli
 	# generate xml_right_parser.cmo, xml_right_parser.cmi:
