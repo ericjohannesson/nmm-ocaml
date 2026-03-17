@@ -31,9 +31,10 @@ type token =
         |TAB_TAB_TAB_END_VRB
         |VRB_LINE of string
         |ESC_CHAR of string
+        |PREAMBLE of string
         |TITLE of string
         |AUTHOR of string
-        |PREAMBLE of string
+        |DATE of string
         |ABSTRACT of string
         |TXT of string
         |C_REF of string

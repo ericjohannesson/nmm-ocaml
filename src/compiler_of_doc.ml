@@ -124,6 +124,7 @@ and acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (a
         | LINES _ -> (
                 let lines_title:string list = Txt_utils.lines_of_ts_title_opt doc_settings doc.fld_doc_title in
                 let lines_authors:string list = Txt_utils.lines_of_ts_authors_opt doc_settings doc.fld_doc_authors in
+                let lines_date:string list = Txt_utils.lines_of_ts_date_opt doc_settings doc.fld_doc_date in
                 let lines_abstract:string list =
                         match doc.fld_doc_abstract with
                         |None -> []
@@ -145,7 +146,7 @@ and acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (a
                         |LINES lines -> lines 
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
-                LINES (List.concat [lines_title;lines_authors;lines_abstract;lines_main;lines_refs])
+                LINES (List.concat [lines_title;lines_authors;lines_date;lines_abstract;lines_main;lines_refs])
         )
         | EXML _ ->
                 let xml_list_title:Xml.xml list = Exml_utils.xml_list_of_ts_title_opt doc.fld_doc_title in

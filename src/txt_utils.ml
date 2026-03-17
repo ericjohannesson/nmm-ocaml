@@ -12,6 +12,11 @@ and lines_of_ts_authors_opt (doc_settings : t_doc_settings) (authors_opt : ts_au
         |None -> []
         |Some authors -> lines_of_ts_authors doc_settings authors
 
+and lines_of_ts_date_opt (doc_settings : t_doc_settings) (date_opt : ts_date option) : string list =
+        match date_opt with
+        |None -> []
+        |Some date -> lines_of_ts_date doc_settings date
+
 
 and lines_of_abstract_hdr (doc_settings : t_doc_settings) (doc_class : t_doc_class) : string list =
         match doc_settings.abstract_hdr with
@@ -113,6 +118,10 @@ and lines_of_ts_authors (doc_settings : t_doc_settings) (authors : ts_authors) :
 and lines_of_ts_author (doc_settings : t_doc_settings) (author : ts_author) : string list =
         match author with
         |Cs_author (s : string) -> List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
+
+and lines_of_ts_date (doc_settings : t_doc_settings) (date : ts_date) : string list =
+        match date with
+        |Cs_date (s : string) -> List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
 
 and make_string (n:int) (s:string) : string=
         let rec aux (i:int) (acc:string) = 

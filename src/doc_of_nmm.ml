@@ -36,6 +36,7 @@ let string_of_token (t:Nmm_parser.token):string=
         |C_REF s -> ("C_REF " ^ "\"" ^ s ^ "\"")
         |TITLE s -> ("TITLE " ^ "\"" ^ s ^ "\"")
         |AUTHOR s -> ("AUTHOR " ^ "\"" ^ s ^ "\"")
+        |DATE s -> ("DATE " ^ "\"" ^ s ^ "\"")
         |PREAMBLE s -> ("PREAMBLE " ^ "\"" ^ s ^ "\"")
         |ESC_CHAR s -> ("ESC_CHAR " ^ "\"" ^ s ^ "\"")
         |ABSTRACT s -> ("ABSTRACT " ^ "\"" ^ s ^ "\"")

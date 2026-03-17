@@ -71,7 +71,7 @@ let get_id_string (s : string) : string =
 %token                          START_VRB VRB_LINE_EMPTY END_VRB TAB_END_VRB TAB_TAB_END_VRB TAB_TAB_TAB_END_VRB
 %token <string>                 VRB_LINE
 %token <string>                 ESC_CHAR
-%token <string>                 TITLE AUTHOR PREAMBLE ABSTRACT
+%token <string>                 PREAMBLE TITLE AUTHOR DATE ABSTRACT
 %token <string>                 TXT C_REF
 %token <string>                 DSP_ID
 %token <string>                 CH_TAG_OR_ID_NL SECTION_SPACES_TAG_OR_ID_NL PILCROW_SPACES_TAG_OR_ID_NL PILCROW_SPACES_RPT_SPACES_ID_NL
@@ -131,60 +131,77 @@ doc:
                                                       fld_doc_preamble = None;
                                                       fld_doc_title = None;
                                                       fld_doc_authors = None;
+                                                      fld_doc_date = None;
                                                       fld_doc_abstract = None;
                                                       fld_doc_main = $1;
                                                       fld_doc_refs = None;
-                                                     } : tr_doc 
-                                                   }
-  | doc_preamble nls doc                           { 
-                                                     { 
-                                                       fld_doc_preamble = Some $1;
-                                                       fld_doc_title = $3.fld_doc_title;
-                                                       fld_doc_authors = $3.fld_doc_authors;
-                                                       fld_doc_abstract = $3.fld_doc_abstract;
-                                                       fld_doc_main = $3.fld_doc_main;
-                                                       fld_doc_refs = $3.fld_doc_refs; 
-                                                      } : tr_doc 
+                                                    } : tr_doc 
+                                                  }
+  | doc_preamble nls doc                          {
+                                                    {
+                                                      fld_doc_preamble = Some $1;
+                                                      fld_doc_title = $3.fld_doc_title;
+                                                      fld_doc_authors = $3.fld_doc_authors;
+                                                      fld_doc_date = $3.fld_doc_date;
+                                                      fld_doc_abstract = $3.fld_doc_abstract;
+                                                      fld_doc_main = $3.fld_doc_main;
+                                                      fld_doc_refs = $3.fld_doc_refs; 
+                                                    } : tr_doc 
                                                   }
   | doc_title nls doc                             { 
                                                     {
                                                       fld_doc_preamble = $3.fld_doc_preamble;
                                                       fld_doc_title = Some $1;
                                                       fld_doc_authors = $3.fld_doc_authors;
+                                                      fld_doc_date = $3.fld_doc_date;
                                                       fld_doc_abstract = $3.fld_doc_abstract;
                                                       fld_doc_main = $3.fld_doc_main;
                                                       fld_doc_refs = $3.fld_doc_refs;
-                                                     } : tr_doc 
+                                                    } : tr_doc 
                                                    }
   | doc_author nls doc                            {
                                                     {
                                                       fld_doc_preamble = $3.fld_doc_preamble;
                                                       fld_doc_title = $3.fld_doc_title;
                                                       fld_doc_authors = add_author $3.fld_doc_authors $1;
+                                                      fld_doc_date = $3.fld_doc_date;
                                                       fld_doc_abstract = $3.fld_doc_abstract;
                                                       fld_doc_main = $3.fld_doc_main;
                                                       fld_doc_refs = $3.fld_doc_refs;
-                                                     } : tr_doc 
+                                                    } : tr_doc 
+                                                   }
+  | doc_date nls doc                              {
+                                                    {
+                                                      fld_doc_preamble = $3.fld_doc_preamble;
+                                                      fld_doc_title = $3.fld_doc_title;
+                                                      fld_doc_authors = $3.fld_doc_authors;
+                                                      fld_doc_date = Some $1;
+                                                      fld_doc_abstract = $3.fld_doc_abstract;
+                                                      fld_doc_main = $3.fld_doc_main;
+                                                      fld_doc_refs = $3.fld_doc_refs;
+                                                    } : tr_doc 
                                                    }
   | doc_abstract nls doc                             {
                                                     {
                                                       fld_doc_preamble = $3.fld_doc_preamble;
                                                       fld_doc_title = $3.fld_doc_title;
                                                       fld_doc_authors = $3.fld_doc_authors;
+                                                      fld_doc_date = $3.fld_doc_date;
                                                       fld_doc_abstract = Some $1;
                                                       fld_doc_main = $3.fld_doc_main;
                                                       fld_doc_refs = $3.fld_doc_refs;
-                                                     } : tr_doc 
+                                                    } : tr_doc 
                                                    }
   | doc_main doc_refs                              {
                                                     {
                                                       fld_doc_preamble = None;
                                                       fld_doc_title = None;
                                                       fld_doc_authors = None;
+                                                      fld_doc_date = None;
                                                       fld_doc_abstract = None;
                                                       fld_doc_main = $1;
                                                       fld_doc_refs = Some $2;
-                                                     } : tr_doc 
+                                                    } : tr_doc 
                                                    }
 ;
 
@@ -202,6 +219,11 @@ doc_title:
 doc_author:
   | AUTHOR TAB lines                              { (Cs_author $3) : ts_author }
   | AUTHOR NL_TAB lines                           { (Cs_author $3) : ts_author }
+;
+
+doc_date:
+  | DATE TAB lines                              { (Cs_date $3) : ts_date }
+  | DATE NL_TAB lines                           { (Cs_date $3) : ts_date }
 ;
 
 doc_abstract:
