@@ -33,12 +33,7 @@
 </div>
 <h1>Module <a href="type_Doc_types.html">Doc_types</a> (<a href="code_Doc_types.html">.ml</a>)</h1>
 
-<pre><span id="MODULEDoc_types"><span class="keyword">module</span> Doc_types</span>: <code class="code"><span class="keyword">sig</span></code> <a href="Doc_types.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><div class="info module top">
-<div class="info-desc">
-<p>An abstract syntax tree specification for parsed nmm source-code.</p>
-</div>
-</div>
-<hr width="100%">
+<pre><span id="MODULEDoc_types"><span class="keyword">module</span> Doc_types</span>: <code class="code"><span class="keyword">sig</span></code> <a href="Doc_types.html">..</a> <code class="code"><span class="keyword">end</span></code></pre><hr width="100%">
 
 <pre><code><span id="TYPEtr_doc"><span class="keyword">type</span> <code class="type"></code>tr_doc</span> = {</code></pre><table class="typetable">
 <tr>
@@ -60,6 +55,13 @@
 <code>&nbsp;&nbsp;</code></td>
 <td align="left" valign="top" >
 <code><span id="TYPEELTtr_doc.fld_doc_authors">fld_doc_authors</span>&nbsp;: <code class="type"><a href="Doc_types.html#TYPEts_authors">ts_authors</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTtr_doc.fld_doc_date">fld_doc_date</span>&nbsp;: <code class="type"><a href="Doc_types.html#TYPEts_date">ts_date</a> option</code>;</code></td>
 
 </tr>
 <tr>
@@ -126,6 +128,17 @@
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
 <code><span id="TYPEELTts_author.Cs_author"><span class="constructor">Cs_author</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr></table>
+
+
+
+<pre><code><span id="TYPEts_date"><span class="keyword">type</span> <code class="type"></code>ts_date</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTts_date.Cs_date"><span class="constructor">Cs_date</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 
 </tr></table>
 

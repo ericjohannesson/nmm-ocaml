@@ -34,6 +34,11 @@
         <span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> []
         <span class="keywordsign">|</span><span class="constructor">Some</span> authors <span class="keywordsign">-&gt;</span> lines_of_ts_authors doc_settings authors
 
+<span class="keyword">and</span> lines_of_ts_date_opt (doc_settings : t_doc_settings) (date_opt : ts_date option) : string list =
+        <span class="keyword">match</span> date_opt <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> []
+        <span class="keywordsign">|</span><span class="constructor">Some</span> date <span class="keywordsign">-&gt;</span> lines_of_ts_date doc_settings date
+
 
 <span class="keyword">and</span> lines_of_abstract_hdr (doc_settings : t_doc_settings) (doc_class : t_doc_class) : string list =
         <span class="keyword">match</span> doc_settings.abstract_hdr <span class="keyword">with</span>
@@ -135,6 +140,10 @@
 <span class="keyword">and</span> lines_of_ts_author (doc_settings : t_doc_settings) (author : ts_author) : string list =
         <span class="keyword">match</span> author <span class="keyword">with</span>
         <span class="keywordsign">|</span><span class="constructor">Cs_author</span> (s : string) <span class="keywordsign">-&gt;</span> <span class="constructor">List</span>.concat [lines_of_string doc_settings doc_settings.author_indent s; [<span class="string">""</span>]]
+
+<span class="keyword">and</span> lines_of_ts_date (doc_settings : t_doc_settings) (date : ts_date) : string list =
+        <span class="keyword">match</span> date <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">Cs_date</span> (s : string) <span class="keywordsign">-&gt;</span> <span class="constructor">List</span>.concat [lines_of_string doc_settings doc_settings.author_indent s; [<span class="string">""</span>]]
 
 <span class="keyword">and</span> make_string (n:int) (s:string) : string=
         <span class="keyword">let</span> <span class="keyword">rec</span> aux (i:int) (acc:string) = 

@@ -38,6 +38,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[]<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Some</span>&nbsp;authors&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;lines_of_ts_authors&nbsp;doc_settings&nbsp;authors<br>
 <br>
+<span class="keyword">and</span>&nbsp;lines_of_ts_date_opt&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(date_opt&nbsp;:&nbsp;ts_date&nbsp;option)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;date_opt&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;[]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Some</span>&nbsp;date&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;lines_of_ts_date&nbsp;doc_settings&nbsp;date<br>
+<br>
 <br>
 <span class="keyword">and</span>&nbsp;lines_of_abstract_hdr&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(doc_class&nbsp;:&nbsp;t_doc_class)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;doc_settings.abstract_hdr&nbsp;<span class="keyword">with</span><br>
@@ -139,6 +144,10 @@
 <span class="keyword">and</span>&nbsp;lines_of_ts_author&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(author&nbsp;:&nbsp;ts_author)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;author&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_author</span>&nbsp;(s&nbsp;:&nbsp;string)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">List</span>.concat&nbsp;[lines_of_string&nbsp;doc_settings&nbsp;doc_settings.author_indent&nbsp;s;&nbsp;[<span class="string">""</span>]]<br>
+<br>
+<span class="keyword">and</span>&nbsp;lines_of_ts_date&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(date&nbsp;:&nbsp;ts_date)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;date&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_date</span>&nbsp;(s&nbsp;:&nbsp;string)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">List</span>.concat&nbsp;[lines_of_string&nbsp;doc_settings&nbsp;doc_settings.author_indent&nbsp;s;&nbsp;[<span class="string">""</span>]]<br>
 <br>
 <span class="keyword">and</span>&nbsp;make_string&nbsp;(n:int)&nbsp;(s:string)&nbsp;:&nbsp;string=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;aux&nbsp;(i:int)&nbsp;(acc:string)&nbsp;=&nbsp;<br>
