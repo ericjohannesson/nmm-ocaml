@@ -38,16 +38,19 @@ docs: byte
 	ocamlfind ocamldoc -t 'Nmm_ocaml' -keep-code -colorize-code -d ../docs -package sedlex.ppx -package uuseg -package xml-light -package str -html doc_types.ml xml_right_parser.mli xml_right_lexer.mli xml_right.mli xml_right.ml nmm_parser.mli nmm_lexer.mli nmm_lexer.ml doc_of_nmm.mli doc_of_nmm.ml common_utils.mli common_utils.ml txt_utils.mli txt_utils.ml exml_utils.mli exml_utils.ml compiler_of_doc.mli compiler_of_doc.ml axml_of_doc.mli axml_of_doc.ml doc_of_axml.mli doc_of_axml.ml html_utils.mli html_utils.ml main.mli main.ml
 	cd -
 
-install: build src/cli.ml
-	ocamlfind install nmm-ocaml build/*
+install_bin: bin/nmm-ocaml
+	cp bin/nmm-ocaml ~/bin/
+
+install_opam_package: build_opam_package src/cli.ml
+	ocamlfind install nmm-ocaml build_opam_package/*
 	ocamlfind ocamlopt -o ~/.opam/default/bin/nmm-ocaml -linkpkg -package sedlex.ppx -package uuseg -package xml-light -package str -package nmm-ocaml src/cli.ml
 
-build: native opam byte
-	mkdir -p build
-	cp byte/nmm_ocaml.cma build/
-	cp native/nmm_ocaml.* build/
-	cp opam/nmm-ocaml.opam build/opam
-	cp opam/META build/
+build_opam_package: native opam byte
+	mkdir -p build_opam_package
+	cp byte/nmm_ocaml.cma build_opam_package/
+	cp native/nmm_ocaml.* build_opam_package/
+	cp opam/nmm-ocaml.opam build_opam_package/opam
+	cp opam/META build_opam_package/
 
 native: src
 	mkdir -p native
