@@ -208,7 +208,7 @@ val lvl_of_path : t_path -> int
 
 val string_of_ts_c_ref : t_doc_settings -> t_cref_table -> t_path -> Doc_types.ts_c_ref -> string
 (**
-[string_of_ts_c_ref doc_settings path c_ref] attempts to match [c_ref] ocurring at [path] with an [id] in [doc_cref_table], and return a string representation of the path to [id] relative to the closest common ancestor of [c_ref] and [id]. 
+[string_of_ts_c_ref doc_settings cref_table path c_ref] attempts to match [c_ref] ocurring at [path] with an [id] in [cref_table], and return a string representation of the path to [id] relative to the closest common ancestor of [c_ref] and [id]. 
 
 Prints a warning to [stderr] if no match is found, and returns ["??"].
 *)
