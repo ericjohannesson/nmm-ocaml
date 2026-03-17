@@ -612,7 +612,7 @@
                                 <span class="keywordsign">|</span> <span class="constructor">Some</span> (<span class="constructor">Cu_lbl_auto</span> <span class="constructor">Cs_lbl_auto</span>) <span class="keywordsign">-&gt;</span> auto_nr + 1 
                                 <span class="keywordsign">|</span> _ <span class="keywordsign">-&gt;</span> auto_nr
                         <span class="keyword">in</span>
-                        aux next_auto_nr (acc_of_tr_dsp_line doc_settings cref_table (node :: path) auto_nr acc hd) tl
+                        aux next_auto_nr (acc_of_tr_dsp_line doc_settings cref_table (node :: path) acc hd) tl
         )
         <span class="keyword">in</span>
         <span class="keyword">match</span> acc <span class="keyword">with</span>
@@ -633,7 +633,7 @@
 
         )
 
-<span class="keyword">and</span> acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (auto_nr : int) (acc : t_acc) (a : tr_dsp_line) : t_acc =
+<span class="keyword">and</span> acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (acc : t_acc) (a : tr_dsp_line) : t_acc =
         <span class="keyword">match</span> acc <span class="keyword">with</span>
         <span class="keywordsign">|</span> <span class="constructor">MARGIN_LABELS</span> _ <span class="keywordsign">-&gt;</span> acc
         <span class="keywordsign">|</span> <span class="constructor">CREF_TABLE</span> table <span class="keywordsign">-&gt;</span> (

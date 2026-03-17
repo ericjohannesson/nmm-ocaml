@@ -595,7 +595,7 @@ and acc_of_ts_blk_dsp (doc_settings : t_doc_settings) (cref_table : t_cref_table
                                 | Some (Cu_lbl_auto Cs_lbl_auto) -> auto_nr + 1 
                                 | _ -> auto_nr
                         in
-                        aux next_auto_nr (acc_of_tr_dsp_line doc_settings cref_table (node :: path) auto_nr acc hd) tl
+                        aux next_auto_nr (acc_of_tr_dsp_line doc_settings cref_table (node :: path) acc hd) tl
         )
         in
         match acc with
@@ -616,7 +616,7 @@ and acc_of_ts_blk_dsp (doc_settings : t_doc_settings) (cref_table : t_cref_table
 
         )
 
-and acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (auto_nr : int) (acc : t_acc) (a : tr_dsp_line) : t_acc =
+and acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (acc : t_acc) (a : tr_dsp_line) : t_acc =
         match acc with
         | MARGIN_LABELS _ -> acc
         | CREF_TABLE table -> (

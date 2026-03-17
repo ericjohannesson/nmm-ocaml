@@ -621,7 +621,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_lbl_auto</span>&nbsp;<span class="constructor">Cs_lbl_auto</span>)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;auto_nr&nbsp;+&nbsp;1&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;auto_nr<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aux&nbsp;next_auto_nr&nbsp;(acc_of_tr_dsp_line&nbsp;doc_settings&nbsp;cref_table&nbsp;(node&nbsp;::&nbsp;path)&nbsp;auto_nr&nbsp;acc&nbsp;hd)&nbsp;tl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aux&nbsp;next_auto_nr&nbsp;(acc_of_tr_dsp_line&nbsp;doc_settings&nbsp;cref_table&nbsp;(node&nbsp;::&nbsp;path)&nbsp;acc&nbsp;hd)&nbsp;tl<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;acc&nbsp;<span class="keyword">with</span><br>
@@ -642,7 +642,7 @@
 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
 <br>
-<span class="keyword">and</span>&nbsp;acc_of_tr_dsp_line&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(auto_nr&nbsp;:&nbsp;int)&nbsp;(acc&nbsp;:&nbsp;t_acc)&nbsp;(a&nbsp;:&nbsp;tr_dsp_line)&nbsp;:&nbsp;t_acc&nbsp;=<br>
+<span class="keyword">and</span>&nbsp;acc_of_tr_dsp_line&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(acc&nbsp;:&nbsp;t_acc)&nbsp;(a&nbsp;:&nbsp;tr_dsp_line)&nbsp;:&nbsp;t_acc&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;acc&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">MARGIN_LABELS</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;acc<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CREF_TABLE</span>&nbsp;table&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
