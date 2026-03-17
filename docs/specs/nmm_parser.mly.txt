@@ -803,6 +803,7 @@ txt:
   |PREAMBLE                                       { $1:string }
   |TITLE                                          { $1:string }
   |AUTHOR                                         { $1:string }
+  |DATE                                           { $1:string }
   |ABSTRACT                                       { $1:string }
   |ESC_CHAR                                       { $1:string }
 ;
