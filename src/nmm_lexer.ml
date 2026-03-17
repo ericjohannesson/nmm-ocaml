@@ -116,11 +116,11 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
         |false, false -> (
                 match%sedlex lexbuf with
                 |esc_char                       ->      ESC_CHAR (get_esc_char (lexeme lexbuf))
-                |preamble                       ->      PREAMBLE (lexeme lexbuf)
-                |title                          ->      TITLE (lexeme lexbuf)
-                |author                         ->      AUTHOR (lexeme lexbuf)
-                |date                           ->      DATE (lexeme lexbuf)
-                |abstract                       ->      ABSTRACT (lexeme lexbuf)
+                |preamble                       ->      PREAMBLE
+                |title                          ->      TITLE
+                |author                         ->      AUTHOR
+                |date                           ->      DATE
+                |abstract                       ->      ABSTRACT
                 |ch_tag_or_id_nl                ->      CH_TAG_OR_ID_NL (String.trim (lexeme lexbuf))
                 |c_ref                          ->      C_REF (lexeme lexbuf)
                 |section_nl                     ->      SECTION_NL

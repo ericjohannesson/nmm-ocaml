@@ -69,9 +69,9 @@ let get_id_string (s : string) : string =
 %token                          NL TAB NL_TAB NL_TAB_TAB NL_TAB_TAB_TAB
 %token                          DASH_TAB ITM_AUTO_TAB DSP_AUTO_TAB PILCROW_NL SECTION_NL SECTION_REFS_NLS PILCROW_REFS_NLS
 %token                          START_VRB VRB_LINE_EMPTY END_VRB TAB_END_VRB TAB_TAB_END_VRB TAB_TAB_TAB_END_VRB
+%token                          PREAMBLE TITLE AUTHOR DATE ABSTRACT
 %token <string>                 VRB_LINE
 %token <string>                 ESC_CHAR
-%token <string>                 PREAMBLE TITLE AUTHOR DATE ABSTRACT
 %token <string>                 TXT C_REF
 %token <string>                 DSP_ID
 %token <string>                 CH_TAG_OR_ID_NL SECTION_SPACES_TAG_OR_ID_NL PILCROW_SPACES_TAG_OR_ID_NL PILCROW_SPACES_RPT_SPACES_ID_NL
@@ -81,6 +81,7 @@ let get_id_string (s : string) : string =
 %type <Doc_types.ts_preamble>             doc_preamble
 %type <Doc_types.ts_title>                doc_title
 %type <Doc_types.ts_author>               doc_author
+%type <Doc_types.ts_date>                 doc_date
 %type <string>                            lines
 %type <string>                            preamble_lines
 %type <Doc_types.tu_doc_main>             doc_main
@@ -800,11 +801,11 @@ txt:
   |RBR                                            { "]":string }
   |PILCROW                                        { "¶":string }
   |SECTION                                        { "§":string }
-  |PREAMBLE                                       { $1:string }
-  |TITLE                                          { $1:string }
-  |AUTHOR                                         { $1:string }
-  |DATE                                           { $1:string }
-  |ABSTRACT                                       { $1:string }
+  |PREAMBLE                                       { "PREAMBLE":string }
+  |TITLE                                          { "TITLE":string }
+  |AUTHOR                                         { "AUTHOR":string }
+  |DATE                                           { "DATE":string }
+  |ABSTRACT                                       { "ABSTRACT":string }
   |ESC_CHAR                                       { $1:string }
 ;
 
