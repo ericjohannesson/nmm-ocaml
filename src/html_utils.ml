@@ -205,6 +205,15 @@ h2, h3, h4, h5 {
     margin-left : "^ margin_left ^";
 }
 
+/************ DATE ******************/
+
+.doc.pars .date {
+    margin-left : "^ margin_left ^";
+}
+
+.doc.secs .date {
+    margin-left : "^ margin_left ^";
+}
 
 /************ ABSTRACT ******************/
 

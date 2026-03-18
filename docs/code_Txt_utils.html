@@ -27,6 +27,8 @@
 <code class="code"><span class="keyword">open</span>&nbsp;<span class="constructor">Doc_types</span><br>
 <span class="keyword">open</span>&nbsp;<span class="constructor">Common_utils</span><br>
 <br>
+<span class="comment">(*&nbsp;utf8-segmentation&nbsp;*)</span><br>
+<br>
 <span class="keyword">let</span>&nbsp;utf_8_segments&nbsp;(boundary&nbsp;:&nbsp;<span class="constructor">Uuseg</span>.boundary)&nbsp;(s&nbsp;:&nbsp;string)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;flush_segment&nbsp;(buf&nbsp;:&nbsp;<span class="constructor">Buffer</span>.t)&nbsp;(acc&nbsp;:&nbsp;string&nbsp;list)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;segment&nbsp;:&nbsp;string&nbsp;=&nbsp;<span class="constructor">Buffer</span>.contents&nbsp;buf&nbsp;<span class="keyword">in</span><br>
@@ -58,7 +60,7 @@
 <span class="keyword">let</span>&nbsp;utf_8_length&nbsp;(s&nbsp;:&nbsp;string)&nbsp;:&nbsp;int&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">List</span>.length&nbsp;(utf_8_grapheme_clusters&nbsp;s)<br>
 <br>
-<br>
+<span class="comment">(*&nbsp;inserting&nbsp;labels&nbsp;*)</span><br>
 <br>
 <span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;indent_of_path&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;:&nbsp;int&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;path&nbsp;<span class="keyword">with</span><br>
@@ -110,6 +112,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Some</span>&nbsp;(t&nbsp;:&nbsp;string)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;insert_string&nbsp;t&nbsp;(pos_of_label&nbsp;doc_settings&nbsp;path)&nbsp;s<br>
 <br>
 <br>
+<span class="comment">(*&nbsp;line&nbsp;breaks&nbsp;*)</span><br>
 <br>
 <span class="keyword">let</span>&nbsp;lines_of_string_dsp&nbsp;(indent&nbsp;:&nbsp;int)&nbsp;(s&nbsp;:&nbsp;string)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;ind&nbsp;:&nbsp;string&nbsp;=&nbsp;<span class="constructor">String</span>.make&nbsp;indent&nbsp;<span class="string">'&nbsp;'</span>&nbsp;<span class="keyword">in</span><br>
@@ -198,6 +201,7 @@
 <br>
 <span class="keyword">let</span>&nbsp;emph&nbsp;(a&nbsp;:&nbsp;string)&nbsp;:&nbsp;string&nbsp;=&nbsp;underline&nbsp;a<br>
 <br>
+<br>
 <span class="keyword">let</span>&nbsp;string_of_ts_txt_unit&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(a&nbsp;:&nbsp;tu_txt_unit)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Cu_txt_unit_wysiwyg</span>&nbsp;(<span class="constructor">Cs_txt_unit_wysiwyg</span>&nbsp;(b&nbsp;:&nbsp;string))&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;b<br>
@@ -228,7 +232,7 @@
 <br>
 <span class="keyword">let</span>&nbsp;lines_of_ts_authors&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(authors&nbsp;:&nbsp;ts_authors)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;authors&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_authors</span>&nbsp;(author_list&nbsp;:&nbsp;ts_author&nbsp;list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">List</span>.concat&nbsp;[<span class="constructor">List</span>.concat&nbsp;(<span class="constructor">List</span>.map&nbsp;(lines_of_ts_author&nbsp;doc_settings)&nbsp;author_list);[<span class="string">""</span>]]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_authors</span>&nbsp;(author_list&nbsp;:&nbsp;ts_author&nbsp;list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">List</span>.concat&nbsp;[<span class="constructor">List</span>.concat&nbsp;(<span class="constructor">List</span>.map&nbsp;(lines_of_ts_author&nbsp;doc_settings)&nbsp;author_list);]<br>
 <br>
 <span class="keyword">let</span>&nbsp;lines_of_ts_authors_opt&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(authors_opt&nbsp;:&nbsp;ts_authors&nbsp;option)&nbsp;:&nbsp;string&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;authors_opt&nbsp;<span class="keyword">with</span><br>

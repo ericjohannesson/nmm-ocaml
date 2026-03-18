@@ -68,6 +68,15 @@ h2, h3, h4, h5 {
     margin-left : 0;
 }
 
+/************ DATE ******************/
+
+.doc.pars .date {
+    margin-left : 0;
+}
+
+.doc.secs .date {
+    margin-left : 0;
+}
 
 /************ ABSTRACT ******************/
 

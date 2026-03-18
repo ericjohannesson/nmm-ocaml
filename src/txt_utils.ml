@@ -1,6 +1,8 @@
 open Doc_types
 open Common_utils
 
+(* utf8-segmentation *)
+
 let utf_8_segments (boundary : Uuseg.boundary) (s : string) : string list =
         let flush_segment (buf : Buffer.t) (acc : string list) : string list =
                 let segment : string = Buffer.contents buf in
@@ -32,7 +34,7 @@ let utf_8_grapheme_clusters (s : string) : string list =
 let utf_8_length (s : string) : int =
         List.length (utf_8_grapheme_clusters s)
 
-
+(* inserting labels *)
 
 let rec indent_of_path (doc_settings : t_doc_settings) (path : t_path) : int =
         match path with
@@ -84,6 +86,7 @@ let insert_label (doc_settings : t_doc_settings) (path : t_path) (s : string) : 
         | Some (t : string) -> insert_string t (pos_of_label doc_settings path) s
 
 
+(* line breaks *)
 
 let lines_of_string_dsp (indent : int) (s : string) : string list =
         let ind : string = String.make indent ' ' in
@@ -172,6 +175,7 @@ let underline (s : string) : string =
 
 let emph (a : string) : string = underline a
 
+
 let string_of_ts_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : tu_txt_unit) : string =
         match a with
         | Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg (b : string)) -> b
@@ -202,7 +206,7 @@ let lines_of_ts_author (doc_settings : t_doc_settings) (author : ts_author) : st
 
 let lines_of_ts_authors (doc_settings : t_doc_settings) (authors : ts_authors) : string list =
         match authors with
-        |Cs_authors (author_list : ts_author list) -> List.concat [List.concat (List.map (lines_of_ts_author doc_settings) author_list);[""]]
+        |Cs_authors (author_list : ts_author list) -> List.concat [List.concat (List.map (lines_of_ts_author doc_settings) author_list);]
 
 let lines_of_ts_authors_opt (doc_settings : t_doc_settings) (authors_opt : ts_authors option) : string list =
         match authors_opt with

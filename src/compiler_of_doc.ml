@@ -539,7 +539,14 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         |LINES lines -> lines 
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
-                LINES (List.concat [lines_title;lines_authors;lines_date;lines_abstract;lines_main;lines_refs])
+		let lines_authors_date : string list =
+			match lines_authors, lines_date with
+			|[],_::_ -> List.concat [lines_date;[""]]
+			|_::_,[] -> List.concat [lines_authors;[""]]
+			|_::_,_::_ -> List.concat [lines_authors;lines_date;[""]]
+			|[],[] -> []
+		in
+                LINES (List.concat [lines_title;lines_authors_date;lines_abstract;lines_main;lines_refs])
         )
         | EXML _ ->
                 let xml_list_title:Xml.xml list = Exml_utils.xml_list_of_ts_title_opt doc.fld_doc_title in
