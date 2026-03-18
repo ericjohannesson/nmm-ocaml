@@ -35,6 +35,15 @@
         <span class="keywordsign">|</span><span class="constructor">Some</span> (<span class="constructor">Cs_authors</span> (author_list : ts_author list)) <span class="keywordsign">-&gt;</span> 
                 [<span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"authors"</span>,[],<span class="constructor">List</span>.map xml_of_ts_author author_list)]
 
+<span class="keyword">and</span> xml_list_of_ts_date_opt (date_opt : ts_date option) : <span class="constructor">Xml</span>.xml list =
+        <span class="keyword">match</span> date_opt <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> []
+        <span class="keywordsign">|</span><span class="constructor">Some</span> date <span class="keywordsign">-&gt;</span> [xml_of_ts_date date]
+
+<span class="keyword">and</span> xml_of_ts_date (date : ts_date) : <span class="constructor">Xml</span>.xml =
+	<span class="keyword">match</span> date <span class="keyword">with</span>
+	<span class="keywordsign">|</span><span class="constructor">Cs_date</span> s <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"date"</span>,[],[xml_of_string s])
+
 <span class="keyword">and</span> xml_of_ts_title (title : ts_title) : <span class="constructor">Xml</span>.xml =
         <span class="keyword">match</span> title <span class="keyword">with</span> <span class="constructor">Cs_title</span> (s : string) <span class="keywordsign">-&gt;</span> 
         <span class="keyword">let</span> content : <span class="constructor">Xml</span>.xml list = [xml_of_string s] <span class="keyword">in</span> 

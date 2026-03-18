@@ -168,6 +168,7 @@
         <span class="keywordsign">|</span> <span class="constructor">EXML</span> _ <span class="keywordsign">-&gt;</span>
                 <span class="keyword">let</span> xml_list_title:<span class="constructor">Xml</span>.xml list = <span class="constructor">Exml_utils</span>.xml_list_of_ts_title_opt doc.fld_doc_title <span class="keyword">in</span>
                 <span class="keyword">let</span> xml_list_authors:<span class="constructor">Xml</span>.xml list = <span class="constructor">Exml_utils</span>.xml_list_of_ts_authors_opt doc.fld_doc_authors <span class="keyword">in</span>
+                <span class="keyword">let</span> xml_list_date:<span class="constructor">Xml</span>.xml list = <span class="constructor">Exml_utils</span>.xml_list_of_ts_date_opt doc.fld_doc_date <span class="keyword">in</span>
                 <span class="keyword">let</span> xml_list_abstract : <span class="constructor">Xml</span>.xml list = 
                         <span class="keyword">match</span> doc.fld_doc_abstract <span class="keyword">with</span>
                         <span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> []
@@ -190,7 +191,7 @@
                         <span class="keywordsign">|</span> _ <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> <span class="string">"accumulator output type not identical to accumulator input type"</span>)
                 )
                 <span class="keyword">in</span>
-                <span class="keyword">let</span> xml_list_doc = <span class="constructor">List</span>.concat [xml_list_title;xml_list_authors;xml_list_abstract;[xml_main];xml_list_refs] <span class="keyword">in</span>
+                <span class="keyword">let</span> xml_list_doc = <span class="constructor">List</span>.concat [xml_list_title;xml_list_authors;xml_list_date; xml_list_abstract;[xml_main];xml_list_refs] <span class="keyword">in</span>
                 <span class="keyword">let</span> doc_class_string = string_of_t_doc_class doc_class <span class="keyword">in</span>
                 <span class="constructor">EXML</span> [<span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"doc"</span>,[(<span class="string">"class"</span>,doc_class_string)],xml_list_doc)]
 

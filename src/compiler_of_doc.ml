@@ -151,6 +151,7 @@ and acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (a
         | EXML _ ->
                 let xml_list_title:Xml.xml list = Exml_utils.xml_list_of_ts_title_opt doc.fld_doc_title in
                 let xml_list_authors:Xml.xml list = Exml_utils.xml_list_of_ts_authors_opt doc.fld_doc_authors in
+                let xml_list_date:Xml.xml list = Exml_utils.xml_list_of_ts_date_opt doc.fld_doc_date in
                 let xml_list_abstract : Xml.xml list = 
                         match doc.fld_doc_abstract with
                         |None -> []
@@ -173,7 +174,7 @@ and acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (a
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 in
-                let xml_list_doc = List.concat [xml_list_title;xml_list_authors;xml_list_abstract;[xml_main];xml_list_refs] in
+                let xml_list_doc = List.concat [xml_list_title;xml_list_authors;xml_list_date; xml_list_abstract;[xml_main];xml_list_refs] in
                 let doc_class_string = string_of_t_doc_class doc_class in
                 EXML [Xml.Element ("doc",[("class",doc_class_string)],xml_list_doc)]
 

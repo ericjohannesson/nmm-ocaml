@@ -14,6 +14,15 @@ and xml_list_of_ts_authors_opt (authors_opt : ts_authors option) : Xml.xml list 
         |Some (Cs_authors (author_list : ts_author list)) -> 
                 [Xml.Element ("authors",[],List.map xml_of_ts_author author_list)]
 
+and xml_list_of_ts_date_opt (date_opt : ts_date option) : Xml.xml list =
+        match date_opt with
+        |None -> []
+        |Some date -> [xml_of_ts_date date]
+
+and xml_of_ts_date (date : ts_date) : Xml.xml =
+	match date with
+	|Cs_date s -> Xml.Element ("date",[],[xml_of_string s])
+
 and xml_of_ts_title (title : ts_title) : Xml.xml =
         match title with Cs_title (s : string) -> 
         let content : Xml.xml list = [xml_of_string s] in 
