@@ -31,14 +31,8 @@ val to_string_fmt : Xml.xml -> string
 
 
 (**
-Ideally, if [xml] is an object of type [Xml.xml], all of 
-{[
-parse_string true (to_string xml)
-parse_string false (to_string xml)
-parse_string true (to_string_fmt xml)
-parse_string false (to_string_fmt xml)
-]}
-should evaluate to [xml].
+Ideally, if [xml] is an object of type [Xml.xml], both [parse_string print_tokens (to_string xml)] and
+[parse_string print_tokens (to_string_fmt xml)] should evaluate to [xml].
 *)
 
 
