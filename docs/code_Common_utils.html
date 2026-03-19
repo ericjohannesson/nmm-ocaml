@@ -773,7 +773,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Some</span>&nbsp;<span class="constructor">Cu_scope_app</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;path_to_app_node&nbsp;c_ref_loc&nbsp;=&nbsp;path_to_app_node&nbsp;id_loc<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Some</span>&nbsp;<span class="constructor">Cu_scope_par</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;path_to_par_node&nbsp;c_ref_loc&nbsp;=&nbsp;path_to_par_node&nbsp;id_loc<br>
 <br>
-<span class="keyword">let</span>&nbsp;ids_match&nbsp;(id_c_ref&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_id)&nbsp;(c_ref_loc&nbsp;:&nbsp;t_path)&nbsp;(id&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_id)&nbsp;(id_loc&nbsp;:&nbsp;t_path)&nbsp;:&nbsp;bool&nbsp;=<br>
+<span class="keyword">let</span>&nbsp;ids_match&nbsp;(c_ref&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.ts_c_ref)&nbsp;(c_ref_loc&nbsp;:&nbsp;t_path)&nbsp;(id&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_id)&nbsp;(id_loc&nbsp;:&nbsp;t_path)&nbsp;:&nbsp;bool&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;c_ref&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">Cs_c_ref</span>&nbsp;id_c_ref&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span>&nbsp;id_c_ref&nbsp;=&nbsp;id<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">then</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_ref_loc_is_within_scope_of_id&nbsp;c_ref_loc&nbsp;id.fld_id_scope&nbsp;id_loc<br>
@@ -781,13 +782,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">false</span><br>
 <br>
 <span class="keyword">let</span>&nbsp;reference_of_ts_c_ref&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(c_ref_path&nbsp;:&nbsp;t_path)&nbsp;(c_ref&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.ts_c_ref)&nbsp;:&nbsp;(<span class="constructor">Doc_types</span>.tr_id&nbsp;*&nbsp;t_path&nbsp;*&nbsp;t_cref_element)&nbsp;option&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;c_ref&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_c_ref</span>&nbsp;(c_ref_id)&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;<span class="keyword">rec</span>&nbsp;aux&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;:&nbsp;(<span class="constructor">Doc_types</span>.tr_id&nbsp;*&nbsp;t_path&nbsp;*&nbsp;t_cref_element)&nbsp;option&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;cref_table&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>(table_id,&nbsp;table_path,&nbsp;table_element)&nbsp;::&nbsp;tl&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;ids_match&nbsp;c_ref_id&nbsp;c_ref_path&nbsp;table_id&nbsp;table_path&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;ids_match&nbsp;c_ref&nbsp;c_ref_path&nbsp;table_id&nbsp;table_path&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="keyword">true</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(table_id,&nbsp;table_path,&nbsp;table_element)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="keyword">false</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;aux&nbsp;tl<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>

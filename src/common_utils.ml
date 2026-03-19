@@ -747,7 +747,8 @@ let c_ref_loc_is_within_scope_of_id (c_ref_loc : t_path) (scope_opt : tu_scope o
         |Some Cu_scope_app -> path_to_app_node c_ref_loc = path_to_app_node id_loc
         |Some Cu_scope_par -> path_to_par_node c_ref_loc = path_to_par_node id_loc
 
-let ids_match (id_c_ref : Doc_types.tr_id) (c_ref_loc : t_path) (id : Doc_types.tr_id) (id_loc : t_path) : bool =
+let ids_match (c_ref : Doc_types.ts_c_ref) (c_ref_loc : t_path) (id : Doc_types.tr_id) (id_loc : t_path) : bool =
+	match c_ref with Cs_c_ref id_c_ref ->
         if id_c_ref = id
         then
                 c_ref_loc_is_within_scope_of_id c_ref_loc id.fld_id_scope id_loc
@@ -755,13 +756,11 @@ let ids_match (id_c_ref : Doc_types.tr_id) (c_ref_loc : t_path) (id : Doc_types.
         false
 
 let reference_of_ts_c_ref (cref_table : t_cref_table) (c_ref_path : t_path) (c_ref : Doc_types.ts_c_ref) : (Doc_types.tr_id * t_path * t_cref_element) option =
-        match c_ref with
-        |Cs_c_ref (c_ref_id) ->
         let rec aux (cref_table : t_cref_table) : (Doc_types.tr_id * t_path * t_cref_element) option =
                 match cref_table with
                 |[] -> None
                 |(table_id, table_path, table_element) :: tl ->
-                        match ids_match c_ref_id c_ref_path table_id table_path with
+                        match ids_match c_ref c_ref_path table_id table_path with
                         |true -> Some (table_id, table_path, table_element)
                         |false -> aux tl
         in
