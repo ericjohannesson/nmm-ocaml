@@ -41,16 +41,16 @@ docs: byte
 install_bin: bin/nmm-ocaml
 	cp bin/nmm-ocaml ~/bin/
 
-install_opam_package: build_opam_package src/cli.ml
-	ocamlfind install nmm-ocaml build_opam_package/*
+install_opam_package: opam_package src/cli.ml
+	ocamlfind install nmm-ocaml opam_package/*
 	ocamlfind ocamlopt -o ~/.opam/default/bin/nmm-ocaml -linkpkg -package sedlex.ppx -package uuseg -package xml-light -package str -package nmm-ocaml src/cli.ml
 
-build_opam_package: native opam byte
-	mkdir -p build_opam_package
-	cp byte/nmm_ocaml.cma build_opam_package/
-	cp native/nmm_ocaml.* build_opam_package/
-	cp opam/nmm-ocaml.opam build_opam_package/opam
-	cp opam/META build_opam_package/
+opam_package: native opam byte
+	mkdir -p opam_package
+	cp byte/nmm_ocaml.cma opam_package/
+	cp native/nmm_ocaml.* opam_package/
+	cp opam/nmm-ocaml.opam opam_package/opam
+	cp opam/META opam_package/
 
 native: src
 	mkdir -p native
