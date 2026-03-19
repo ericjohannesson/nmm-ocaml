@@ -33,15 +33,15 @@
         <span class="keyword">let</span> xml_list_main : <span class="constructor">Xml</span>.xml list = [xml_of_tu_doc_main doc.fld_doc_main] <span class="keyword">in</span>
         <span class="keyword">let</span> xml_list_refs : <span class="constructor">Xml</span>.xml list = xml_list_of_ts_refs_opt doc.fld_doc_refs <span class="keyword">in</span>
         <span class="keyword">let</span> xml_list_doc : <span class="constructor">Xml</span>.xml list = <span class="constructor">List</span>.concat [
-		xml_list_preamble;
-		xml_list_title;
-		xml_list_authors;
-		xml_list_date;
-		xml_list_abstract;
-		xml_list_main;
-		xml_list_refs;
-	]
-	<span class="keyword">in</span>
+                xml_list_preamble;
+                xml_list_title;
+                xml_list_authors;
+                xml_list_date;
+                xml_list_abstract;
+                xml_list_main;
+                xml_list_refs;
+        ]
+        <span class="keyword">in</span>
         <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cr_doc"</span>,[],xml_list_doc)
 
 <span class="keyword">and</span> xml_list_of_ts_preamble_opt (preamble_opt : ts_preamble option) : <span class="constructor">Xml</span>.xml list =

@@ -15,15 +15,15 @@ let rec axml_of_tr_doc (doc:tr_doc):Xml.xml=
         let xml_list_main : Xml.xml list = [xml_of_tu_doc_main doc.fld_doc_main] in
         let xml_list_refs : Xml.xml list = xml_list_of_ts_refs_opt doc.fld_doc_refs in
         let xml_list_doc : Xml.xml list = List.concat [
-		xml_list_preamble;
-		xml_list_title;
-		xml_list_authors;
-		xml_list_date;
-		xml_list_abstract;
-		xml_list_main;
-		xml_list_refs;
-	]
-	in
+                xml_list_preamble;
+                xml_list_title;
+                xml_list_authors;
+                xml_list_date;
+                xml_list_abstract;
+                xml_list_main;
+                xml_list_refs;
+        ]
+        in
         Xml.Element ("cr_doc",[],xml_list_doc)
 
 and xml_list_of_ts_preamble_opt (preamble_opt : ts_preamble option) : Xml.xml list =

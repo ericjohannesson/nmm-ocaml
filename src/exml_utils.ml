@@ -44,8 +44,8 @@ let xml_list_of_ts_authors_opt (authors_opt : ts_authors option) : Xml.xml list 
                 [Xml.Element ("authors",[],List.map xml_of_ts_author author_list)]
 
 let xml_of_ts_date (date : ts_date) : Xml.xml =
-	match date with
-	|Cs_date s -> Xml.Element ("date",[],[xml_of_string s])
+        match date with
+        |Cs_date s -> Xml.Element ("date",[],[xml_of_string s])
 
 let xml_list_of_ts_date_opt (date_opt : ts_date option) : Xml.xml list =
         match date_opt with

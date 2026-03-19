@@ -748,7 +748,7 @@ let c_ref_loc_is_within_scope_of_id (c_ref_loc : t_path) (scope_opt : tu_scope o
         |Some Cu_scope_par -> path_to_par_node c_ref_loc = path_to_par_node id_loc
 
 let ids_match (c_ref : Doc_types.ts_c_ref) (c_ref_loc : t_path) (id : Doc_types.tr_id) (id_loc : t_path) : bool =
-	match c_ref with Cs_c_ref id_c_ref ->
+        match c_ref with Cs_c_ref id_c_ref ->
         if id_c_ref = id
         then
                 c_ref_loc_is_within_scope_of_id c_ref_loc id.fld_id_scope id_loc
@@ -864,10 +864,10 @@ let rec string_of_shown_path (doc_settings : t_doc_settings) (full_path : t_path
                 |PAR_NODE par_node -> (
                         match par_node with
                         |PAR_AUTO _ -> (
-				match doc_settings.par_prefix with
-				|None -> string_of_path doc_settings full_outer_path
-				|Some (_,s) -> String.concat "\u{00A0}" [s;string_of_path doc_settings full_outer_path]
-			)
+                                match doc_settings.par_prefix with
+                                |None -> string_of_path doc_settings full_outer_path
+                                |Some (_,s) -> String.concat "\u{00A0}" [s;string_of_path doc_settings full_outer_path]
+                        )
                         |PAR_TAG (_,tag,_) -> String.concat "\u{00A0}" [tag;string_of_path doc_settings full_outer_path]
                 )
                 |_ -> string_of_path doc_settings full_outer_path
