@@ -899,11 +899,11 @@ let rec string_of_shown_path (doc_settings : t_doc_settings) (full_path : t_path
                                 |None -> tag
                                 |Some s -> String.concat "\u{00A0}" [tag;s]
                         )
-                        |DSP_NONE -> "NONE"
+                        |DSP_NONE -> raise (Error "cannot refer to unlabeled display line")
                 )
                 |_ ->
                         match string_of_path_opt doc_settings full_path inner_path with
-                        |None -> "NONE"
+                        |None -> raise (Error "shown path cannot be empty")
                         |Some s -> s
         )
         |inner_path_hd::_, _::_ -> (
@@ -912,7 +912,7 @@ let rec string_of_shown_path (doc_settings : t_doc_settings) (full_path : t_path
                         match itm_node with
                         |ITM_AUTO _ | ITM_CUSTOM _ -> (
                                 match string_of_path_opt doc_settings full_path inner_path with
-                                |None -> "NONE"
+                                |None -> raise (Error "shown path cannot be empty")
                                 |Some s -> String.concat "\u{00A0}" [s;"of";string_of_shown_path doc_settings full_outer_path full_outer_path]
                         )
                         |ITM_TAG_AUTO (tag,_) | ITM_TAG_CUSTOM (tag,_) -> (
@@ -925,7 +925,7 @@ let rec string_of_shown_path (doc_settings : t_doc_settings) (full_path : t_path
                         match dsp_line_node with
                         |DSP_AUTO _ | DSP_CUSTOM _ -> (
                                 match string_of_path_opt doc_settings full_path inner_path with
-                                |None -> "NONE"
+                                |None -> raise (Error "shown path cannot be empty")
                                 |Some s -> String.concat "\u{00A0}" [s;"of";string_of_shown_path doc_settings full_outer_path full_outer_path]
                         )
                         |DSP_TAG_AUTO (tag,_) | DSP_TAG_CUSTOM (tag,_) -> (
@@ -937,10 +937,10 @@ let rec string_of_shown_path (doc_settings : t_doc_settings) (full_path : t_path
                 )
                 |_ ->
                         match string_of_path_opt doc_settings full_path inner_path with
-                        |None -> "NONE"
+                        |None -> raise (Error "shown path cannot be empty")
                         |Some s -> String.concat "\u{00A0}" [s;"of";string_of_shown_path doc_settings full_outer_path full_outer_path]
         )
-        |[],[] -> "NONE"
+        |[],[] -> raise (Error "shown path cannot be empty")
 
 
 let string_of_tu_scope (scope : tu_scope) : string =
@@ -1060,7 +1060,7 @@ let label_of_path_opt (doc_settings : t_doc_settings) (path : t_path) : string o
 
 let label_of_path (doc_settings : t_doc_settings) (path : t_path) : string=
         match label_of_path_opt doc_settings path with
-        | None -> "document"
+        | None -> "DOCUMENT"
         | Some (s : string) -> s
 
 
