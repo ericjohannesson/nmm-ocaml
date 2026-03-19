@@ -104,7 +104,7 @@ let lang_code_of_options (options : string list) : string option =
                         |"--lang" -> (
                                 match tl with
                                 |lang_code::_ -> Some lang_code
-                                |_ -> let _ : unit = Debug_utils.print_to_stderr "WARNING: missing --lang argument; using default (en)" in None
+                                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: missing --lang argument; using default (en)" in None
                         )
                         |_ -> aux tl
         in
@@ -119,7 +119,7 @@ let external_css_of_options (options : string list) : string option =
                         |"--css" -> (
                                 match tl with
                                 |uri::_ -> Some uri
-                                |_ -> let _ : unit = Debug_utils.print_to_stderr "WARNING: missing --css argument; using default" in None
+                                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: missing --css argument; using default" in None
 
                         )
                         |_ -> aux tl
