@@ -13,7 +13,6 @@ depends : [
 	"sedlex"
 	"uuseg"
 	"xml-light"
-	"unix"
 	"ocamlfind" { build }
 ]
 build: [ make "opam_package" ]
