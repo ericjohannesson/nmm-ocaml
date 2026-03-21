@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A dated document</title>
+<title>An auto-dated document</title>
 <meta name="author" content="Eric Johannesson">
 <style>
 
@@ -346,13 +346,13 @@ h2, h3, h4, h5 {
 </head>
 <body>
 <div class="doc blks">
-<h1 class="title">A dated document</h1>
+<h1 class="title">An auto-dated document</h1>
 <div class="authors">
 <p class="author">Eric Johannesson</p>
 </div>
-<time class="date">2026-03-17</time>
+<time class="date" datetime="2026-03-21T14:19+01:00">2026-03-21 14:19 UTC+1</time>
 <div class="doc_main">
-<p class="blk txt">This is a dated document.</p>
+<p class="blk txt">This is an auto-dated document.</p>
 </div>
 </div>
 </body>

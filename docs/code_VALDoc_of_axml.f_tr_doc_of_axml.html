@@ -53,7 +53,8 @@
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_preamble"</span>,[],pcdata_list) <span class="keywordsign">-&gt;</span> (<span class="constructor">Some</span> (<span class="constructor">Cs_preamble</span> (f_string_of_pcdata_list pcdata_list)),tl)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_title"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_authors"</span>,[],_)
-        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_date"</span>,[],_)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_auto"</span>,[],_)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_custom"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_abstract"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_chs"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_secs"</span>,[],_)
@@ -69,7 +70,8 @@
         <span class="keyword">match</span> hd <span class="keyword">with</span>
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_title"</span>,[],pcdata_list) <span class="keywordsign">-&gt;</span> (<span class="constructor">Some</span> (<span class="constructor">Cs_title</span> (f_string_of_pcdata_list pcdata_list)), tl)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_authors"</span>,[],_)
-        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_date"</span>,[],_)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_auto"</span>,[],_)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_custom"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_abstract"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_chs"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_secs"</span>,[],_)
@@ -84,7 +86,8 @@
     <span class="keywordsign">|</span>hd::tl <span class="keywordsign">-&gt;</span>
         <span class="keyword">match</span> hd <span class="keyword">with</span>
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_authors"</span>,[],xmls) <span class="keywordsign">-&gt;</span> (<span class="constructor">Some</span> (<span class="constructor">Cs_authors</span> (<span class="constructor">List</span>.map f_ts_author_of_xml xmls)), tl)
-        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_date"</span>,[],_)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_auto"</span>,[],_)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_custom"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_abstract"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_chs"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_secs"</span>,[],_)
@@ -103,7 +106,7 @@
     <span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> (<span class="constructor">None</span>, xml_list)
     <span class="keywordsign">|</span>hd::tl <span class="keywordsign">-&gt;</span>
         <span class="keyword">match</span> hd <span class="keyword">with</span>
-        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_auto"</span>,[],[]) <span class="keywordsign">-&gt;</span> (<span class="constructor">Some</span> (<span class="constructor">Cu_date_auto</span> <span class="constructor">Cs_date_auto</span>), tl)
+        <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_auto"</span>,[],[xml]) <span class="keywordsign">-&gt;</span> (<span class="constructor">Some</span> (<span class="constructor">Cu_date_auto</span> (f_ts_date_auto_of_xml xml)), tl)
 	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_date_custom"</span>,[],[xml]) <span class="keywordsign">-&gt;</span> (<span class="constructor">Some</span> (<span class="constructor">Cu_date_custom</span> (f_ts_date_custom_of_xml xml)), tl)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_abstract"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_chs"</span>,[],_)
@@ -112,6 +115,12 @@
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cu_doc_main_blks"</span>,[],_)
         <span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_refs"</span>,[],_) <span class="keywordsign">-&gt;</span> (<span class="constructor">None</span>, xml_list)
         <span class="keywordsign">|</span>xml <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">""</span> [<span class="string">"unexcpected element: "</span>;string_of_xml_list [xml]]))
+
+<span class="keyword">and</span> f_ts_date_auto_of_xml (xml : <span class="constructor">Xml</span>.xml) : ts_date_auto =
+	<span class="keyword">match</span> xml <span class="keyword">with</span>
+	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_date_auto"</span>,[],[]) <span class="keywordsign">-&gt;</span> <span class="constructor">Cs_date_auto</span>
+	<span class="keywordsign">|</span>_ <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">""</span> [<span class="string">"expected cs_date_auto, got: "</span>;string_of_xml_list [xml]]))
+
 
 <span class="keyword">and</span> f_ts_date_custom_of_xml (xml : <span class="constructor">Xml</span>.xml) : ts_date_custom =
 	<span class="keyword">match</span> xml <span class="keyword">with</span>

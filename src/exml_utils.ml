@@ -43,9 +43,17 @@ let xml_list_of_ts_authors_opt (authors_opt : ts_authors option) : Xml.xml list 
         |Some (Cs_authors (author_list : ts_author list)) -> 
                 [Xml.Element ("authors",[],List.map xml_of_ts_author author_list)]
 
+let string_of_diff (diff : string * int * int) : string =
+	match diff with
+	|sign,h,m -> sign ^ (Printf.sprintf "%.2i" h) ^ ":" ^ (Printf.sprintf "%.2i" m)
+
 let xml_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : Xml.xml =
-	let s : string = Common_utils.string_of_ts_date_auto doc_settings date in
-	Xml.Element ("date",[],[xml_of_string s])
+	let d : Common_utils.t_date = Common_utils.date_of_ts_date_auto doc_settings date in
+	let date_string : string = String.concat "-" [d.year;d.month;d.day] in
+	let time_string : string = String.concat ":" [d.hour;d.minute] in
+	let display_string : string = String.concat " " [date_string;time_string;d.timezone] in
+	let datetime_string : string = String.concat "" [date_string;"T";time_string;string_of_diff d.diff] in
+	Xml.Element ("date",[("datetime", datetime_string)],[xml_of_string display_string])
 
 let xml_of_ts_date_custom (date : ts_date_custom) : Xml.xml =
 	match date with

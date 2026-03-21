@@ -219,7 +219,10 @@ let lines_of_ts_date_custom (doc_settings : t_doc_settings) (date : ts_date_cust
         |Cs_date_custom (s : string) -> List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
 
 let lines_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : string list =
-	let s : string = Common_utils.string_of_ts_date_auto doc_settings date in
+	let d : Common_utils.t_date = Common_utils.date_of_ts_date_auto doc_settings date in
+	let date_string : string = String.concat "-" [d.year;d.month;d.day] in
+	let time_string : string = String.concat ":" [d.hour;d.minute] in
+	let s : string = String.concat " " [date_string;time_string;d.timezone] in
 	List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
 
 let lines_of_tu_date (doc_settings : t_doc_settings) (date : tu_date) : string list =

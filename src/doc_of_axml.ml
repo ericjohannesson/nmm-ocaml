@@ -40,7 +40,8 @@ and f_ts_preamble_opt_of_xml_list (xml_list : Xml.xml list) : (ts_preamble optio
         |Xml.Element ("cs_preamble",[],pcdata_list) -> (Some (Cs_preamble (f_string_of_pcdata_list pcdata_list)),tl)
         |Xml.Element ("cs_title",[],_)
         |Xml.Element ("cs_authors",[],_)
-        |Xml.Element ("cs_date",[],_)
+        |Xml.Element ("cu_date_auto",[],_)
+        |Xml.Element ("cu_date_custom",[],_)
         |Xml.Element ("cs_abstract",[],_)
         |Xml.Element ("cu_doc_main_chs",[],_)
         |Xml.Element ("cu_doc_main_secs",[],_)
@@ -56,7 +57,8 @@ and f_ts_title_opt_of_xml_list (xml_list:Xml.xml list):(ts_title option) * (Xml.
         match hd with
         |Xml.Element ("cs_title",[],pcdata_list) -> (Some (Cs_title (f_string_of_pcdata_list pcdata_list)), tl)
         |Xml.Element ("cs_authors",[],_)
-        |Xml.Element ("cs_date",[],_)
+        |Xml.Element ("cu_date_auto",[],_)
+        |Xml.Element ("cu_date_custom",[],_)
         |Xml.Element ("cs_abstract",[],_)
         |Xml.Element ("cu_doc_main_chs",[],_)
         |Xml.Element ("cu_doc_main_secs",[],_)
@@ -71,7 +73,8 @@ and f_ts_authors_opt_of_xml_list (xml_list:Xml.xml list) : (ts_authors option) *
     |hd::tl ->
         match hd with
         |Xml.Element ("cs_authors",[],xmls) -> (Some (Cs_authors (List.map f_ts_author_of_xml xmls)), tl)
-        |Xml.Element ("cs_date",[],_)
+        |Xml.Element ("cu_date_auto",[],_)
+        |Xml.Element ("cu_date_custom",[],_)
         |Xml.Element ("cs_abstract",[],_)
         |Xml.Element ("cu_doc_main_chs",[],_)
         |Xml.Element ("cu_doc_main_secs",[],_)
@@ -90,7 +93,7 @@ and f_tu_date_opt_of_xml_list (xml_list:Xml.xml list) : (tu_date option) *  (Xml
     |[] -> (None, xml_list)
     |hd::tl ->
         match hd with
-        |Xml.Element ("cu_date_auto",[],[]) -> (Some (Cu_date_auto Cs_date_auto), tl)
+        |Xml.Element ("cu_date_auto",[],[xml]) -> (Some (Cu_date_auto (f_ts_date_auto_of_xml xml)), tl)
 	|Xml.Element ("cu_date_custom",[],[xml]) -> (Some (Cu_date_custom (f_ts_date_custom_of_xml xml)), tl)
         |Xml.Element ("cs_abstract",[],_)
         |Xml.Element ("cu_doc_main_chs",[],_)
@@ -99,6 +102,12 @@ and f_tu_date_opt_of_xml_list (xml_list:Xml.xml list) : (tu_date option) *  (Xml
         |Xml.Element ("cu_doc_main_blks",[],_)
         |Xml.Element ("cs_refs",[],_) -> (None, xml_list)
         |xml -> raise (Error (String.concat "" ["unexcpected element: ";string_of_xml_list [xml]]))
+
+and f_ts_date_auto_of_xml (xml : Xml.xml) : ts_date_auto =
+	match xml with
+	|Xml.Element ("cs_date_auto",[],[]) -> Cs_date_auto
+	|_ -> raise (Error (String.concat "" ["expected cs_date_auto, got: ";string_of_xml_list [xml]]))
+
 
 and f_ts_date_custom_of_xml (xml : Xml.xml) : ts_date_custom =
 	match xml with
