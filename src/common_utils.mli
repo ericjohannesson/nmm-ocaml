@@ -183,3 +183,6 @@ val node_of_dsp_line : t_doc_settings -> t_path -> int -> Doc_types.tr_dsp_line 
 val par_restated_of_tr_id : t_doc_settings -> t_cref_table -> t_path -> Doc_types.tr_id -> (Doc_types.tr_par_std * t_path) option
 
 
+(** {2 Date} *)
+
+val string_of_ts_date_auto : t_doc_settings -> Doc_types.ts_date_auto -> string

@@ -43,14 +43,24 @@ let xml_list_of_ts_authors_opt (authors_opt : ts_authors option) : Xml.xml list 
         |Some (Cs_authors (author_list : ts_author list)) -> 
                 [Xml.Element ("authors",[],List.map xml_of_ts_author author_list)]
 
-let xml_of_ts_date (date : ts_date) : Xml.xml =
-        match date with
-        |Cs_date s -> Xml.Element ("date",[],[xml_of_string s])
+let xml_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : Xml.xml =
+	let s : string = Common_utils.string_of_ts_date_auto doc_settings date in
+	Xml.Element ("date",[],[xml_of_string s])
 
-let xml_list_of_ts_date_opt (date_opt : ts_date option) : Xml.xml list =
+let xml_of_ts_date_custom (date : ts_date_custom) : Xml.xml =
+	match date with
+	|Cs_date_custom s -> Xml.Element ("date",[],[xml_of_string s])
+
+let xml_of_tu_date (doc_settings : t_doc_settings) (date : tu_date) : Xml.xml =
+        match date with
+	|Cu_date_auto d -> xml_of_ts_date_auto doc_settings d
+        |Cu_date_custom d -> xml_of_ts_date_custom d 
+
+
+let xml_list_of_tu_date_opt (doc_settings : t_doc_settings) (date_opt : tu_date option) : Xml.xml list =
         match date_opt with
         |None -> []
-        |Some date -> [xml_of_ts_date date]
+        |Some date -> [xml_of_tu_date doc_settings date]
 
 
 let xml_list_of_abstract_hdr (doc_settings : t_doc_settings) : Xml.xml list =

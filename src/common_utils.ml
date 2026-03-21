@@ -1183,4 +1183,7 @@ let par_restated_of_tr_id (doc_settings : t_doc_settings) (cref_table : t_cref_t
                                 "\' does not belong to a paragraph";
                 ]) in None
 
+(* date *)
 
+let string_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : string =
+	"TODO"

@@ -214,14 +214,23 @@ let lines_of_ts_authors_opt (doc_settings : t_doc_settings) (authors_opt : ts_au
         |Some authors -> lines_of_ts_authors doc_settings authors
 
 
-let lines_of_ts_date (doc_settings : t_doc_settings) (date : ts_date) : string list =
+let lines_of_ts_date_custom (doc_settings : t_doc_settings) (date : ts_date_custom) : string list =
         match date with
-        |Cs_date (s : string) -> List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
+        |Cs_date_custom (s : string) -> List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
 
-let lines_of_ts_date_opt (doc_settings : t_doc_settings) (date_opt : ts_date option) : string list =
+let lines_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : string list =
+	let s : string = Common_utils.string_of_ts_date_auto doc_settings date in
+	List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
+
+let lines_of_tu_date (doc_settings : t_doc_settings) (date : tu_date) : string list =
+	match date with
+	|Cu_date_auto d -> lines_of_ts_date_auto doc_settings d
+	|Cu_date_custom d -> lines_of_ts_date_custom doc_settings d
+
+let lines_of_tu_date_opt (doc_settings : t_doc_settings) (date_opt : tu_date option) : string list =
         match date_opt with
         |None -> []
-        |Some date -> lines_of_ts_date doc_settings date
+        |Some date -> lines_of_tu_date doc_settings date
 
 
 
