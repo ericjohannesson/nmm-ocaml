@@ -57,7 +57,7 @@ let xml_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : 
 
 let xml_of_ts_date_custom (date : ts_date_custom) : Xml.xml =
 	match date with
-	|Cs_date_custom s -> Xml.Element ("date",[],[xml_of_string s])
+	|Cs_date_custom s -> Xml.Element ("date",[("datetime", s)],[xml_of_string s])
 
 let xml_of_tu_date (doc_settings : t_doc_settings) (date : tu_date) : Xml.xml =
         match date with
