@@ -197,4 +197,4 @@ type t_date = {
 }
 
 
-val date_of_ts_date_auto : t_doc_settings -> Doc_types.ts_date_auto -> t_date
+val date_of_ts_date_auto : t_doc_settings -> Doc_types.ts_date_auto -> t_date option

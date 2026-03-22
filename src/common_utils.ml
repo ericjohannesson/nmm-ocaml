@@ -1196,7 +1196,7 @@ type t_date = {
 	diff : string * int * int;
 }
 
-let date_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : t_date =
+let date_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : t_date option =
 	match date, Sys.unix with
 	|Cs_date_auto, true ->
 		let time : float = Unix.time () in
@@ -1229,7 +1229,7 @@ let date_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) :
 				|_,0 -> "UTC+" ^ (string_of_int diff_hour), ("+",diff_hour,0)
 				|_,_ -> "UTC+" ^ (string_of_int diff_hour) ^ ":" ^ (string_of_int diff_minute), ("+",diff_hour,diff_minute)
 			)
-		in
+		in Some
 		{
 			year = year_string;
 			month = month_string;
@@ -1240,4 +1240,4 @@ let date_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) :
 			timezone = timezone_string;
 			diff = utc_diff;
 		}
-	|Cs_date_auto, false -> raise (Error "auto date only supported on unix-like systems")
+	|Cs_date_auto, false -> let _ : unit = Debug_utils.print_warning "WARNING: auto date only supported on unix-like systems" in None
