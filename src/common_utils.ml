@@ -1241,4 +1241,4 @@ let date_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) :
 			diff = utc_diff;
 		}
 		with
-		|_ -> let _ : unit = Debug_utils.print_warning "WARNING: auto date not supported on your system" in None
+		|_ -> let _ : unit = Debug_utils.print_warning "WARNING: cannot get system time and date" in None
