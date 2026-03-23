@@ -35,6 +35,13 @@ let c_ref_of_string (s:string):Doc_types.ts_c_ref=
         |[tag;name;scope] -> Cs_c_ref { fld_id_tag=Cs_tag tag;fld_id_name=Cs_name name;  fld_id_scope = Some (scope_of_string scope) }
         | _ -> raise (ERROR (String.concat "" ["unexpected string:";" ";"\"";s;"\""]))
 
+let ftn_of_string_int ((s,i):string * int) : Doc_types.ts_ftn =
+        let t:string=String.sub s 1 ((String.length s)-2) in
+        match String.split_on_char ':' t with
+        |[tag;name] -> Cs_ftn ({ fld_id_tag=Cs_tag tag; fld_id_name=Cs_name name; fld_id_scope = None }, Cs_int i)
+        |[tag;name;scope] -> Cs_ftn ({ fld_id_tag=Cs_tag tag;fld_id_name=Cs_name name;  fld_id_scope = Some (scope_of_string scope) }, Cs_int i)
+        | _ -> raise (ERROR (String.concat "" ["unexpected string:";" ";"\"";s;"\""]))
+
 let add_author (authors_opt : ts_authors option) (author : ts_author) : ts_authors option =
         match authors_opt with
         |None -> Some (Cs_authors [author])
@@ -72,7 +79,7 @@ let date_of_string (s : string) : tu_date =
 
 %token                          STAR LBR RBR COLON PILCROW SECTION EOF
 %token                          NL TAB NL_TAB NL_TAB_TAB NL_TAB_TAB_TAB
-%token                          DASH_TAB ITM_AUTO_TAB DSP_AUTO_TAB PILCROW_NL SECTION_NL SECTION_REFS_NLS PILCROW_REFS_NLS
+%token                          DASH_TAB STAR_TAB ITM_AUTO_TAB DSP_AUTO_TAB PILCROW_NL SECTION_NL SECTION_REFS_NLS PILCROW_REFS_NLS
 %token                          START_VRB VRB_LINE_EMPTY END_VRB TAB_END_VRB TAB_TAB_END_VRB TAB_TAB_TAB_END_VRB
 %token                          PREAMBLE TITLE AUTHOR DATE ABSTRACT
 %token <string>                 VRB_LINE
@@ -80,7 +87,8 @@ let date_of_string (s : string) : tu_date =
 %token <string>                 TXT C_REF
 %token <string>                 DSP_ID
 %token <string>                 CH_TAG_OR_ID_NL SECTION_SPACES_TAG_OR_ID_NL PILCROW_SPACES_TAG_OR_ID_NL PILCROW_SPACES_RPT_SPACES_ID_NL
-%token <string>                 ITM_CUSTOM_TAB DSP_CUSTOM_TAB ITM_AUTO_TAB_ID ITM_CUSTOM_TAB_ID
+%token <string>                 ITM_CUSTOM_TAB DSP_CUSTOM_TAB ITM_AUTO_TAB_ID ITM_CUSTOM_TAB_ID STAR_TAB_ID
+%token <string * int>           FTN
 
 %type <Doc_types.tr_doc>                  main doc
 %type <Doc_types.ts_preamble>             doc_preamble
@@ -344,6 +352,7 @@ blk0:
   |blk_itm0                                       { Cu_blk_itm $1:tu_blk }
   |blk_dsp0                                       { Cu_blk_dsp $1:tu_blk }
   |blk_vrb0                                       { Cu_blk_vrb $1:tu_blk }
+  |blk_ftn0                                       { Cu_blk_ftn $1:tu_blk }
   |blk0 NL                                        { $1 : tu_blk }
 ;
 
@@ -361,6 +370,7 @@ txt_unit0:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt0 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }   
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |ftn                                            { (Cu_txt_unit_ftn (Cs_txt_unit_ftn $1)):tu_txt_unit }
 ;
 
 emph_txt0:
@@ -372,6 +382,12 @@ emph_txt0:
 blk_blt0:
   |dash_tab blks1                                 { (Cs_blk_blt (Cs_blks $2)):ts_blk_blt }
 ;
+
+blk_ftn0:
+  |star_tab txt_units1                            { { fld_blk_ftn_id=None; fld_blk_ftn_main=Cs_txt_units $2} : tr_blk_ftn }
+  |star_tab_id lb1 txt_units1                    { { fld_blk_ftn_id=Some $1; fld_blk_ftn_main=Cs_txt_units $3} : tr_blk_ftn }
+;
+
 
 blk_itm0:
   |itm_lbl_tab blks1                              { {fld_blk_itm_lbl=$1;fld_blk_itm_id=None;fld_blk_itm_main=Cs_blks $2}:tr_blk_itm }
@@ -823,6 +839,9 @@ c_ref:
   |C_REF                                          { (c_ref_of_string $1):ts_c_ref }
 ;
 
+ftn:
+  |FTN                                            { (ftn_of_string_int $1):ts_ftn }
+;
 
 dsp_id:
   |DSP_ID                                         { (id_of_string $1):tr_id }
@@ -897,6 +916,14 @@ itm_custom_tab_id:
 
 dash_tab:
   |DASH_TAB                                       { }
+;
+
+star_tab:
+  |STAR_TAB                                       { }
+;
+
+star_tab_id:
+  |STAR_TAB_ID                                    { id_of_string (get_id_string $1) : tr_id }
 ;
 
 tabs:

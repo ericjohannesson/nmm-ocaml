@@ -122,6 +122,7 @@ type t_node =
         |BLT_NODE
         |DSP_LINE_NODE of t_dsp_line_node
         |REFS_NODE
+	|FTN_NODE of int
 
 type t_path = t_node list 
 
@@ -131,6 +132,7 @@ type t_cref_element =
         |Cref_element_par of Doc_types.tr_par_std
         |Cref_element_blk_itm of Doc_types.tr_blk_itm
         |Cref_element_dsp_line of Doc_types.tr_dsp_line
+	|Cref_element_blk_ftn of Doc_types.tr_blk_ftn
 
 
 type t_cref_table = (Doc_types.tr_id * t_path * t_cref_element) list 
@@ -198,3 +200,20 @@ type t_time = {
 val utc_timezone : (string * int * int) -> string
 
 val time_of_ts_date_auto : t_doc_settings -> Doc_types.ts_date_auto -> t_time option
+
+
+(** {2 Footnotes} *)
+
+type t_ftn_table =  (Doc_types.ts_ftn * t_path * int *  Doc_types.tr_blk_ftn) list
+
+val ftn_table_of_ts_blk_txt : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table  -> Doc_types.ts_blk_txt -> t_ftn_table
+
+val ftn_table_of_tr_dsp_line : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table  -> Doc_types.tr_dsp_line -> t_ftn_table
+
+val ftn_table_of_tr_blk_ftn : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table  -> Doc_types.tr_blk_ftn -> t_ftn_table
+
+val string_of_ts_ftn : t_doc_settings -> t_ftn_table -> t_path -> Doc_types.ts_ftn -> string
+
+val ftn_table_of_ts_hdr_opt : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table -> Doc_types.ts_hdr option -> t_ftn_table
+
+val reference_of_ts_ftn : t_doc_settings -> t_cref_table -> t_path -> Doc_types.ts_ftn -> Doc_types.tr_blk_ftn option

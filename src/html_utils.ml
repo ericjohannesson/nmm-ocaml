@@ -78,6 +78,18 @@ match element with
 |Xml.Element ("txt_unit_wysiwyg", _, [Xml.PCData s]) -> Xml.PCData s
 |Xml.Element ("txt_unit_emph", _, xml_list) -> Xml.Element ("em", [("class", "txt_unit_emph")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("txt_unit_c_ref", attr_list, xml_list) -> Xml.Element ("a", ("class", "txt_unit_c_ref")::attr_list, List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("txt_unit_ftn",attr_list,xml_list) -> Xml.Element ("a", ("class","txt_unit_ftn")::attr_list,List.map (html_of_exml doc_class) xml_list)
+
+|Xml.Element ("footnote",attr_list,xml_list) -> Xml.Element ("span", ("class", "footnote")::attr_list, List.map (html_of_exml doc_class) xml_list)
+
+|Xml.Element ("doc_endnotes",_,xml_list) -> Xml.Element ("div",[("class","doc_endnotes")], List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("ch_endnotes",_,xml_list) -> Xml.Element ("div",[("class","ch_endnotes")], List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("doc_endnotes_hdr",_,xml_list) -> Xml.Element ("h2",[("class","doc_endnotes_hdr")],List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("ch_endnotes_hdr",_,xml_list) -> Xml.Element ("h3",[("class","ch_endnotes_hdr")],List.map (html_of_exml doc_class) xml_list)
+
+|Xml.Element ("blk_ftn",attr_list,xml_list) -> Xml.Element ("div",("class","blk ftn")::attr_list, List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("blk_ftn_lbl",attr_list,xml_list) -> Xml.Element ("a",("class","blk_ftn_lbl")::attr_list,List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("blk_ftn_main",_,xml_list) -> Xml.Element ("p", [("class", "blk_ftn_main")],List.map (html_of_exml doc_class) xml_list)
 
 |Xml.PCData s -> Xml.PCData s
 
@@ -424,6 +436,25 @@ h2, h3, h4, h5 {
     white-space : pre;
 }
 
+/******** ENDNOTES and FOOTNOTES **********/
+
+.doc_endnotes, .ch_endnotes {
+    margin-top  : 2rem;
+    border-top  : thin grey solid;
+    padding-top : 0.5rem;
+}
+
+.blk_ftn_lbl {
+    float : left;
+}
+
+.blk_ftn_main {
+    margin-left : 3ch;
+}
+
+.footnote {
+    display : none;
+}
 
 /*************** PRINTING ***************/
 
@@ -432,7 +463,6 @@ h2, h3, h4, h5 {
   html {
     font-size : 13px;
   }
-
 
   h1, h2, h3, h4, h5, .ch_lbl, .sec_lbl, .par_lbl, .par_tag, .blk_itm_lbl, .blk_blt_lbl, .clear {
     break-after  : avoid-page;
