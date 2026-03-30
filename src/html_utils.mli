@@ -17,7 +17,7 @@ val lang_code_of_options : string list -> string option
 
 val margin_left_of_options : string list -> string option
 
-val external_css_of_options : string list -> string option
+val external_css_of_options : string list -> string list
 
 val internal_css : string -> string -> string
 (**

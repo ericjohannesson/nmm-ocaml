@@ -50,10 +50,9 @@ let html_of_doc (options : string list) (doc : Doc_types.tr_doc) : string =
                 |None -> Html_utils.margin_left_of_tr_doc doc
         in
         let internal_css: string = ("<style>\n" ^ (Html_utils.internal_css (Html_utils.default_tab_length ()) margin_left) ^ "\n</style>") in
-        let external_css: string = 
-                match Html_utils.external_css_of_options options with
-                |None -> ""
-                |Some uri ->  ("<link rel=\"stylesheet\" href=\"" ^ uri ^ "\">\n")
+        let external_css: string =
+		let map (uri : string) : string = ("<link rel=\"stylesheet\" href=\"" ^ uri ^ "\">\n") in
+                String.concat "" (List.map map (Html_utils.external_css_of_options options))
         in
         let intro : string = (
                 "<!DOCTYPE html>\n" ^

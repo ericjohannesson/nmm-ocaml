@@ -124,21 +124,21 @@ let lang_code_of_options (options : string list) : string option =
         in
         aux options
 
-let external_css_of_options (options : string list) : string option =
-        let rec aux (lst : string list) =
+let external_css_of_options (options : string list) : string list =
+        let rec aux (lst : string list) (acc : string list) =
                 match lst with
-                |[] -> None
+                |[] -> acc
                 |hd::tl ->
                         match hd with
                         |"--css" -> (
                                 match tl with
-                                |uri::_ -> Some uri
-                                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: missing --css argument; using default" in None
+                                |uri::_ -> aux tl (uri::acc)
+                                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: missing --css argument; using default" in aux tl acc
 
                         )
-                        |_ -> aux tl
+                        |_ -> aux tl acc
         in
-        aux options
+        aux options []
 
 
 let margin_left_of_tr_doc (doc : Doc_types.tr_doc) : string =

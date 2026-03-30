@@ -114,7 +114,7 @@ and width : string ref = ref ""
 
 and lang : string ref = ref "en"
 
-and css : string ref = ref ""
+and css : (string list) ref = ref []
 
 and read_from_stdin : bool ref = ref false
 
@@ -136,7 +136,10 @@ and keyspecdoc_lang : t_keyspecdoc =
         ("--lang", Arg.Set_string lang, "")
 
 and keyspecdoc_css : t_keyspecdoc =
-        ("--css", Arg.Set_string css, "")
+        ("--css", Arg.String add_css, "")
+
+and add_css (s : string) : unit =
+	css.contents <- ("--css"::(s::css.contents))
 
 and keyspecdoc_stdin : t_keyspecdoc =
         ("-", Arg.Set read_from_stdin, "")
@@ -229,11 +232,7 @@ let _ : unit =
                 |"" -> []
                 |lang_code -> ["--lang";lang_code]
         in
-        let css_options : string list =
-                match css.contents with
-                |"" -> []
-                |uri -> ["--css";uri]
-        in
+        let css_options : string list = css.contents in
         let numbering_options : string list =
                 match numbering.contents with
                 |"" -> []
