@@ -71,9 +71,9 @@ let get_id_string (s : string) : string =
         |_ -> raise (ERROR (String.concat "" ["unexpected string:";" ";"\"";s;"\""]))
 
 let date_of_string (s : string) : tu_date =
-	match s with
-	|"auto" -> Cu_date_auto Cs_date_auto
-	|_ -> Cu_date_custom (Cs_date_custom s)
+        match s with
+        |"auto" -> Cu_date_auto Cs_date_auto
+        |_ -> Cu_date_custom (Cs_date_custom s)
 
 %}
 
@@ -84,7 +84,7 @@ let date_of_string (s : string) : tu_date =
 %token                          PREAMBLE TITLE AUTHOR DATE ABSTRACT
 %token <string>                 VRB_LINE
 %token <string>                 ESC_CHAR
-%token <string>                 TXT C_REF
+%token <string>                 TXT C_REF URL
 %token <string>                 DSP_ID
 %token <string>                 CH_TAG_OR_ID_NL SECTION_SPACES_TAG_OR_ID_NL PILCROW_SPACES_TAG_OR_ID_NL PILCROW_SPACES_RPT_SPACES_ID_NL
 %token <string>                 ITM_CUSTOM_TAB DSP_CUSTOM_TAB ITM_AUTO_TAB_ID ITM_CUSTOM_TAB_ID STAR_TAB_ID
@@ -371,6 +371,7 @@ txt_unit0:
   |STAR emph_txt0 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }   
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
   |ftn                                            { (Cu_txt_unit_ftn (Cs_txt_unit_ftn $1)):tu_txt_unit }
+  |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
 ;
 
 emph_txt0:
@@ -570,6 +571,7 @@ txt_unit1:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt1 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
 ;
 
 emph_txt1:
@@ -669,6 +671,7 @@ txt_unit2:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt2 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }   
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
 ;
 
 emph_txt2:
@@ -760,6 +763,7 @@ txt_unit3:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt3 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }   
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
 ;
 
 emph_txt3:
@@ -934,4 +938,8 @@ tabs:
 nls:
   |NL                                             { }
   |NL nls                                         { }
+;
+
+url:
+  |URL                                          { $1 }
 ;

@@ -72,13 +72,13 @@ let allow_custom_numbering : bool ref = ref false
 let keyspecdoc_list : t_keyspecdoc list ref = ref []
 
 let set_margin (s : string) : unit =
-	margin.contents <- Some (int_of_string s)
+        margin.contents <- Some (int_of_string s)
 
 let keyspecdoc_margin : t_keyspecdoc =
         ("--margin", Arg.String set_margin, "")
 
 let set_width (s : string) : unit =
-	width.contents <- Some (int_of_string s)
+        width.contents <- Some (int_of_string s)
 
 let keyspecdoc_width : t_keyspecdoc =
         ("--width", Arg.String set_width, "")
@@ -88,7 +88,7 @@ let keyspecdoc_lang : t_keyspecdoc =
         ("--lang", Arg.Set_string lang, "")
 
 let add_css (s : string) : unit =
-	css.contents <- (s::css.contents)
+        css.contents <- (s::css.contents)
 
 let keyspecdoc_css : t_keyspecdoc =
         ("--css", Arg.String add_css, "")
@@ -223,28 +223,28 @@ let _ : unit =
         let _ : unit = Arg.parse_dynamic keyspecdoc_list anon_arg_fun usage in
         match cmd_name.contents with
         |"txt-of-xml" -> (
-		let options : Common_utils.t_txt_options = {
-			margin = margin.contents;
-			width = width.contents;
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
+                let options : Common_utils.t_txt_options = {
+                        margin = margin.contents;
+                        width = width.contents;
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.txt_of_axml options "-")
                 |false -> print_endline (Main.txt_of_axml options path_to_xml_file.contents)
         )
         |"html-of-xml" -> (
-		let options : Common_utils.t_html_options = {
-			margin = margin.contents;
-			lang = lang.contents;
-			css = css.contents;
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
+                let options : Common_utils.t_html_options = {
+                        margin = margin.contents;
+                        lang = lang.contents;
+                        css = css.contents;
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.html_of_axml options "-")
                 |false -> print_endline (Main.html_of_axml options path_to_xml_file.contents)
@@ -255,28 +255,28 @@ let _ : unit =
                 |false -> print_endline (Main.axml_of_nmm path_to_nmm_file.contents)
         )
         |"txt-of-nmm" -> (
-		let options : Common_utils.t_txt_options = {
-			margin = margin.contents;
-			width = width.contents;
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
+                let options : Common_utils.t_txt_options = {
+                        margin = margin.contents;
+                        width = width.contents;
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.txt_of_nmm options "-")
                 |false -> print_endline (Main.txt_of_nmm options path_to_nmm_file.contents)
         )
         |"html-of-nmm" -> (
-		let options : Common_utils.t_html_options = {
-			margin = margin.contents;
-			lang = lang.contents;
-			css = css.contents;
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
+                let options : Common_utils.t_html_options = {
+                        margin = margin.contents;
+                        lang = lang.contents;
+                        css = css.contents;
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.html_of_nmm options "-")
                 |false -> print_endline (Main.html_of_nmm options path_to_nmm_file.contents)
@@ -289,45 +289,45 @@ let _ : unit =
         )
         |"show-default-css" -> print_endline (Main.default_css ())
         |"test-with-xml" ->
-		let options : Common_utils.t_html_options = {
-			margin = margin.contents;
-			lang = lang.contents;
-			css = css.contents;
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
-		Test.test_with_axml_file options path_to_xml_file.contents
+                let options : Common_utils.t_html_options = {
+                        margin = margin.contents;
+                        lang = lang.contents;
+                        css = css.contents;
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
+                Test.test_with_axml_file options path_to_xml_file.contents
         |"test-with-nmm" ->
-		let options : Common_utils.t_html_options = {
-			margin = margin.contents;
-			lang = lang.contents;
-			css = css.contents;
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
-		Test.test_with_nmm_file options path_to_nmm_file.contents
+                let options : Common_utils.t_html_options = {
+                        margin = margin.contents;
+                        lang = lang.contents;
+                        css = css.contents;
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
+                Test.test_with_nmm_file options path_to_nmm_file.contents
         |"exml-of-nmm" -> (
-		let options : Common_utils.t_exml_options = {
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
+                let options : Common_utils.t_exml_options = {
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.exml_of_nmm options "-")
                 |false -> print_endline (Main.exml_of_nmm options path_to_nmm_file.contents)
         )
         |"exml-of-axml" -> (
-		let options : Common_utils.t_exml_options = {
-			quiet = quiet.contents;
-			numbering = numbering.contents;
-			allow_custom_numbering = allow_custom_numbering.contents;
-		}
-		in
+                let options : Common_utils.t_exml_options = {
+                        quiet = quiet.contents;
+                        numbering = numbering.contents;
+                        allow_custom_numbering = allow_custom_numbering.contents;
+                }
+                in
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.exml_of_axml options "-")
                 |false -> print_endline (Main.exml_of_axml options path_to_xml_file.contents)

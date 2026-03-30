@@ -36,6 +36,7 @@ let string_of_token (t:Nmm_parser.token):string=
         |ITM_CUSTOM_TAB_ID s -> ("ITM_CUSTOM_TAB_ID " ^ "\"" ^ s ^ "\"")
         |DSP_ID s -> ("DSP_ID " ^ "\"" ^ s ^ "\"")
         |C_REF s -> ("C_REF " ^ "\"" ^ s ^ "\"")
+        |URL s -> ("URL " ^ "\"" ^ s ^ "\"")
         |FTN (s,i) -> ("FTN " ^ "(\"" ^ s ^ "\"," ^ (string_of_int i )^ ")")
         |TITLE -> "TITLE"
         |AUTHOR -> "AUTHOR"
@@ -70,11 +71,11 @@ let reset_refs () : unit =
         let _ : unit = Nmm_lexer.first_nl.contents <- true in
         let _ : unit = Nmm_lexer.display.contents <- false in
         let _ : unit = Nmm_lexer.ftn_counter.contents <- 0 in
-	()
+        ()
 
 
 let rec doc_of_nmm_file (print_tokens:bool) (filename:string):Doc_types.tr_doc=
-	let _ : unit = reset_refs () in
+        let _ : unit = reset_refs () in
         match Sys.file_exists filename with
         |false -> raise (Error ("cannot read from " ^ filename ^ ": No such file"))
         |true -> 
@@ -104,7 +105,7 @@ let rec doc_of_nmm_file (print_tokens:bool) (filename:string):Doc_types.tr_doc=
                 |true -> raise (Error "Parsing failed")
 
 let rec doc_of_nmm_string (print_tokens:bool) (s:string):Doc_types.tr_doc=
-	let _ : unit = reset_refs () in
+        let _ : unit = reset_refs () in
         let sedlexbuf : Sedlexing.lexbuf = Sedlexing.Utf8.from_string s in
         let dummy_lexbuf : Lexing.lexbuf = Lexing.from_string "" in
         let lexer (lexbuf : Lexing.lexbuf) : Nmm_parser.token =
@@ -130,7 +131,7 @@ let rec doc_of_nmm_string (print_tokens:bool) (s:string):Doc_types.tr_doc=
                 |true -> raise (Error "Parsing failed")
 
 let rec doc_of_nmm_stdin (print_tokens:bool) : Doc_types.tr_doc=
-	let _ : unit = reset_refs () in
+        let _ : unit = reset_refs () in
         let input : string = In_channel.input_all stdin in
         let sedlexbuf : Sedlexing.lexbuf = Sedlexing.Utf8.from_string input in
         let dummy_lexbuf : Lexing.lexbuf = Lexing.from_string "" in

@@ -49,7 +49,7 @@ let rec indent_of_path (doc_settings : t_doc_settings) (path : t_path) : int =
                 | ITM_NODE _ -> indent_of_path doc_settings tl + doc_settings.tab_length
                 | BLT_NODE -> indent_of_path doc_settings tl + doc_settings.tab_length
                 | DSP_NODE -> indent_of_path doc_settings tl + doc_settings.tab_length
-		| FTN_NODE _ -> 3
+                | FTN_NODE _ -> 3
                 | _ -> indent_of_path doc_settings tl
 
 
@@ -79,7 +79,7 @@ let pos_of_label (doc_settings : t_doc_settings) (path : t_path) : int =
                 | BLT_NODE -> indent_of_path doc_settings path - doc_settings.tab_length
                 | DSP_LINE_NODE _ -> indent_of_path doc_settings path - doc_settings.tab_length
                 | FTN_NODE _ -> 0
-		|_ -> 0
+                |_ -> 0
 
 
 let insert_label (doc_settings : t_doc_settings) (path : t_path) (s : string) : string =
@@ -183,7 +183,8 @@ let string_of_ts_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_t
         | Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg (b : string)) -> b
         | Cu_txt_unit_emph (Cs_txt_unit_emph (b : string)) -> emph b
         | Cu_txt_unit_c_ref (Cs_txt_unit_c_ref (b : ts_c_ref)) -> string_of_ts_c_ref doc_settings cref_table path b
-	| Cu_txt_unit_ftn (Cs_txt_unit_ftn (b : ts_ftn)) -> string_of_ts_ftn doc_settings ftn_table path b
+        | Cu_txt_unit_ftn (Cs_txt_unit_ftn (b : ts_ftn)) -> string_of_ts_ftn doc_settings ftn_table path b
+        | Cu_txt_unit_url (Cs_txt_unit_url (b : string)) -> b
 
 let string_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : string =
         match a with Cs_txt_units (b: tu_txt_unit list) ->
@@ -222,19 +223,19 @@ let lines_of_ts_date_custom (doc_settings : t_doc_settings) (date : ts_date_cust
         |Cs_date_custom (s : string) -> List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
 
 let lines_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : string list =
-	match Common_utils.time_of_ts_date_auto doc_settings date with
-	|None -> []
-	|Some time ->
-		let format (i : int) : string = Printf.sprintf "%.2i" i in
-		let date_string : string = String.concat "-" [format time.year;format time.month;format time.day] in
-		let time_string : string = String.concat ":" [format time.hour;format time.minute] in
-		let s : string = String.concat " " [date_string;time_string;utc_timezone time.timezone] in
-		List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
+        match Common_utils.time_of_ts_date_auto doc_settings date with
+        |None -> []
+        |Some time ->
+                let format (i : int) : string = Printf.sprintf "%.2i" i in
+                let date_string : string = String.concat "-" [format time.year;format time.month;format time.day] in
+                let time_string : string = String.concat ":" [format time.hour;format time.minute] in
+                let s : string = String.concat " " [date_string;time_string;utc_timezone time.timezone] in
+                List.concat [lines_of_string doc_settings doc_settings.author_indent s; [""]]
 
 let lines_of_tu_date (doc_settings : t_doc_settings) (date : tu_date) : string list =
-	match date with
-	|Cu_date_auto d -> lines_of_ts_date_auto doc_settings d
-	|Cu_date_custom d -> lines_of_ts_date_custom doc_settings d
+        match date with
+        |Cu_date_auto d -> lines_of_ts_date_auto doc_settings d
+        |Cu_date_custom d -> lines_of_ts_date_custom doc_settings d
 
 let lines_of_tu_date_opt (doc_settings : t_doc_settings) (date_opt : tu_date option) : string list =
         match date_opt with
@@ -470,44 +471,44 @@ let copy_hdr_to_main (doc_settings : t_doc_settings) (par : tr_par_std): tr_par_
 
 
 let lines_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (blk_ftn : tr_blk_ftn) : string list =
-	let ftn_string : string = 
-		string_of_ts_txt_units doc_settings cref_table ftn_table path blk_ftn.fld_blk_ftn_main
-	in
-	let ftn_lines : string  list =
-		lines_of_string doc_settings (indent_of_path doc_settings path) ftn_string
-	in
-	match ftn_lines with
-	|[] -> []
-	|hd :: tl -> (insert_label doc_settings path hd)::tl
+        let ftn_string : string = 
+                string_of_ts_txt_units doc_settings cref_table ftn_table path blk_ftn.fld_blk_ftn_main
+        in
+        let ftn_lines : string  list =
+                lines_of_string doc_settings (indent_of_path doc_settings path) ftn_string
+        in
+        match ftn_lines with
+        |[] -> []
+        |hd :: tl -> (insert_label doc_settings path hd)::tl
 
 let lines_of_ftn_table (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) : string list =
-	let map (ftn_table_entry : ts_ftn * t_path * int * tr_blk_ftn) : (string list) option =
-		match ftn_table_entry with
-		|_, table_path, n, blk_ftn ->
-			match List.rev path, List.rev table_path with
-			|[],_ -> Some (lines_of_blk_ftn doc_settings cref_table ftn_table ((FTN_NODE n)::path) blk_ftn)
-			|(CH_NODE i)::_, (CH_NODE j)::_ ->
-				if i=j then Some (lines_of_blk_ftn doc_settings cref_table ftn_table ((FTN_NODE n)::path) blk_ftn)
-				else None
-			|_,_ -> None
-	in
-	let rec aux (table : t_ftn_table) (acc : string list list) : string list list=
-		match table with
-		|[] -> acc
-		|hd::tl ->
-			match map hd with
-			|None -> aux tl acc
-			|Some lst -> aux tl (lst::acc)
-	in
-	let footnote_list : string list list = List.rev (aux ftn_table []) in
-	let rec aux (string_list_list : string list list) (acc : string list) =
-		match string_list_list with
-		|[] -> acc
-		|hd::[] -> List.concat [hd;acc]
-		|hd::tl -> aux tl (List.concat [[""];hd;acc])
-	in
-	let footnotes : string list = aux footnote_list [] in
-	match footnotes with
-	|[] -> []
-	|_ -> let overline : string = make_string doc_settings.doc_width "─" in
-		""::(overline::footnotes)
+        let map (ftn_table_entry : ts_ftn * t_path * int * tr_blk_ftn) : (string list) option =
+                match ftn_table_entry with
+                |_, table_path, n, blk_ftn ->
+                        match List.rev path, List.rev table_path with
+                        |[],_ -> Some (lines_of_blk_ftn doc_settings cref_table ftn_table ((FTN_NODE n)::path) blk_ftn)
+                        |(CH_NODE i)::_, (CH_NODE j)::_ ->
+                                if i=j then Some (lines_of_blk_ftn doc_settings cref_table ftn_table ((FTN_NODE n)::path) blk_ftn)
+                                else None
+                        |_,_ -> None
+        in
+        let rec aux (table : t_ftn_table) (acc : string list list) : string list list=
+                match table with
+                |[] -> acc
+                |hd::tl ->
+                        match map hd with
+                        |None -> aux tl acc
+                        |Some lst -> aux tl (lst::acc)
+        in
+        let footnote_list : string list list = List.rev (aux ftn_table []) in
+        let rec aux (string_list_list : string list list) (acc : string list) =
+                match string_list_list with
+                |[] -> acc
+                |hd::[] -> List.concat [hd;acc]
+                |hd::tl -> aux tl (List.concat [[""];hd;acc])
+        in
+        let footnotes : string list = aux footnote_list [] in
+        match footnotes with
+        |[] -> []
+        |_ -> let overline : string = make_string doc_settings.doc_width "─" in
+                ""::(overline::footnotes)

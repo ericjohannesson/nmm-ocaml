@@ -15,7 +15,7 @@ let acc_of_ts_blk_txt (doc_settings : t_doc_settings) (cref_table : t_cref_table
                 | CREF_TABLE _ -> acc
                 | LINES acc_lines -> LINES (List.concat [acc_lines; Txt_utils.lines_of_ts_blk_txt doc_settings cref_table ftn_table path a])
                 | EXML acc_list -> EXML (List.concat [acc_list; [Exml_utils.xml_of_ts_blk_txt doc_settings cref_table ftn_table path a]])
-		| FTN_TABLE acc_table -> FTN_TABLE (Common_utils.ftn_table_of_ts_blk_txt doc_settings cref_table path acc_table a)
+                | FTN_TABLE acc_table -> FTN_TABLE (Common_utils.ftn_table_of_ts_blk_txt doc_settings cref_table path acc_table a)
 
 
 let acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_dsp_line) : t_acc =
@@ -47,7 +47,7 @@ let acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
                 |None -> EXML (List.concat [acc_list;[Xml.Element ("dsp_line", attr_list, [xml_main])]])
                 |Some _ -> EXML (List.concat [acc_list;[Xml.Element ("dsp_line", attr_list, [xml_lbl; xml_clear; xml_main])]])
         )
-	| FTN_TABLE acc_table -> FTN_TABLE (Common_utils.ftn_table_of_tr_dsp_line doc_settings cref_table path acc_table a)
+        | FTN_TABLE acc_table -> FTN_TABLE (Common_utils.ftn_table_of_tr_dsp_line doc_settings cref_table path acc_table a)
 
 let acc_of_ts_blk_dsp (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (auto_nr : int) (path : t_path) (acc : t_acc) (a : ts_blk_dsp) : t_acc * int =
         match a with Cs_blk_dsp (b : ts_dsp_lines) ->
@@ -87,7 +87,7 @@ let acc_of_ts_blk_dsp (doc_settings : t_doc_settings) (cref_table : t_cref_table
 
 let acc_of_ts_blk_vrb (doc_settings : t_doc_settings) (path : t_path) (acc : t_acc) (a : ts_blk_vrb): t_acc =
         match acc with
-	|FTN_TABLE _
+        |FTN_TABLE _
         |MARGIN_LABELS _
         |CREF_TABLE _ -> acc
         |LINES acc_lines -> LINES (List.concat [acc_lines;Txt_utils.lines_of_ts_blk_vrb doc_settings path a])
@@ -96,8 +96,8 @@ let acc_of_ts_blk_vrb (doc_settings : t_doc_settings) (path : t_path) (acc : t_a
 
 let add_empty_lines_after_blk (hd : tu_blk) (tl:tu_blk list) (acc : t_acc) : t_acc =
         match hd, tl, acc with
-	|Cu_blk_ftn _, _, _ -> acc
-	|_, (Cu_blk_ftn _)::[], _ -> acc
+        |Cu_blk_ftn _, _, _ -> acc
+        |_, (Cu_blk_ftn _)::[], _ -> acc
         |_, _::_, LINES lines -> LINES (List.concat [lines;[""]])
         |_, _, _ -> acc
 
@@ -134,22 +134,22 @@ and acc_of_tu_blk (doc_settings : t_doc_settings) (cref_table : t_cref_table) (f
                 let node : t_node = BLT_NODE in
                 acc_of_ts_blk_blt doc_settings cref_table ftn_table (node :: path) acc b, auto_nr
         | Cu_blk_vrb (b: ts_blk_vrb) -> acc_of_ts_blk_vrb doc_settings path acc b, auto_nr
-	| Cu_blk_ftn (b : tr_blk_ftn) -> acc_of_tr_blk_ftn doc_settings cref_table path acc b, auto_nr
+        | Cu_blk_ftn (b : tr_blk_ftn) -> acc_of_tr_blk_ftn doc_settings cref_table path acc b, auto_nr
 
 and acc_of_tr_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (acc : t_acc) (a : tr_blk_ftn) : t_acc =
-	match acc with
-	|FTN_TABLE acc_table ->
-		FTN_TABLE (ftn_table_of_tr_blk_ftn doc_settings cref_table path acc_table a)
+        match acc with
+        |FTN_TABLE acc_table ->
+                FTN_TABLE (ftn_table_of_tr_blk_ftn doc_settings cref_table path acc_table a)
         |CREF_TABLE table -> (
                 match a.fld_blk_ftn_id with
                 | Some (id : tr_id) -> CREF_TABLE ((id, path, Cref_element_blk_ftn a) :: table)
                 | _ -> acc
-	)
-	|_ -> acc
+        )
+        |_ -> acc
 
 and acc_of_tr_blk_itm (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_blk_itm) : t_acc =
         match acc with
-	| FTN_TABLE _ -> acc_of_ts_blks doc_settings cref_table ftn_table path acc a.fld_blk_itm_main
+        | FTN_TABLE _ -> acc_of_ts_blks doc_settings cref_table ftn_table path acc a.fld_blk_itm_main
         | MARGIN_LABELS _ -> acc
         | CREF_TABLE table ->
                 let newacc : t_acc = CREF_TABLE (
@@ -189,7 +189,7 @@ and acc_of_ts_blk_blt (doc_settings : t_doc_settings) (cref_table : t_cref_table
         match a with Cs_blk_blt (b : ts_blks) ->
         match acc with
         | MARGIN_LABELS _ -> acc
-	| FTN_TABLE _ 
+        | FTN_TABLE _ 
         | CREF_TABLE _ -> acc_of_ts_blks doc_settings cref_table ftn_table path acc b
         | LINES acc_lines -> (
                 match acc_of_ts_blks doc_settings cref_table ftn_table path (LINES []) b with
@@ -243,7 +243,7 @@ and acc_of_tu_par (doc_settings : t_doc_settings) (cref_table : t_cref_table) (f
         |Cu_par_rpt (Cs_par_rpt (id : tr_id)) ->
                 match acc with
                 |MARGIN_LABELS string_list -> MARGIN_LABELS ((label_of_path doc_settings path)::string_list)
-		|FTN_TABLE _
+                |FTN_TABLE _
                 |CREF_TABLE _ -> acc
                 |_ -> 
                         match par_restated_of_tr_id doc_settings cref_table path id with
@@ -256,12 +256,12 @@ and acc_of_tu_par (doc_settings : t_doc_settings) (cref_table : t_cref_table) (f
 
 and acc_of_tr_par_std (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (path_origin : t_path) (acc : t_acc) (a : tr_par_std) : t_acc =
         match acc with
-	|FTN_TABLE acc_table -> (
-		let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_par_hdr in
-		match acc_of_par_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_par_main with
-		|FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
-        	| _ -> raise (Error "accumulator output type not identical to accumulator input type")
-	)
+        |FTN_TABLE acc_table -> (
+                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_par_hdr in
+                match acc_of_par_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_par_main with
+                |FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
+                | _ -> raise (Error "accumulator output type not identical to accumulator input type")
+        )
         |MARGIN_LABELS string_list -> MARGIN_LABELS ((label_of_path doc_settings path)::string_list)
         |CREF_TABLE table -> (
                 let newacc : t_acc = CREF_TABLE (
@@ -348,12 +348,12 @@ let rec acc_of_ts_secs (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
 
 and acc_of_tr_sec (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_sec) : t_acc =
         match acc with
-	|FTN_TABLE acc_table -> (
-		let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_sec_hdr in
-		match acc_of_sec_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_sec_main with
-		|FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
-        	| _ -> raise (Error "accumulator output type not identical to accumulator input type")
-	)
+        |FTN_TABLE acc_table -> (
+                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_sec_hdr in
+                match acc_of_sec_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_sec_main with
+                |FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
+                | _ -> raise (Error "accumulator output type not identical to accumulator input type")
+        )
         |MARGIN_LABELS string_list -> acc_of_sec_main doc_settings cref_table ftn_table path (MARGIN_LABELS ((label_of_path doc_settings path)::string_list)) a.fld_sec_main
         |CREF_TABLE table ->
                 let newacc : t_acc = CREF_TABLE (
@@ -365,14 +365,14 @@ and acc_of_tr_sec (doc_settings : t_doc_settings) (cref_table : t_cref_table) (f
                 acc_of_sec_main doc_settings cref_table ftn_table path newacc a.fld_sec_main
         |LINES acc_lines -> (
                 let lines_hdr : string list = 
-			Txt_utils.lines_of_ts_hdr_opt doc_settings cref_table ftn_table path a.fld_sec_hdr
+                        Txt_utils.lines_of_ts_hdr_opt doc_settings cref_table ftn_table path a.fld_sec_hdr
                 in
-		let lines_main : string list = 
-			match acc_of_sec_main doc_settings cref_table ftn_table path (LINES []) a.fld_sec_main with
-			|LINES lines -> lines
+                let lines_main : string list = 
+                        match acc_of_sec_main doc_settings cref_table ftn_table path (LINES []) a.fld_sec_main with
+                        |LINES lines -> lines
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
-		in
-		LINES (List.concat [acc_lines;lines_hdr;lines_main])
+                in
+                LINES (List.concat [acc_lines;lines_hdr;lines_main])
         )
         |EXML acc_list -> 
                 let xml_list_main:Xml.xml list= (
@@ -424,12 +424,12 @@ let rec acc_of_ts_chs (doc_settings : t_doc_settings) (cref_table : t_cref_table
 
 and acc_of_tr_ch (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_ch) : t_acc =
         match acc with
-	|FTN_TABLE acc_table -> (
-		let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_ch_hdr in
-		match acc_of_ch_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_ch_main with
-		|FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
-        	| _ -> raise (Error "accumulator output type not identical to accumulator input type")
-	)
+        |FTN_TABLE acc_table -> (
+                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_ch_hdr in
+                match acc_of_ch_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_ch_main with
+                |FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
+                | _ -> raise (Error "accumulator output type not identical to accumulator input type")
+        )
         |MARGIN_LABELS _ -> acc_of_ch_main doc_settings cref_table ftn_table path acc a.fld_ch_main
         |CREF_TABLE table ->
                 let newacc : t_acc = CREF_TABLE (
@@ -443,15 +443,15 @@ and acc_of_tr_ch (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ft
                 let lines_hdr : string list =
                         Txt_utils.lines_of_ts_hdr_opt doc_settings cref_table ftn_table path a.fld_ch_hdr
                 in
-		let lines_main : string list =
-			match acc_of_ch_main doc_settings cref_table ftn_table path (LINES []) a.fld_ch_main with
-			|LINES lines -> lines
+                let lines_main : string list =
+                        match acc_of_ch_main doc_settings cref_table ftn_table path (LINES []) a.fld_ch_main with
+                        |LINES lines -> lines
                         |_ -> raise (Error "accumulator output type not identical to accumulator input type")
-		in
-		let lines_footnotes : string list = 
-			Txt_utils.lines_of_ftn_table doc_settings cref_table path ftn_table
-		in
-		LINES (List.concat [acc_lines; lines_hdr; lines_main; lines_footnotes])
+                in
+                let lines_footnotes : string list = 
+                        Txt_utils.lines_of_ftn_table doc_settings cref_table path ftn_table
+                in
+                LINES (List.concat [acc_lines; lines_hdr; lines_main; lines_footnotes])
         |EXML acc_list -> 
                 let xml_list_main : Xml.xml list = (
                         match acc_of_ch_main doc_settings cref_table ftn_table path (EXML []) a.fld_ch_main with
@@ -468,18 +468,18 @@ and acc_of_tr_ch (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ft
                                 |Cs_hdr (t : ts_txt_units) -> Xml.Element ("ch_hdr", [], Exml_utils.xml_list_of_ts_txt_units doc_settings cref_table ftn_table path t)
                 )
                 in
-		let xml_endnotes_opt : Xml.xml option = Exml_utils.xml_of_ftn_table_opt doc_settings cref_table path ftn_table in
+                let xml_endnotes_opt : Xml.xml option = Exml_utils.xml_of_ftn_table_opt doc_settings cref_table path ftn_table in
                 let xml_main:Xml.xml = Xml.Element ("ch_main",[],xml_list_main) in
                 let xml_lbl:Xml.xml = Xml.Element ("ch_lbl",[],xml_list_lbl) in
                 let attr_list : (string*string) list = Exml_utils.attr_list_of_tu_tag_or_id doc_settings path ["ch"] a.fld_ch_tag_or_id in
                 let xml_list_ch = 
-			match a.fld_ch_hdr, xml_endnotes_opt with
-	                |None,None -> [xml_hdr;xml_main]
-		        |Some _,None -> [xml_lbl;xml_hdr;xml_main]
-			|None, Some xml_footnotes -> [xml_hdr;xml_main;xml_footnotes]
-		        |Some _, Some xml_footnotes -> [xml_lbl;xml_hdr;xml_main;xml_footnotes]
-		in
-		EXML (List.concat [acc_list;[Xml.Element ("ch", attr_list,xml_list_ch)]])
+                        match a.fld_ch_hdr, xml_endnotes_opt with
+                        |None,None -> [xml_hdr;xml_main]
+                        |Some _,None -> [xml_lbl;xml_hdr;xml_main]
+                        |None, Some xml_footnotes -> [xml_hdr;xml_main;xml_footnotes]
+                        |Some _, Some xml_footnotes -> [xml_lbl;xml_hdr;xml_main;xml_footnotes]
+                in
+                EXML (List.concat [acc_list;[Xml.Element ("ch", attr_list,xml_list_ch)]])
 
 and acc_of_ch_main (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tu_secs_pars_or_blks) : t_acc =
         match a with
@@ -625,11 +625,11 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         |_::_,_::_ -> List.concat [lines_authors;lines_date;[""]]
                         |[],[] -> []
                 in
-		let lines_footnotes : string list = 
-			match doc_class with
-			|DOC_CHS -> []
-			|_ -> Txt_utils.lines_of_ftn_table doc_settings cref_table [] ftn_table
-		in
+                let lines_footnotes : string list = 
+                        match doc_class with
+                        |DOC_CHS -> []
+                        |_ -> Txt_utils.lines_of_ftn_table doc_settings cref_table [] ftn_table
+                in
                 LINES (List.concat [lines_title;lines_authors_date;lines_abstract;lines_main;lines_refs;lines_footnotes])
         )
         | EXML _ ->
@@ -658,25 +658,25 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 in
-		let xml_endnotes_opt : Xml.xml option =
-			match doc_class with
-			|DOC_CHS -> None
-			|_ -> Exml_utils.xml_of_ftn_table_opt doc_settings cref_table [] ftn_table
-		in
-		let xml_endnotes_list : Xml.xml list =
-			match xml_endnotes_opt with
-			|None -> []
-			|Some xml -> [xml]
-		in
+                let xml_endnotes_opt : Xml.xml option =
+                        match doc_class with
+                        |DOC_CHS -> None
+                        |_ -> Exml_utils.xml_of_ftn_table_opt doc_settings cref_table [] ftn_table
+                in
+                let xml_endnotes_list : Xml.xml list =
+                        match xml_endnotes_opt with
+                        |None -> []
+                        |Some xml -> [xml]
+                in
                 let xml_list_doc = List.concat [
-			xml_title_list;
-			xml_authors_list;
-			xml_date_list;
-			xml_abstract_list;
-			xml_main_list;
-			xml_refs_list;
-			xml_endnotes_list;
-		] in
+                        xml_title_list;
+                        xml_authors_list;
+                        xml_date_list;
+                        xml_abstract_list;
+                        xml_main_list;
+                        xml_refs_list;
+                        xml_endnotes_list;
+                ] in
                 let doc_class_string = string_of_t_doc_class doc_class in
                 EXML [Xml.Element ("doc",[("class",doc_class_string)],xml_list_doc)]
 

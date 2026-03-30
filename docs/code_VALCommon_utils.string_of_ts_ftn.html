@@ -25,13 +25,13 @@
 </head>
 <body>
 <code class="code"><span class="keyword">let</span> string_of_ts_ftn (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (ftn : ts_ftn) : string =
-	<span class="keyword">match</span> ftn <span class="keyword">with</span>
-	<span class="keywordsign">|</span><span class="constructor">Cs_ftn</span> (id,i) <span class="keywordsign">-&gt;</span>
-	<span class="keyword">let</span> <span class="keyword">rec</span> aux (table : t_ftn_table) : string =
-		<span class="keyword">match</span> table <span class="keyword">with</span>
-		<span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> <span class="string">"??"</span>
-		<span class="keywordsign">|</span>(table_ftn, table_path, n, blk_ftn)::tl <span class="keywordsign">-&gt;</span>
-			<span class="keyword">if</span> <span class="constructor">Some</span> id = blk_ftn.fld_blk_ftn_id <span class="keywordsign">&amp;&amp;</span> path=table_path <span class="keywordsign">&amp;&amp;</span> ftn=table_ftn <span class="keyword">then</span> ftn_string_of_int n
-			<span class="keyword">else</span> aux tl
-	<span class="keyword">in</span>
-	aux ftn_table</code></body></html>
+        <span class="keyword">match</span> ftn <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">Cs_ftn</span> (id,i) <span class="keywordsign">-&gt;</span>
+        <span class="keyword">let</span> <span class="keyword">rec</span> aux (table : t_ftn_table) : string =
+                <span class="keyword">match</span> table <span class="keyword">with</span>
+                <span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> <span class="string">"??"</span>
+                <span class="keywordsign">|</span>(table_ftn, table_path, n, blk_ftn)::tl <span class="keywordsign">-&gt;</span>
+                        <span class="keyword">if</span> <span class="constructor">Some</span> id = blk_ftn.fld_blk_ftn_id <span class="keywordsign">&amp;&amp;</span> path=table_path <span class="keywordsign">&amp;&amp;</span> ftn=table_ftn <span class="keyword">then</span> ftn_string_of_int n
+                        <span class="keyword">else</span> aux tl
+        <span class="keyword">in</span>
+        aux ftn_table</code></body></html>

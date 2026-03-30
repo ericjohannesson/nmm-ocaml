@@ -3,17 +3,17 @@ open Common_utils
 exception Error of string
 
 let sec_hdr_of_doc_class (doc_class : Common_utils.t_doc_class) : string =
-	match doc_class with
-	|DOC_CHS -> "h3"
-	|DOC_SECS -> "h2"
-	|_ -> raise (Error "unexpected document class")
+        match doc_class with
+        |DOC_CHS -> "h3"
+        |DOC_SECS -> "h2"
+        |_ -> raise (Error "unexpected document class")
 
 let par_hdr_of_doc_class (doc_class : Common_utils.t_doc_class) : string =
-	match doc_class with
-	|DOC_CHS -> "h4"
-	|DOC_SECS -> "h3"
-	|DOC_PARS -> "h2"
-	|DOC_BLKS -> raise (Error "unexpected document class")
+        match doc_class with
+        |DOC_CHS -> "h4"
+        |DOC_SECS -> "h3"
+        |DOC_PARS -> "h2"
+        |DOC_BLKS -> raise (Error "unexpected document class")
 
 
 let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element:Xml.xml):Xml.xml=
@@ -79,6 +79,7 @@ match element with
 |Xml.Element ("txt_unit_emph", _, xml_list) -> Xml.Element ("em", [("class", "txt_unit_emph")], List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("txt_unit_c_ref", attr_list, xml_list) -> Xml.Element ("a", ("class", "txt_unit_c_ref")::attr_list, List.map (html_of_exml doc_class) xml_list)
 |Xml.Element ("txt_unit_ftn",attr_list,xml_list) -> Xml.Element ("a", ("class","txt_unit_ftn")::attr_list,List.map (html_of_exml doc_class) xml_list)
+|Xml.Element ("txt_unit_url",attr_list,xml_list) -> Xml.Element ("a", ("class","txt_unit_url")::attr_list,List.map (html_of_exml doc_class) xml_list)
 
 |Xml.Element ("footnote",attr_list,xml_list) -> Xml.Element ("span", ("class", "footnote")::attr_list, List.map (html_of_exml doc_class) xml_list)
 

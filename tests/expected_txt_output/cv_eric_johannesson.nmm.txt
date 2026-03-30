@@ -10,13 +10,13 @@
        interests include the philosophy of science, logic, language, and
        probability.
 
-       Email:   eric@ericjohannesson.com
+       Email: eric@ericjohannesson.com
 
-       Website: ericjohannesson.com
+       Website: https://ericjohannesson.com
 
-       ORCID:   orcid.org/0000-0001-9128-2565
+       ORCID: https://orcid.org/0000-0001-9128-2565
 
-       GitHub:  github.com/ericjohannesson
+       GitHub: https://github.com/ericjohannesson
 
 
 

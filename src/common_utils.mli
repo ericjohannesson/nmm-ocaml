@@ -120,7 +120,7 @@ type t_node =
         |BLT_NODE
         |DSP_LINE_NODE of t_dsp_line_node
         |REFS_NODE
-	|FTN_NODE of int
+        |FTN_NODE of int
 
 type t_path = t_node list 
 
@@ -130,7 +130,7 @@ type t_cref_element =
         |Cref_element_par of Doc_types.tr_par_std
         |Cref_element_blk_itm of Doc_types.tr_blk_itm
         |Cref_element_dsp_line of Doc_types.tr_dsp_line
-	|Cref_element_blk_ftn of Doc_types.tr_blk_ftn
+        |Cref_element_blk_ftn of Doc_types.tr_blk_ftn
 
 
 type t_cref_table = (Doc_types.tr_id * t_path * t_cref_element) list 
@@ -186,13 +186,13 @@ val par_restated_of_tr_id : t_doc_settings -> t_cref_table -> t_path -> Doc_type
 (** {2 Date} *)
 
 type t_time = {
-	year : int;
-	month : int;
-	day : int;
-	hour : int;
-	minute : int;
-	second : int;
-	timezone : string * int * int;
+        year : int;
+        month : int;
+        day : int;
+        hour : int;
+        minute : int;
+        second : int;
+        timezone : string * int * int;
 }
 
 val utc_timezone : (string * int * int) -> string
@@ -219,26 +219,26 @@ val reference_of_ts_ftn : t_doc_settings -> t_cref_table -> t_path -> Doc_types.
 (** {2 Options} *)
 
 type t_txt_options = {
-	margin : int option;
-	width : int option;
-	quiet : bool;
-	numbering : string;
-	allow_custom_numbering : bool;
+        margin : int option;
+        width : int option;
+        quiet : bool;
+        numbering : string;
+        allow_custom_numbering : bool;
 }
 
 type t_html_options = {
-	margin : int option;
-	lang : string;
-	css : string list;
-	quiet : bool;
-	numbering : string;
-	allow_custom_numbering : bool;
+        margin : int option;
+        lang : string;
+        css : string list;
+        quiet : bool;
+        numbering : string;
+        allow_custom_numbering : bool;
 }
 
 type t_exml_options = {
-	quiet : bool;
-	numbering : string;
-	allow_custom_numbering : bool;
+        quiet : bool;
+        numbering : string;
+        allow_custom_numbering : bool;
 }
 
 val exml_options_of_html_options : t_html_options -> t_exml_options

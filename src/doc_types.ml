@@ -107,6 +107,7 @@ and tu_txt_unit =
   | Cu_txt_unit_emph of ts_txt_unit_emph
   | Cu_txt_unit_c_ref of ts_txt_unit_c_ref
   | Cu_txt_unit_ftn of ts_txt_unit_ftn
+  | Cu_txt_unit_url of ts_txt_unit_url
 
 and ts_txt_unit_wysiwyg = Cs_txt_unit_wysiwyg of string
 
@@ -116,11 +117,14 @@ and ts_txt_unit_c_ref = Cs_txt_unit_c_ref of ts_c_ref
 
 and ts_txt_unit_ftn = Cs_txt_unit_ftn of ts_ftn
 
+and ts_txt_unit_url = Cs_txt_unit_url of string
+
 and ts_c_ref = Cs_c_ref of tr_id
 
 and ts_ftn = Cs_ftn of (tr_id * ts_int)
 
 and ts_int = Cs_int of int
+
 
 and ts_blk_dsp = Cs_blk_dsp of ts_dsp_lines
 

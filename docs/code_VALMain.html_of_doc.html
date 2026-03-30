@@ -53,7 +53,7 @@
         <span class="keyword">in</span>
         <span class="keyword">let</span> internal_css: string = (<span class="string">"&lt;style&gt;\n"</span> ^ (<span class="constructor">Html_utils</span>.internal_css <span class="string">"6ch"</span> margin_left) ^ <span class="string">"\n&lt;/style&gt;"</span>) <span class="keyword">in</span>
         <span class="keyword">let</span> external_css: string =
-		<span class="keyword">let</span> map (uri : string) : string = (<span class="string">"&lt;link rel=\"stylesheet\" href=\""</span> ^ uri ^ <span class="string">"\"&gt;\n"</span>) <span class="keyword">in</span>
+                <span class="keyword">let</span> map (uri : string) : string = (<span class="string">"&lt;link rel=\"stylesheet\" href=\""</span> ^ uri ^ <span class="string">"\"&gt;\n"</span>) <span class="keyword">in</span>
                 <span class="constructor">String</span>.concat <span class="string">""</span> (<span class="constructor">List</span>.map map options.css)
         <span class="keyword">in</span>
         <span class="keyword">let</span> intro : string = (

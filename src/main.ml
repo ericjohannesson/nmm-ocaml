@@ -47,7 +47,7 @@ let html_of_doc (options : Common_utils.t_html_options) (doc : Doc_types.tr_doc)
         in
         let internal_css: string = ("<style>\n" ^ (Html_utils.internal_css "6ch" margin_left) ^ "\n</style>") in
         let external_css: string =
-		let map (uri : string) : string = ("<link rel=\"stylesheet\" href=\"" ^ uri ^ "\">\n") in
+                let map (uri : string) : string = ("<link rel=\"stylesheet\" href=\"" ^ uri ^ "\">\n") in
                 String.concat "" (List.map map options.css)
         in
         let intro : string = (

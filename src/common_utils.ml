@@ -74,7 +74,7 @@ let upper_case_roman_numerals : string array =
         [|"I";"II";"III";"IV";"V";"VI";"VII";"VIII";"IX";"X";"XI";"XII";"XIII";"XIV";"XV";"XVI";"XVII";"XVIII";"XIX";"XX";|]
 
 let superscript_digits : string array = 
-	[|"⁰";"¹";"²";"³";"⁴";"⁵";"⁶";"⁷";"⁸";"⁹"|]
+        [|"⁰";"¹";"²";"³";"⁴";"⁵";"⁶";"⁷";"⁸";"⁹"|]
 
 
 let bullets : string array = [| "─" |]
@@ -606,7 +606,7 @@ and t_node =
         | BLT_NODE
         | DSP_LINE_NODE of t_dsp_line_node
         | REFS_NODE
-	| FTN_NODE of int
+        | FTN_NODE of int
 
 and t_par_node = PAR_AUTO of int | PAR_TAG of (string * string * int)
 
@@ -625,7 +625,7 @@ type t_cref_element =
         |Cref_element_par of tr_par_std
         |Cref_element_blk_itm of tr_blk_itm
         |Cref_element_dsp_line of tr_dsp_line
-	|Cref_element_blk_ftn of tr_blk_ftn
+        |Cref_element_blk_ftn of tr_blk_ftn
 
 type t_cref_table = (Doc_types.tr_id * t_path * t_cref_element) list
 
@@ -745,8 +745,8 @@ let ids_match (c_ref_id : Doc_types.tr_id) (c_ref_loc : t_path) (id : Doc_types.
         false
 
 let reference_of_ts_c_ref (cref_table : t_cref_table) (c_ref_path : t_path) (c_ref : Doc_types.ts_c_ref) : (Doc_types.tr_id * t_path * t_cref_element) option =
-	match c_ref with
-	|Cs_c_ref c_ref_id ->
+        match c_ref with
+        |Cs_c_ref c_ref_id ->
         let rec aux (cref_table : t_cref_table) : (Doc_types.tr_id * t_path * t_cref_element) option =
                 match cref_table with
                 |[] -> None
@@ -797,7 +797,7 @@ let string_of_node_opt (doc_settings : t_doc_settings) (tail : t_path) (head : t
                 |Some (_, hdr) -> Some hdr
                 |None -> None
         )
-	| FTN_NODE n -> Some (string_of_int n)
+        | FTN_NODE n -> Some (string_of_int n)
 
 
 let string_of_path_opt (doc_settings : t_doc_settings) (full_path : t_path) (path : t_path) : string option =
@@ -1049,7 +1049,7 @@ let label_of_path_opt (doc_settings : t_doc_settings) (path : t_path) : string o
                         |Some (lbl,_) -> Some lbl
                         |None -> None
                 )
-		|FTN_NODE n -> Some (string_of_int n)
+                |FTN_NODE n -> Some (string_of_int n)
                 | _ -> None
 
 let label_of_path (doc_settings : t_doc_settings) (path : t_path) : string=
@@ -1179,61 +1179,61 @@ let par_restated_of_tr_id (doc_settings : t_doc_settings) (cref_table : t_cref_t
 (* date *)
 
 type t_time = {
-	year : int;
-	month : int;
-	day : int;
-	hour : int;
-	minute : int;
-	second : int;
-	timezone : string * int * int;
+        year : int;
+        month : int;
+        day : int;
+        hour : int;
+        minute : int;
+        second : int;
+        timezone : string * int * int;
 }
 
 let utc_timezone ((sign, hour, minute) : string * int * int) : string =
-	match hour, minute with
-	|0,0 -> "UTC"
-	|_,0 -> "UTC" ^ sign ^ (Printf.sprintf "%.2i" hour)
-	|_,_ -> "UTC" ^ sign ^ (Printf.sprintf "%.2i" hour) ^ ":" ^ (Printf.sprintf "%.2i" minute)
+        match hour, minute with
+        |0,0 -> "UTC"
+        |_,0 -> "UTC" ^ sign ^ (Printf.sprintf "%.2i" hour)
+        |_,_ -> "UTC" ^ sign ^ (Printf.sprintf "%.2i" hour) ^ ":" ^ (Printf.sprintf "%.2i" minute)
 
 let time_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) : t_time option =
-	match date with
-	|Cs_date_auto -> try
-		let time : float = Unix.time () in
-		let local_time : Unix.tm = Unix.localtime time in 
-		let year_int : int = local_time.tm_year + 1900 in
-		let month_int : int = local_time.tm_mon + 1 in
-		let day_int : int = local_time.tm_mday in
-		let hour_int : int = local_time.tm_hour in
-		let minute_int : int = local_time.tm_min in
-		let second_int : int = local_time.tm_sec in
-		let time_ref : float = float_of_int (12 * 60 * 60) in
-		let local_time_ref : Unix.tm = Unix.localtime time_ref in 
-		let local_minutes_ref : int = (local_time_ref.tm_hour * 60) + local_time_ref.tm_min in
-		let gm_time_ref : Unix.tm = Unix.gmtime time_ref in
-		let gm_minutes_ref : int = (gm_time_ref.tm_hour * 60) + gm_time_ref.tm_min in
-		let diff_minutes : int = local_minutes_ref + (60 * (Bool.to_int local_time.tm_isdst)) - gm_minutes_ref in
-		let sign : string = if diff_minutes < 0 then "-" else "+" in
-		let diff_minute : int = abs diff_minutes mod 60 in
-		let diff_hour : int = (abs diff_minutes - diff_minute) / 60 in
-		Some
-		{
-			year = year_int;
-			month = month_int;
-			day = day_int;
-			hour = hour_int;
-			minute = minute_int;
-			second = second_int;
-			timezone = (sign, diff_hour, diff_minute);
-		}
-		with
-		|_ -> let _ : unit = Debug_utils.print_warning "WARNING: cannot get system time and date" in None
+        match date with
+        |Cs_date_auto -> try
+                let time : float = Unix.time () in
+                let local_time : Unix.tm = Unix.localtime time in 
+                let year_int : int = local_time.tm_year + 1900 in
+                let month_int : int = local_time.tm_mon + 1 in
+                let day_int : int = local_time.tm_mday in
+                let hour_int : int = local_time.tm_hour in
+                let minute_int : int = local_time.tm_min in
+                let second_int : int = local_time.tm_sec in
+                let time_ref : float = float_of_int (12 * 60 * 60) in
+                let local_time_ref : Unix.tm = Unix.localtime time_ref in 
+                let local_minutes_ref : int = (local_time_ref.tm_hour * 60) + local_time_ref.tm_min in
+                let gm_time_ref : Unix.tm = Unix.gmtime time_ref in
+                let gm_minutes_ref : int = (gm_time_ref.tm_hour * 60) + gm_time_ref.tm_min in
+                let diff_minutes : int = local_minutes_ref + (60 * (Bool.to_int local_time.tm_isdst)) - gm_minutes_ref in
+                let sign : string = if diff_minutes < 0 then "-" else "+" in
+                let diff_minute : int = abs diff_minutes mod 60 in
+                let diff_hour : int = (abs diff_minutes - diff_minute) / 60 in
+                Some
+                {
+                        year = year_int;
+                        month = month_int;
+                        day = day_int;
+                        hour = hour_int;
+                        minute = minute_int;
+                        second = second_int;
+                        timezone = (sign, diff_hour, diff_minute);
+                }
+                with
+                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: cannot get system time and date" in None
 
 (* footnotes *)
 
 type t_ftn_table = (ts_ftn * t_path * int * tr_blk_ftn) list
 
 let reference_of_ts_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_path : t_path) (ftn : Doc_types.ts_ftn) : tr_blk_ftn option =
-	match ftn with
-	|Cs_ftn (ftn_id,i) ->
+        match ftn with
+        |Cs_ftn (ftn_id,i) ->
         let rec aux (cref_table : t_cref_table) : tr_blk_ftn option =
                 match cref_table with
                 |[] -> let _ : unit = Debug_utils.print_warning (String.concat "" [
@@ -1246,105 +1246,105 @@ let reference_of_ts_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_tab
                         match ids_match ftn_id ftn_path table_id table_path with
                         |true -> Some blk_ftn
                         |false -> aux tl
-		)
-		|_::tl -> aux tl
+                )
+                |_::tl -> aux tl
         in
         aux cref_table
 
 
 let ftn_table_of_ts_txt_unit_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (txt_unit_ftn : ts_txt_unit_ftn) : t_ftn_table =
-	match txt_unit_ftn with
-	|Cs_txt_unit_ftn ftn ->
-		match reference_of_ts_ftn doc_settings cref_table path ftn with
-		|None -> ftn_table
-		|Some blk_ftn ->
-			match ftn_table with
-			|[] -> (ftn, path, 1, blk_ftn) :: ftn_table
-			|(_,_,n,_)::_ -> (ftn, path, n+1, blk_ftn) :: ftn_table
+        match txt_unit_ftn with
+        |Cs_txt_unit_ftn ftn ->
+                match reference_of_ts_ftn doc_settings cref_table path ftn with
+                |None -> ftn_table
+                |Some blk_ftn ->
+                        match ftn_table with
+                        |[] -> (ftn, path, 1, blk_ftn) :: ftn_table
+                        |(_,_,n,_)::_ -> (ftn, path, n+1, blk_ftn) :: ftn_table
 
 let rec ftn_table_of_tu_txt_unit_list (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (txt_unit_list : tu_txt_unit list) : t_ftn_table =
-	match txt_unit_list with
-	|[] -> ftn_table
-	|hd::tl ->
-		match hd with
-		|Cu_txt_unit_ftn ftn -> 
-			let new_ftn_table = ftn_table_of_ts_txt_unit_ftn doc_settings cref_table path ftn_table ftn in
-			ftn_table_of_tu_txt_unit_list doc_settings cref_table path new_ftn_table tl
-		|_ -> ftn_table_of_tu_txt_unit_list doc_settings cref_table path ftn_table tl
+        match txt_unit_list with
+        |[] -> ftn_table
+        |hd::tl ->
+                match hd with
+                |Cu_txt_unit_ftn ftn -> 
+                        let new_ftn_table = ftn_table_of_ts_txt_unit_ftn doc_settings cref_table path ftn_table ftn in
+                        ftn_table_of_tu_txt_unit_list doc_settings cref_table path new_ftn_table tl
+                |_ -> ftn_table_of_tu_txt_unit_list doc_settings cref_table path ftn_table tl
 
 
 let ftn_table_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (txt_units : ts_txt_units) : t_ftn_table =
-	match txt_units with
-	|Cs_txt_units txt_unit_list ->
-		ftn_table_of_tu_txt_unit_list doc_settings cref_table path ftn_table txt_unit_list
+        match txt_units with
+        |Cs_txt_units txt_unit_list ->
+                ftn_table_of_tu_txt_unit_list doc_settings cref_table path ftn_table txt_unit_list
 
 let ftn_table_of_ts_blk_txt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (blk_txt : ts_blk_txt) : t_ftn_table =
-	match blk_txt with
-	|Cs_blk_txt txt_units -> ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table txt_units
+        match blk_txt with
+        |Cs_blk_txt txt_units -> ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table txt_units
 
 
 
 let ftn_table_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (dsp_line : tr_dsp_line) : t_ftn_table =
-	ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table dsp_line.fld_dsp_line_units
+        ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table dsp_line.fld_dsp_line_units
 
 let ftn_table_of_tr_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (blk_ftn : tr_blk_ftn) : t_ftn_table =
-	ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table blk_ftn.fld_blk_ftn_main
+        ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table blk_ftn.fld_blk_ftn_main
 
 
 let ftn_string_of_int (n : int) : string =
-	symbol_of_array superscript_digits n
+        symbol_of_array superscript_digits n
 
 let string_of_ts_ftn (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (ftn : ts_ftn) : string =
-	match ftn with
-	|Cs_ftn (id,i) ->
-	let rec aux (table : t_ftn_table) : string =
-		match table with
-		|[] -> "??"
-		|(table_ftn, table_path, n, blk_ftn)::tl ->
-			if Some id = blk_ftn.fld_blk_ftn_id && path=table_path && ftn=table_ftn then ftn_string_of_int n
-			else aux tl
-	in
-	aux ftn_table
+        match ftn with
+        |Cs_ftn (id,i) ->
+        let rec aux (table : t_ftn_table) : string =
+                match table with
+                |[] -> "??"
+                |(table_ftn, table_path, n, blk_ftn)::tl ->
+                        if Some id = blk_ftn.fld_blk_ftn_id && path=table_path && ftn=table_ftn then ftn_string_of_int n
+                        else aux tl
+        in
+        aux ftn_table
 
 let ftn_table_of_ts_hdr (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (hdr : ts_hdr) =
-	match hdr with
-	|Cs_hdr txt_units -> ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table txt_units
+        match hdr with
+        |Cs_hdr txt_units -> ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table txt_units
 
 let ftn_table_of_ts_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (hdr_opt : ts_hdr option) =
-	match hdr_opt with
-	|None -> []
-	|Some hdr -> ftn_table_of_ts_hdr doc_settings cref_table path ftn_table hdr
+        match hdr_opt with
+        |None -> []
+        |Some hdr -> ftn_table_of_ts_hdr doc_settings cref_table path ftn_table hdr
 
 
 (* options *)
 
 type t_txt_options = {
-	margin : int option;
-	width : int option;
-	quiet : bool;
-	numbering : string;
-	allow_custom_numbering : bool;
+        margin : int option;
+        width : int option;
+        quiet : bool;
+        numbering : string;
+        allow_custom_numbering : bool;
 }
 
 type t_html_options = {
-	margin : int option;
-	lang : string;
-	css : string list;
-	quiet : bool;
-	numbering : string;
-	allow_custom_numbering : bool;
+        margin : int option;
+        lang : string;
+        css : string list;
+        quiet : bool;
+        numbering : string;
+        allow_custom_numbering : bool;
 }
 
 type t_exml_options = {
-	quiet : bool;
-	numbering : string;
-	allow_custom_numbering : bool;
+        quiet : bool;
+        numbering : string;
+        allow_custom_numbering : bool;
 }
 
 let exml_options_of_html_options (html_options : t_html_options) : t_exml_options = {
-	quiet = html_options.quiet;
-	numbering = html_options.numbering;
-	allow_custom_numbering = html_options.allow_custom_numbering;
+        quiet = html_options.quiet;
+        numbering = html_options.numbering;
+        allow_custom_numbering = html_options.allow_custom_numbering;
 }
 
 

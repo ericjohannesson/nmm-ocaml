@@ -73,6 +73,10 @@ let tab_end_vrb = [%sedlex.regexp? tab, end_vrb]
 let tab_tab_end_vrb = [%sedlex.regexp? tab, tab_end_vrb]
 let tab_tab_tab_end_vrb = [%sedlex.regexp? tab, tab_tab_end_vrb]
 
+let url_prefix = [%sedlex.regexp? "https://" | "http://"]
+let url_suffix = [%sedlex.regexp? Plus (Compl (Chars "\r\n\t \\"))]
+let url = [%sedlex.regexp? url_prefix, url_suffix]
+
 (* helper functions *)
 
 let get_esc_char (s : string) : string = 
@@ -116,9 +120,9 @@ let display : bool ref = ref false
 let ftn_counter : int ref = ref 0
 
 let ftn_count () : int =
-	let n = ftn_counter.contents in
-	let _ : unit = ftn_counter.contents <- n + 1 in
-	n
+        let n = ftn_counter.contents in
+        let _ : unit = ftn_counter.contents <- n + 1 in
+        n
 
 (* the lexer *)
 
@@ -126,6 +130,7 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
         match verbatim.contents, display.contents with
         |false, false -> (
                 match%sedlex lexbuf with
+                |url                            ->      URL (lexeme lexbuf)
                 |esc_char                       ->      ESC_CHAR (get_esc_char (lexeme lexbuf))
                 |preamble                       ->      PREAMBLE
                 |title                          ->      TITLE
@@ -182,6 +187,7 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
 
         |_, true -> (
                 match%sedlex lexbuf with
+                |url                            ->      URL (lexeme lexbuf)
                 |esc_char                       ->      ESC_CHAR (get_esc_char (lexeme lexbuf))
                 |star                           ->      STAR
                 |lbr                            ->      LBR
