@@ -50,9 +50,7 @@ val doc_settings_default : unit -> t_doc_settings
 
 (** {3 User-defined settings} *)
 
-val auto_numbering_of_options : string list -> int -> int -> string
-
-val allow_custom_numbering_of_options : string list -> bool
+val auto_numbering_of_string : string -> int -> int -> string
 
 val doc_settings_of_ts_blks : t_doc_settings -> int -> Doc_types.ts_blks -> t_doc_settings
 
@@ -217,3 +215,32 @@ val string_of_ts_ftn : t_doc_settings -> t_ftn_table -> t_path -> Doc_types.ts_f
 val ftn_table_of_ts_hdr_opt : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table -> Doc_types.ts_hdr option -> t_ftn_table
 
 val reference_of_ts_ftn : t_doc_settings -> t_cref_table -> t_path -> Doc_types.ts_ftn -> Doc_types.tr_blk_ftn option
+
+(** {2 Options} *)
+
+type t_txt_options = {
+	margin : int option;
+	width : int option;
+	quiet : bool;
+	numbering : string;
+	allow_custom_numbering : bool;
+}
+
+type t_html_options = {
+	margin : int option;
+	lang : string;
+	css : string list;
+	quiet : bool;
+	numbering : string;
+	allow_custom_numbering : bool;
+}
+
+type t_exml_options = {
+	quiet : bool;
+	numbering : string;
+	allow_custom_numbering : bool;
+}
+
+val exml_options_of_html_options : t_html_options -> t_exml_options
+
+

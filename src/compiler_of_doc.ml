@@ -720,22 +720,22 @@ let lines_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : string list
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
 
-let txt_of_tr_doc (options : string list) (doc : tr_doc) : string =
+let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
         let doc_settings : t_doc_settings = doc_settings_of_tr_doc doc in
         let left_margin : int = 
-                match Txt_utils.left_margin_of_options options with
-                |Some (margin : int) -> margin
+                match options.margin with
+                |Some (m : int) -> m
                 |None -> 
                         let margin_labels : string list = margin_labels_of_tr_doc doc_settings doc in
                         Txt_utils.left_margin_of_margin_labels margin_labels
         in
         let doc_width : int = 
-                match Txt_utils.doc_width_of_options options with
-                |Some (width : int) -> width
+                match options.width with
+                |Some (w : int) -> w
                 |None -> if 68 + left_margin > 80 then 80 else 68 + left_margin
         in
-        let auto_numbering : int -> int -> string = auto_numbering_of_options options in
-        let allow_custom_numbering : bool = allow_custom_numbering_of_options options in
+        let auto_numbering : int -> int -> string = auto_numbering_of_string options.numbering in
+        let allow_custom_numbering : bool = options.allow_custom_numbering in
         let new_doc_settings : t_doc_settings = {
                 doc_width = doc_width;
                 left_margin = left_margin;
@@ -767,10 +767,10 @@ let xml_list_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : Xml.xml 
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
 
-let exml_of_tr_doc (options : string list) (doc : tr_doc) : Xml.xml =
+let exml_of_tr_doc (options : t_exml_options) (doc : tr_doc) : Xml.xml =
         let doc_settings : t_doc_settings = doc_settings_of_tr_doc doc in
-        let auto_numbering = auto_numbering_of_options options in
-        let allow_custom_numbering : bool = allow_custom_numbering_of_options options in
+        let auto_numbering = auto_numbering_of_string options.numbering in
+        let allow_custom_numbering : bool = options.allow_custom_numbering in
         let new_doc_settings : t_doc_settings = {
                 doc_width = doc_settings.doc_width;
                 left_margin = doc_settings.left_margin;

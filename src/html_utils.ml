@@ -97,49 +97,6 @@ match element with
 
 |Xml.Element (tag, _, _) -> raise (Error ("unexpected element: " ^ tag))
 
-let default_tab_length () : string = "6ch"
-
-let default_lang_code () : string = "en"
-
-let default_margin () : string  = "0"
-
-let margin_left_of_options (options : string list) : string option =
-        match Txt_utils.left_margin_of_options options with
-        |Some (margin : int) -> Some (String.concat "" [string_of_int margin;"rem"])
-        |None -> None
-
-
-let lang_code_of_options (options : string list) : string option =
-        let rec aux (lst : string list) =
-                match lst with
-                |[] -> None
-                |hd::tl ->
-                        match hd with
-                        |"--lang" -> (
-                                match tl with
-                                |lang_code::_ -> Some lang_code
-                                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: missing --lang argument; using default (en)" in None
-                        )
-                        |_ -> aux tl
-        in
-        aux options
-
-let external_css_of_options (options : string list) : string list =
-        let rec aux (lst : string list) (acc : string list) =
-                match lst with
-                |[] -> acc
-                |hd::tl ->
-                        match hd with
-                        |"--css" -> (
-                                match tl with
-                                |uri::_ -> aux tl (uri::acc)
-                                |_ -> let _ : unit = Debug_utils.print_warning "WARNING: missing --css argument; using default" in aux tl acc
-
-                        )
-                        |_ -> aux tl acc
-        in
-        aux options []
-
 
 let margin_left_of_tr_doc (doc : Doc_types.tr_doc) : string =
         let doc_settings : t_doc_settings = doc_settings_of_tr_doc doc in

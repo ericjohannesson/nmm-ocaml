@@ -170,21 +170,6 @@ let doc_settings_default () : t_doc_settings = {
         allow_custom_numbering = true;
 }
 
-let auto_numbering_of_options (options : string list) : int -> int -> string =
-        let rec aux (lst : string list) : int -> int -> string =
-                match lst with
-                |[] -> auto_numbering_default
-                |"--numbering"::(s::_) -> (
-                        try auto_numbering_of_string s with
-                        |Invalid_argument a -> 
-                                let _ : unit = Debug_utils.print_warning ("WARNING: Invalid auto-numbering argument: \'" ^ a ^ "\'; using default")
-                                in auto_numbering_default
-                )
-                |hd::tl -> aux tl
-        in aux options
-
-let allow_custom_numbering_of_options (options : string list) : bool =
-        List.mem "--allow-custom-numbering" options
 
 let doc_settings_of_ts_blks (doc_settings : t_doc_settings) (lvl : int) (blks : Doc_types.ts_blks) : t_doc_settings =
         if not doc_settings.allow_custom_numbering then doc_settings else
@@ -1331,13 +1316,35 @@ let ftn_table_of_ts_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref
 	|Some hdr -> ftn_table_of_ts_hdr doc_settings cref_table path ftn_table hdr
 
 
+(* options *)
 
+type t_txt_options = {
+	margin : int option;
+	width : int option;
+	quiet : bool;
+	numbering : string;
+	allow_custom_numbering : bool;
+}
 
+type t_html_options = {
+	margin : int option;
+	lang : string;
+	css : string list;
+	quiet : bool;
+	numbering : string;
+	allow_custom_numbering : bool;
+}
 
+type t_exml_options = {
+	quiet : bool;
+	numbering : string;
+	allow_custom_numbering : bool;
+}
 
-
-
-
-
+let exml_options_of_html_options (html_options : t_html_options) : t_exml_options = {
+	quiet = html_options.quiet;
+	numbering = html_options.numbering;
+	allow_custom_numbering = html_options.allow_custom_numbering;
+}
 
 
