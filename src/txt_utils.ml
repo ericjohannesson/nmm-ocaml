@@ -469,10 +469,22 @@ let copy_hdr_to_main (doc_settings : t_doc_settings) (par : tr_par_std): tr_par_
 
 (* footnotes *)
 
+let string_of_ts_ftn_unit (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : tu_ftn_unit) : string =
+        match a with
+        | Cu_ftn_unit_wysiwyg (Cs_txt_unit_wysiwyg (b : string)) -> b
+        | Cu_ftn_unit_emph (Cs_txt_unit_emph (b : string)) -> emph b
+        | Cu_ftn_unit_c_ref (Cs_txt_unit_c_ref (b : ts_c_ref)) -> string_of_ts_c_ref doc_settings cref_table path b
+        | Cu_ftn_unit_url (Cs_txt_unit_url (b : string)) -> b
 
-let lines_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (blk_ftn : tr_blk_ftn) : string list =
+
+let string_of_ts_ftn_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : ts_ftn_units) : string =
+        match a with Cs_ftn_units (b: tu_ftn_unit list) ->
+        String.concat "" (List.map (string_of_ts_ftn_unit doc_settings cref_table path) b)
+
+
+let lines_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (blk_ftn : tr_blk_ftn) : string list =
         let ftn_string : string = 
-                string_of_ts_txt_units doc_settings cref_table ftn_table path blk_ftn.fld_blk_ftn_main
+                string_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
         in
         let ftn_lines : string  list =
                 lines_of_string doc_settings (indent_of_path doc_settings path) ftn_string
@@ -486,9 +498,9 @@ let lines_of_ftn_table (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
                 match ftn_table_entry with
                 |_, table_path, n, blk_ftn ->
                         match List.rev path, List.rev table_path with
-                        |[],_ -> Some (lines_of_blk_ftn doc_settings cref_table ftn_table ((FTN_NODE n)::path) blk_ftn)
+                        |[],_ -> Some (lines_of_blk_ftn doc_settings cref_table ((FTN_NODE n)::path) blk_ftn)
                         |(CH_NODE i)::_, (CH_NODE j)::_ ->
-                                if i=j then Some (lines_of_blk_ftn doc_settings cref_table ftn_table ((FTN_NODE n)::path) blk_ftn)
+                                if i=j then Some (lines_of_blk_ftn doc_settings cref_table ((FTN_NODE n)::path) blk_ftn)
                                 else None
                         |_,_ -> None
         in

@@ -385,8 +385,8 @@ blk_blt0:
 ;
 
 blk_ftn0:
-  |star_tab txt_units1                            { { fld_blk_ftn_id=None; fld_blk_ftn_main=Cs_txt_units $2} : tr_blk_ftn }
-  |star_tab_id lb1 txt_units1                    { { fld_blk_ftn_id=Some $1; fld_blk_ftn_main=Cs_txt_units $3} : tr_blk_ftn }
+  |star_tab ftn_units1                            { { fld_blk_ftn_id=None; fld_blk_ftn_main=Cs_ftn_units $2} : tr_blk_ftn }
+  |star_tab_id lb1 ftn_units1                    { { fld_blk_ftn_id=Some $1; fld_blk_ftn_main=Cs_ftn_units $3} : tr_blk_ftn }
 ;
 
 
@@ -567,11 +567,25 @@ txt_units1:
   |txt_unit1 lb1 txt_units1                       { ($1::((Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg " "))::$3)):tu_txt_unit list }
 ;
 
+ftn_units1:
+  |ftn_unit1 lb0                                  { ($1::[]):tu_ftn_unit list }
+  |ftn_unit1 ftn_units1                           { ($1::$2):tu_ftn_unit list }
+  |ftn_unit1 lb1 ftn_units1                       { ($1::((Cu_ftn_unit_wysiwyg (Cs_txt_unit_wysiwyg " "))::$3)):tu_ftn_unit list }
+;
+
 txt_unit1:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt1 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |ftn                                            { (Cu_txt_unit_ftn (Cs_txt_unit_ftn $1)):tu_txt_unit }
   |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
+;
+
+ftn_unit1:
+  |txt                                            { (Cu_ftn_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_ftn_unit }
+  |STAR emph_txt1 STAR                            { (Cu_ftn_unit_emph (Cs_txt_unit_emph $2)):tu_ftn_unit }
+  |c_ref                                          { (Cu_ftn_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_ftn_unit }
+  |url                                            { (Cu_ftn_unit_url (Cs_txt_unit_url $1)) : tu_ftn_unit }
 ;
 
 emph_txt1:
@@ -667,10 +681,12 @@ txt_units2:
   |txt_unit2 lb2 txt_units2                       { ($1::((Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg " "))::$3)):tu_txt_unit list }
 ;
 
+
 txt_unit2:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt2 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }   
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |ftn                                            { (Cu_txt_unit_ftn (Cs_txt_unit_ftn $1)):tu_txt_unit }
   |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
 ;
 
@@ -763,6 +779,7 @@ txt_unit3:
   |txt                                            { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
   |STAR emph_txt3 STAR                            { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }   
   |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |ftn                                            { (Cu_txt_unit_ftn (Cs_txt_unit_ftn $1)):tu_txt_unit }
   |url                                            { (Cu_txt_unit_url (Cs_txt_unit_url $1)) : tu_txt_unit }
 ;
 

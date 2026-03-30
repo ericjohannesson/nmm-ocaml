@@ -24,7 +24,7 @@
 <link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Exml_utils.xml_list_of_ts_txt_units</title>
 </head>
 <body>
-<code class="code"><span class="keyword">let</span> <span class="keyword">rec</span> xml_list_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : <span class="constructor">Xml</span>.xml list =
+<code class="code"><span class="keyword">let</span> xml_list_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : <span class="constructor">Xml</span>.xml list =
         <span class="keyword">let</span> <span class="keyword">rec</span> aux (lst : tu_txt_unit list) (acc : <span class="constructor">Xml</span>.xml list) =
                 <span class="keyword">match</span> lst <span class="keyword">with</span>
                 <span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> acc
@@ -37,7 +37,7 @@
                                 <span class="keywordsign">|</span><span class="constructor">Some</span> blk_ftn <span class="keywordsign">-&gt;</span> 
                                         <span class="keyword">let</span> xml_blk_ftn_main : <span class="constructor">Xml</span>.xml =
                                                 <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"footnote"</span>,[],
-                                                        xml_list_of_ts_txt_units doc_settings cref_table ftn_table path blk_ftn.fld_blk_ftn_main
+                                                        xml_list_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
                                                 )
                                         <span class="keyword">in</span>
                                         aux tl (xml_blk_ftn_main :: (xml_hd :: acc))

@@ -333,7 +333,7 @@ and f_tr_blk_ftn_of_xml (xml:Xml.xml):tr_blk_ftn =
     match xml with
     |Xml.Element ("cr_blk_ftn",[],xml_list) -> 
         let (id_opt, id_tl) = f_itm_id_opt_of_xml_list xml_list in
-        let main = f_ts_txt_units_of_xml_list id_tl in
+        let main = f_ts_ftn_units_of_xml_list id_tl in
         {   
             fld_blk_ftn_id          =   id_opt;
             fld_blk_ftn_main        =   main;
@@ -393,6 +393,12 @@ and f_ts_txt_units_of_xml (xml:Xml.xml):ts_txt_units =
     |Xml.Element ("cs_txt_units",[],xml_list) -> Cs_txt_units (List.map f_tu_txt_unit_of_xml xml_list)
     |_ -> raise (Error (String.concat "" ["expected cs_txt_units, got: ";string_of_xml_list [xml]]))
 
+and f_ts_ftn_units_of_xml (xml:Xml.xml):ts_ftn_units =
+    match xml with
+    |Xml.Element ("cs_ftn_units",[],xml_list) -> Cs_ftn_units (List.map f_tu_ftn_unit_of_xml xml_list)
+    |_ -> raise (Error (String.concat "" ["expected cs_ftn_units, got: ";string_of_xml_list [xml]]))
+
+
 and f_tu_txt_unit_of_xml (xml:Xml.xml):tu_txt_unit =
     match xml with
     |Xml.Element ("cu_txt_unit_wysiwyg",[],[xml]) -> Cu_txt_unit_wysiwyg (f_ts_txt_unit_wysiwyg_of_xml xml)
@@ -401,6 +407,15 @@ and f_tu_txt_unit_of_xml (xml:Xml.xml):tu_txt_unit =
     |Xml.Element ("cu_txt_unit_ftn",[],[xml]) -> Cu_txt_unit_ftn (f_ts_txt_unit_ftn_of_xml xml) 
     |Xml.Element ("cu_txt_unit_url",[],[xml]) -> Cu_txt_unit_url (f_ts_txt_unit_url_of_xml xml) 
     |_-> raise (Error (String.concat "" ["expected cu_txt_unit_wysiwyg, cu_txt_unit_emph, cu_txt_unit_c_ref, cu_txt_unit_ftn, or cu_txt_unit_url, got: ";string_of_xml_list [xml]]))
+
+and f_tu_ftn_unit_of_xml (xml:Xml.xml):tu_ftn_unit =
+    match xml with
+    |Xml.Element ("cu_ftn_unit_wysiwyg",[],[xml]) -> Cu_ftn_unit_wysiwyg (f_ts_txt_unit_wysiwyg_of_xml xml)
+    |Xml.Element ("cu_ftn_unit_emph",[],[xml]) -> Cu_ftn_unit_emph (f_ts_txt_unit_emph_of_xml xml)
+    |Xml.Element ("cu_ftn_unit_c_ref",[],[xml]) -> Cu_ftn_unit_c_ref (f_ts_txt_unit_c_ref_of_xml xml) 
+    |Xml.Element ("cu_ftn_unit_url",[],[xml]) -> Cu_ftn_unit_url (f_ts_txt_unit_url_of_xml xml) 
+    |_-> raise (Error (String.concat "" ["expected cu_ftn_unit_wysiwyg, cu_ftn_unit_emph, cu_ftn_unit_c_ref, or cu_ftn_unit_url, got: ";string_of_xml_list [xml]]))
+
 
 and f_ts_txt_unit_wysiwyg_of_xml (xml:Xml.xml):ts_txt_unit_wysiwyg=
         match xml with 
@@ -484,6 +499,16 @@ and f_ts_txt_units_of_xml_list (xml_list:Xml.xml list):ts_txt_units =
         match hd with
         |Xml.Element ("cs_txt_units",_,_) -> f_ts_txt_units_of_xml hd
         |_ -> raise (Error (String.concat "" ["expected cs_txt_units, got: ";string_of_xml_list xml_list]))
+    )
+    |_ -> raise (Error (String.concat "" ["expected cs_txt_units, got: ";string_of_xml_list xml_list]))
+
+
+and f_ts_ftn_units_of_xml_list (xml_list:Xml.xml list):ts_ftn_units =
+    match xml_list with
+    |hd::tl -> (
+        match hd with
+        |Xml.Element ("cs_ftn_units",_,_) -> f_ts_ftn_units_of_xml hd
+        |_ -> raise (Error (String.concat "" ["expected cs_ftn_units, got: ";string_of_xml_list xml_list]))
     )
     |_ -> raise (Error (String.concat "" ["expected cs_txt_units, got: ";string_of_xml_list xml_list]))
 

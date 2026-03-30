@@ -1313,9 +1313,6 @@
 <span class="keyword">let</span>&nbsp;ftn_table_of_tr_dsp_line&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(ftn_table&nbsp;:&nbsp;t_ftn_table)&nbsp;(dsp_line&nbsp;:&nbsp;tr_dsp_line)&nbsp;:&nbsp;t_ftn_table&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ftn_table_of_ts_txt_units&nbsp;doc_settings&nbsp;cref_table&nbsp;path&nbsp;ftn_table&nbsp;dsp_line.fld_dsp_line_units<br>
 <br>
-<span class="keyword">let</span>&nbsp;ftn_table_of_tr_blk_ftn&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(ftn_table&nbsp;:&nbsp;t_ftn_table)&nbsp;(blk_ftn&nbsp;:&nbsp;tr_blk_ftn)&nbsp;:&nbsp;t_ftn_table&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ftn_table_of_ts_txt_units&nbsp;doc_settings&nbsp;cref_table&nbsp;path&nbsp;ftn_table&nbsp;blk_ftn.fld_blk_ftn_main<br>
-<br>
 <br>
 <span class="keyword">let</span>&nbsp;ftn_string_of_int&nbsp;(n&nbsp;:&nbsp;int)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;symbol_of_array&nbsp;superscript_digits&nbsp;n<br>
@@ -1373,5 +1370,27 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;html_options.allow_custom_numbering;<br>
 }<br>
 <br>
+<span class="keyword">let</span>&nbsp;txt_options_default&nbsp;()&nbsp;:&nbsp;t_txt_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+}<br>
+<br>
+<span class="keyword">let</span>&nbsp;html_options_default&nbsp;()&nbsp;:&nbsp;t_html_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;margin&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lang&nbsp;=&nbsp;<span class="string">"en"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;css&nbsp;=&nbsp;[];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+}<br>
+<br>
+<span class="keyword">let</span>&nbsp;exml_options_default&nbsp;()&nbsp;:&nbsp;t_exml_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+}<br>
 <br>
 </code></body></html>

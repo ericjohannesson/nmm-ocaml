@@ -164,8 +164,6 @@
 <br>
 <span class="keyword">and</span>&nbsp;acc_of_tr_blk_ftn&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(cref_table&nbsp;:&nbsp;t_cref_table)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(acc&nbsp;:&nbsp;t_acc)&nbsp;(a&nbsp;:&nbsp;tr_blk_ftn)&nbsp;:&nbsp;t_acc&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;acc&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">FTN_TABLE</span>&nbsp;acc_table&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">FTN_TABLE</span>&nbsp;(ftn_table_of_tr_blk_ftn&nbsp;doc_settings&nbsp;cref_table&nbsp;path&nbsp;acc_table&nbsp;a)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">CREF_TABLE</span>&nbsp;table&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a.fld_blk_ftn_id&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Some</span>&nbsp;(id&nbsp;:&nbsp;tr_id)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">CREF_TABLE</span>&nbsp;((id,&nbsp;path,&nbsp;<span class="constructor">Cref_element_blk_ftn</span>&nbsp;a)&nbsp;::&nbsp;table)<br>

@@ -172,7 +172,20 @@ let xml_of_tu_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
         | Cu_txt_unit_ftn (b : ts_txt_unit_ftn) -> xml_of_ts_txt_unit_ftn doc_settings ftn_table path b
         | Cu_txt_unit_url (b : ts_txt_unit_url) -> xml_of_ts_txt_unit_url b
 
-let rec xml_list_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : Xml.xml list =
+
+let xml_of_tu_ftn_unit (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : tu_ftn_unit) : Xml.xml =
+        match a with
+        | Cu_ftn_unit_wysiwyg (b: ts_txt_unit_wysiwyg) -> xml_of_ts_txt_unit_wysiwyg b
+        | Cu_ftn_unit_emph (b : ts_txt_unit_emph) -> xml_of_ts_txt_unit_emph b
+        | Cu_ftn_unit_c_ref (b : ts_txt_unit_c_ref) -> xml_of_ts_txt_unit_c_ref doc_settings cref_table path b 
+        | Cu_ftn_unit_url (b : ts_txt_unit_url) -> xml_of_ts_txt_unit_url b
+
+
+let xml_list_of_ts_ftn_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : ts_ftn_units) : Xml.xml list =
+	match a with
+	|Cs_ftn_units b -> List.map (xml_of_tu_ftn_unit doc_settings cref_table path) b
+
+let xml_list_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : Xml.xml list =
         let rec aux (lst : tu_txt_unit list) (acc : Xml.xml list) =
                 match lst with
                 |[] -> acc
@@ -185,7 +198,7 @@ let rec xml_list_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t
                                 |Some blk_ftn -> 
                                         let xml_blk_ftn_main : Xml.xml =
                                                 Xml.Element ("footnote",[],
-                                                        xml_list_of_ts_txt_units doc_settings cref_table ftn_table path blk_ftn.fld_blk_ftn_main
+                                                        xml_list_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
                                                 )
                                         in
                                         aux tl (xml_blk_ftn_main :: (xml_hd :: acc))
@@ -249,7 +262,7 @@ let par_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn
 
 let xml_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (ftn : ts_ftn) (path : t_path) (blk_ftn : tr_blk_ftn) : Xml.xml =
         let xml_list_main : Xml.xml list = 
-                xml_list_of_ts_txt_units doc_settings cref_table ftn_table path blk_ftn.fld_blk_ftn_main
+                xml_list_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
         in
         let addendum : string =
                 match ftn with

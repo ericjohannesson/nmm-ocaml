@@ -1287,9 +1287,6 @@ let ftn_table_of_ts_blk_txt (doc_settings : t_doc_settings) (cref_table : t_cref
 let ftn_table_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (dsp_line : tr_dsp_line) : t_ftn_table =
         ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table dsp_line.fld_dsp_line_units
 
-let ftn_table_of_tr_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (blk_ftn : tr_blk_ftn) : t_ftn_table =
-        ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table blk_ftn.fld_blk_ftn_main
-
 
 let ftn_string_of_int (n : int) : string =
         symbol_of_array superscript_digits n
@@ -1347,4 +1344,26 @@ let exml_options_of_html_options (html_options : t_html_options) : t_exml_option
         allow_custom_numbering = html_options.allow_custom_numbering;
 }
 
+let txt_options_default () : t_txt_options = {
+        margin = None;
+        width = None;
+        quiet = false;
+        numbering = "a1i";
+        allow_custom_numbering = false;
+}
+
+let html_options_default () : t_html_options = {
+        margin = None;
+        lang = "en";
+        css = [];
+        quiet = false;
+        numbering = "a1i";
+        allow_custom_numbering = false;
+}
+
+let exml_options_default () : t_exml_options = {
+        quiet = false;
+        numbering = "a1i";
+        allow_custom_numbering = false;
+}
 

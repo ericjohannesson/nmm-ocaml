@@ -138,8 +138,6 @@ and acc_of_tu_blk (doc_settings : t_doc_settings) (cref_table : t_cref_table) (f
 
 and acc_of_tr_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (acc : t_acc) (a : tr_blk_ftn) : t_acc =
         match acc with
-        |FTN_TABLE acc_table ->
-                FTN_TABLE (ftn_table_of_tr_blk_ftn doc_settings cref_table path acc_table a)
         |CREF_TABLE table -> (
                 match a.fld_blk_ftn_id with
                 | Some (id : tr_id) -> CREF_TABLE ((id, path, Cref_element_blk_ftn a) :: table)

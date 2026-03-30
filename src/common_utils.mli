@@ -208,8 +208,6 @@ val ftn_table_of_ts_blk_txt : t_doc_settings -> t_cref_table -> t_path -> t_ftn_
 
 val ftn_table_of_tr_dsp_line : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table  -> Doc_types.tr_dsp_line -> t_ftn_table
 
-val ftn_table_of_tr_blk_ftn : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table  -> Doc_types.tr_blk_ftn -> t_ftn_table
-
 val string_of_ts_ftn : t_doc_settings -> t_ftn_table -> t_path -> Doc_types.ts_ftn -> string
 
 val ftn_table_of_ts_hdr_opt : t_doc_settings -> t_cref_table -> t_path -> t_ftn_table -> Doc_types.ts_hdr option -> t_ftn_table
@@ -243,4 +241,7 @@ type t_exml_options = {
 
 val exml_options_of_html_options : t_html_options -> t_exml_options
 
+val txt_options_default : unit -> t_txt_options
+val html_options_default : unit -> t_html_options
+val exml_options_default : unit -> t_exml_options
 
