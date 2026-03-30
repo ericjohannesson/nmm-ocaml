@@ -24,7 +24,7 @@ let acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
         | CREF_TABLE table -> (
                 match a.fld_dsp_line_id with
                         | Some (id : tr_id) -> CREF_TABLE ((id, path, Cref_element_dsp_line a) :: table)
-                        | None -> CREF_TABLE table
+                        | None -> acc
         )
         | LINES acc_lines -> (
                 match a.fld_dsp_line_lbl, Txt_utils.lines_of_ts_txt_units doc_settings cref_table ftn_table path a.fld_dsp_line_units with
@@ -47,14 +47,14 @@ let acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
                 |None -> EXML (List.concat [acc_list;[Xml.Element ("dsp_line", attr_list, [xml_main])]])
                 |Some _ -> EXML (List.concat [acc_list;[Xml.Element ("dsp_line", attr_list, [xml_lbl; xml_clear; xml_main])]])
         )
-		| FTN_TABLE acc_table -> FTN_TABLE (Common_utils.ftn_table_of_tr_dsp_line doc_settings cref_table path acc_table a)
+	| FTN_TABLE acc_table -> FTN_TABLE (Common_utils.ftn_table_of_tr_dsp_line doc_settings cref_table path acc_table a)
 
 let acc_of_ts_blk_dsp (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (auto_nr : int) (path : t_path) (acc : t_acc) (a : ts_blk_dsp) : t_acc * int =
         match a with Cs_blk_dsp (b : ts_dsp_lines) ->
         match b with Cs_dsp_lines (c : tr_dsp_line list) ->
         let rec aux (auto_nr : int) (acc : t_acc) (c : tr_dsp_line list) : t_acc * int = (
                 match c with
-                | [] -> (acc, auto_nr)
+                | [] -> acc, auto_nr
                 | hd :: tl ->
                         let node : t_node = node_of_dsp_line doc_settings path auto_nr hd in
                         let next_auto_nr =
@@ -66,20 +66,20 @@ let acc_of_ts_blk_dsp (doc_settings : t_doc_settings) (cref_table : t_cref_table
         )
         in
         match acc with
-        | MARGIN_LABELS _ -> (acc, auto_nr)
+        | MARGIN_LABELS _ -> acc, auto_nr
         | CREF_TABLE _
         | FTN_TABLE _ -> aux auto_nr acc c
         | LINES acc_lines -> (
                 match aux auto_nr (LINES []) c with 
-                | (LINES lines,nr) -> 
-                        (LINES (List.concat [acc_lines;lines]),nr)
+                | (LINES lines,nr) ->
+                        LINES (List.concat [acc_lines;lines]), nr
                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
         )
         | EXML acc_list -> (
                 match aux auto_nr (EXML []) c with 
                 |(EXML xml_list,nr) -> 
-                        (EXML (List.concat [acc_list;[Xml.Element ("blk_dsp",[],xml_list)]]),nr)
+                        EXML (List.concat [acc_list;[Xml.Element ("blk_dsp",[],xml_list)]]), nr
                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
         )
@@ -140,13 +140,11 @@ and acc_of_tr_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table
 	match acc with
 	|FTN_TABLE acc_table ->
 		FTN_TABLE (ftn_table_of_tr_blk_ftn doc_settings cref_table path acc_table a)
-        |CREF_TABLE table ->
-                let newacc : t_acc = CREF_TABLE (
-                        match a.fld_blk_ftn_id with
-                        | Some (id : tr_id) -> (id, path, Cref_element_blk_ftn a) :: table
-                        | _ -> table
-                )
-                in newacc
+        |CREF_TABLE table -> (
+                match a.fld_blk_ftn_id with
+                | Some (id : tr_id) -> CREF_TABLE ((id, path, Cref_element_blk_ftn a) :: table)
+                | _ -> acc
+	)
 	|_ -> acc
 
 and acc_of_tr_blk_itm (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_blk_itm) : t_acc =
@@ -794,6 +792,6 @@ let exml_of_tr_doc (options : string list) (doc : tr_doc) : Xml.xml =
         in
         match xml_list_of_tr_doc new_doc_settings doc with
         | hd::[] -> hd
-        | _ -> raise (Error "function expected to return an exml-list with exactly one element")
+        | _ -> raise (Error "expected an exml-list with exactly one element")
 
 
