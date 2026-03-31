@@ -2,7 +2,7 @@
 
 @media print {
 
-  .txt_unit_ftn, .doc_endnotes, .ch_endnotes {
+  .txt_unit_ftn_ref, .doc_endnotes, .ch_endnotes {
     display : none;
   }
 
@@ -17,7 +17,7 @@
   }
 
 
-  .footnote {
+  .ftn {
     display   : block;
     float     : footnote;
     font-size : inherit;

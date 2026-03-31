@@ -41,7 +41,7 @@ let itm_id = [%sedlex.regexp? ("ITM" | tag_shared), ":", name, Opt (":", scope)]
 let dsp_id = [%sedlex.regexp? ("DSP" | tag_shared), ":", name, Opt (":", scope)]
 let ftn_id = [%sedlex.regexp? "FTN", ":", name, Opt (":", scope)]
 let c_ref = [%sedlex.regexp? "[", tag, ":", name, Opt (":", scope), "]"]
-let ftn = [%sedlex.regexp? "[", "FTN", ":", name, Opt (":", scope), "]"]
+let ftn_ref = [%sedlex.regexp? "[", ftn_id, "]"]
 let par_id = [%sedlex.regexp? ("PAR" | tag_shared), ":", name, Opt (":", ("GBL" | "CH" | "SEC" | "APP"))]
 let itm_auto_tab_id = [%sedlex.regexp? itm_auto_tab, itm_id]
 let itm_custom_tab_id = [%sedlex.regexp? itm_custom_tab, itm_id]
@@ -139,7 +139,7 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |abstract                       ->      ABSTRACT
                 |ch_tag_or_id_nl                ->      CH_TAG_OR_ID_NL (String.trim (lexeme lexbuf))
                 |c_ref                          ->      C_REF (lexeme lexbuf)
-                |ftn                            ->      FTN (lexeme lexbuf, ftn_count ())
+                |ftn_ref                        ->      FTN_REF (lexeme lexbuf, ftn_count ())
                 |section_nl                     ->      SECTION_NL
                 |section_spaces_tag_or_id_nl    ->      SECTION_SPACES_TAG_OR_ID_NL (get_tag_or_id (lexeme lexbuf))
                 |pilcrow_nl                     ->      PILCROW_NL
@@ -196,7 +196,7 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |section                        ->      SECTION
                 |pilcrow                        ->      PILCROW
                 |c_ref                          ->      C_REF (lexeme lexbuf)
-                |ftn                            ->      FTN (lexeme lexbuf, ftn_count ())
+                |ftn_ref                        ->      FTN_REF (lexeme lexbuf, ftn_count ())
                 |txt                            ->      TXT (lexeme lexbuf)
                 |tab                            ->      TAB 
                 |dsp_id                         ->      DSP_ID (lexeme lexbuf)

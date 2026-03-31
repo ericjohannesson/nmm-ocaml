@@ -37,7 +37,7 @@ let string_of_token (t:Nmm_parser.token):string=
         |DSP_ID s -> ("DSP_ID " ^ "\"" ^ s ^ "\"")
         |C_REF s -> ("C_REF " ^ "\"" ^ s ^ "\"")
         |URL s -> ("URL " ^ "\"" ^ s ^ "\"")
-        |FTN (s,i) -> ("FTN " ^ "(\"" ^ s ^ "\"," ^ (string_of_int i )^ ")")
+        |FTN_REF (s,i) -> ("FTN_REF " ^ "(\"" ^ s ^ "\"," ^ (string_of_int i )^ ")")
         |TITLE -> "TITLE"
         |AUTHOR -> "AUTHOR"
         |DATE -> "DATE"

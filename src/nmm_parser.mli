@@ -50,6 +50,6 @@ type token =
         |ITM_AUTO_TAB_ID of string
         |ITM_CUSTOM_TAB_ID of string
         |STAR_TAB_ID of string
-        |FTN of (string * int)
+        |FTN_REF of (string * int)
 
 val main : (Stdlib.Lexing.lexbuf -> token) -> Stdlib.Lexing.lexbuf -> Doc_types.tr_doc

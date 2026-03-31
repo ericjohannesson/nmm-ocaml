@@ -25,7 +25,7 @@
 </head>
 <body>
 <code class="code"><span class="keyword">let</span> lines_of_ftn_table (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) : string list =
-        <span class="keyword">let</span> map (ftn_table_entry : ts_ftn * t_path * int * tr_blk_ftn) : (string list) option =
+        <span class="keyword">let</span> map (ftn_table_entry : ts_ftn_ref * t_path * int * tr_blk_ftn) : (string list) option =
                 <span class="keyword">match</span> ftn_table_entry <span class="keyword">with</span>
                 <span class="keywordsign">|</span>_, table_path, n, blk_ftn <span class="keywordsign">-&gt;</span>
                         <span class="keyword">match</span> <span class="constructor">List</span>.rev path, <span class="constructor">List</span>.rev table_path <span class="keyword">with</span>

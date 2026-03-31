@@ -266,7 +266,7 @@ and xml_of_tu_txt_unit (a:tu_txt_unit):Xml.xml=
         |Cu_txt_unit_wysiwyg (b:ts_txt_unit_wysiwyg) -> Xml.Element ("cu_txt_unit_wysiwyg",[],[xml_of_ts_txt_unit_wysiwyg b]) 
         |Cu_txt_unit_emph (b:ts_txt_unit_emph) -> Xml.Element ("cu_txt_unit_emph",[],[xml_of_ts_txt_unit_emph b])
         |Cu_txt_unit_c_ref (b:ts_txt_unit_c_ref) -> Xml.Element ("cu_txt_unit_c_ref",[],[xml_of_ts_txt_unit_c_ref b])
-        |Cu_txt_unit_ftn (b:ts_txt_unit_ftn) -> Xml.Element ("cu_txt_unit_ftn",[],[xml_of_ts_txt_unit_ftn b])
+        |Cu_txt_unit_ftn_ref (b:ts_txt_unit_ftn_ref) -> Xml.Element ("cu_txt_unit_ftn_ref",[],[xml_of_ts_txt_unit_ftn_ref b])
         |Cu_txt_unit_url (b:ts_txt_unit_url) -> Xml.Element ("cu_txt_unit_url",[],[xml_of_ts_txt_unit_url b])
 
 and xml_of_tu_ftn_unit (a:tu_ftn_unit):Xml.xml=
@@ -285,8 +285,8 @@ and xml_of_ts_txt_unit_emph (a:ts_txt_unit_emph):Xml.xml =
 and xml_of_ts_txt_unit_c_ref (a:ts_txt_unit_c_ref):Xml.xml =
         match a with Cs_txt_unit_c_ref (b:ts_c_ref) -> Xml.Element ("cs_txt_unit_c_ref",[],[xml_of_ts_c_ref b])
 
-and xml_of_ts_txt_unit_ftn (a:ts_txt_unit_ftn):Xml.xml =
-        match a with Cs_txt_unit_ftn (b:ts_ftn) -> Xml.Element ("cs_txt_unit_ftn",[],[xml_of_ts_ftn b])
+and xml_of_ts_txt_unit_ftn_ref (a:ts_txt_unit_ftn_ref):Xml.xml =
+        match a with Cs_txt_unit_ftn_ref (b:ts_ftn_ref) -> Xml.Element ("cs_txt_unit_ftn_ref",[],[xml_of_ts_ftn_ref b])
 
 and xml_of_ts_txt_unit_url (a:ts_txt_unit_url):Xml.xml =
         match a with Cs_txt_unit_url (b:string) -> Xml.Element ("cs_txt_unit_url",[],[xml_of_string b]) 
@@ -294,8 +294,8 @@ and xml_of_ts_txt_unit_url (a:ts_txt_unit_url):Xml.xml =
 and xml_of_ts_c_ref (a:ts_c_ref):Xml.xml=
         match a with Cs_c_ref (b:tr_id) -> Xml.Element ("cs_c_ref",[],[xml_of_tr_id b])
 
-and xml_of_ts_ftn (a:ts_ftn):Xml.xml=
-        match a with Cs_ftn (id, i) -> Xml.Element ("cs_ftn",[],[xml_of_tr_id id;xml_of_ts_int i])
+and xml_of_ts_ftn_ref (a:ts_ftn_ref):Xml.xml=
+        match a with Cs_ftn_ref (id, i) -> Xml.Element ("cs_ftn_ref",[],[xml_of_tr_id id;xml_of_ts_int i])
 
 and xml_of_ts_int (i : ts_int) : Xml.xml =
         match i with

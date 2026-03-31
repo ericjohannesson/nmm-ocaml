@@ -37,7 +37,7 @@
                 <span class="keywordsign">|</span>abstract                       <span class="keywordsign">-&gt;</span>      <span class="constructor">ABSTRACT</span>
                 <span class="keywordsign">|</span>ch_tag_or_id_nl                <span class="keywordsign">-&gt;</span>      <span class="constructor">CH_TAG_OR_ID_NL</span> (<span class="constructor">String</span>.trim (lexeme lexbuf))
                 <span class="keywordsign">|</span>c_ref                          <span class="keywordsign">-&gt;</span>      <span class="constructor">C_REF</span> (lexeme lexbuf)
-                <span class="keywordsign">|</span>ftn                            <span class="keywordsign">-&gt;</span>      <span class="constructor">FTN</span> (lexeme lexbuf, ftn_count ())
+                <span class="keywordsign">|</span>ftn_ref                        <span class="keywordsign">-&gt;</span>      <span class="constructor">FTN_REF</span> (lexeme lexbuf, ftn_count ())
                 <span class="keywordsign">|</span>section_nl                     <span class="keywordsign">-&gt;</span>      <span class="constructor">SECTION_NL</span>
                 <span class="keywordsign">|</span>section_spaces_tag_or_id_nl    <span class="keywordsign">-&gt;</span>      <span class="constructor">SECTION_SPACES_TAG_OR_ID_NL</span> (get_tag_or_id (lexeme lexbuf))
                 <span class="keywordsign">|</span>pilcrow_nl                     <span class="keywordsign">-&gt;</span>      <span class="constructor">PILCROW_NL</span>
@@ -94,7 +94,7 @@
                 <span class="keywordsign">|</span>section                        <span class="keywordsign">-&gt;</span>      <span class="constructor">SECTION</span>
                 <span class="keywordsign">|</span>pilcrow                        <span class="keywordsign">-&gt;</span>      <span class="constructor">PILCROW</span>
                 <span class="keywordsign">|</span>c_ref                          <span class="keywordsign">-&gt;</span>      <span class="constructor">C_REF</span> (lexeme lexbuf)
-                <span class="keywordsign">|</span>ftn                            <span class="keywordsign">-&gt;</span>      <span class="constructor">FTN</span> (lexeme lexbuf, ftn_count ())
+                <span class="keywordsign">|</span>ftn_ref                        <span class="keywordsign">-&gt;</span>      <span class="constructor">FTN_REF</span> (lexeme lexbuf, ftn_count ())
                 <span class="keywordsign">|</span>txt                            <span class="keywordsign">-&gt;</span>      <span class="constructor">TXT</span> (lexeme lexbuf)
                 <span class="keywordsign">|</span>tab                            <span class="keywordsign">-&gt;</span>      <span class="constructor">TAB</span> 
                 <span class="keywordsign">|</span>dsp_id                         <span class="keywordsign">-&gt;</span>      <span class="constructor">DSP_ID</span> (lexeme lexbuf)

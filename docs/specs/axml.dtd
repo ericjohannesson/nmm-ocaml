@@ -52,7 +52,7 @@
 <!ELEMENT cs_vrb_lines (cs_vrb_line+)>
 <!ELEMENT cs_vrb_line (#PCDATA)>
 
-<!ELEMENT cs_txt_units (cu_txt_unit_wysiwyg | cu_txt_unit_emph | cu_txt_unit_c_ref | cu_txt_unit_ftn | cu_txt_unit_url)+>
+<!ELEMENT cs_txt_units (cu_txt_unit_wysiwyg | cu_txt_unit_emph | cu_txt_unit_c_ref | cu_txt_unit_ftn_ref | cu_txt_unit_url)+>
 <!ELEMENT cs_dsp_lines (cu_dsp_line_no_lbl | cu_dsp_line_lbld)+>
 
 <!ELEMENT cu_dsp_line_no_lbl (cs_dsp_line_no_lbl)>
@@ -63,7 +63,7 @@
 <!ELEMENT cu_txt_unit_wysiwyg (cs_txt_unit_wysiwyg)>
 <!ELEMENT cu_txt_unit_emph (cs_txt_unit_emph)>
 <!ELEMENT cu_txt_unit_c_ref (cs_txt_unit_c_ref)>
-<!ELEMENT cu_txt_unit_ftn (cs_txt_unit_ftn)>
+<!ELEMENT cu_txt_unit_ftn_ref (cs_txt_unit_ftn_ref)>
 <!ELEMENT cu_txt_unit_url (cs_txt_unit_url)>
 
 <!ELEMENT cu_ftn_unit_wysiwyg (cs_txt_unit_wysiwyg)>
@@ -74,11 +74,11 @@
 <!ELEMENT cs_txt_unit_wysiwyg (#PCDATA)>
 <!ELEMENT cs_txt_unit_emph (#PCDATA)>
 <!ELEMENT cs_txt_unit_c_ref (cs_c_ref)>
-<!ELEMENT cs_txt_unit_ftn (cs_ftn)>
+<!ELEMENT cs_txt_unit_ftn_ref (cs_ftn_ref)>
 <!ELEMENT cs_txt_unit_url (#PCDATA)>
 
 <!ELEMENT cs_c_ref (cr_id)>
-<!ELEMENT cs_ftn (cr_id,cs_int)>
+<!ELEMENT cs_ftn_ref (cr_id,cs_int)>
 <!ELEMENT cs_int (#PCDATA)>
 
 <!ELEMENT cr_id (cs_tag, cs_name, (cu_scope_gbl | cu_scope_ch | cu_scope_sec | cu_scope_app | cu_scope_par)?)>

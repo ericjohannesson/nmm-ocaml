@@ -183,7 +183,7 @@ let string_of_ts_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_t
         | Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg (b : string)) -> b
         | Cu_txt_unit_emph (Cs_txt_unit_emph (b : string)) -> emph b
         | Cu_txt_unit_c_ref (Cs_txt_unit_c_ref (b : ts_c_ref)) -> string_of_ts_c_ref doc_settings cref_table path b
-        | Cu_txt_unit_ftn (Cs_txt_unit_ftn (b : ts_ftn)) -> string_of_ts_ftn doc_settings ftn_table path b
+        | Cu_txt_unit_ftn_ref (Cs_txt_unit_ftn_ref (b : ts_ftn_ref)) -> string_of_ts_ftn_ref doc_settings ftn_table path b
         | Cu_txt_unit_url (Cs_txt_unit_url (b : string)) -> b
 
 let string_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : string =
@@ -494,7 +494,7 @@ let lines_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table)
         |hd :: tl -> (insert_label doc_settings path hd)::tl
 
 let lines_of_ftn_table (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) : string list =
-        let map (ftn_table_entry : ts_ftn * t_path * int * tr_blk_ftn) : (string list) option =
+        let map (ftn_table_entry : ts_ftn_ref * t_path * int * tr_blk_ftn) : (string list) option =
                 match ftn_table_entry with
                 |_, table_path, n, blk_ftn ->
                         match List.rev path, List.rev table_path with

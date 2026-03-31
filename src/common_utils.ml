@@ -1229,11 +1229,11 @@ let time_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto) :
 
 (* footnotes *)
 
-type t_ftn_table = (ts_ftn * t_path * int * tr_blk_ftn) list
+type t_ftn_table = (ts_ftn_ref * t_path * int * tr_blk_ftn) list
 
-let reference_of_ts_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_path : t_path) (ftn : Doc_types.ts_ftn) : tr_blk_ftn option =
-        match ftn with
-        |Cs_ftn (ftn_id,i) ->
+let reference_of_ts_ftn_ref (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_path : t_path) (ftn_ref : Doc_types.ts_ftn_ref) : tr_blk_ftn option =
+        match ftn_ref with
+        |Cs_ftn_ref (ftn_id,i) ->
         let rec aux (cref_table : t_cref_table) : tr_blk_ftn option =
                 match cref_table with
                 |[] -> let _ : unit = Debug_utils.print_warning (String.concat "" [
@@ -1252,23 +1252,23 @@ let reference_of_ts_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_tab
         aux cref_table
 
 
-let ftn_table_of_ts_txt_unit_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (txt_unit_ftn : ts_txt_unit_ftn) : t_ftn_table =
-        match txt_unit_ftn with
-        |Cs_txt_unit_ftn ftn ->
-                match reference_of_ts_ftn doc_settings cref_table path ftn with
+let ftn_table_of_ts_txt_unit_ftn_ref (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (txt_unit_ftn_ref : ts_txt_unit_ftn_ref) : t_ftn_table =
+        match txt_unit_ftn_ref with
+        |Cs_txt_unit_ftn_ref ftn_ref ->
+                match reference_of_ts_ftn_ref doc_settings cref_table path ftn_ref with
                 |None -> ftn_table
                 |Some blk_ftn ->
                         match ftn_table with
-                        |[] -> (ftn, path, 1, blk_ftn) :: ftn_table
-                        |(_,_,n,_)::_ -> (ftn, path, n+1, blk_ftn) :: ftn_table
+                        |[] -> (ftn_ref, path, 1, blk_ftn) :: ftn_table
+                        |(_,_,n,_)::_ -> (ftn_ref, path, n+1, blk_ftn) :: ftn_table
 
 let rec ftn_table_of_tu_txt_unit_list (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (txt_unit_list : tu_txt_unit list) : t_ftn_table =
         match txt_unit_list with
         |[] -> ftn_table
         |hd::tl ->
                 match hd with
-                |Cu_txt_unit_ftn ftn -> 
-                        let new_ftn_table = ftn_table_of_ts_txt_unit_ftn doc_settings cref_table path ftn_table ftn in
+                |Cu_txt_unit_ftn_ref ftn_ref -> 
+                        let new_ftn_table = ftn_table_of_ts_txt_unit_ftn_ref doc_settings cref_table path ftn_table ftn_ref in
                         ftn_table_of_tu_txt_unit_list doc_settings cref_table path new_ftn_table tl
                 |_ -> ftn_table_of_tu_txt_unit_list doc_settings cref_table path ftn_table tl
 
@@ -1291,14 +1291,14 @@ let ftn_table_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cre
 let ftn_string_of_int (n : int) : string =
         symbol_of_array superscript_digits n
 
-let string_of_ts_ftn (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (ftn : ts_ftn) : string =
-        match ftn with
-        |Cs_ftn (id,i) ->
+let string_of_ts_ftn_ref (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (ftn_ref : ts_ftn_ref) : string =
+        match ftn_ref with
+        |Cs_ftn_ref (id,i) ->
         let rec aux (table : t_ftn_table) : string =
                 match table with
                 |[] -> "??"
-                |(table_ftn, table_path, n, blk_ftn)::tl ->
-                        if Some id = blk_ftn.fld_blk_ftn_id && path=table_path && ftn=table_ftn then ftn_string_of_int n
+                |(table_ftn_ref, table_path, n, blk_ftn)::tl ->
+                        if Some id = blk_ftn.fld_blk_ftn_id && path=table_path && ftn_ref=table_ftn_ref then ftn_string_of_int n
                         else aux tl
         in
         aux ftn_table

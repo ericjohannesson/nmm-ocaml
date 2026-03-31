@@ -133,8 +133,8 @@ let attr_list_of_tu_tag_or_id (doc_settings : t_doc_settings) (path : t_path) (c
 let attr_list_of_ts_c_ref (doc_settings : t_doc_settings) (path : t_path) (a : ts_c_ref) : (string*string) list =
         match a with Cs_c_ref (id : tr_id) -> [("href","#" ^ (cdata_of_tr_id doc_settings path id))]
 
-let attr_list_of_ts_ftn (doc_settings : t_doc_settings) (path : t_path) (a : ts_ftn) : (string*string) list =
-        match a with Cs_ftn (id, Cs_int i) -> 
+let attr_list_of_ts_ftn_ref (doc_settings : t_doc_settings) (path : t_path) (a : ts_ftn_ref) : (string*string) list =
+        match a with Cs_ftn_ref (id, Cs_int i) -> 
                 let addendum : string = string_of_int i in
                 let href_string : string = (cdata_of_tr_id doc_settings path id) ^ addendum in
                 let id_string : string = "ref_" ^ href_string in
@@ -144,8 +144,8 @@ let attr_list_of_ts_ftn (doc_settings : t_doc_settings) (path : t_path) (a : ts_
 let xml_of_ts_c_ref (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : ts_c_ref) : Xml.xml =
         Xml.PCData (pcdata_of_string (string_of_ts_c_ref doc_settings cref_table path a))
 
-let xml_of_ts_ftn (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (a : ts_ftn) : Xml.xml =
-        Xml.PCData (pcdata_of_string (string_of_ts_ftn doc_settings ftn_table path a))
+let xml_of_ts_ftn_ref (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (a : ts_ftn_ref) : Xml.xml =
+        Xml.PCData (pcdata_of_string (string_of_ts_ftn_ref doc_settings ftn_table path a))
 
 let xml_of_ts_txt_unit_wysiwyg (a : ts_txt_unit_wysiwyg) : Xml.xml =
         match a with Cs_txt_unit_wysiwyg (b : string) -> Xml.Element ("txt_unit_wysiwyg", [], [xml_of_string b])
@@ -157,9 +157,9 @@ let xml_of_ts_txt_unit_c_ref (doc_settings : t_doc_settings) (cref_table : t_cre
         match a with Cs_txt_unit_c_ref (b : ts_c_ref) ->
         Xml.Element ("txt_unit_c_ref", attr_list_of_ts_c_ref doc_settings path b, [xml_of_ts_c_ref doc_settings cref_table path b])
 
-let xml_of_ts_txt_unit_ftn (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_unit_ftn) : Xml.xml =
-        match a with Cs_txt_unit_ftn (b : ts_ftn) ->
-        Xml.Element ("txt_unit_ftn", attr_list_of_ts_ftn doc_settings path b, [xml_of_ts_ftn doc_settings ftn_table path b])
+let xml_of_ts_txt_unit_ftn_ref (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_unit_ftn_ref) : Xml.xml =
+        match a with Cs_txt_unit_ftn_ref (b : ts_ftn_ref) ->
+        Xml.Element ("txt_unit_ftn_ref", attr_list_of_ts_ftn_ref doc_settings path b, [xml_of_ts_ftn_ref doc_settings ftn_table path b])
 
 let xml_of_ts_txt_unit_url (a : ts_txt_unit_url) : Xml.xml =
         match a with Cs_txt_unit_url (b : string) -> Xml.Element ("txt_unit_url", [("href",b)], [xml_of_string b])
@@ -169,7 +169,7 @@ let xml_of_tu_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
         | Cu_txt_unit_wysiwyg (b: ts_txt_unit_wysiwyg) -> xml_of_ts_txt_unit_wysiwyg b
         | Cu_txt_unit_emph (b : ts_txt_unit_emph) -> xml_of_ts_txt_unit_emph b
         | Cu_txt_unit_c_ref (b : ts_txt_unit_c_ref) -> xml_of_ts_txt_unit_c_ref doc_settings cref_table path b 
-        | Cu_txt_unit_ftn (b : ts_txt_unit_ftn) -> xml_of_ts_txt_unit_ftn doc_settings ftn_table path b
+        | Cu_txt_unit_ftn_ref (b : ts_txt_unit_ftn_ref) -> xml_of_ts_txt_unit_ftn_ref doc_settings ftn_table path b
         | Cu_txt_unit_url (b : ts_txt_unit_url) -> xml_of_ts_txt_unit_url b
 
 
@@ -192,12 +192,12 @@ let xml_list_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cre
                 |hd::tl ->
                         let xml_hd : Xml.xml = xml_of_tu_txt_unit doc_settings cref_table ftn_table path hd in
                         match hd with
-                        |(Cu_txt_unit_ftn (Cs_txt_unit_ftn ftn)) -> (
-                                match reference_of_ts_ftn doc_settings cref_table path ftn with
+                        |(Cu_txt_unit_ftn_ref (Cs_txt_unit_ftn_ref ftn_ref)) -> (
+                                match reference_of_ts_ftn_ref doc_settings cref_table path ftn_ref with
                                 |None -> aux tl (xml_hd::acc)
                                 |Some blk_ftn -> 
                                         let xml_blk_ftn_main : Xml.xml =
-                                                Xml.Element ("footnote",[],
+                                                Xml.Element ("ftn",[],
                                                         xml_list_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
                                                 )
                                         in
@@ -260,13 +260,13 @@ let par_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn
 
 (* footnotes *)
 
-let xml_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (ftn : ts_ftn) (path : t_path) (blk_ftn : tr_blk_ftn) : Xml.xml =
+let xml_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (ftn_ref : ts_ftn_ref) (path : t_path) (blk_ftn : tr_blk_ftn) : Xml.xml =
         let xml_list_main : Xml.xml list = 
                 xml_list_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
         in
         let addendum : string =
-                match ftn with
-                |Cs_ftn (id, Cs_int i) -> string_of_int i
+                match ftn_ref with
+                |Cs_ftn_ref (id, Cs_int i) -> string_of_int i
         in
         let attr_list : (string * string) list = 
                 match attr_list_of_tr_id doc_settings path blk_ftn.fld_blk_ftn_id with
@@ -286,13 +286,13 @@ let xml_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (
 
 
 let xml_of_ftn_table_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) : Xml.xml option =
-        let map (ftn_table_entry : ts_ftn * t_path * int * tr_blk_ftn) : Xml.xml option =
+        let map (ftn_table_entry : ts_ftn_ref * t_path * int * tr_blk_ftn) : Xml.xml option =
                 match ftn_table_entry with
-                |ftn, table_path, n, blk_ftn ->
+                |ftn_ref, table_path, n, blk_ftn ->
                         match List.rev path, List.rev table_path with
-                        |[],_ -> Some (xml_of_blk_ftn doc_settings cref_table ftn_table ftn ((FTN_NODE n)::path) blk_ftn)
+                        |[],_ -> Some (xml_of_blk_ftn doc_settings cref_table ftn_table ftn_ref ((FTN_NODE n)::path) blk_ftn)
                         |(CH_NODE i)::_, (CH_NODE j)::_ ->
-                                if i=j then Some (xml_of_blk_ftn doc_settings cref_table ftn_table ftn ((FTN_NODE n)::path) blk_ftn)
+                                if i=j then Some (xml_of_blk_ftn doc_settings cref_table ftn_table ftn_ref ((FTN_NODE n)::path) blk_ftn)
                                 else None
                         |_,_ -> None
         in
