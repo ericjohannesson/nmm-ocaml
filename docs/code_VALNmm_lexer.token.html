@@ -28,7 +28,9 @@
         <span class="keyword">match</span> verbatim.contents, display.contents <span class="keyword">with</span>
         <span class="keywordsign">|</span><span class="keyword">false</span>, <span class="keyword">false</span> <span class="keywordsign">-&gt;</span> (
                 <span class="keyword">match</span>%sedlex lexbuf <span class="keyword">with</span>
-                <span class="keywordsign">|</span>url                            <span class="keywordsign">-&gt;</span>      <span class="constructor">URL</span> (lexeme lexbuf)
+		<span class="keywordsign">|</span>lt				<span class="keywordsign">-&gt;</span>	<span class="constructor">LT</span>
+		<span class="keywordsign">|</span>gt				<span class="keywordsign">-&gt;</span>	<span class="constructor">GT</span>
+                <span class="keywordsign">|</span>url                            <span class="keywordsign">-&gt;</span>      <span class="constructor">URL</span> (get_url (lexeme lexbuf))
                 <span class="keywordsign">|</span>esc_char                       <span class="keywordsign">-&gt;</span>      <span class="constructor">ESC_CHAR</span> (get_esc_char (lexeme lexbuf))
                 <span class="keywordsign">|</span>preamble                       <span class="keywordsign">-&gt;</span>      <span class="constructor">PREAMBLE</span>
                 <span class="keywordsign">|</span>title                          <span class="keywordsign">-&gt;</span>      <span class="constructor">TITLE</span>
@@ -85,7 +87,9 @@
 
         <span class="keywordsign">|</span>_, <span class="keyword">true</span> <span class="keywordsign">-&gt;</span> (
                 <span class="keyword">match</span>%sedlex lexbuf <span class="keyword">with</span>
-                <span class="keywordsign">|</span>url                            <span class="keywordsign">-&gt;</span>      <span class="constructor">URL</span> (lexeme lexbuf)
+		<span class="keywordsign">|</span>lt				<span class="keywordsign">-&gt;</span>	<span class="constructor">LT</span>
+		<span class="keywordsign">|</span>gt				<span class="keywordsign">-&gt;</span>	<span class="constructor">GT</span>
+                <span class="keywordsign">|</span>url                            <span class="keywordsign">-&gt;</span>      <span class="constructor">URL</span> (get_url (lexeme lexbuf))
                 <span class="keywordsign">|</span>esc_char                       <span class="keywordsign">-&gt;</span>      <span class="constructor">ESC_CHAR</span> (get_esc_char (lexeme lexbuf))
                 <span class="keywordsign">|</span>star                           <span class="keywordsign">-&gt;</span>      <span class="constructor">STAR</span>
                 <span class="keywordsign">|</span>lbr                            <span class="keywordsign">-&gt;</span>      <span class="constructor">LBR</span>

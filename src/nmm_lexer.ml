@@ -24,7 +24,7 @@ let colon = [%sedlex.regexp? ":"]
 let section = [%sedlex.regexp? Utf8 "§"]
 let pilcrow = [%sedlex.regexp? Utf8 "¶"]
 
-let non_txt_chars = [%sedlex.regexp? Chars "\r\n\t*[]:\\"| pilcrow | section]
+let non_txt_chars = [%sedlex.regexp? Chars "\r\n\t*[]:\\<>"| pilcrow | section]
 let txt_chars = [%sedlex.regexp? Compl non_txt_chars]
 let txt = [%sedlex.regexp? Plus txt_chars]
 
@@ -73,11 +73,16 @@ let tab_end_vrb = [%sedlex.regexp? tab, end_vrb]
 let tab_tab_end_vrb = [%sedlex.regexp? tab, tab_end_vrb]
 let tab_tab_tab_end_vrb = [%sedlex.regexp? tab, tab_tab_end_vrb]
 
+let lt = [%sedlex.regexp? "<"]
+let gt = [%sedlex.regexp? ">"]
 let url_prefix = [%sedlex.regexp? "https://" | "http://"]
-let url_suffix = [%sedlex.regexp? Plus (Compl (Chars "\r\n\t \\"))]
-let url = [%sedlex.regexp? url_prefix, url_suffix]
+let url_suffix = [%sedlex.regexp? Plus (Compl (Chars "\r\n\t<> \\"))]
+let url = [%sedlex.regexp? lt, url_prefix, url_suffix, gt]
 
 (* helper functions *)
+
+let get_url (s : string) : string =
+        String.sub s 1 (String.length s - 2)
 
 let get_esc_char (s : string) : string = 
         String.sub s 1 (String.length s - 1)
@@ -130,7 +135,9 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
         match verbatim.contents, display.contents with
         |false, false -> (
                 match%sedlex lexbuf with
-                |url                            ->      URL (lexeme lexbuf)
+		|lt				->	LT
+		|gt				->	GT
+                |url                            ->      URL (get_url (lexeme lexbuf))
                 |esc_char                       ->      ESC_CHAR (get_esc_char (lexeme lexbuf))
                 |preamble                       ->      PREAMBLE
                 |title                          ->      TITLE
@@ -187,7 +194,9 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
 
         |_, true -> (
                 match%sedlex lexbuf with
-                |url                            ->      URL (lexeme lexbuf)
+		|lt				->	LT
+		|gt				->	GT
+                |url                            ->      URL (get_url (lexeme lexbuf))
                 |esc_char                       ->      ESC_CHAR (get_esc_char (lexeme lexbuf))
                 |star                           ->      STAR
                 |lbr                            ->      LBR
