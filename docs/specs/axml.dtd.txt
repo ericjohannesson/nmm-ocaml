@@ -45,7 +45,6 @@
 <!ELEMENT cr_blk_itm ((cu_lbl_auto | cu_lbl_custom), cr_id?, cs_blks)>
 <!ELEMENT cs_blk_dsp (cs_dsp_lines)>
 <!ELEMENT cs_blk_vrb (cs_vrb_lines)>
-<!ELEMENT cs_blk_empty EMPTY>
 <!ELEMENT cr_blk_ftn (cr_id?, cs_ftn_units)>
 
 <!ELEMENT cs_ftn_units (cu_ftn_unit_wysiwyg | cu_ftn_unit_emph | cu_ftn_unit_c_ref | cu_ftn_unit_url)+>

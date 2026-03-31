@@ -36,9 +36,9 @@
 	id CDATA #IMPLIED
 >
 
-<!ELEMENT ch_main (sec+ | par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb )+)>
-<!ELEMENT sec_main (par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb )+)>
-<!ELEMENT par_main (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb )+>
+<!ELEMENT ch_main (sec+ | par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb)+)>
+<!ELEMENT sec_main (par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb)+)>
+<!ELEMENT par_main (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb)+>
 <!ELEMENT par_main_w_hdr (
 	((par_tag?, par_hdr) | par_tag_hdr ),
 	(blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb )+)
