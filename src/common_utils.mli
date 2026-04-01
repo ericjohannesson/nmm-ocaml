@@ -241,6 +241,8 @@ type t_exml_options = {
 
 val exml_options_of_html_options : t_html_options -> t_exml_options
 
+(* for debugging *)
+
 val txt_options_default : unit -> t_txt_options
 val html_options_default : unit -> t_html_options
 val exml_options_default : unit -> t_exml_options

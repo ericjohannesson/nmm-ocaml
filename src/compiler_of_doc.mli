@@ -22,7 +22,7 @@ For determining the size of the left margin.
 *)
 
 
-(* testing *)
+(* for debugging *)
 
 val cref_table_of_tr_doc : Common_utils.t_doc_settings -> Doc_types.tr_doc -> Common_utils.t_cref_table
 

@@ -91,45 +91,6 @@ let date_of_string (s : string) : tu_date =
 %token <string * int>           FTN_REF
 
 %type <Doc_types.tr_doc>                  main doc
-%type <Doc_types.ts_preamble>             doc_preamble
-%type <Doc_types.ts_title>                doc_title
-%type <Doc_types.ts_author>               doc_author
-%type <Doc_types.tu_date>                 doc_date
-%type <string>                            lines
-%type <string>                            preamble_lines
-%type <Doc_types.tu_doc_main>             doc_main
-%type <Doc_types.tr_ch>                   ch
-%type <Doc_types.tu_secs_pars_or_blks>    ch_main
-%type <Doc_types.tr_ch list>              chs
-%type <Doc_types.tr_sec>                  sec
-%type <Doc_types.tu_pars_or_blks>         sec_main
-%type <Doc_types.tr_sec list>             secs
-%type <Doc_types.tu_par>                  par
-%type <Doc_types.ts_par_rpt>              pilcrow_spaces_rpt_spaces_id_nl
-%type <Doc_types.ts_blks>                 par_main blks special_blks
-%type <Doc_types.tu_par list>             pars
-%type <Doc_types.tu_blk>                  blk0 blk1 blk2 blk3
-%type <Doc_types.ts_blk_blt>              blk_blt0 blk_blt1 blk_blt2
-%type <Doc_types.ts_blk_dsp>              blk_dsp0 blk_dsp1 blk_dsp2 special_blk_dsp0 special_blk_dsp1 special_blk_dsp2
-%type <Doc_types.tr_blk_itm>              blk_itm0 blk_itm1 blk_itm2
-%type <Doc_types.ts_blk_txt>              blk_txt0 blk_txt1 blk_txt2 blk_txt3
-%type <Doc_types.ts_blk_vrb>              blk_vrb0 blk_vrb1 blk_vrb2 blk_vrb3
-%type <Doc_types.tu_blk list>             blks0 blks1 blks2 blks3 special_blks0 special_blks1 special_blks2
-%type <Doc_types.ts_c_ref>                c_ref
-%type <Doc_types.tr_dsp_line>             dsp_line special_dsp_line
-%type <Doc_types.tr_dsp_line list>        dsp_lines0 dsp_lines1 dsp_lines2 special_dsp_lines0 special_dsp_lines1 special_dsp_lines2
-%type <Doc_types.ts_vrb_line list>        vrb_lines0 vrb_lines1 vrb_lines2 vrb_lines3
-%type <Doc_types.ts_vrb_line>             vrb_line0 vrb_line1 vrb_line2 vrb_line3
-%type <Doc_types.tu_tag_or_id>            pilcrow_spaces_tag_or_id_nl section_spaces_tag_or_id_nl
-%type <Doc_types.tr_id>                   dsp_id
-%type <Doc_types.ts_hdr>                  hdr
-%type <Doc_types.tu_lbl>                  itm_lbl_tab dsp_lbl_tab
-%type <Doc_types.tu_txt_unit>             txt_unit0 txt_unit1 txt_unit2 txt_unit3 dsp_unit
-%type <Doc_types.tu_txt_unit list>        txt_units0 txt_units1 txt_units2 txt_units3 dsp_units
-%type <Doc_types.ts_lbl_custom>           dsp_custom_tab itm_custom_tab
-%type <Doc_types.ts_lbl_auto>             dsp_auto_tab itm_auto_tab
-%type <string>                            txt emph_txt emph_txt0 emph_txt1 emph_txt2 emph_txt3
-%type <unit>                              dash_tab lb0 lb1 lb2 lb3 pilcrow_nl section_nl tabs
 
 %start main
 
