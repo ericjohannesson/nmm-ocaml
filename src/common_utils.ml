@@ -1303,14 +1303,14 @@ let string_of_ts_ftn_ref (doc_settings : t_doc_settings) (ftn_table : t_ftn_tabl
         in
         aux ftn_table
 
-let ftn_table_of_ts_hdr (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (hdr : ts_hdr) =
+let ftn_table_of_ts_hdr (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (hdr : ts_hdr) =
         match hdr with
-        |Cs_hdr txt_units -> ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table txt_units
+        |Cs_hdr txt_units -> ftn_table_of_ts_txt_units doc_settings cref_table path ([] : t_ftn_table) txt_units
 
-let ftn_table_of_ts_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (ftn_table : t_ftn_table) (hdr_opt : ts_hdr option) =
+let ftn_table_of_ts_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (hdr_opt : ts_hdr option) =
         match hdr_opt with
         |None -> []
-        |Some hdr -> ftn_table_of_ts_hdr doc_settings cref_table path ftn_table hdr
+        |Some hdr -> ftn_table_of_ts_hdr doc_settings cref_table path hdr
 
 
 (* options *)

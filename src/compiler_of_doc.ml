@@ -255,7 +255,7 @@ and acc_of_tu_par (doc_settings : t_doc_settings) (cref_table : t_cref_table) (f
 and acc_of_tr_par_std (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (path_origin : t_path) (acc : t_acc) (a : tr_par_std) : t_acc =
         match acc with
         |FTN_TABLE acc_table -> (
-                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_par_hdr in
+                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path a.fld_par_hdr in
                 match acc_of_par_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_par_main with
                 |FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -347,7 +347,7 @@ let rec acc_of_ts_secs (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
 and acc_of_tr_sec (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_sec) : t_acc =
         match acc with
         |FTN_TABLE acc_table -> (
-                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_sec_hdr in
+                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path a.fld_sec_hdr in
                 match acc_of_sec_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_sec_main with
                 |FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -423,7 +423,7 @@ let rec acc_of_ts_chs (doc_settings : t_doc_settings) (cref_table : t_cref_table
 and acc_of_tr_ch (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tr_ch) : t_acc =
         match acc with
         |FTN_TABLE acc_table -> (
-                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path [] a.fld_ch_hdr in
+                let table_hdr : t_ftn_table = Common_utils.ftn_table_of_ts_hdr_opt doc_settings cref_table path a.fld_ch_hdr in
                 match acc_of_ch_main doc_settings cref_table ftn_table path (FTN_TABLE table_hdr) a.fld_ch_main with
                 |FTN_TABLE table -> FTN_TABLE (List.concat [table;acc_table])
                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -539,16 +539,16 @@ let acc_of_ts_refs (doc_settings : t_doc_settings) (cref_table : t_cref_table) (
                 | _ -> acc_of_ts_blks doc_settings cref_table ftn_table path acc b
 
 
-let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (acc : t_acc) (doc : tr_doc) : t_acc =
+let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (doc : tr_doc) : t_acc =
         let doc_class : t_doc_class = class_of_tr_doc doc in
         match acc with
-        | MARGIN_LABELS _ -> acc_of_tu_doc_main doc_settings cref_table ftn_table acc doc.fld_doc_main
+        | MARGIN_LABELS _ -> acc_of_tu_doc_main doc_settings cref_table ftn_table path acc doc.fld_doc_main
         | FTN_TABLE _ -> (
                 let table_abstract : t_ftn_table = 
                         match doc.fld_doc_abstract with
                         |None -> []
                         |Some (abstract : ts_abstract) -> 
-                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class [ABSTRACT_NODE] (FTN_TABLE []) abstract with
+                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class (ABSTRACT_NODE::path) acc abstract with
                                 |FTN_TABLE table -> table
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -556,12 +556,12 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_refs with
                         |None -> []
                         |Some (refs : ts_refs) -> 
-                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class [REFS_NODE] (FTN_TABLE []) refs with
+                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class (REFS_NODE::path) acc refs with
                                 |FTN_TABLE table -> table
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
                 let table_main : t_ftn_table = 
-                        match acc_of_tu_doc_main doc_settings cref_table ftn_table (FTN_TABLE []) doc.fld_doc_main with
+                        match acc_of_tu_doc_main doc_settings cref_table ftn_table path acc doc.fld_doc_main with
                         |FTN_TABLE table -> table
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -572,7 +572,7 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_abstract with
                         |None -> []
                         |Some (abstract : ts_abstract) -> 
-                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class [ABSTRACT_NODE] (CREF_TABLE []) abstract with
+                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class (ABSTRACT_NODE::path) acc abstract with
                                 |CREF_TABLE table -> table
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -580,12 +580,12 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_refs with
                         |None -> []
                         |Some (refs : ts_refs) -> 
-                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class [REFS_NODE] (CREF_TABLE []) refs with
+                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class (REFS_NODE::path) acc refs with
                                 |CREF_TABLE table -> table
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
                 let table_main : t_cref_table = 
-                        match acc_of_tu_doc_main doc_settings cref_table ftn_table (CREF_TABLE []) doc.fld_doc_main with
+                        match acc_of_tu_doc_main doc_settings cref_table ftn_table path acc doc.fld_doc_main with
                         |CREF_TABLE table -> table
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -599,7 +599,7 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_abstract with
                         |None -> []
                         |Some (abstract : ts_abstract) -> 
-                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class [ABSTRACT_NODE] (LINES []) abstract with
+                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class (ABSTRACT_NODE::path) acc abstract with
                                 |LINES lines -> lines
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -607,12 +607,12 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_refs with
                         |None -> []
                         |Some (refs : ts_refs) -> 
-                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class [REFS_NODE] (LINES []) refs with
+                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class (REFS_NODE::path) acc refs with
                                 |LINES lines -> lines
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
                 let lines_main:string list =
-                        match acc_of_tu_doc_main doc_settings cref_table ftn_table (LINES []) doc.fld_doc_main with
+                        match acc_of_tu_doc_main doc_settings cref_table ftn_table path acc doc.fld_doc_main with
                         |LINES lines -> lines 
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -638,7 +638,7 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_abstract with
                         |None -> []
                         |Some (abstract : ts_abstract) -> 
-                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class [ABSTRACT_NODE] (EXML []) abstract with
+                                match acc_of_ts_abstract doc_settings cref_table ftn_table doc_class (ABSTRACT_NODE::path) acc abstract with
                                 |EXML xml_list -> xml_list
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
@@ -646,12 +646,12 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         match doc.fld_doc_refs with
                         |None -> []
                         |Some (refs : ts_refs) -> 
-                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class [REFS_NODE] (EXML []) refs with
+                                match acc_of_ts_refs doc_settings cref_table ftn_table doc_class (REFS_NODE::path) acc refs with
                                 |EXML xml_list -> xml_list
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
                 let xml_main_list : Xml.xml list = (
-                        match acc_of_tu_doc_main doc_settings cref_table ftn_table acc doc.fld_doc_main with
+                        match acc_of_tu_doc_main doc_settings cref_table ftn_table path acc doc.fld_doc_main with
                         |EXML xml_list -> [Xml.Element ("doc_main",[],xml_list)]
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
@@ -678,32 +678,32 @@ let rec acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table
                 let doc_class_string = string_of_t_doc_class doc_class in
                 EXML [Xml.Element ("doc",[("class",doc_class_string)],xml_list_doc)]
 
-and acc_of_tu_doc_main (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (acc : t_acc) (a : tu_doc_main) : t_acc =
+and acc_of_tu_doc_main (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (acc : t_acc) (a : tu_doc_main) : t_acc =
         match a with
-        | Cu_doc_main_chs (b : ts_chs) -> acc_of_ts_chs doc_settings cref_table ftn_table ([] : t_path) acc b
-        | Cu_doc_main_secs (b : ts_secs) -> acc_of_ts_secs doc_settings cref_table ftn_table ([] : t_path) acc b
-        | Cu_doc_main_pars (b : ts_pars) -> acc_of_ts_pars doc_settings cref_table ftn_table ([] : t_path) acc b
-        | Cu_doc_main_blks (b : ts_blks) -> acc_of_ts_blks doc_settings cref_table ftn_table ([] : t_path) acc b
+        | Cu_doc_main_chs (b : ts_chs) -> acc_of_ts_chs doc_settings cref_table ftn_table path acc b
+        | Cu_doc_main_secs (b : ts_secs) -> acc_of_ts_secs doc_settings cref_table ftn_table path acc b
+        | Cu_doc_main_pars (b : ts_pars) -> acc_of_ts_pars doc_settings cref_table ftn_table path acc b
+        | Cu_doc_main_blks (b : ts_blks) -> acc_of_ts_blks doc_settings cref_table ftn_table path acc b
 
 
 (* margin labels *)
 
 let margin_labels_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : string list=
-        match acc_of_tr_doc doc_settings [] [] (MARGIN_LABELS []) doc with
+        match acc_of_tr_doc doc_settings ([] : t_cref_table) ([] : t_ftn_table) ([] : t_path) (MARGIN_LABELS []) doc with
         | MARGIN_LABELS string_list -> string_list
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
 (* cref table *)
 
 let cref_table_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : t_cref_table =
-        match acc_of_tr_doc doc_settings [] [] (CREF_TABLE []) doc with
+        match acc_of_tr_doc doc_settings ([] : t_cref_table) ([] : t_ftn_table) ([] : t_path) (CREF_TABLE []) doc with
         | CREF_TABLE table -> check_cref_table doc_settings (List.rev table)
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
 (* footnote table *)
 
 let ftn_table_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (doc : tr_doc) : t_ftn_table =
-        match acc_of_tr_doc doc_settings cref_table [] (FTN_TABLE []) doc with
+        match acc_of_tr_doc doc_settings cref_table ([] : t_ftn_table) ([] : t_path) (FTN_TABLE []) doc with
         | FTN_TABLE table -> table
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
@@ -711,9 +711,9 @@ let ftn_table_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_tab
 (* txt *)
 
 let lines_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : string list =
-        let cref_table = cref_table_of_tr_doc doc_settings doc in
-        let ftn_table = ftn_table_of_tr_doc doc_settings cref_table doc in
-        match acc_of_tr_doc doc_settings cref_table ftn_table (LINES []) doc with
+        let cref_table : t_cref_table = cref_table_of_tr_doc doc_settings doc in
+        let ftn_table : t_ftn_table = ftn_table_of_tr_doc doc_settings cref_table doc in
+        match acc_of_tr_doc doc_settings cref_table ftn_table ([] : t_path) (LINES []) doc with
         | LINES lines -> lines
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
@@ -758,9 +758,9 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
 (* exml *)
 
 let xml_list_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : Xml.xml list =
-        let cref_table = cref_table_of_tr_doc doc_settings doc in
-        let ftn_table = ftn_table_of_tr_doc doc_settings cref_table doc in
-        match acc_of_tr_doc doc_settings cref_table ftn_table (EXML []) doc with
+        let cref_table : t_cref_table = cref_table_of_tr_doc doc_settings doc in
+        let ftn_table : t_ftn_table = ftn_table_of_tr_doc doc_settings cref_table doc in
+        match acc_of_tr_doc doc_settings cref_table ftn_table ([] : t_path) (EXML []) doc with
         | EXML xml_list -> xml_list
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
