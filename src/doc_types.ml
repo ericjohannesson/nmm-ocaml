@@ -107,7 +107,6 @@ and tu_txt_unit =
   | Cu_txt_unit_emph of ts_txt_unit_emph
   | Cu_txt_unit_c_ref of ts_txt_unit_c_ref
   | Cu_txt_unit_ftn_ref of ts_txt_unit_ftn_ref
-  | Cu_txt_unit_url of ts_txt_unit_url
 
 and ts_txt_unit_wysiwyg = Cs_txt_unit_wysiwyg of string
 
@@ -157,7 +156,6 @@ and tu_ftn_unit =
   | Cu_ftn_unit_wysiwyg of ts_txt_unit_wysiwyg
   | Cu_ftn_unit_emph of ts_txt_unit_emph
   | Cu_ftn_unit_c_ref of ts_txt_unit_c_ref
-  | Cu_ftn_unit_url of ts_txt_unit_url
 
 
 and ts_vrb_lines = Cs_vrb_lines of (ts_vrb_line list)

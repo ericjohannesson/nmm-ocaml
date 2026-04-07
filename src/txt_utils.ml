@@ -184,7 +184,6 @@ let string_of_ts_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_t
         | Cu_txt_unit_emph (Cs_txt_unit_emph (b : string)) -> emph b
         | Cu_txt_unit_c_ref (Cs_txt_unit_c_ref (b : ts_c_ref)) -> string_of_ts_c_ref doc_settings cref_table path b
         | Cu_txt_unit_ftn_ref (Cs_txt_unit_ftn_ref (b : ts_ftn_ref)) -> string_of_ts_ftn_ref doc_settings ftn_table path b
-        | Cu_txt_unit_url (Cs_txt_unit_url (b : string)) -> "<" ^ b ^ ">"
 
 let string_of_ts_txt_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (ftn_table : t_ftn_table) (path : t_path) (a : ts_txt_units) : string =
         match a with Cs_txt_units (b: tu_txt_unit list) ->
@@ -474,7 +473,6 @@ let string_of_ts_ftn_unit (doc_settings : t_doc_settings) (cref_table : t_cref_t
         | Cu_ftn_unit_wysiwyg (Cs_txt_unit_wysiwyg (b : string)) -> b
         | Cu_ftn_unit_emph (Cs_txt_unit_emph (b : string)) -> emph b
         | Cu_ftn_unit_c_ref (Cs_txt_unit_c_ref (b : ts_c_ref)) -> string_of_ts_c_ref doc_settings cref_table path b
-        | Cu_ftn_unit_url (Cs_txt_unit_url (b : string)) -> b
 
 
 let string_of_ts_ftn_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : ts_ftn_units) : string =

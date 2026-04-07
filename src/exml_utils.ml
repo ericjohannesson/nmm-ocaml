@@ -170,7 +170,6 @@ let xml_of_tu_txt_unit (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
         | Cu_txt_unit_emph (b : ts_txt_unit_emph) -> xml_of_ts_txt_unit_emph b
         | Cu_txt_unit_c_ref (b : ts_txt_unit_c_ref) -> xml_of_ts_txt_unit_c_ref doc_settings cref_table path b 
         | Cu_txt_unit_ftn_ref (b : ts_txt_unit_ftn_ref) -> xml_of_ts_txt_unit_ftn_ref doc_settings ftn_table path b
-        | Cu_txt_unit_url (b : ts_txt_unit_url) -> xml_of_ts_txt_unit_url b
 
 
 let xml_of_tu_ftn_unit (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : tu_ftn_unit) : Xml.xml =
@@ -178,7 +177,6 @@ let xml_of_tu_ftn_unit (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
         | Cu_ftn_unit_wysiwyg (b: ts_txt_unit_wysiwyg) -> xml_of_ts_txt_unit_wysiwyg b
         | Cu_ftn_unit_emph (b : ts_txt_unit_emph) -> xml_of_ts_txt_unit_emph b
         | Cu_ftn_unit_c_ref (b : ts_txt_unit_c_ref) -> xml_of_ts_txt_unit_c_ref doc_settings cref_table path b 
-        | Cu_ftn_unit_url (b : ts_txt_unit_url) -> xml_of_ts_txt_unit_url b
 
 
 let xml_list_of_ts_ftn_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : ts_ftn_units) : Xml.xml list =

@@ -11,8 +11,6 @@ type token =
         |PILCROW
         |SECTION
         |EOF
-	|LT
-	|GT
         |NL
         |TAB
         |NL_TAB
@@ -41,7 +39,6 @@ type token =
         |ESC_CHAR of string
         |TXT of string
         |C_REF of string
-        |URL of string
         |DSP_ID of string
         |CH_TAG_OR_ID_NL of string
         |SECTION_SPACES_TAG_OR_ID_NL of string

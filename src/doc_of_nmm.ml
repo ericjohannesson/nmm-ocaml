@@ -24,8 +24,6 @@ let string_of_token (t:Nmm_parser.token):string=
         |LBR -> "LBR"
         |RBR -> "RBR"
         |COLON -> "COLON"
-        |LT -> "LT"
-        |GT -> "GT"
         |EOF -> "EOF"
         |CH_TAG_OR_ID_NL s -> ("CH_TAG_OR_ID_NL " ^ "\"" ^ s ^ "\"")
         |SECTION_SPACES_TAG_OR_ID_NL s -> ("SECTION_SPACES_TAG_OR_ID_NL " ^ "\"" ^ s ^ "\"")
@@ -38,7 +36,6 @@ let string_of_token (t:Nmm_parser.token):string=
         |ITM_CUSTOM_TAB_ID s -> ("ITM_CUSTOM_TAB_ID " ^ "\"" ^ s ^ "\"")
         |DSP_ID s -> ("DSP_ID " ^ "\"" ^ s ^ "\"")
         |C_REF s -> ("C_REF " ^ "\"" ^ s ^ "\"")
-        |URL s -> ("URL " ^ "\"" ^ s ^ "\"")
         |FTN_REF (s,i) -> ("FTN_REF " ^ "(\"" ^ s ^ "\"," ^ (string_of_int i )^ ")")
         |TITLE -> "TITLE"
         |AUTHOR -> "AUTHOR"
