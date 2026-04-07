@@ -295,7 +295,7 @@ and xml_of_ts_c_ref (a:ts_c_ref):Xml.xml=
         match a with Cs_c_ref (b:tr_id) -> Xml.Element ("cs_c_ref",[],[xml_of_tr_id b])
 
 and xml_of_ts_ftn_ref (a:ts_ftn_ref):Xml.xml=
-        match a with Cs_ftn_ref (id, i) -> Xml.Element ("cs_ftn_ref",[],[xml_of_tr_id id;xml_of_ts_int i])
+        match a with Cs_ftn_ref (id, _) -> Xml.Element ("cs_ftn_ref",[],[xml_of_tr_id id])
 
 and xml_of_ts_int (i : ts_int) : Xml.xml =
         match i with

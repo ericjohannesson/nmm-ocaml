@@ -685,7 +685,7 @@ and f_ts_c_ref_of_xml (xml:Xml.xml):ts_c_ref=
 
 and f_ts_ftn_ref_of_xml (ftn_count : int) (xml:Xml.xml):ts_ftn_ref =
         match xml with 
-        |Xml.Element ("cs_ftn_ref",[],[xml;xml_int]) -> Cs_ftn_ref (f_tr_id_of_xml xml, Cs_int ftn_count (* f_ts_int_of_xml xml_int *))
+        |Xml.Element ("cs_ftn_ref",[],[xml]) -> Cs_ftn_ref (f_tr_id_of_xml xml, Cs_int ftn_count (* f_ts_int_of_xml xml_int *))
         |_ -> raise (Error (String.concat "" ["expected cs_ftn_ref, got: ";string_of_xml_list [xml]]))
 
 and f_ts_int_of_xml (xml : Xml.xml) : ts_int =

@@ -24,7 +24,6 @@
 <cs_tag>FTN</cs_tag>
 <cs_name>one</cs_name>
 </cr_id>
-<cs_int>0</cs_int>
 </cs_ftn_ref>
 </cs_txt_unit_ftn_ref>
 </cu_txt_unit_ftn_ref>
@@ -103,7 +102,6 @@
 <cs_tag>FTN</cs_tag>
 <cs_name>times</cs_name>
 </cr_id>
-<cs_int>1</cs_int>
 </cs_ftn_ref>
 </cs_txt_unit_ftn_ref>
 </cu_txt_unit_ftn_ref>
@@ -123,7 +121,6 @@
 <cs_tag>FTN</cs_tag>
 <cs_name>one</cs_name>
 </cr_id>
-<cs_int>2</cs_int>
 </cs_ftn_ref>
 </cs_txt_unit_ftn_ref>
 </cu_txt_unit_ftn_ref>

@@ -78,7 +78,7 @@
 <!ELEMENT cs_txt_unit_url (#PCDATA)>
 
 <!ELEMENT cs_c_ref (cr_id)>
-<!ELEMENT cs_ftn_ref (cr_id,cs_int)>
+<!ELEMENT cs_ftn_ref (cr_id)>
 <!ELEMENT cs_int (#PCDATA)>
 
 <!ELEMENT cr_id (cs_tag, cs_name, (cu_scope_gbl | cu_scope_ch | cu_scope_sec | cu_scope_app | cu_scope_par)?)>
