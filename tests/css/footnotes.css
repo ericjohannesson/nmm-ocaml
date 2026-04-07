@@ -17,7 +17,7 @@
   }
 
 
-  .ftn {
+  span.ftn {
     display   : block;
     float     : footnote;
     font-size : inherit;

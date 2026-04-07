@@ -410,7 +410,7 @@ h2, h3, h4, h5 {
     margin-left : 3ch;
 }
 
-.ftn {
+span.ftn {
     display : none;
 }
 
