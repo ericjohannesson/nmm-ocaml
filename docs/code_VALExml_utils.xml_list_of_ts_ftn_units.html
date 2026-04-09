@@ -21,10 +21,9 @@
 <link title="Axml_of_doc" rel="Chapter" href="Axml_of_doc.html">
 <link title="Doc_of_axml" rel="Chapter" href="Doc_of_axml.html">
 <link title="Html_utils" rel="Chapter" href="Html_utils.html">
-<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Html_utils.margin_left_of_options</title>
+<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Exml_utils.xml_list_of_ts_ftn_units</title>
 </head>
 <body>
-<code class="code"><span class="keyword">let</span> margin_left_of_options (options : string list) : string option =
-        <span class="keyword">match</span> <span class="constructor">Txt_utils</span>.left_margin_of_options options <span class="keyword">with</span>
-        <span class="keywordsign">|</span><span class="constructor">Some</span> (margin : int) <span class="keywordsign">-&gt;</span> <span class="constructor">Some</span> (<span class="constructor">String</span>.concat <span class="string">""</span> [string_of_int margin;<span class="string">"rem"</span>])
-        <span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> <span class="constructor">None</span></code></body></html>
+<code class="code"><span class="keyword">let</span> xml_list_of_ts_ftn_units (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (a : ts_ftn_units) : <span class="constructor">Xml</span>.xml list =
+	<span class="keyword">match</span> a <span class="keyword">with</span>
+	<span class="keywordsign">|</span><span class="constructor">Cs_ftn_units</span> b <span class="keywordsign">-&gt;</span> <span class="constructor">List</span>.map (xml_of_tu_ftn_unit doc_settings cref_table path) b</code></body></html>

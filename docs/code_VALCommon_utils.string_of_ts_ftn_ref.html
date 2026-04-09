@@ -29,9 +29,15 @@
         <span class="keywordsign">|</span><span class="constructor">Cs_ftn_ref</span> (id,i) <span class="keywordsign">-&gt;</span>
         <span class="keyword">let</span> <span class="keyword">rec</span> aux (table : t_ftn_table) : string =
                 <span class="keyword">match</span> table <span class="keyword">with</span>
-                <span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> <span class="string">"??"</span>
-                <span class="keywordsign">|</span>(table_ftn_ref, table_path, n, blk_ftn)::tl <span class="keywordsign">-&gt;</span>
-                        <span class="keyword">if</span> <span class="constructor">Some</span> id = blk_ftn.fld_blk_ftn_id <span class="keywordsign">&amp;&amp;</span> path=table_path <span class="keywordsign">&amp;&amp;</span> ftn_ref=table_ftn_ref <span class="keyword">then</span> ftn_string_of_int n
+                <span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> <span class="keyword">let</span> _ : unit = <span class="constructor">Debug_utils</span>.print_warning (<span class="constructor">String</span>.concat <span class="string">""</span> [
+                        <span class="string">"WARNING: id \'"</span>;string_of_tr_id id;
+                        <span class="string">"\' referenced in "</span>;
+                        string_of_path doc_settings path;
+                        <span class="string">" is undefined or out of scope."</span>;
+                ]) <span class="keyword">in</span> <span class="string">"??"</span>
+                <span class="keywordsign">|</span>(<span class="constructor">Ftn_entry_ref</span> (table_ftn_ref, _, n, _))::tl <span class="keywordsign">-&gt;</span>
+                        <span class="keyword">if</span> ftn_ref=table_ftn_ref <span class="keyword">then</span> ftn_string_of_int n
                         <span class="keyword">else</span> aux tl
+		<span class="keywordsign">|</span>hd::tl <span class="keywordsign">-&gt;</span> aux tl
         <span class="keyword">in</span>
         aux ftn_table</code></body></html>

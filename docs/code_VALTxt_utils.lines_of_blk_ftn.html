@@ -21,7 +21,16 @@
 <link title="Axml_of_doc" rel="Chapter" href="Axml_of_doc.html">
 <link title="Doc_of_axml" rel="Chapter" href="Doc_of_axml.html">
 <link title="Html_utils" rel="Chapter" href="Html_utils.html">
-<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Html_utils.default_lang_code</title>
+<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Txt_utils.lines_of_blk_ftn</title>
 </head>
 <body>
-<code class="code"><span class="keyword">let</span> default_lang_code () : string = <span class="string">"en"</span></code></body></html>
+<code class="code"><span class="keyword">let</span> lines_of_blk_ftn (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (blk_ftn : tr_blk_ftn) : string list =
+        <span class="keyword">let</span> ftn_string : string = 
+                string_of_ts_ftn_units doc_settings cref_table path blk_ftn.fld_blk_ftn_main
+        <span class="keyword">in</span>
+        <span class="keyword">let</span> ftn_lines : string  list =
+                lines_of_string doc_settings (indent_of_path doc_settings path) ftn_string
+        <span class="keyword">in</span>
+        <span class="keyword">match</span> ftn_lines <span class="keyword">with</span>
+        <span class="keywordsign">|</span>[] <span class="keywordsign">-&gt;</span> []
+        <span class="keywordsign">|</span>hd :: tl <span class="keywordsign">-&gt;</span> (insert_label doc_settings path hd)::tl</code></body></html>
