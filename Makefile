@@ -86,7 +86,7 @@ byte: src
 	# generate doc_types.cmo, doc_types.cmi:
 	ocamlc -c -for-pack Nmm_ocaml doc_types.ml debug_utils.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
-	ocamlyacc --strict nmm_parser.mly
+	ocamlyacc -v --strict nmm_parser.mly
 	# replace generated mli-file:
 	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmo, nmm_parser.cmi:
