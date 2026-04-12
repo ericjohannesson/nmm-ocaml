@@ -844,7 +844,7 @@ let string_of_path_opt (doc_settings : t_doc_settings) (full_path : t_path) (pat
 
 let string_of_path (doc_settings : t_doc_settings) (path : t_path) : string =
         match string_of_path_opt doc_settings path path with
-        |None -> "document"
+        |None -> "Document"
         |Some s -> s
 
 
