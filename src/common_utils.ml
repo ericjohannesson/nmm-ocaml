@@ -1027,6 +1027,10 @@ let check_cref_table (doc_settings : t_doc_settings) (table : t_cref_table) : t_
 
 (* labels *)
 
+let ftn_string_of_int (n : int) : string =
+        symbol_of_array superscript_digits n
+
+
 let label_of_path_opt (doc_settings : t_doc_settings) (path : t_path) : string option =
         match path with
         | [] -> None
@@ -1065,7 +1069,7 @@ let label_of_path_opt (doc_settings : t_doc_settings) (path : t_path) : string o
                         |Some (lbl,_) -> Some lbl
                         |None -> None
                 )
-                |FTN_NODE n -> Some (string_of_int n)
+                |FTN_NODE n -> Some (ftn_string_of_int n)
                 | _ -> None
 
 let label_of_path (doc_settings : t_doc_settings) (path : t_path) : string=
@@ -1314,8 +1318,6 @@ let ftn_table_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cre
         ftn_table_of_ts_txt_units doc_settings cref_table path ftn_table dsp_line.fld_dsp_line_units
 
 
-let ftn_string_of_int (n : int) : string =
-        symbol_of_array superscript_digits n
 
 let string_of_ts_ftn_ref (doc_settings : t_doc_settings) (ftn_table : t_ftn_table) (path : t_path) (ftn_ref : ts_ftn_ref) : string =
         match ftn_ref with
