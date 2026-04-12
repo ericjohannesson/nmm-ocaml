@@ -34,7 +34,7 @@ type t_doc_settings = {
         tab_length : int;
         abstract_hdr: (string * string) option;
         refs_hdr: (string * string) option;
-	endnotes_hdr : (string * string) option;
+        endnotes_hdr : (string * string) option;
         ch_prefix: (string * string) option;
         sec_prefix: (string * string) option;
         app_prefix: (string * string) option;
@@ -162,7 +162,7 @@ let doc_settings_default () : t_doc_settings = {
         tab_length = 6;
         abstract_hdr = Some ("ABSTRACT", "Abstract");
         refs_hdr = Some ("REFERENCES", "References");
-	endnotes_hdr = Some ("ENDNOTES", "Endnotes");
+        endnotes_hdr = Some ("ENDNOTES", "Endnotes");
         ch_prefix = Some ("CHAPTER", "Chapter");
         sec_prefix = Some ("§","§");
         app_prefix = Some ("§","Appendix");
@@ -209,7 +209,7 @@ let doc_settings_of_ts_blks (doc_settings : t_doc_settings) (lvl : int) (blks : 
                                                         tab_length = doc_settings.tab_length;
                                                         abstract_hdr = doc_settings.abstract_hdr;
                                                         refs_hdr = doc_settings.refs_hdr;
-							endnotes_hdr = doc_settings.endnotes_hdr;
+                                                        endnotes_hdr = doc_settings.endnotes_hdr;
                                                         ch_prefix = doc_settings.ch_prefix;
                                                         sec_prefix = doc_settings.sec_prefix;
                                                         app_prefix = doc_settings.app_prefix;
@@ -1331,7 +1331,7 @@ let string_of_ts_ftn_ref (doc_settings : t_doc_settings) (ftn_table : t_ftn_tabl
                 |(Ftn_entry_ref (table_ftn_ref, _, n, _))::tl ->
                         if ftn_ref=table_ftn_ref then ftn_string_of_int n
                         else aux tl
-		|hd::tl -> aux tl
+                |hd::tl -> aux tl
         in
         aux ftn_table
 
@@ -1348,7 +1348,7 @@ let string_of_ts_ftn_inline (doc_settings : t_doc_settings) (ftn_table : t_ftn_t
                 |(Ftn_entry_inline (Cs_ftn_inline (_,j), _, n))::tl ->
                         if i=j then ftn_string_of_int n
                         else aux tl
-		|hd::tl -> aux tl
+                |hd::tl -> aux tl
         in
         aux ftn_table
 
