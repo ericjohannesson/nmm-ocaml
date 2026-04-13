@@ -47,20 +47,7 @@ type t_doc_settings = {
 
 
 let expand_tag_default (tag : Doc_types.ts_tag) : (string * string) option =
-        match tag with
-        |Cs_tag "DEF" -> Some ("DEFINITION", "Definition")
-        |Cs_tag "PRF" -> Some ("PROOF", "Proof")
-        |Cs_tag "FCT" -> Some ("FACT", "Fact")
-        |Cs_tag "LMA" -> Some ("LEMMA", "Lemma")
-        |Cs_tag "THM" -> Some ("THEOREM", "Theorem")
-        |Cs_tag "RMK" -> Some ("REMARK", "Remark")
-        |Cs_tag "DEFS" -> Some ("DEFINITIONS", "Definitions")
-        |Cs_tag "PRFS" -> Some ("PROOFS", "Proofs")
-        |Cs_tag "FCTS" -> Some ("FACTS", "Facts")
-        |Cs_tag "LMAS" -> Some ("LEMMAS", "Lemmas")
-        |Cs_tag "THMS" -> Some ("THEOREMS", "Theorems")
-        |Cs_tag "RMKS" -> Some ("REMARKS", "Remarks")
-        | _  -> None
+	Expand_tags.expand_tag tag
 
 let lower_case_latin_letters : string array =
         [|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j";"k";"l";"m";"n";"o";"p";"q";"r";"s";"t";"u";"v";"x";"y";"z";|]
