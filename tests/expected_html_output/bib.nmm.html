@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>untitled</title>
+<title>Bibliography entries</title>
 
 <style>
 
@@ -378,169 +378,60 @@ h2, h3, h4, h5 {
 </style>
 </head>
 <body>
-<div class="doc pars">
+<div class="doc secs">
+<h1 class="title">Bibliography entries</h1>
 <div class="doc_main">
-<div class="par">
-<h2 class="par_lbl hdr">¶ 1</h2>
-<div class="clear"></div>
-<div class="par_main">
-<p class="blk txt">Some text.</p>
-<div class="ITM blk itm" id="ITM_1">
-<div class="blk_itm_lbl">(1)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Item with id ‘ITM:1’ with custom label indicating custom numbering of subsequent items in the same paragraph.</p>
-</div>
-</div>
-<div class="ITM blk itm" id="ITM_2">
-<div class="blk_itm_lbl">(2)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Item with id ‘ITM:2’.</p>
-<div class="blk itm">
-<div class="blk_itm_lbl">(i)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Item on the next level.</p>
-<div class="blk itm">
-<div class="blk_itm_lbl">(A)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Item on the next level.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(ii)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Item.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(3)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Third item.</p>
-</div>
-</div>
-<div class="blk dsp">
-<div class="DSP dsp_line" id="DSP_1">
-<div class="dsp_line_lbl">(4)</div>
-<div class="clear"></div>
-<div class="dsp_line_main">Display line with id ‘DSP:1’.</div>
-</div>
-</div>
-<p class="blk txt">Reference to <a class="txt_unit_c_ref" href="#ITM_1">(1)</a> and <a class="txt_unit_c_ref" href="#ITM_2">(2)</a>.</p>
-<p class="blk txt">Reference to <a class="txt_unit_c_ref" href="#DSP_1">(4)</a>.</p>
-</div>
-</div>
-<div class="par">
-<h2 class="par_lbl hdr">¶ 2</h2>
-<div class="clear"></div>
-<div class="par_main">
-<div class="blk itm">
+<div class="sec">
+<div class="sec_lbl">§ 1</div>
+<h2 class="sec_hdr">Section title</h2>
+<div class="sec_main">
+<p class="blk txt">This is an item with ID ‘BIB:JL’:</p>
+<div class="BIB blk itm" id="BIB_JL">
 <div class="blk_itm_lbl">(a)</div>
 <div class="clear"></div>
 <div class="blk_itm_main">
-<p class="blk txt">Default numbered item.</p>
-<div class="blk itm">
-<div class="blk_itm_lbl">(1)</div>
+<p class="blk txt">Johannesson, Eric &amp; Lundstedt, Anders (2026): Proof by weakened induction hypothesis.</p>
+</div>
+</div>
+<p class="blk txt">When referred to, it looks like this: <a class="txt_unit_c_ref" href="#BIB_JL">(a)</a>.</p>
+<p class="blk txt">We can also refer to the corresponding bibliography items in REFERENCES, with ID ‘BIB:JL_refs’. It looks like this: <a class="txt_unit_c_ref" href="#BIB_JL_refs">[a]</a>.</p>
+<p class="blk txt">A clever way of achieving nice citations is to use bibliography items with custom labels, like this one:</p>
+<div class="BIB blk itm bib_custom" id="BIB_JL_custom">
+<div class="blk_itm_lbl">Johannesson &amp; Lundstedt (2026)</div>
 <div class="clear"></div>
 <div class="blk_itm_main">
-<p class="blk txt">Default numbered item.</p>
-<div class="blk itm">
-<div class="blk_itm_lbl">(i)</div>
+<p class="blk txt">Johannesson, Eric &amp; Lundstedt, Anders (2026): Proof by weakened induction hypothesis.</p>
+</div>
+</div>
+<p class="blk txt">Referring to it looks like this: <a class="txt_unit_c_ref" href="#BIB_JL_custom">Johannesson &amp; Lundstedt (2026)</a>.</p>
+<p class="blk txt">Referring to the corresponding bibliography item in REFERENCES looks like this: <a class="txt_unit_c_ref" href="#BIB_JL_custom_refs">Johannesson &amp; Lundstedt (2026)</a>.</p>
+</div>
+</div>
+<div class="sec">
+<div class="sec_lbl">§ 2</div>
+<h2 class="sec_hdr">Another section</h2>
+<div class="sec_main">
+<p class="blk txt">Referring from another section:</p>
+<p class="blk txt"><a class="txt_unit_c_ref" href="#BIB_JL">(a) of § 1</a></p>
+<p class="blk txt"><a class="txt_unit_c_ref" href="#BIB_JL_refs">[a]</a></p>
+<p class="blk txt"><a class="txt_unit_c_ref" href="#BIB_JL_custom">Johannesson &amp; Lundstedt (2026)</a></p>
+</div>
+</div>
+</div>
+<div class="refs">
+<h2 class="refs_hdr">REFERENCES</h2>
+<div class="BIB blk itm" id="BIB_JL_refs">
+<div class="blk_itm_lbl">[a]</div>
 <div class="clear"></div>
 <div class="blk_itm_main">
-<p class="blk txt">Default numbered item.</p>
+<p class="blk txt">Johannesson, Eric &amp; Lundstedt, Anders (2026): Proof by weakened induction hypothesis.</p>
 </div>
 </div>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(2)</div>
+<div class="BIB blk itm bib_custom" id="BIB_JL_custom_refs">
+<div class="blk_itm_lbl">Johannesson &amp; Lundstedt (2026)</div>
 <div class="clear"></div>
 <div class="blk_itm_main">
-<p class="blk txt">Another default numbered item.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(b)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Another item.</p>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(1)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Item with custom label having no effect on subsequent numbering, because not first in paragraph.</p>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(c)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Next item.</p>
-</div>
-</div>
-<div class="blk dsp">
-<div class="dsp_line">
-<div class="dsp_line_lbl">(d)</div>
-<div class="clear"></div>
-<div class="dsp_line_main">Display line.</div>
-</div>
-</div>
-</div>
-</div>
-<div class="par">
-<h2 class="par_lbl hdr">¶ 3</h2>
-<div class="clear"></div>
-<div class="par_main">
-<div class="blk itm">
-<div class="blk_itm_lbl">(a)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Auto numbered item.</p>
-<div class="ITM blk itm" id="ITM_i">
-<div class="blk_itm_lbl">(i)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Custom labeled item with id ‘ITM:i’ with effect on subsequent numbering.</p>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(ii)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Auto numbered item.</p>
-<div class="blk itm">
-<div class="blk_itm_lbl">(A)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Auto numbered item, and a reference to <a class="txt_unit_c_ref" href="#ITM_i">(i)</a>.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="blk itm">
-<div class="blk_itm_lbl">(b)</div>
-<div class="clear"></div>
-<div class="blk_itm_main">
-<p class="blk txt">Next item.</p>
-</div>
-</div>
-<p class="blk txt">Reference to <a class="txt_unit_c_ref" href="#ITM_1">(1) of ¶ 1</a> and <a class="txt_unit_c_ref" href="#ITM_2">(2) of ¶ 1</a>.</p>
-<p class="blk txt">Reference to <a class="txt_unit_c_ref" href="#DSP_1">(4) of ¶ 1</a>.</p>
+<p class="blk txt">Johannesson, Eric &amp; Lundstedt, Anders (2026): Proof by weakened induction hypothesis.</p>
 </div>
 </div>
 </div>

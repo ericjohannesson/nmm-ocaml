@@ -47,13 +47,17 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_cref_table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_ftn_table&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_path&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Doc_types</span>.ts_txt_units&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.xml&nbsp;list<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;attr_list_of_tu_tag_or_id&nbsp;:<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;attr_list_of_tu_tag_or_id_opt&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_doc_settings&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_path&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Doc_types</span>.tu_tag_or_id&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string)&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;attr_list_of_tr_id&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_doc_settings&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_path&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Doc_types</span>.tr_id&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string)&nbsp;list<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_path&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Doc_types</span>.tr_id&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string)&nbsp;list<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;attr_list_of_tr_id_opt&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_doc_settings&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_path&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Doc_types</span>.tr_id&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(string&nbsp;*&nbsp;string)&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;par_hdr_opt&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_doc_settings&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Common_utils</span>.t_cref_table&nbsp;<span class="keywordsign">-&gt;</span><br>

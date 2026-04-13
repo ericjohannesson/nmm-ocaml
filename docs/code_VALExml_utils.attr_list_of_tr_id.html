@@ -24,7 +24,5 @@
 <link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Exml_utils.attr_list_of_tr_id</title>
 </head>
 <body>
-<code class="code"><span class="keyword">let</span> attr_list_of_tr_id (doc_settings : t_doc_settings) (path : t_path) (id_opt : tr_id option) : (string*string) list =
-        <span class="keyword">match</span> id_opt <span class="keyword">with</span>
-        <span class="keywordsign">|</span> <span class="constructor">None</span> <span class="keywordsign">-&gt;</span> []
-        <span class="keywordsign">|</span> <span class="constructor">Some</span> id <span class="keywordsign">-&gt;</span> [(<span class="string">"id"</span>, cdata_of_tr_id doc_settings path id)]</code></body></html>
+<code class="code"><span class="keyword">let</span> attr_list_of_tr_id (doc_settings : t_doc_settings) (path : t_path) (id : tr_id) : (string*string) list =
+	[(<span class="string">"id"</span>, cdata_of_tr_id doc_settings path id)]</code></body></html>
