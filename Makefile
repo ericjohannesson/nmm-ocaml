@@ -14,6 +14,10 @@ clean:
 	# remove anything in .gitignore, including directories
 	git clean -fdX
 
+clean-docs:
+	rm -f docs/*.html
+	rm -f docs/specs/*.txt
+
 test: bin/nmm-ocaml
 	cd tests
 	bash test.sh
