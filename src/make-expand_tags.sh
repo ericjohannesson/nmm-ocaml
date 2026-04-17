@@ -5,13 +5,21 @@ SED_CMD_SINGULAR='s/'$COL$TAB$COL$TAB$COL$TAB$COL$TAB$COL$TAB$COL'/|Cs_tag "\1" 
 
 SED_CMD_PLURAL='s/'$COL$TAB$COL$TAB$COL$TAB$COL$TAB$COL$TAB$COL'/|Cs_tag "\2" -> Some("\6","\5")\n/'
 
-INTRO='open Doc_types
+INTRO='
+open Doc_types
+
+exception Error of string
 
 let expand_tag (tag : Doc_types.ts_tag) : (string * string) option =
 match tag with
 '
 
-OUTRO='|_  -> None
+OUTRO='
+|Cs_tag "PAR"
+|Cs_tag "ITM"
+|Cs_tag "DSP"
+|Cs_tag "BIB" -> None
+|Cs_tag s -> let _ : unit = Debug_utils.print_warning ("WARNING: undefined tag: " ^ s) in None
 '
 
 echo "$INTRO" > expand_tags.ml

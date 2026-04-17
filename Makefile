@@ -61,7 +61,7 @@ native: src bin/tags.tsv
 	mkdir -p native
 	cp -f src/* native/
 	cd native
-	bash make-nmm_lexer.sh
+#	bash make-nmm_lexer.sh
 	bash make-expand_tags.sh
 	ocamlopt -c -for-pack Nmm_ocaml doc_types.ml debug_utils.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
@@ -90,7 +90,7 @@ byte: src bin/tags.tsv
 	mkdir -p byte
 	cp -f src/* byte/
 	cd byte
-	bash make-nmm_lexer.sh
+#	bash make-nmm_lexer.sh
 	bash make-expand_tags.sh
 	# generate doc_types.cmo, doc_types.cmi:
 	ocamlc -c -for-pack Nmm_ocaml doc_types.ml debug_utils.ml

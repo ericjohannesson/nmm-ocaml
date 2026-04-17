@@ -33,6 +33,7 @@ let txt = [%sedlex.regexp? Plus txt_chars]
 let scope = [%sedlex.regexp? "GBL" | "CH" | "SEC" | "APP" | "PAR"]
 let non_name_chars = [%sedlex.regexp? Chars "\r\n\t:[] \\"]
 let name = [%sedlex.regexp? Plus (Compl non_name_chars)]
+let tag_shared = [%sedlex.regexp? name]
 let tag_unique = [%sedlex.regexp? "CH" | "SEC" | "APP" | "PAR" | "ITM" | "DSP" ]
 let tag = [%sedlex.regexp? tag_unique | tag_shared | "BIB"]
 let ch_tag_or_id = [%sedlex.regexp? "CH", Opt (":", name, Opt ":GBL")]
@@ -135,8 +136,8 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |date                           ->      DATE
                 |abstract                       ->      ABSTRACT
                 |ch_tag_or_id_nl                ->      CH_TAG_OR_ID_NL (String.trim (lexeme lexbuf))
-                |c_ref                          ->      C_REF (lexeme lexbuf)
                 |nte_ref                        ->      NTE_REF (lexeme lexbuf, nte_count ())
+                |c_ref                          ->      C_REF (lexeme lexbuf)
                 |section_nl                     ->      SECTION_NL
                 |section_tab_tag_or_id_nl       ->      SECTION_TAB_TAG_OR_ID_NL (get_tag_or_id (lexeme lexbuf))
                 |pilcrow_nl                     ->      PILCROW_NL
@@ -192,10 +193,10 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |colon                          ->      COLON
                 |section                        ->      SECTION
                 |pilcrow                        ->      PILCROW
+                |nte_ref                        ->      NTE_REF (lexeme lexbuf, nte_count ())
                 |c_ref                          ->      C_REF (lexeme lexbuf)
                 |nte_lbr                        ->      NTE_LBR (nte_count ())
                 |n                              ->      N
-                |nte_ref                        ->      NTE_REF (lexeme lexbuf, nte_count ())
                 |txt                            ->      TXT (lexeme lexbuf)
                 |tab                            ->      TAB 
                 |dsp_id                         ->      DSP_ID (lexeme lexbuf)
