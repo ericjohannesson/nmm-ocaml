@@ -246,6 +246,15 @@ let tag_value_of_string (expand_tag_old : Doc_types.ts_tag -> (string * string) 
                                 |false -> expand_tag_old tag
                 in expand_tag_new
         )
+        |[tag_string; lbl] -> (
+                let expand_tag_new ( tag : Doc_types.ts_tag) : (string * string) option = 
+                        match tag with
+                        |Cs_tag (s : string) ->
+                                match s = tag_string with
+                                |true -> Some (lbl, lbl)
+                                |false -> expand_tag_old tag
+                in expand_tag_new
+        )
         | _ -> raise (Error "invalid tag value")
 
 let prefix_value_of_string (v : string) : (string * string) option =
