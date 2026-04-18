@@ -48,15 +48,14 @@ let par_id = [%sedlex.regexp? ("PAR" | tag_shared), ":", name, Opt (":", ("GBL" 
 let itm_auto_tab_id = [%sedlex.regexp? itm_auto_tab, itm_id]
 let itm_custom_tab_id = [%sedlex.regexp? itm_custom_tab, itm_id]
 let star_tab_id = [%sedlex.regexp? star_tab, nte_id]
-
 let ch_tag_or_id_nl = [%sedlex.regexp? ch_tag_or_id, nl]
 
+let spaces = [%sedlex.regexp? Plus " "]
 let section_nl = [%sedlex.regexp? section, nl]
-let section_tab_tag_or_id_nl = [%sedlex.regexp? section, tab, sec_tag_or_id, nl]
-
+let section_spaces_tag_or_id_nl = [%sedlex.regexp? section, spaces, sec_tag_or_id, nl]
 let pilcrow_nl = [%sedlex.regexp? pilcrow, nl]
-let pilcrow_tab_tag_or_id_nl = [%sedlex.regexp? pilcrow, tab, par_tag_or_id, nl]
-let pilcrow_spaces_rpt_spaces_id_nl = [%sedlex.regexp? pilcrow, Plus " ", "rpt", Plus " ", par_id, nl]
+let pilcrow_spaces_tag_or_id_nl = [%sedlex.regexp? pilcrow, spaces, par_tag_or_id, nl]
+let pilcrow_spaces_rpt_spaces_id_nl = [%sedlex.regexp? pilcrow, spaces, "rpt", spaces, par_id, nl]
 
 let preamble = [%sedlex.regexp? "PREAMBLE:"]
 let title = [%sedlex.regexp? "TITLE:"]
@@ -86,7 +85,7 @@ let get_label (s:string):string=
 
 let get_tag_or_id (s:string):string=
         let x=String.trim s in
-        let y=String.split_on_char '\t' x in
+        let y=String.split_on_char ' ' x in
         let z=List.tl y in
         String.concat "" z
 
@@ -139,9 +138,9 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |nte_ref                        ->      NTE_REF (lexeme lexbuf, nte_count ())
                 |c_ref                          ->      C_REF (lexeme lexbuf)
                 |section_nl                     ->      SECTION_NL
-                |section_tab_tag_or_id_nl       ->      SECTION_TAB_TAG_OR_ID_NL (get_tag_or_id (lexeme lexbuf))
+                |section_spaces_tag_or_id_nl    ->      SECTION_SPACES_TAG_OR_ID_NL (get_tag_or_id (lexeme lexbuf))
                 |pilcrow_nl                     ->      PILCROW_NL
-                |pilcrow_tab_tag_or_id_nl       ->      PILCROW_TAB_TAG_OR_ID_NL (get_tag_or_id (lexeme lexbuf))
+                |pilcrow_spaces_tag_or_id_nl    ->      PILCROW_SPACES_TAG_OR_ID_NL (get_tag_or_id (lexeme lexbuf))
                 |pilcrow_spaces_rpt_spaces_id_nl ->     PILCROW_SPACES_RPT_SPACES_ID_NL (get_id (lexeme lexbuf))
                 |section_refs_nls               ->      SECTION_REFS_NLS
                 |pilcrow_refs_nls               ->      PILCROW_REFS_NLS

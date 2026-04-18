@@ -3,7 +3,7 @@ PREAMBLE:
 	tag=SLNS,SOLUTIONS,Solutions
 
 
-¶	SLNS:easy
+¶ SLNS:easy
 
 []	SLN:a
 	The solution is easy.
@@ -15,7 +15,7 @@ PREAMBLE:
 
 Let us refer to [SLN:a].
 
-¶	SOLS:typo
+¶ SOLS:typo
 
 Here, the semantics issues a warning about undefined tag.
 
