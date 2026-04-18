@@ -855,6 +855,7 @@ and acc_of_tu_doc_main (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
 (* margin labels *)
 
 let margin_labels_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : string list=
+        let _ : unit = Debug_utils.quiet.contents <- true in
         match acc_of_tr_doc doc_settings ([] : t_cref_table) ([] : t_nte_table) ([] : t_path) (MARGIN_LABELS []) doc with
         | MARGIN_LABELS string_list -> string_list
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -862,6 +863,7 @@ let margin_labels_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : str
 (* cref table *)
 
 let cref_table_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : t_cref_table =
+        let _ : unit = Debug_utils.quiet.contents <- true in
         match acc_of_tr_doc doc_settings ([] : t_cref_table) ([] : t_nte_table) ([] : t_path) (CREF_TABLE []) doc with
         | CREF_TABLE table -> check_cref_table doc_settings (List.rev table)
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -869,6 +871,7 @@ let cref_table_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : t_cref
 (* footnote table *)
 
 let nte_table_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (doc : tr_doc) : t_nte_table =
+        let _ : unit = Debug_utils.quiet.contents <- true in
         match acc_of_tr_doc doc_settings cref_table ([] : t_nte_table) ([] : t_path) (NTE_TABLE []) doc with
         | NTE_TABLE table -> table
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -877,8 +880,10 @@ let nte_table_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_tab
 (* txt *)
 
 let lines_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : string list =
+	let quiet : bool = Debug_utils.quiet.contents in
         let cref_table : t_cref_table = cref_table_of_tr_doc doc_settings doc in
         let nte_table : t_nte_table = nte_table_of_tr_doc doc_settings cref_table doc in
+        let _ : unit = Debug_utils.quiet.contents <- quiet in
         match acc_of_tr_doc doc_settings cref_table nte_table ([] : t_path) (LINES []) doc with
         | LINES lines -> lines
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -920,13 +925,16 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
                 allow_custom_numbering = allow_custom_numbering;
         }
         in
+        let _ : unit = Debug_utils.quiet.contents <- options.quiet in
         String.concat "\n" (lines_of_tr_doc new_doc_settings doc)
 
 (* exml *)
 
 let xml_list_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : Xml.xml list =
+	let quiet : bool = Debug_utils.quiet.contents in
         let cref_table : t_cref_table = cref_table_of_tr_doc doc_settings doc in
         let nte_table : t_nte_table = nte_table_of_tr_doc doc_settings cref_table doc in
+        let _ : unit = Debug_utils.quiet.contents <- quiet in
         match acc_of_tr_doc doc_settings cref_table nte_table ([] : t_path) (EXML []) doc with
         | EXML xml_list -> xml_list
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -956,6 +964,7 @@ let exml_of_tr_doc (options : t_exml_options) (doc : tr_doc) : Xml.xml =
                 allow_custom_numbering = allow_custom_numbering;
         }
         in
+        let _ : unit = Debug_utils.quiet.contents <- options.quiet in
         match xml_list_of_tr_doc new_doc_settings doc with
         | hd::[] -> hd
         | _ -> raise (Error "expected an exml-list with exactly one element")

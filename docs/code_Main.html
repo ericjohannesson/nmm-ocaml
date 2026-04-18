@@ -38,7 +38,6 @@
 <br>
 <br>
 <span class="keyword">let</span>&nbsp;txt_of_doc&nbsp;(options&nbsp;:&nbsp;<span class="constructor">Common_utils</span>.t_txt_options)&nbsp;(doc&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_doc)&nbsp;:&nbsp;string&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;_&nbsp;:&nbsp;unit&nbsp;=&nbsp;<span class="constructor">Debug_utils</span>.quiet.contents&nbsp;&lt;-&nbsp;options.quiet&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Compiler_of_doc</span>.txt_of_tr_doc&nbsp;options&nbsp;doc<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">with</span><br>
@@ -47,7 +46,6 @@
 <br>
 <span class="keyword">let</span>&nbsp;html_of_doc&nbsp;(options&nbsp;:&nbsp;<span class="constructor">Common_utils</span>.t_html_options)&nbsp;(doc&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_doc)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;_&nbsp;:&nbsp;unit&nbsp;=&nbsp;<span class="constructor">Debug_utils</span>.quiet.contents&nbsp;&lt;-&nbsp;options.quiet&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;exml:<span class="constructor">Xml</span>.xml&nbsp;=&nbsp;<span class="constructor">Compiler_of_doc</span>.exml_of_tr_doc&nbsp;(<span class="constructor">Common_utils</span>.exml_options_of_html_options&nbsp;options)&nbsp;doc&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;doc_class&nbsp;:&nbsp;<span class="constructor">Common_utils</span>.t_doc_class&nbsp;=&nbsp;<span class="constructor">Common_utils</span>.class_of_tr_doc&nbsp;doc&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;html:<span class="constructor">Xml</span>.xml&nbsp;=&nbsp;<span class="constructor">Html_utils</span>.html_of_exml&nbsp;doc_class&nbsp;exml&nbsp;<span class="keyword">in</span><br>
@@ -172,7 +170,6 @@
 <br>
 <br>
 <span class="keyword">let</span>&nbsp;exml_of_doc&nbsp;(options&nbsp;:&nbsp;<span class="constructor">Common_utils</span>.t_exml_options)&nbsp;(doc&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_doc)&nbsp;:&nbsp;string&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;_&nbsp;:&nbsp;unit&nbsp;=&nbsp;<span class="constructor">Debug_utils</span>.quiet.contents&nbsp;&lt;-&nbsp;options.quiet&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"&lt;?xml&nbsp;version=\"1.0\"?&gt;\n"</span>&nbsp;^&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Xml_right</span>.to_string_fmt&nbsp;(<span class="constructor">Compiler_of_doc</span>.exml_of_tr_doc&nbsp;options&nbsp;doc))<br>
 <br>

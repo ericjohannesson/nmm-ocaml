@@ -11,7 +11,6 @@ let doc_of_nmm (path : string) : Doc_types.tr_doc =
 
 
 let txt_of_doc (options : Common_utils.t_txt_options) (doc : Doc_types.tr_doc) : string =
-        let _ : unit = Debug_utils.quiet.contents <- options.quiet in
         try
         Compiler_of_doc.txt_of_tr_doc options doc
         with
@@ -20,7 +19,6 @@ let txt_of_doc (options : Common_utils.t_txt_options) (doc : Doc_types.tr_doc) :
 
 let html_of_doc (options : Common_utils.t_html_options) (doc : Doc_types.tr_doc) : string =
         try
-        let _ : unit = Debug_utils.quiet.contents <- options.quiet in
         let exml:Xml.xml = Compiler_of_doc.exml_of_tr_doc (Common_utils.exml_options_of_html_options options) doc in
         let doc_class : Common_utils.t_doc_class = Common_utils.class_of_tr_doc doc in
         let html:Xml.xml = Html_utils.html_of_exml doc_class exml in
@@ -145,7 +143,6 @@ let default_css () : string = Html_utils.internal_css "6ch" "0rem"
 
 
 let exml_of_doc (options : Common_utils.t_exml_options) (doc : Doc_types.tr_doc) : string =
-        let _ : unit = Debug_utils.quiet.contents <- options.quiet in
         "<?xml version=\"1.0\"?>\n" ^ 
         (Xml_right.to_string_fmt (Compiler_of_doc.exml_of_tr_doc options doc))
 
