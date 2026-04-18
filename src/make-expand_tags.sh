@@ -8,8 +8,6 @@ SED_CMD_PLURAL='s/'$COL$TAB$COL$TAB$COL$TAB$COL$TAB$COL$TAB$COL'/|Cs_tag "\2" ->
 INTRO='
 open Doc_types
 
-exception Error of string
-
 let expand_tag (tag : Doc_types.ts_tag) : (string * string) option =
 match tag with
 '
