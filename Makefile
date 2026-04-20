@@ -34,7 +34,6 @@ docs: byte
 	cp src/xml_right_lexer.mll docs/specs/xml_right_lexer.mll.txt
 	cp src/xml_right_parser.mly docs/specs/xml_right_parser.mly.txt
 	cp src/nmm_parser.mly docs/specs/nmm_parser.mly.txt
-	cp bin/tags.tsv docs/specs/tags.tsv.txt
 	cd byte
 	ocamlfind ocamldoc -t 'Nmm_ocaml' -keep-code -colorize-code -d ../docs -package sedlex.ppx -package uuseg -package xml-light -package str -package unix -html doc_types.ml xml_right_parser.mli xml_right_lexer.mli xml_right.mli xml_right.ml nmm_parser.mli nmm_lexer.mli nmm_lexer.ml doc_of_nmm.mli doc_of_nmm.ml common_utils.mli expand_tags.mli expand_tags.ml common_utils.ml txt_utils.mli txt_utils.ml exml_utils.mli exml_utils.ml compiler_of_doc.mli compiler_of_doc.ml axml_of_doc.mli axml_of_doc.ml doc_of_axml.mli doc_of_axml.ml html_utils.mli html_utils.ml main.mli main.ml
 	cd -
@@ -57,7 +56,7 @@ opam_package: native opam byte
 	cp opam/nmm-ocaml.opam opam_package/opam
 	cp opam/META opam_package/
 
-native: src bin/tags.tsv
+native: src
 	mkdir -p native
 	cp -f src/* native/
 	cd native
@@ -84,7 +83,7 @@ native: src bin/tags.tsv
 	ocamlfind ocamlopt -a -o nmm_ocaml.cmxa nmm_ocaml.cmx
 	ocamlopt -shared -o nmm_ocaml.cmxs nmm_ocaml.cmxa
 
-byte: src bin/tags.tsv
+byte: src
 	mkdir -p byte
 	cp -f src/* byte/
 	cd byte
