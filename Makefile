@@ -20,12 +20,10 @@ test: bin/nmm-ocaml
 	cd -
 
 bin/nmm-ocaml: native
-	mkdir -p build_bin
-	cp -f native/* build_bin/
-	cd build_bin
+	cd native
 	ocamlfind ocamlopt -o nmm-ocaml -linkpkg -package sedlex.ppx -package uuseg -package xml-light -package str -package unix nmm_ocaml.cmxa cli.ml
 	cd -
-	mv build_bin/nmm-ocaml bin/
+	mv native/nmm-ocaml bin/
 
 
 docs: byte
@@ -44,6 +42,12 @@ clean-docs:
 
 install-bin: bin/nmm-ocaml
 	cp bin/nmm-ocaml ~/bin/
+	cp bin/txt-of-nmm.sh ~/bin/txt-of-nmm
+	chmod +x ~/bin/txt-of-nmm
+	cp bin/html-of-nmm.sh ~/bin/html-of-nmm
+	chmod +x ~/bin/html-of-nmm
+	cp bin/pdf-of-nmm.sh ~/bin/pdf-of-nmm
+	chmod +x ~/bin/pdf-of-nmm
 
 install-opam_package: opam_package src/cli.ml
 	ocamlfind install nmm-ocaml opam_package/*
