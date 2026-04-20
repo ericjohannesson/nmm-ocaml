@@ -40,10 +40,10 @@ test_with_nmm(){
 test_with_xml(){
 	local exit_code=0
 	local curr_code=0
-	local input_dir="xml_input"
+	local input_dir="axml_input"
 	for file in $(ls $input_dir/*.xml)
 	do
-		../bin/nmm-ocaml test-with-xml $@ $file
+		../bin/nmm-ocaml test-with-axml $@ $file
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -94,11 +94,11 @@ make_xml_output(){
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
-	local output_dir="xml_output"
+	local output_dir="axml_output"
 	mkdir -p $output_dir
 	for file in $(ls $input_dir/*.nmm)
 	do
-		../bin/nmm-ocaml xml-of-nmm $@ $file > $output_dir/$(basename $file).xml
+		../bin/nmm-ocaml axml-of-nmm $@ $file > $output_dir/$(basename $file).xml
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -148,8 +148,8 @@ show_html_diff(){
 show_xml_diff(){
 	local exit_code=0
 	local curr_code=0
-	local output_dir="xml_output"
-	local expected_output_dir="expected_xml_output"
+	local output_dir="axml_output"
+	local expected_output_dir="expected_axml_output"
 	for file in $(ls $output_dir/*.xml)
 	do
 		diff $expected_output_dir/$(basename $file) $output_dir/$(basename $file) > /dev/null
@@ -189,13 +189,13 @@ test_normalize(){
 	for file in $(ls $input_dir/*.nmm)
 	do
 		../bin/nmm-ocaml txt-of-nmm --quiet $file > $TEMP_DIR_TXT_OF_NMM/$(basename -s .nmm $file).txt
-		../bin/nmm-ocaml xml-of-nmm $@ $file > $TEMP_DIR_XML_OF_NMM/$(basename -s .nmm $file).xml
+		../bin/nmm-ocaml axml-of-nmm $@ $file > $TEMP_DIR_XML_OF_NMM/$(basename -s .nmm $file).xml
 	done
 
 
 	for file in $(ls $TEMP_DIR_XML_OF_NMM/*.xml)
 	do
-		../bin/nmm-ocaml txt-of-xml --quiet $file > $TEMP_DIR_TXT_OF_XML/$(basename -s .xml $file).txt
+		../bin/nmm-ocaml txt-of-axml --quiet $file > $TEMP_DIR_TXT_OF_XML/$(basename -s .xml $file).txt
 	done
 
 	local exit_code=0

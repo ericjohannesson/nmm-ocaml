@@ -5,16 +5,20 @@ exception Error of string
 let usage : string=
 "USAGE:
 nmm-ocaml [
-  | txt-of-xml [ <txt-options> ] { <path-to-xml-file> | - }
-  | html-of-xml [ <html-options> ] { <path-to-xml-file> | - }
-  | xml-of-nmm { <path-to-nmm-file> | - }
-  | txt-of-nmm [ <txt-options> ] { <path-to-nmm-file> | - }
+  | txt-of-nmm  [ <txt-options>  ] { <path-to-nmm-file> | - }
   | html-of-nmm [ <html-options> ] { <path-to-nmm-file> | - }
+  | exml-of-nmm [ <exml-options> ] { <path-to-nmm-file> | - }
+
+  | axml-of-nmm { <path-to-nmm-file> | - }
+
+  | txt-of-axml  [ <txt-options>  ] { <path-to-axml-file> | - }
+  | html-of-axml [ <html-options> ] { <path-to-axml-file> | - }
+  | exml-of-axml [ <exml-options> ] { <path-to-axml-file> | - }
+
   | check-xml-schema <path-to-dtd-file>
   | validate-xml <path-to-dtd-file> { <path-to-xml-file> | - }
+
   | show-default-css
-  | exml-of-nmm [ <exml-options> ] { <path-to-nmm-file> | - }
-  | exml-of-axml [ <exml-options> ] { <path-to-axml-file> | - }
 ]
 
 In cases where '-' can be given instead of a path, the program
@@ -168,10 +172,10 @@ let anon_arg_fun arg : unit =
         |0 ->
                 let _ : unit =
                 match arg with
-                |"txt-of-xml" -> keyspecdoc_list.contents <- keyspecdoc_list_txt_of_xml
-                |"test-with-xml"
-                |"html-of-xml" -> keyspecdoc_list.contents <- keyspecdoc_list_html_of_xml
-                |"xml-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_xml_of_nmm
+                |"txt-of-axml" -> keyspecdoc_list.contents <- keyspecdoc_list_txt_of_xml
+                |"test-with-axml"
+                |"html-of-axml" -> keyspecdoc_list.contents <- keyspecdoc_list_html_of_xml
+                |"axml-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_xml_of_nmm
                 |"txt-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_txt_of_nmm
                 |"test-with-nmm"
                 |"html-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_html_of_nmm
@@ -188,10 +192,10 @@ let anon_arg_fun arg : unit =
         |1 ->
                 let _ : unit =
                 match cmd_name.contents with
-                |"txt-of-xml" -> path_to_xml_file.contents <- arg
-                |"test-with-xml"
-                |"html-of-xml" -> path_to_xml_file.contents <- arg
-                |"xml-of-nmm" -> path_to_nmm_file.contents <- arg
+                |"txt-of-axml" -> path_to_xml_file.contents <- arg
+                |"test-with-axml"
+                |"html-of-axml" -> path_to_xml_file.contents <- arg
+                |"axml-of-nmm" -> path_to_nmm_file.contents <- arg
                 |"txt-of-nmm" -> path_to_nmm_file.contents <- arg
                 |"test-with-nmm"
                 |"html-of-nmm" -> path_to_nmm_file.contents <- arg
@@ -205,10 +209,10 @@ let anon_arg_fun arg : unit =
         |2 -> 
                 let _ : unit =
                 match cmd_name.contents with
-                |"txt-of-xml"
-                |"test-with-xml"
-                |"html-of-xml"
-                |"xml-of-nmm"
+                |"txt-of-axml"
+                |"test-with-axml"
+                |"html-of-axml"
+                |"axml-of-nmm"
                 |"txt-of-nmm"
                 |"test-with-nmm"
                 |"html-of-nmm"
@@ -222,7 +226,7 @@ let anon_arg_fun arg : unit =
 let _ : unit = 
         let _ : unit = Arg.parse_dynamic keyspecdoc_list anon_arg_fun usage in
         match cmd_name.contents with
-        |"txt-of-xml" -> (
+        |"txt-of-axml" -> (
                 let options : Common_utils.t_txt_options = {
                         margin = margin.contents;
                         width = width.contents;
@@ -235,7 +239,7 @@ let _ : unit =
                 |true -> print_endline (Main.txt_of_axml options "-")
                 |false -> print_endline (Main.txt_of_axml options path_to_xml_file.contents)
         )
-        |"html-of-xml" -> (
+        |"html-of-axml" -> (
                 let options : Common_utils.t_html_options = {
                         margin = margin.contents;
                         lang = lang.contents;
@@ -249,7 +253,7 @@ let _ : unit =
                 |true -> print_endline (Main.html_of_axml options "-")
                 |false -> print_endline (Main.html_of_axml options path_to_xml_file.contents)
         )
-        |"xml-of-nmm" -> (
+        |"axml-of-nmm" -> (
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.axml_of_nmm "-")
                 |false -> print_endline (Main.axml_of_nmm path_to_nmm_file.contents)
@@ -288,7 +292,7 @@ let _ : unit =
                 |false -> print_endline (Main.validate_xml path_to_dtd_file.contents path_to_xml_file.contents)
         )
         |"show-default-css" -> print_endline (Main.default_css ())
-        |"test-with-xml" ->
+        |"test-with-axml" ->
                 let options : Common_utils.t_html_options = {
                         margin = margin.contents;
                         lang = lang.contents;
