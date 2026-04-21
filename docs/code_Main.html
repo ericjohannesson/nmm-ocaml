@@ -171,7 +171,7 @@
 <br>
 <span class="keyword">let</span>&nbsp;exml_of_doc&nbsp;(options&nbsp;:&nbsp;<span class="constructor">Common_utils</span>.t_exml_options)&nbsp;(doc&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.tr_doc)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"&lt;?xml&nbsp;version=\"1.0\"?&gt;\n"</span>&nbsp;^&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Xml_right</span>.to_string_fmt&nbsp;(<span class="constructor">Compiler_of_doc</span>.exml_of_tr_doc&nbsp;options&nbsp;doc))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="constructor">Xml_right</span>.to_string_fmt&nbsp;(<span class="constructor">Exml_utils</span>.normalize_exml&nbsp;(<span class="constructor">Compiler_of_doc</span>.exml_of_tr_doc&nbsp;options&nbsp;doc)))<br>
 <br>
 <span class="keyword">let</span>&nbsp;exml_of_nmm&nbsp;(options&nbsp;:&nbsp;<span class="constructor">Common_utils</span>.t_exml_options)&nbsp;(path&nbsp;:&nbsp;string)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;exml_of_doc&nbsp;options&nbsp;(doc_of_nmm&nbsp;path)<br>

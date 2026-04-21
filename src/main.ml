@@ -144,7 +144,7 @@ let default_css () : string = Html_utils.internal_css "6ch" "0rem"
 
 let exml_of_doc (options : Common_utils.t_exml_options) (doc : Doc_types.tr_doc) : string =
         "<?xml version=\"1.0\"?>\n" ^ 
-        (Xml_right.to_string_fmt (Compiler_of_doc.exml_of_tr_doc options doc))
+        (Xml_right.to_string_fmt (Exml_utils.normalize_exml (Compiler_of_doc.exml_of_tr_doc options doc)))
 
 let exml_of_nmm (options : Common_utils.t_exml_options) (path : string) : string =
         exml_of_doc options (doc_of_nmm path)
