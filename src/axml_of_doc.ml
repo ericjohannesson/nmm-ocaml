@@ -342,7 +342,7 @@ and xml_of_string (s:string):Xml.xml=
 
 (* normalize *)
 
-let unite_txt_units_wysiwyg (xml_list : Xml.xml list) : Xml.xml =
+let unite_axml_txt_units_wysiwyg (xml_list : Xml.xml list) : Xml.xml =
 	let rec aux (lst : Xml.xml list) (acc : string) : string =
 		match lst with
 		|[] -> acc
@@ -354,24 +354,24 @@ let unite_txt_units_wysiwyg (xml_list : Xml.xml list) : Xml.xml =
 	in
 	Xml.Element ("cu_txt_unit_wysiwyg",[], [Xml.Element ("cs_txt_unit_wysiwyg",[],[Xml.PCData (aux xml_list "")])])
 
-let normalize_txt_units (xml_list : Xml.xml list) : Xml.xml list =
+let normalize_axml_txt_units (xml_list : Xml.xml list) : Xml.xml list =
 	let rec aux (lst : Xml.xml list) (acc_list : Xml.xml list) (acc_wysiwyg : Xml.xml list) =
 		match lst with
 		|[] -> (
 			match acc_wysiwyg with
 			|[] -> acc_list
-			|_::_ -> (unite_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list
+			|_::_ -> (unite_axml_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list
 		)
 		|hd::tl ->
 			match hd, acc_wysiwyg with
 			|Xml.Element ("cu_txt_unit_wysiwyg", _, [xml]), _ -> aux tl acc_list (xml::acc_wysiwyg)
-			|_, _::_ -> aux tl (hd::((unite_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list)) []
+			|_, _::_ -> aux tl (hd::((unite_axml_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list)) []
 			|_, [] -> aux tl (hd::acc_list) []
 	in List.rev (aux xml_list [] [])
 
 
-let rec normalize (xml : Xml.xml) : Xml.xml =
+let rec normalize_axml (xml : Xml.xml) : Xml.xml =
 	match xml with
-	|Xml.Element ("cs_txt_units", attr_list, xml_list) -> Xml.Element ("cs_txt_units", attr_list, normalize_txt_units xml_list)
-	|Xml.Element (tag, attr_list, xml_list) -> Xml.Element (tag, attr_list, List.map normalize xml_list)
+	|Xml.Element ("cs_txt_units", attr_list, xml_list) -> Xml.Element ("cs_txt_units", attr_list, normalize_axml_txt_units xml_list)
+	|Xml.Element (tag, attr_list, xml_list) -> Xml.Element (tag, attr_list, List.map normalize_axml xml_list)
 	|Xml.PCData s -> Xml.PCData s

@@ -22,11 +22,11 @@
 <link title="Axml_of_doc" rel="Chapter" href="Axml_of_doc.html">
 <link title="Doc_of_axml" rel="Chapter" href="Doc_of_axml.html">
 <link title="Html_utils" rel="Chapter" href="Html_utils.html">
-<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Axml_of_doc.normalize</title>
+<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Axml_of_doc.normalize_axml</title>
 </head>
 <body>
-<code class="code"><span class="keyword">let</span> <span class="keyword">rec</span> normalize (xml : <span class="constructor">Xml</span>.xml) : <span class="constructor">Xml</span>.xml =
+<code class="code"><span class="keyword">let</span> <span class="keyword">rec</span> normalize_axml (xml : <span class="constructor">Xml</span>.xml) : <span class="constructor">Xml</span>.xml =
 	<span class="keyword">match</span> xml <span class="keyword">with</span>
-	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_units"</span>, attr_list, xml_list) <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_units"</span>, attr_list, normalize_txt_units xml_list)
-	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (tag, attr_list, xml_list) <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (tag, attr_list, <span class="constructor">List</span>.map normalize xml_list)
+	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_units"</span>, attr_list, xml_list) <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_units"</span>, attr_list, normalize_axml_txt_units xml_list)
+	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span> (tag, attr_list, xml_list) <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (tag, attr_list, <span class="constructor">List</span>.map normalize_axml xml_list)
 	<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">PCData</span> s <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">PCData</span> s</code></body></html>

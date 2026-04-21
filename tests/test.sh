@@ -178,7 +178,7 @@ test_auto_date(){
 	fi
 }
 
-test_normalize(){
+test_normalize_axml(){
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
@@ -304,7 +304,7 @@ make_test(){
 	exit_code=$curr_code
 	fi
 
-	test_normalize
+	test_normalize_axml
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
