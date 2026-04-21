@@ -65,10 +65,10 @@ and lines_of_nte_table (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
         match endnotes with
         |[] -> []
         |_ ->
-		let overline : string = make_string doc_settings.doc_width "─" in
-		match hdr_lines with
-		|[] -> List.concat [["";overline];endnotes]
-		|_::_ -> List.concat [["";overline];hdr_lines;[""];endnotes]
+                let overline : string = make_string doc_settings.doc_width "─" in
+                match hdr_lines with
+                |[] -> List.concat [["";overline];endnotes]
+                |_::_ -> List.concat [["";overline];hdr_lines;[""];endnotes]
 
 
 
@@ -340,11 +340,11 @@ and acc_of_tr_blk_itm (doc_settings : t_doc_settings) (cref_table : t_cref_table
                 let xml_main : Xml.xml = Xml.Element ("blk_itm_main",[],xml_list_main) in
                 let xml_lbl : Xml.xml = Xml.Element ("blk_itm_lbl",[],xml_list_lbl) in
                 let xml_clear : Xml.xml = Xml.Element ("clear",[],[]) in
-		let classes : string list =
-			match path with
-			|(ITM_NODE (ITM_BIB_CUSTOM _))::_ -> ["bib_custom"]
-			|_ -> []
-		in
+                let classes : string list =
+                        match path with
+                        |(ITM_NODE (ITM_BIB_CUSTOM _))::_ -> ["bib_custom"]
+                        |_ -> []
+                in
                 let attr_list = Exml_utils.attr_list_of_tr_id_opt doc_settings path ("blk"::("itm"::classes)) a.fld_blk_itm_id in
                 EXML (List.concat [acc_list;[Xml.Element ("blk_itm", attr_list, [xml_lbl;xml_clear;xml_main])]])
 
@@ -880,7 +880,7 @@ let nte_table_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_tab
 (* txt *)
 
 let lines_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : string list =
-	let quiet : bool = Debug_utils.quiet.contents in
+        let quiet : bool = Debug_utils.quiet.contents in
         let cref_table : t_cref_table = cref_table_of_tr_doc doc_settings doc in
         let nte_table : t_nte_table = nte_table_of_tr_doc doc_settings cref_table doc in
         let _ : unit = Debug_utils.quiet.contents <- quiet in
@@ -931,7 +931,7 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
 (* exml *)
 
 let xml_list_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : Xml.xml list =
-	let quiet : bool = Debug_utils.quiet.contents in
+        let quiet : bool = Debug_utils.quiet.contents in
         let cref_table : t_cref_table = cref_table_of_tr_doc doc_settings doc in
         let nte_table : t_nte_table = nte_table_of_tr_doc doc_settings cref_table doc in
         let _ : unit = Debug_utils.quiet.contents <- quiet in

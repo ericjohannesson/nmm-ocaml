@@ -112,7 +112,7 @@ let attr_list_of_ts_tag (classes : string list) (tag : ts_tag) : (string*string)
 
 
 let attr_list_of_tr_id (doc_settings : t_doc_settings) (path : t_path) (id : tr_id) : (string*string) list =
-	[("id", cdata_of_tr_id doc_settings path id)]
+        [("id", cdata_of_tr_id doc_settings path id)]
 
 
 let attr_list_of_tr_id_opt (doc_settings : t_doc_settings) (path : t_path) (classes : string list) (id_opt : tr_id option) : (string*string) list =
@@ -256,43 +256,43 @@ let par_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte
 (* normalize *)
 
 let unite_exml_txt_units_wysiwyg (xml_list : Xml.xml list) : Xml.xml =
-	let rec aux (lst : Xml.xml list) (acc : string) : string =
-		match lst with
-		|[] -> acc
-		|hd::tl ->
-			match hd with
-			|Xml.PCData s ->
-				aux tl (acc ^ s)
-			|_ -> aux tl acc
-	in
-	Xml.Element ("txt_unit_wysiwyg",[], [Xml.PCData (aux xml_list "")])
+        let rec aux (lst : Xml.xml list) (acc : string) : string =
+                match lst with
+                |[] -> acc
+                |hd::tl ->
+                        match hd with
+                        |Xml.PCData s ->
+                                aux tl (acc ^ s)
+                        |_ -> aux tl acc
+        in
+        Xml.Element ("txt_unit_wysiwyg",[], [Xml.PCData (aux xml_list "")])
 
 let normalize_exml_txt_units (xml_list : Xml.xml list) : Xml.xml list =
-	let rec aux (lst : Xml.xml list) (acc_list : Xml.xml list) (acc_wysiwyg : Xml.xml list) =
-		match lst with
-		|[] -> (
-			match acc_wysiwyg with
-			|[] -> acc_list
-			|_::_ -> (unite_exml_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list
-		)
-		|hd::tl ->
-			match hd, acc_wysiwyg with
-			|Xml.Element ("txt_unit_wysiwyg", _, [xml]), _ -> aux tl acc_list (xml::acc_wysiwyg)
-			|_, _::_ -> aux tl (hd::((unite_exml_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list)) []
-			|_, [] -> aux tl (hd::acc_list) []
-	in List.rev (aux xml_list [] [])
+        let rec aux (lst : Xml.xml list) (acc_list : Xml.xml list) (acc_wysiwyg : Xml.xml list) =
+                match lst with
+                |[] -> (
+                        match acc_wysiwyg with
+                        |[] -> acc_list
+                        |_::_ -> (unite_exml_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list
+                )
+                |hd::tl ->
+                        match hd, acc_wysiwyg with
+                        |Xml.Element ("txt_unit_wysiwyg", _, [xml]), _ -> aux tl acc_list (xml::acc_wysiwyg)
+                        |_, _::_ -> aux tl (hd::((unite_exml_txt_units_wysiwyg (List.rev acc_wysiwyg))::acc_list)) []
+                        |_, [] -> aux tl (hd::acc_list) []
+        in List.rev (aux xml_list [] [])
 
 
 let rec normalize_exml (xml : Xml.xml) : Xml.xml =
-	match xml with
-	|Xml.Element (tag, attr_list, xml_list) -> (
-		match tag with
-		|"blk_txt"
-		|"dsp_line_main"
-		|"par_hdr_inline"
-		|"par_hdr"
-		|"sec_hdr"
-		|"ch_hdr" -> Xml.Element (tag, attr_list, normalize_exml_txt_units xml_list)
-		|_ -> Xml.Element (tag, attr_list, List.map normalize_exml xml_list)
-	)
-	|Xml.PCData s -> Xml.PCData s
+        match xml with
+        |Xml.Element (tag, attr_list, xml_list) -> (
+                match tag with
+                |"blk_txt"
+                |"dsp_line_main"
+                |"par_hdr_inline"
+                |"par_hdr"
+                |"sec_hdr"
+                |"ch_hdr" -> Xml.Element (tag, attr_list, normalize_exml_txt_units xml_list)
+                |_ -> Xml.Element (tag, attr_list, List.map normalize_exml xml_list)
+        )
+        |Xml.PCData s -> Xml.PCData s

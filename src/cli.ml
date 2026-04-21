@@ -238,9 +238,9 @@ let _ : unit = try
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.txt_of_axml options "-")
                 |false ->
-			match path_to_xml_file.contents with
-			|"" -> raise (Error "missing path-to-axml-file")
-			|path -> print_endline (Main.txt_of_axml options path)
+                        match path_to_xml_file.contents with
+                        |"" -> raise (Error "missing path-to-axml-file")
+                        |path -> print_endline (Main.txt_of_axml options path)
         )
         |"html-of-axml" -> (
                 let options : Common_utils.t_html_options = {
@@ -255,17 +255,17 @@ let _ : unit = try
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.html_of_axml options "-")
                 |false -> 
-			match path_to_xml_file.contents with
-			|"" -> raise (Error "missing path-to-axml-file")
-			|path ->print_endline (Main.html_of_axml options path)
+                        match path_to_xml_file.contents with
+                        |"" -> raise (Error "missing path-to-axml-file")
+                        |path ->print_endline (Main.html_of_axml options path)
         )
         |"axml-of-nmm" -> (
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.axml_of_nmm "-")
                 |false ->
-			match path_to_nmm_file.contents with
-			|"" -> raise (Error "missing path-to-nmm-file")
-			|path -> print_endline (Main.axml_of_nmm path)
+                        match path_to_nmm_file.contents with
+                        |"" -> raise (Error "missing path-to-nmm-file")
+                        |path -> print_endline (Main.axml_of_nmm path)
         )
         |"txt-of-nmm" -> (
                 let options : Common_utils.t_txt_options = {
@@ -279,9 +279,9 @@ let _ : unit = try
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.txt_of_nmm options "-")
                 |false ->
-			match path_to_nmm_file.contents with
-			|"" -> raise (Error "missing path-to-nmm-file")
-			|path -> print_endline (Main.txt_of_nmm options path)
+                        match path_to_nmm_file.contents with
+                        |"" -> raise (Error "missing path-to-nmm-file")
+                        |path -> print_endline (Main.txt_of_nmm options path)
         )
         |"html-of-nmm" -> (
                 let options : Common_utils.t_html_options = {
@@ -296,9 +296,9 @@ let _ : unit = try
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.html_of_nmm options "-")
                 |false ->
-			match path_to_nmm_file.contents with
-			|"" -> raise (Error "missing path-to-nmm-file")
-			|path -> print_endline (Main.html_of_nmm options path)
+                        match path_to_nmm_file.contents with
+                        |"" -> raise (Error "missing path-to-nmm-file")
+                        |path -> print_endline (Main.html_of_nmm options path)
         )
         |"check-xml-schema" -> print_endline (Main.check_xml_schema path_to_dtd_file.contents)
         |"validate-xml" -> (
@@ -339,9 +339,9 @@ let _ : unit = try
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.exml_of_nmm options "-")
                 |false ->
-			match path_to_nmm_file.contents with
-			|"" -> raise (Error "missing path-to-nmm-file")
-			|path -> print_endline (Main.exml_of_nmm options path)
+                        match path_to_nmm_file.contents with
+                        |"" -> raise (Error "missing path-to-nmm-file")
+                        |path -> print_endline (Main.exml_of_nmm options path)
         )
         |"exml-of-axml" -> (
                 let options : Common_utils.t_exml_options = {
@@ -353,11 +353,11 @@ let _ : unit = try
                 match read_from_stdin.contents with
                 |true -> print_endline (Main.exml_of_axml options "-")
                 |false ->
-			match path_to_xml_file.contents with
-			|"" -> raise (Error "missing path-to-axml-file")
-			|path -> print_endline (Main.exml_of_axml options path)
+                        match path_to_xml_file.contents with
+                        |"" -> raise (Error "missing path-to-axml-file")
+                        |path -> print_endline (Main.exml_of_axml options path)
         )
         |_ -> print_endline usage
 with Error e -> 
-	let _ : unit = Debug_utils.print_to_stderr e in
-	print_endline usage
+        let _ : unit = Debug_utils.print_to_stderr e in
+        print_endline usage
