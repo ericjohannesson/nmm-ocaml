@@ -120,7 +120,7 @@ show_txt_diff(){
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "output differs from expected output in $file"
+			echo "$file differs from expected output"
 		fi
 	done
 	return $exit_code
@@ -139,7 +139,7 @@ show_html_diff(){
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "output differs from expected output in $file"
+			echo "$file differs from expected output"
 		fi
 	done
 	return $exit_code
@@ -157,7 +157,7 @@ show_xml_diff(){
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "output differs from expected output in $file"
+			echo "$file differs from expected output"
 		fi
 	done
 	return $exit_code
@@ -188,14 +188,14 @@ test_normalize_axml(){
 
 	for file in $(ls $input_dir/*.nmm)
 	do
-		../bin/nmm-ocaml txt-of-nmm --quiet $file > $TEMP_DIR_TXT_OF_NMM/$(basename -s .nmm $file).txt
-		../bin/nmm-ocaml axml-of-nmm $@ $file > $TEMP_DIR_XML_OF_NMM/$(basename -s .nmm $file).xml
+		../bin/nmm-ocaml txt-of-nmm $@ $file > $TEMP_DIR_TXT_OF_NMM/$(basename -s .nmm $file).txt
+		../bin/nmm-ocaml axml-of-nmm $file > $TEMP_DIR_XML_OF_NMM/$(basename -s .nmm $file).xml
 	done
 
 
 	for file in $(ls $TEMP_DIR_XML_OF_NMM/*.xml)
 	do
-		../bin/nmm-ocaml txt-of-axml --quiet $file > $TEMP_DIR_TXT_OF_XML/$(basename -s .xml $file).txt
+		../bin/nmm-ocaml txt-of-axml $@ $file > $TEMP_DIR_TXT_OF_XML/$(basename -s .xml $file).txt
 	done
 
 	local exit_code=0
@@ -209,7 +209,7 @@ test_normalize_axml(){
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "output differs from expected output in $file"
+			echo "$file differs from expected output"
 		fi
 	done
 
@@ -222,7 +222,7 @@ test_normalize_axml(){
 }
 
 
-make_test(){
+make_tests(){
 	local exit_code=0
 	local curr_code=0
 
@@ -304,7 +304,7 @@ make_test(){
 	exit_code=$curr_code
 	fi
 
-	test_normalize_axml
+	test_normalize_axml --quiet
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
@@ -315,7 +315,7 @@ make_test(){
 
 }
 
-make_test
+make_tests
 
 curr_code=$?
 if [ $curr_code -gt 0 ]
