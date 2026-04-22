@@ -307,7 +307,7 @@ let _ : unit = try
                 |false -> print_endline (Main.validate_xml path_to_dtd_file.contents path_to_xml_file.contents)
         )
         |"show-default-css" -> print_endline (Main.default_css ())
-        |"test-with-axml" ->
+        |"test-with-axml" -> (
                 let options : Common_utils.t_html_options = {
                         margin = margin.contents;
                         lang = lang.contents;
@@ -317,8 +317,11 @@ let _ : unit = try
                         allow_custom_numbering = allow_custom_numbering.contents;
                 }
                 in
-                Test.test_with_axml_file options path_to_xml_file.contents
-        |"test-with-nmm" ->
+                match path_to_xml_file.contents with
+                |"" -> raise (Error "missing path-to-axml-file")
+                |path -> Test.test_with_axml_file options path
+        )
+        |"test-with-nmm" -> (
                 let options : Common_utils.t_html_options = {
                         margin = margin.contents;
                         lang = lang.contents;
@@ -328,7 +331,10 @@ let _ : unit = try
                         allow_custom_numbering = allow_custom_numbering.contents;
                 }
                 in
-                Test.test_with_nmm_file options path_to_nmm_file.contents
+                match path_to_nmm_file.contents with
+                |"" -> raise (Error "missing path-to-nmm-file")
+                |path -> Test.test_with_nmm_file options path
+        )
         |"exml-of-nmm" -> (
                 let options : Common_utils.t_exml_options = {
                         quiet = quiet.contents;
@@ -363,3 +369,4 @@ with
         let _ : unit = Debug_utils.print_to_stderr e in
         print_endline usage
 |Main.Error e -> Debug_utils.print_to_stderr e
+|Test.Error e -> raise (Error (String.concat " " ["Test.Error:";e]))
