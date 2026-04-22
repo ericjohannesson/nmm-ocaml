@@ -358,6 +358,8 @@ let _ : unit = try
                         |path -> print_endline (Main.exml_of_axml options path)
         )
         |_ -> print_endline usage
-with Error e -> 
+with
+|Error e -> 
         let _ : unit = Debug_utils.print_to_stderr e in
         print_endline usage
+|Main.Error e -> Debug_utils.print_to_stderr e

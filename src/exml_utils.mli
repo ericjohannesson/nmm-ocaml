@@ -2,8 +2,6 @@
 A toolkit used by {!module:Compiler_of_doc} when compiling to XML, mostly for handling attributes and pcdata.
 *)
 
-exception Error of string
-
 val string_of_pcdata : string -> string
 
 val pcdata_of_string : string -> string

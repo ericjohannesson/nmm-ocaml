@@ -28,9 +28,6 @@
 <code class="code"><span class="keyword">open</span>&nbsp;<span class="constructor">Doc_types</span><br>
 <span class="keyword">open</span>&nbsp;<span class="constructor">Common_utils</span><br>
 <br>
-<span class="keyword">exception</span>&nbsp;<span class="constructor">Error</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
-<br>
-<br>
 <span class="keyword">let</span>&nbsp;pcdata_of_string&nbsp;(s:&nbsp;string):&nbsp;string&nbsp;=&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;s_amp&nbsp;=&nbsp;<span class="constructor">Str</span>.global_replace&nbsp;(<span class="constructor">Str</span>.regexp&nbsp;<span class="string">"&amp;"</span>)&nbsp;<span class="string">"&amp;amp;"</span>&nbsp;s&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;s_lt&nbsp;=&nbsp;<span class="constructor">Str</span>.global_replace&nbsp;(<span class="constructor">Str</span>.regexp&nbsp;<span class="string">"&lt;"</span>)&nbsp;<span class="string">"&amp;lt;"</span>&nbsp;s_amp&nbsp;<span class="keyword">in</span><br>
@@ -119,7 +116,7 @@
 <br>
 <span class="keyword">let</span>&nbsp;string_of_scope&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(scope&nbsp;:&nbsp;tu_scope)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;scope&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_scope_gbl</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;<span class="string">"global&nbsp;scope&nbsp;not&nbsp;expected"</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_scope_gbl</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="string">"GBL"</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_scope_ch</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="string">"CH_"</span>&nbsp;^&nbsp;(string_of_path&nbsp;doc_settings&nbsp;(path_to_ch_node&nbsp;path))<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_scope_sec</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="string">"SEC_"</span>&nbsp;^&nbsp;(string_of_path&nbsp;doc_settings&nbsp;(path_to_sec_node&nbsp;path))<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_scope_app</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="string">"APP_"</span>&nbsp;^&nbsp;(string_of_path&nbsp;doc_settings&nbsp;(path_to_app_node&nbsp;path))<br>
@@ -127,8 +124,7 @@
 <br>
 <span class="keyword">let</span>&nbsp;cdata_of_tr_id&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(id&nbsp;:&nbsp;tr_id)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;id.fld_id_tag,&nbsp;id.fld_id_name,&nbsp;id.fld_id_scope&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">None</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Some</span>&nbsp;<span class="constructor">Cu_scope_gbl</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Some</span>&nbsp;scope&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;(string_of_scope&nbsp;doc_settings&nbsp;path&nbsp;scope))<br>
 <br>
 <br>

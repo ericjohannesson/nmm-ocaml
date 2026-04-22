@@ -77,6 +77,7 @@
         <span class="keyword">in</span> 
         (intro ^ html_string ^ outro)
         <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">Common_utils</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [<span class="string">"Common_utils.Error:"</span>; e]))
         <span class="keywordsign">|</span><span class="constructor">Html_utils</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [<span class="string">"Html_utils.Error:"</span>; e]))
         <span class="keywordsign">|</span><span class="constructor">Compiler_of_doc</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [<span class="string">"Compiler_of_doc.Error:"</span>; e]))
         <span class="keywordsign">|</span><span class="constructor">Xml_right</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span> raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [<span class="string">"Xml_right.Error:"</span>; e]))</code></body></html>

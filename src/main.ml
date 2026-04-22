@@ -69,6 +69,7 @@ let html_of_doc (options : Common_utils.t_html_options) (doc : Doc_types.tr_doc)
         in 
         (intro ^ html_string ^ outro)
         with
+        |Common_utils.Error e -> raise (Error (String.concat " " ["Common_utils.Error:"; e]))
         |Html_utils.Error e -> raise (Error (String.concat " " ["Html_utils.Error:"; e]))
         |Compiler_of_doc.Error e -> raise (Error (String.concat " " ["Compiler_of_doc.Error:"; e]))
         |Xml_right.Error e -> raise (Error (String.concat " " ["Xml_right.Error:"; e]))
@@ -102,10 +103,7 @@ let txt_of_axml (options : Common_utils.t_txt_options) (path : string) : string 
         txt_of_doc options (doc_of_axml path) 
 
 let html_of_axml (options : Common_utils.t_html_options) (path : string) : string =
-        try 
         html_of_doc options (doc_of_axml path)
-        with
-        Compiler_of_doc.Error e -> raise (Error (String.concat " " [path;"->";"Compiler_of_doc.Error:";e]))
 
 let axml_of_nmm (path : string) : string =
         axml_of_doc (doc_of_nmm path)
@@ -115,8 +113,9 @@ let check_xml_schema (path : string) : string =
         let dtd:Dtd.dtd=Dtd.parse_file path in
         let _:Dtd.checked=Dtd.check dtd in
         String.concat " " [path;"is a well-defined xml-schema"]
-        with 
-        Xml_light_errors.Dtd_check_error e -> raise (Error (String.concat " " [path;"->";"Xml_light_errors.Dtd_check_error:";Dtd.check_error e]))
+        with
+        |Xml_light_errors.Dtd_check_error e -> raise (Error (String.concat " " [path;"->";"Xml_light_errors.Dtd_check_error:";Dtd.check_error e]))
+        |Xml_light_errors.Dtd_parse_error e -> raise (Error (String.concat " " [path;"->";"Xml_light_errors.Dtd_parse_error:";Dtd.parse_error e]))
 
 let validate_xml (path_to_dtd : string) (path_to_xml : string) : string =
         let print_tokens = false in 
@@ -138,6 +137,8 @@ let validate_xml (path_to_dtd : string) (path_to_xml : string) : string =
         |Xml_light_errors.Dtd_check_error e -> raise (Error (String.concat " " [path_to_dtd;"->";"Xml_light_errors.Dtd_check_error:";Dtd.check_error e]))
         |Xml_light_errors.Dtd_prove_error e -> raise (Error (String.concat " " [path_to_dtd;path_to_xml;"->";"Xml_light_errors.Dtd_prove_error:";Dtd.prove_error e]))
         |Xml_light_errors.Xml_error e -> raise (Error (String.concat " " [path_to_xml;"->";"Xml_light_errors.Xml_error:";Xml.error e]))
+        |Xml_light_errors.File_not_found e -> raise (Error (String.concat " " ["Xml_light_errors.File_not_found:";e]))
+        |Xml_right.Error e -> raise (Error (String.concat " " [path_to_xml;"->";"Xml_right.Error:";e]))
 
 let default_css () : string = Html_utils.internal_css "6ch" "0rem"
 
