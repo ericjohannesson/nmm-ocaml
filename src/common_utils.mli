@@ -43,10 +43,6 @@ type t_doc_settings = {
 
 (** {3 Default settings} *)
 
-
-val expand_tag_default : Doc_types.ts_tag -> (string * string) option
-
-
 val doc_settings_default : unit -> t_doc_settings
 
 (** {3 User-defined settings} *)

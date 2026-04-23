@@ -16,10 +16,12 @@
 <cu_lbl_auto>
 <cs_lbl_auto/>
 </cu_lbl_auto>
+<cu_tag_or_id_id>
 <cr_id>
 <cs_tag>FCT</cs_tag>
 <cs_name>one</cs_name>
 </cr_id>
+</cu_tag_or_id_id>
 <cs_blks>
 <cu_blk_txt>
 <cs_blk_txt>
@@ -38,10 +40,12 @@
 <cu_lbl_auto>
 <cs_lbl_auto/>
 </cu_lbl_auto>
+<cu_tag_or_id_id>
 <cr_id>
 <cs_tag>FCT</cs_tag>
 <cs_name>two</cs_name>
 </cr_id>
+</cu_tag_or_id_id>
 <cs_blks>
 <cu_blk_txt>
 <cs_blk_txt>

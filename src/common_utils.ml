@@ -45,10 +45,6 @@ type t_doc_settings = {
 }
 
 
-
-let expand_tag_default (tag : Doc_types.ts_tag) : (string * string) option =
-        Expand_tags.expand_tag tag
-
 let lower_case_latin_letters : string array =
         [|"a";"b";"c";"d";"e";"f";"g";"h";"i";"j";"k";"l";"m";"n";"o";"p";"q";"r";"s";"t";"u";"v";"x";"y";"z";|]
 
@@ -172,7 +168,7 @@ let doc_settings_default () : t_doc_settings = {
         sec_prefix = Some ("§","§");
         app_prefix = Some ("§","Appendix");
         par_prefix = Some ("¶","¶");
-        expand_tag = expand_tag_default;
+        expand_tag = Tags.expand_tag_default;
         auto_numbering = auto_numbering_default;
         allow_custom_numbering = false;
 }
@@ -1188,30 +1184,54 @@ let node_of_blk_itm (doc_settings : t_doc_settings) (path : t_path) (auto_nr : i
                 | Cu_lbl_auto Cs_lbl_auto -> (
                         let lvl : int = lvl_of_path path in
                         let lbl : string = doc_settings.auto_numbering lvl auto_nr in
-                        match a.fld_blk_itm_id with
+                        match a.fld_blk_itm_tag_or_id with
                         |None -> ITM_NODE (ITM_AUTO lbl)
-                        |Some id -> (
-                                match doc_settings.expand_tag id.fld_id_tag with
-                                |None -> (
-                                        match id.fld_id_tag with
-                                        |Cs_tag "BIB" -> ITM_NODE (ITM_BIB_AUTO lbl)
-                                        |_ -> ITM_NODE (ITM_AUTO lbl)
-                                )
-                                |Some (_,tag) -> ITM_NODE (ITM_TAG_AUTO (tag, lbl))
-                        )
-                )
+                        |Some tag_or_id -> (
+				match tag_or_id with
+		                |Cu_tag_or_id_tag (tag : ts_tag) -> (
+	                                match doc_settings.expand_tag tag with
+	                                |None -> (
+	                                        match tag with
+	                                        |Cs_tag "BIB" -> ITM_NODE (ITM_BIB_AUTO lbl)
+	                                        |_ -> ITM_NODE (ITM_AUTO lbl)
+	                                )
+	                                |Some (_,tag) -> ITM_NODE (ITM_TAG_AUTO (tag, lbl))
+                        	)
+		                |Cu_tag_or_id_id (id : tr_id) -> (
+	                                match doc_settings.expand_tag id.fld_id_tag with
+	                                |None -> (
+	                                        match id.fld_id_tag with
+	                                        |Cs_tag "BIB" -> ITM_NODE (ITM_BIB_AUTO lbl)
+	                                        |_ -> ITM_NODE (ITM_AUTO lbl)
+	                                )
+	                                |Some (_,tag) -> ITM_NODE (ITM_TAG_AUTO (tag, lbl))
+                        	)
+                	)
+		)
                 | Cu_lbl_custom (Cs_lbl_custom (s : string)) -> 
-                        match a.fld_blk_itm_id with
+                        match a.fld_blk_itm_tag_or_id with
                         |None -> ITM_NODE (ITM_CUSTOM s)
-                        |Some id -> (
-                                match doc_settings.expand_tag id.fld_id_tag with
-                                |None -> (
-                                        match id.fld_id_tag with
-                                        |Cs_tag "BIB" -> ITM_NODE (ITM_BIB_CUSTOM s)
-                                        |_ -> ITM_NODE (ITM_CUSTOM s)
-                                )
-                                |Some (_,tag) -> ITM_NODE (ITM_TAG_CUSTOM (tag,s))
-                        )
+                        |Some tag_or_id -> (
+				match tag_or_id with
+		                |Cu_tag_or_id_tag (tag : ts_tag) -> (
+	                                match doc_settings.expand_tag tag with
+	                                |None -> (
+	                                        match tag with
+	                                        |Cs_tag "BIB" -> ITM_NODE (ITM_BIB_CUSTOM s)
+	                                        |_ -> ITM_NODE (ITM_AUTO s)
+	                                )
+	                                |Some (_,tag) -> ITM_NODE (ITM_TAG_AUTO (tag, s))
+                        	)
+		                |Cu_tag_or_id_id (id : tr_id) -> (
+	                                match doc_settings.expand_tag id.fld_id_tag with
+	                                |None -> (
+	                                        match id.fld_id_tag with
+	                                        |Cs_tag "BIB" -> ITM_NODE (ITM_BIB_CUSTOM s)
+	                                        |_ -> ITM_NODE (ITM_CUSTOM s)
+	                                )
+	                                |Some (_,tag) -> ITM_NODE (ITM_TAG_CUSTOM (tag, s))
+                        	)
+                	)
 
 let node_of_dsp_line (doc_settings : t_doc_settings) (path : t_path) (auto_nr : int) (a : Doc_types.tr_dsp_line) : t_node =
         match a.fld_dsp_line_lbl with

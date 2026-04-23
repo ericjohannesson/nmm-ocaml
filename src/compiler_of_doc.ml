@@ -312,9 +312,13 @@ and acc_of_tr_blk_itm (doc_settings : t_doc_settings) (cref_table : t_cref_table
         | MARGIN_LABELS _ -> acc
         | CREF_TABLE table ->
                 let newacc : t_acc = CREF_TABLE (
-                        match a.fld_blk_itm_id with
-                        | Some (id : tr_id) -> (id, path, Cref_element_blk_itm a) :: table
-                        | _ -> table
+                        match a.fld_blk_itm_tag_or_id with
+                        | Some (tag_or_id : tu_tag_or_id) -> (
+				match tag_or_id with
+				|Cu_tag_or_id_id id -> (id, path, Cref_element_blk_itm a) :: table
+				|Cu_tag_or_id_tag _ -> table
+			)
+                        | None -> table
                 )
                 in acc_of_ts_blks doc_settings cref_table nte_table path newacc a.fld_blk_itm_main
         | LINES acc_lines -> (
@@ -345,7 +349,7 @@ and acc_of_tr_blk_itm (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         |(ITM_NODE (ITM_BIB_CUSTOM _))::_ -> ["bib_custom"]
                         |_ -> []
                 in
-                let attr_list = Exml_utils.attr_list_of_tr_id_opt doc_settings path ("blk"::("itm"::classes)) a.fld_blk_itm_id in
+                let attr_list = Exml_utils.attr_list_of_tu_tag_or_id_opt doc_settings path ("blk"::("itm"::classes)) a.fld_blk_itm_tag_or_id in
                 EXML (List.concat [acc_list;[Xml.Element ("blk_itm", attr_list, [xml_lbl;xml_clear;xml_main])]])
 
 

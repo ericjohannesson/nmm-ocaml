@@ -1,3 +1,5 @@
+open Doc_types
+
 exception Error of string
 
 let doc_of_nmm (path : string) : Doc_types.tr_doc =
@@ -5,7 +7,7 @@ let doc_of_nmm (path : string) : Doc_types.tr_doc =
         let print_tokens = false in
         match path with
         |"-" -> Doc_of_nmm.doc_of_nmm_stdin print_tokens 
-        |_ -> Doc_of_nmm.doc_of_nmm_file print_tokens path
+        |_ -> Doc_of_nmm.doc_of_nmm_file_with_tagger Tags.tag_blk_itm_default path
         with 
         |Doc_of_nmm.Error e -> raise (Error (String.concat " " [path;"->";"Doc_of_nmm.Error:";e]))
 
