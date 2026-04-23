@@ -19,6 +19,7 @@ nmm-ocaml [
   | validate-xml <path-to-dtd-file> { <path-to-xml-file> | - }
 
   | show-default-css
+  | normalize-axml { <path-to-axml-file> | - }
 ]
 
 In cases where '-' can be given instead of a path, the program
@@ -166,6 +167,9 @@ let keyspecdoc_list_exml_of_axml : t_keyspecdoc list = [
         keyspecdoc_allow_custom_numbering;
 ]
 
+let keyspecdoc_list_normalize_axml : t_keyspecdoc list = [
+        keyspecdoc_stdin;
+]
 
 let anon_arg_fun arg : unit =
         match anon_arg_count.contents with
@@ -184,6 +188,7 @@ let anon_arg_fun arg : unit =
                 |"show-default-css" -> ()
                 |"exml-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_exml_of_nmm
                 |"exml-of-axml" -> keyspecdoc_list.contents <- keyspecdoc_list_exml_of_axml
+                |"normalize-axml" -> keyspecdoc_list.contents <- keyspecdoc_list_normalize_axml
                 |_ -> raise (Error (String.concat " " ["unknown command:";arg]))
                 in
                 let _ : unit = cmd_name.contents <- arg
@@ -204,6 +209,7 @@ let anon_arg_fun arg : unit =
                 |"show-default-css" -> raise (Error (String.concat " " ["one too many arguments:";arg]))
                 |"exml-of-nmm" -> path_to_nmm_file.contents <- arg
                 |"exml-of-axml" -> path_to_xml_file.contents <- arg
+                |"normalize-axml" -> path_to_xml_file.contents <- arg
                 |_ -> raise (Error (String.concat " " ["unknown command:";cmd_name.contents]))
                 in anon_arg_count.contents <- (anon_arg_count.contents + 1)
         |2 -> 
@@ -362,6 +368,14 @@ let _ : unit = try
                         match path_to_xml_file.contents with
                         |"" -> raise (Error "missing path-to-axml-file")
                         |path -> print_endline (Main.exml_of_axml options path)
+        )
+        |"normalize-axml" -> (
+                match read_from_stdin.contents with
+                |true -> print_endline (Main.normalize_axml_file "-")
+                |false ->
+                        match path_to_xml_file.contents with
+                        |"" -> raise (Error "missing path-to-axml-file")
+                        |path -> print_endline (Main.normalize_axml_file path)
         )
         |_ -> print_endline usage
 with

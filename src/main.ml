@@ -153,4 +153,12 @@ let exml_of_nmm (options : Common_utils.t_exml_options) (path : string) : string
 let exml_of_axml (options : Common_utils.t_exml_options) (path : string) : string =
         exml_of_doc options (doc_of_axml path)
 
+let normalize_axml_file (path : string) : string =
+        let axml:Xml.xml =
+                match path with
+                |"-" -> Xml_right.parse_stdin false
+                |_ -> Xml_right.parse_file false path 
+	in
+        "<?xml version=\"1.0\"?>\n" ^ 
+        (Xml_right.to_string_fmt (Axml_of_doc.normalize_axml axml))
 
