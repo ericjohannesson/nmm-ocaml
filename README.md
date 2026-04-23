@@ -9,11 +9,11 @@ The nmm-parser is generated with [Sedlex](https://github.com/ocaml-community/sed
 ```
 USAGE:
 nmm-ocaml [
-  | txt-of-nmm  [ <txt-options>  ] { <path-to-nmm-file> | - }
-  | html-of-nmm [ <html-options> ] { <path-to-nmm-file> | - }
-  | exml-of-nmm [ <exml-options> ] { <path-to-nmm-file> | - }
+  | txt-of-nmm   [ <txt-options>  ] { <path-to-nmm-file>  | - }
+  | html-of-nmm  [ <html-options> ] { <path-to-nmm-file>  | - }
+  | exml-of-nmm  [ <exml-options> ] { <path-to-nmm-file>  | - }
 
-  | axml-of-nmm { <path-to-nmm-file> | - }
+  | axml-of-nmm  [ <axml-options> ] { <path-to-nmm-file>  | - }
 
   | txt-of-axml  [ <txt-options>  ] { <path-to-axml-file> | - }
   | html-of-axml [ <html-options> ] { <path-to-axml-file> | - }
@@ -21,11 +21,11 @@ nmm-ocaml [
 
   | check-xml-schema <path-to-dtd-file>
   | validate-xml <path-to-dtd-file> { <path-to-xml-file> | - }
-
   | show-default-css
+  | normalize-axml { <path-to-axml-file> | - }
 ]
 
-In cases where '-' can be provided instead of a path, the program
+In cases where '-' can be given instead of a path, the program
 reads from standard input.
 
 TXT-OPTIONS:
@@ -34,6 +34,7 @@ TXT-OPTIONS:
   --quiet
   --numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }
   --allow-custom-numbering
+  --tags <path-to-tsv-file>
 
 HTML-OPTIONS:
   --margin <numeral>
@@ -42,11 +43,16 @@ HTML-OPTIONS:
   --quiet
   --numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }
   --allow-custom-numbering
+  --tags <path-to-tsv-file>
 
 EXML-OPTIONS:
   --numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }
   --allow-custom-numbering
   --quiet
+  --tags <path-to-tsv-file>
+
+AXML-OPTIONS:
+  --tags <path-to-tsv-file>
 ```
 
 ## Installation
