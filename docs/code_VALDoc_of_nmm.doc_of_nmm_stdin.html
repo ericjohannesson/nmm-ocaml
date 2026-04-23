@@ -44,7 +44,7 @@
         <span class="keywordsign">|</span> _ <span class="keywordsign">-&gt;</span>
                 <span class="keyword">match</span> print_tokens <span class="keyword">with</span>
                 <span class="keywordsign">|</span><span class="keyword">false</span> <span class="keywordsign">-&gt;</span> 
-                        <span class="keyword">let</span> _ : unit = <span class="constructor">Debug_utils</span>.print_to_stderr (
+                        <span class="keyword">let</span> _ : unit = <span class="constructor">IO</span>.print_to_stderr (
                                 <span class="constructor">String</span>.concat <span class="string">"\n"</span> [
                                         <span class="string">"Read the the following tokens from \'"</span> ^ input ^ <span class="string">"\':"</span>;
                                 ]

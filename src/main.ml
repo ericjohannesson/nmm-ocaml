@@ -7,7 +7,7 @@ let doc_of_nmm (options : Common_utils.t_axml_options) (path : string) : Doc_typ
         let print_tokens = false in
         match path with
         |"-" -> Doc_of_nmm.doc_of_nmm_stdin print_tokens 
-        |_ -> Doc_of_nmm.doc_of_nmm_file_with_tagger Tags.tag_blk_itm_default path
+        |_ -> Doc_of_nmm.doc_of_nmm_file_with_tagger (Tags.tagger_of_path_opt options.tags) path
         with 
         |Doc_of_nmm.Error e -> raise (Error (String.concat " " [path;"->";"Doc_of_nmm.Error:";e]))
 

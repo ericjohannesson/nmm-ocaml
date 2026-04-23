@@ -22,10 +22,10 @@
 <link title="Axml_of_doc" rel="Chapter" href="Axml_of_doc.html">
 <link title="Doc_of_axml" rel="Chapter" href="Doc_of_axml.html">
 <link title="Html_utils" rel="Chapter" href="Html_utils.html">
-<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Tags.tag_of_string_opt_default</title>
+<link title="Main" rel="Chapter" href="Main.html"><title>Nmm_ocaml : Tags.tagger_of_path_opt</title>
 </head>
 <body>
-<code class="code"><span class="keyword">let</span> tag_of_string_opt_default (s : string) : ts_tag option =
-	<span class="keyword">match</span> s <span class="keyword">with</span>
-	<span class="keywordsign">|</span><span class="string">"DEF"</span> <span class="keywordsign">-&gt;</span> <span class="constructor">Some</span> (<span class="constructor">Cs_tag</span> <span class="string">"DEF"</span>)
-	<span class="keywordsign">|</span>_ <span class="keywordsign">-&gt;</span> <span class="constructor">None</span></code></body></html>
+<code class="code"><span class="keyword">let</span> tagger_of_path_opt (path_opt : string option) : tr_blk_itm <span class="keywordsign">-&gt;</span> tr_blk_itm =
+	<span class="keyword">match</span> path_opt <span class="keyword">with</span>
+	<span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> tag_blk_itm_default
+	<span class="keywordsign">|</span><span class="constructor">Some</span> path <span class="keywordsign">-&gt;</span> tagger_of_file path</code></body></html>

@@ -45,7 +45,7 @@
                 <span class="keywordsign">|</span>(id,path)::tl <span class="keywordsign">-&gt;</span>
                         <span class="keyword">match</span> <span class="constructor">List</span>.mem (id,path) tl <span class="keyword">with</span>
                         <span class="keywordsign">|</span><span class="keyword">true</span> <span class="keywordsign">-&gt;</span>
-                                <span class="keyword">let</span> _ : unit = <span class="constructor">Debug_utils</span>.print_warning (<span class="constructor">String</span>.concat <span class="string">""</span> [
+                                <span class="keyword">let</span> _ : unit = <span class="constructor">IO</span>.print_warning (<span class="constructor">String</span>.concat <span class="string">""</span> [
                                         <span class="string">"WARNING: id \'"</span>;
                                         string_of_tr_id id;<span class="string">"\'"</span>;
                                         <span class="string">" is defined more than once in "</span>;

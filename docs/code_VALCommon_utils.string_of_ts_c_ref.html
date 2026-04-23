@@ -30,7 +30,7 @@
         <span class="keywordsign">|</span><span class="constructor">None</span> <span class="keywordsign">-&gt;</span> (
                 <span class="keyword">match</span> c_ref <span class="keyword">with</span>
                 <span class="keywordsign">|</span><span class="constructor">Cs_c_ref</span> id_c_ref <span class="keywordsign">-&gt;</span>
-                        <span class="keyword">let</span> _ : unit = <span class="constructor">Debug_utils</span>.print_warning (<span class="constructor">String</span>.concat <span class="string">""</span> [
+                        <span class="keyword">let</span> _ : unit = <span class="constructor">IO</span>.print_warning (<span class="constructor">String</span>.concat <span class="string">""</span> [
                                 <span class="string">"WARNING: id \'"</span>;
                                 string_of_tr_id id_c_ref;
                                 <span class="string">"\' referenced in "</span>;

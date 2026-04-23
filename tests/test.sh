@@ -268,7 +268,7 @@ make_tests(){
 	exit_code=$curr_code
 	fi
 
-	make_xml_output
+	make_xml_output --tags tags/tags.tsv
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then

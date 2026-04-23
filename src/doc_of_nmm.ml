@@ -59,7 +59,7 @@ let sedlexer (print_tokens:bool) (b:Sedlexing.lexbuf):(Nmm_parser.token*Lexing.p
         let token : Nmm_parser.token=Nmm_lexer.token b in
         let start_pos,end_pos=Sedlexing.lexing_positions b in
         match print_tokens with
-        |true -> let _ = Debug_utils.print_to_stderr ("Line " ^ (Nmm_lexer.line_of_lexbuf b) ^ ": " ^ (string_of_token token)) in (token,start_pos,end_pos)
+        |true -> let _ = IO.print_to_stderr ("Line " ^ (Nmm_lexer.line_of_lexbuf b) ^ ": " ^ (string_of_token token)) in (token,start_pos,end_pos)
         |false -> (token,start_pos,end_pos)
 
 
@@ -98,7 +98,7 @@ let rec doc_of_nmm_file (print_tokens:bool) (filename:string):Doc_types.tr_doc=
         | _ ->
                 match print_tokens with
                 |false -> 
-                        let _ : unit = Debug_utils.print_to_stderr (
+                        let _ : unit = IO.print_to_stderr (
                                 String.concat "\n" [
                                         "Read the the following tokens from " ^ filename ^ ":";
                                 ]
@@ -124,7 +124,7 @@ let rec doc_of_nmm_string (print_tokens:bool) (s:string):Doc_types.tr_doc=
         | _ ->
                 match print_tokens with
                 |false -> 
-                        let _ : unit = Debug_utils.print_to_stderr (
+                        let _ : unit = IO.print_to_stderr (
                                 String.concat "\n" [
                                         "Read the the following tokens from \'" ^ s ^ "\':";
                                 ]
@@ -151,7 +151,7 @@ let rec doc_of_nmm_stdin (print_tokens:bool) : Doc_types.tr_doc=
         | _ ->
                 match print_tokens with
                 |false -> 
-                        let _ : unit = Debug_utils.print_to_stderr (
+                        let _ : unit = IO.print_to_stderr (
                                 String.concat "\n" [
                                         "Read the the following tokens from \'" ^ input ^ "\':";
                                 ]

@@ -413,7 +413,7 @@ let _ : unit = try
         |_ -> print_endline usage
 with
 |Error e -> 
-        let _ : unit = Debug_utils.print_to_stderr e in
+        let _ : unit = IO.print_to_stderr e in
         print_endline usage
-|Main.Error e -> Debug_utils.print_to_stderr e
+|Main.Error e -> IO.print_to_stderr e
 |Test.Error e -> raise (Error (String.concat " " ["Test.Error:";e]))
