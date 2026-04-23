@@ -72,10 +72,6 @@
 }<br>
 <br>
 <br>
-<br>
-<span class="keyword">let</span>&nbsp;expand_tag_default&nbsp;(tag&nbsp;:&nbsp;<span class="constructor">Doc_types</span>.ts_tag)&nbsp;:&nbsp;(string&nbsp;*&nbsp;string)&nbsp;option&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Tags</span>.expand_tag&nbsp;tag<br>
-<br>
 <span class="keyword">let</span>&nbsp;lower_case_latin_letters&nbsp;:&nbsp;string&nbsp;array&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[|<span class="string">"a"</span>;<span class="string">"b"</span>;<span class="string">"c"</span>;<span class="string">"d"</span>;<span class="string">"e"</span>;<span class="string">"f"</span>;<span class="string">"g"</span>;<span class="string">"h"</span>;<span class="string">"i"</span>;<span class="string">"j"</span>;<span class="string">"k"</span>;<span class="string">"l"</span>;<span class="string">"m"</span>;<span class="string">"n"</span>;<span class="string">"o"</span>;<span class="string">"p"</span>;<span class="string">"q"</span>;<span class="string">"r"</span>;<span class="string">"s"</span>;<span class="string">"t"</span>;<span class="string">"u"</span>;<span class="string">"v"</span>;<span class="string">"x"</span>;<span class="string">"y"</span>;<span class="string">"z"</span>;|]<br>
 <br>
@@ -199,7 +195,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sec_prefix&nbsp;=&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="string">"§"</span>,<span class="string">"§"</span>);<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;app_prefix&nbsp;=&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="string">"§"</span>,<span class="string">"Appendix"</span>);<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;par_prefix&nbsp;=&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="string">"¶"</span>,<span class="string">"¶"</span>);<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expand_tag&nbsp;=&nbsp;expand_tag_default;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;expand_tag&nbsp;=&nbsp;<span class="constructor">Tags</span>.expand_tag_default;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;auto_numbering&nbsp;=&nbsp;auto_numbering_default;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
 }<br>
@@ -1512,6 +1508,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;:&nbsp;bool;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;:&nbsp;string;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
 }<br>
 <br>
 <span class="keyword">type</span>&nbsp;t_html_options&nbsp;=&nbsp;{<br>
@@ -1521,18 +1518,37 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;:&nbsp;bool;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;:&nbsp;string;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
 }<br>
 <br>
 <span class="keyword">type</span>&nbsp;t_exml_options&nbsp;=&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;:&nbsp;bool;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;:&nbsp;string;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
+}<br>
+<br>
+<span class="keyword">type</span>&nbsp;t_axml_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
 }<br>
 <br>
 <span class="keyword">let</span>&nbsp;exml_options_of_html_options&nbsp;(html_options&nbsp;:&nbsp;t_html_options)&nbsp;:&nbsp;t_exml_options&nbsp;=&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;html_options.quiet;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;html_options.numbering;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;html_options.allow_custom_numbering;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;html_options.tags;<br>
+}<br>
+<br>
+<span class="keyword">let</span>&nbsp;axml_options_of_html_options&nbsp;(html_options&nbsp;:&nbsp;t_html_options)&nbsp;:&nbsp;t_axml_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;html_options.tags;<br>
+}<br>
+<br>
+<span class="keyword">let</span>&nbsp;axml_options_of_txt_options&nbsp;(txt_options&nbsp;:&nbsp;t_txt_options)&nbsp;:&nbsp;t_axml_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;txt_options.tags;<br>
+}<br>
+<br>
+<span class="keyword">let</span>&nbsp;axml_options_of_exml_options&nbsp;(exml_options&nbsp;:&nbsp;t_exml_options)&nbsp;:&nbsp;t_axml_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;exml_options.tags;<br>
 }<br>
 <br>
 <span class="keyword">let</span>&nbsp;txt_options_default&nbsp;()&nbsp;:&nbsp;t_txt_options&nbsp;=&nbsp;{<br>
@@ -1541,6 +1557,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 }<br>
 <br>
 <span class="keyword">let</span>&nbsp;html_options_default&nbsp;()&nbsp;:&nbsp;t_html_options&nbsp;=&nbsp;{<br>
@@ -1550,12 +1567,18 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 }<br>
 <br>
 <span class="keyword">let</span>&nbsp;exml_options_default&nbsp;()&nbsp;:&nbsp;t_exml_options&nbsp;=&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+}<br>
+<br>
+<span class="keyword">let</span>&nbsp;axml_options_default&nbsp;()&nbsp;:&nbsp;t_axml_options&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 }<br>
 <br>
 </code></body></html>

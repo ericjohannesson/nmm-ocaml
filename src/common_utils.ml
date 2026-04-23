@@ -1481,6 +1481,7 @@ type t_txt_options = {
         quiet : bool;
         numbering : string;
         allow_custom_numbering : bool;
+        tags : string option;
 }
 
 type t_html_options = {
@@ -1490,18 +1491,37 @@ type t_html_options = {
         quiet : bool;
         numbering : string;
         allow_custom_numbering : bool;
+        tags : string option;
 }
 
 type t_exml_options = {
         quiet : bool;
         numbering : string;
         allow_custom_numbering : bool;
+        tags : string option;
+}
+
+type t_axml_options = {
+        tags : string option;
 }
 
 let exml_options_of_html_options (html_options : t_html_options) : t_exml_options = {
         quiet = html_options.quiet;
         numbering = html_options.numbering;
         allow_custom_numbering = html_options.allow_custom_numbering;
+        tags = html_options.tags;
+}
+
+let axml_options_of_html_options (html_options : t_html_options) : t_axml_options = {
+        tags = html_options.tags;
+}
+
+let axml_options_of_txt_options (txt_options : t_txt_options) : t_axml_options = {
+        tags = txt_options.tags;
+}
+
+let axml_options_of_exml_options (exml_options : t_exml_options) : t_axml_options = {
+        tags = exml_options.tags;
 }
 
 let txt_options_default () : t_txt_options = {
@@ -1510,6 +1530,7 @@ let txt_options_default () : t_txt_options = {
         quiet = false;
         numbering = "a1i";
         allow_custom_numbering = false;
+        tags = None;
 }
 
 let html_options_default () : t_html_options = {
@@ -1519,11 +1540,17 @@ let html_options_default () : t_html_options = {
         quiet = false;
         numbering = "a1i";
         allow_custom_numbering = false;
+        tags = None;
 }
 
 let exml_options_default () : t_exml_options = {
         quiet = false;
         numbering = "a1i";
         allow_custom_numbering = false;
+        tags = None;
+}
+
+let axml_options_default () : t_axml_options = {
+        tags = None;
 }
 

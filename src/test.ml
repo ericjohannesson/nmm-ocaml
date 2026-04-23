@@ -19,7 +19,7 @@ let validate_axml (path : string) (format : string) (path_to_dtd : string) (axml
 let rec test_with_nmm_file (options : Common_utils.t_html_options) (path : string) : unit =
 try
         let _ : unit = Debug_utils.quiet.contents <- options.quiet in
-        let doc : Doc_types.tr_doc = Main.doc_of_nmm path in
+        let doc : Doc_types.tr_doc = Main.doc_of_nmm (Common_utils.axml_options_of_html_options options) path in
         let axml : Xml.xml = Axml_of_doc.axml_of_tr_doc doc in
         let doc_of_axml : Doc_types.tr_doc = Doc_of_axml.f_tr_doc_of_axml axml in
         let exml : Xml.xml = Compiler_of_doc.exml_of_tr_doc (Common_utils.exml_options_of_html_options options) doc in
