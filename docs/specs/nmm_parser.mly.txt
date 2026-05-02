@@ -95,7 +95,7 @@ let date_of_string (s : string) : tu_date =
 %token <string * int>           NTE_REF
 %token <int>                    NTE_LBR
 
-%type <Doc_types.tr_doc>                  main doc
+%type <Doc_types.tr_doc>        main
 
 %start main
 
