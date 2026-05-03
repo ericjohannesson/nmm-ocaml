@@ -542,7 +542,6 @@ blk1:
   |blk_itm1                                       { (Cu_blk_itm (blk_itm_tagger_ref.contents $1)):tu_blk }
   |blk_dsp1                                       { (Cu_blk_dsp $1):tu_blk }
   |blk_vrb1                                       { (Cu_blk_vrb $1):tu_blk }
-  |NL blk1                                        { $2:tu_blk }
 ;
 
 blk_txt1:
@@ -653,7 +652,6 @@ blk2:
   |blk_itm2                                       { (Cu_blk_itm (blk_itm_tagger_ref.contents $1)):tu_blk }
   |blk_dsp2                                       { (Cu_blk_dsp $1):tu_blk }
   |blk_vrb2                                       { (Cu_blk_vrb $1):tu_blk }
-  |NL blk2                                        { $2:tu_blk }
 ;
 
 blk_txt2:
@@ -757,7 +755,6 @@ blk3:
   |blk_txt3                                       { (Cu_blk_txt $1):tu_blk }
   |blk_vrb3                                       { (Cu_blk_vrb $1):tu_blk }
   (* et cetera *)
-  |NL blk3                                        { $2:tu_blk }
 ;
 
 blk_txt3:

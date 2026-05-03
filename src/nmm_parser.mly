@@ -102,7 +102,7 @@ let date_of_string (s : string) : tu_date =
 %%
 main:
   | doc EOF                                       { $1 : tr_doc }
-  | nls doc EOF                                   { $2 : tr_doc }
+  | NL main                                       { $2 : tr_doc }
 ;
 
 doc:
@@ -304,14 +304,14 @@ special_blks:
 (* Level 0: *)
 
 blks0:
-  |blk0 lb0                                       { ($1::[]):tu_blk list }
+  |blk0                                           { ($1::[]):tu_blk list }
   |blk0 lb0 blks0                                 { ($1::$3):tu_blk list }
   |special_blks0                                  { $1:tu_blk list }
 ;
 
 special_blks0:
-  |blk_txt0 lb1 special_blk_dsp0  lb0             { [Cu_blk_txt $1;Cu_blk_dsp $3]:tu_blk list }
-  |blk_txt0 lb1 special_blk_dsp0  lb0 blks0       { ((Cu_blk_txt $1)::((Cu_blk_dsp $3)::$5)):tu_blk list }
+  |blk_txt0 lb1 special_blk_dsp0                  { [Cu_blk_txt $1;Cu_blk_dsp $3]:tu_blk list }
+  |blk_txt0 lb1 special_blk_dsp0 lb0 blks0        { (Cu_blk_txt $1)::((Cu_blk_dsp $3)::$5):tu_blk list }
 ;
 
 blk0:
@@ -430,7 +430,6 @@ blk(n):
   |blk_itm(n)                                             { (Cu_blk_itm $1):tu_blk }
   |blk_dsp(n)                                             { (Cu_blk_dsp $1):tu_blk }
   |blk_vrb(n)                                             { (Cu_blk_vrb $1):tu_blk }
-  |NL blk(n)                                              { $2:tu_blk }
 ;
 
 blk_txt(n):
@@ -533,7 +532,7 @@ blks1:
 
 special_blks1:
   |blk_txt1 lb2 special_blk_dsp1                  { [Cu_blk_txt $1;Cu_blk_dsp $3]:tu_blk list }
-  |blk_txt1 lb2 special_blk_dsp1  lb1 blks1       { ((Cu_blk_txt $1)::((Cu_blk_dsp $3)::$5)):tu_blk list }
+  |blk_txt1 lb2 special_blk_dsp1 lb1 blks1        { ((Cu_blk_txt $1)::((Cu_blk_dsp $3)::$5)):tu_blk list }
 ;
 
 blk1:
@@ -542,7 +541,6 @@ blk1:
   |blk_itm1                                       { (Cu_blk_itm (blk_itm_tagger_ref.contents $1)):tu_blk }
   |blk_dsp1                                       { (Cu_blk_dsp $1):tu_blk }
   |blk_vrb1                                       { (Cu_blk_vrb $1):tu_blk }
-  |NL blk1                                        { $2:tu_blk }
 ;
 
 blk_txt1:
@@ -653,7 +651,6 @@ blk2:
   |blk_itm2                                       { (Cu_blk_itm (blk_itm_tagger_ref.contents $1)):tu_blk }
   |blk_dsp2                                       { (Cu_blk_dsp $1):tu_blk }
   |blk_vrb2                                       { (Cu_blk_vrb $1):tu_blk }
-  |NL blk2                                        { $2:tu_blk }
 ;
 
 blk_txt2:
@@ -757,7 +754,6 @@ blk3:
   |blk_txt3                                       { (Cu_blk_txt $1):tu_blk }
   |blk_vrb3                                       { (Cu_blk_vrb $1):tu_blk }
   (* et cetera *)
-  |NL blk3                                        { $2:tu_blk }
 ;
 
 blk_txt3:
