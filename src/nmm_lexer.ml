@@ -73,6 +73,7 @@ let tab_end_vrb = [%sedlex.regexp? tab, end_vrb]
 let tab_tab_end_vrb = [%sedlex.regexp? tab, tab_end_vrb]
 let tab_tab_tab_end_vrb = [%sedlex.regexp? tab, tab_tab_end_vrb]
 
+let nl_not_nl = [%sedlex.regexp? nl, Compl (Chars "\n\r")]
 
 (* helper functions *)
 
@@ -101,9 +102,17 @@ let line_of_lexbuf (lexbuf:Sedlexing.lexbuf):string=
         match Sedlexing.lexing_positions lexbuf with
         (start_pos,end_pos) -> string_of_int (start_pos.pos_lnum)
 
+(* refs *)
+
 let return_nl: bool ref = ref true
 
 let verbatim : bool ref = ref false
+
+let set_verbatim_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
+	let _ : unit = verbatim.contents <- true in tkn
+
+let reset_verbatim_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
+	let _ : unit = verbatim.contents <- false in tkn
 
 let first_nl : bool ref = ref true
 
@@ -114,12 +123,19 @@ let nl_or_vrb_line_empty (first : bool ) : Nmm_parser.token =
 
 let display : bool ref = ref false
 
+let set_display_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
+	let _ : unit = display.contents <- true in tkn
+
+let reset_display_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
+	let _ : unit = display.contents <- false in tkn
+
 let nte_counter : int ref = ref 0
 
 let nte_count () : int =
         let n = nte_counter.contents in
         let _ : unit = nte_counter.contents <- n + 1 in
         n
+
 
 (* the lexer *)
 
@@ -146,13 +162,13 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |tab                            ->      TAB 
                 |dash_tab                       ->      DASH_TAB
                 |star_tab_id                    ->      STAR_TAB_ID (lexeme lexbuf)
-                |dsp_auto_tab                   ->      let _ : unit = display.contents <- true in DSP_AUTO_TAB 
-                |dsp_custom_tab                 ->      let _ : unit = display.contents <- true in DSP_CUSTOM_TAB (get_label (lexeme lexbuf))
+                |dsp_auto_tab                   ->      set_display_and_return_token DSP_AUTO_TAB 
+                |dsp_custom_tab                 ->      set_display_and_return_token (DSP_CUSTOM_TAB (get_label (lexeme lexbuf)))
                 |itm_auto_tab                   ->      ITM_AUTO_TAB
                 |itm_custom_tab                 ->      ITM_CUSTOM_TAB (get_label (lexeme lexbuf))
                 |itm_auto_tab_id                ->      ITM_AUTO_TAB_ID (lexeme lexbuf)
                 |itm_custom_tab_id              ->      ITM_CUSTOM_TAB_ID (lexeme lexbuf)
-                |nl                             ->      NL
+                |nl                             ->      let _ : unit = skip_newlines lexbuf in NL
                 |nl_tab                         ->      NL_TAB
                 |nl_tab_tab                     ->      NL_TAB_TAB
                 |nl_tab_tab_tab                 ->      NL_TAB_TAB_TAB
@@ -164,17 +180,17 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |pilcrow                        ->      PILCROW
                 |nte_lbr                        ->      NTE_LBR (nte_count ())
                 |txt                            ->      TXT (lexeme lexbuf)
-                |start_vrb                      ->      let _ : unit = verbatim.contents <- true in START_VRB
+                |start_vrb                      ->      set_verbatim_and_return_token START_VRB
                 |eof                            ->      end_of_file lexbuf
                 |_ -> raise (ERROR ("unexpected string on line " ^ (line_of_lexbuf lexbuf) ^ ": \"" ^ (lexeme lexbuf) ^ "\""))
         )
 
         |true, _ -> (
                 match%sedlex lexbuf with
-                |end_vrb                        ->      let _ : unit = verbatim.contents <- false in END_VRB
-                |tab_end_vrb                    ->      let _ : unit = verbatim.contents <- false in TAB_END_VRB
-                |tab_tab_end_vrb                ->      let _ : unit = verbatim.contents <- false in TAB_TAB_END_VRB
-                |tab_tab_tab_end_vrb            ->      let _ : unit = verbatim.contents <- false in TAB_TAB_TAB_END_VRB
+                |end_vrb                        ->      reset_verbatim_and_return_token END_VRB
+                |tab_end_vrb                    ->      reset_verbatim_and_return_token TAB_END_VRB
+                |tab_tab_end_vrb                ->      reset_verbatim_and_return_token TAB_TAB_END_VRB
+                |tab_tab_tab_end_vrb            ->      reset_verbatim_and_return_token TAB_TAB_TAB_END_VRB
                 |vrb_line                       ->      let _ : unit = first_nl.contents <- true in VRB_LINE (lexeme lexbuf)
                 |nl                             ->      nl_or_vrb_line_empty first_nl.contents
                 |tab                            ->      TAB
@@ -196,10 +212,10 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |txt                            ->      TXT (lexeme lexbuf)
                 |tab                            ->      TAB 
                 |dsp_id                         ->      DSP_ID (lexeme lexbuf)
-                |nl                             ->      let _ : unit = display.contents <- false in NL
-                |nl_tab                         ->      let _ : unit = display.contents <- false in NL_TAB
-                |nl_tab_tab                     ->      let _ : unit = display.contents <- false in NL_TAB_TAB
-                |nl_tab_tab_tab                 ->      let _ : unit = display.contents <- false in NL_TAB_TAB_TAB
+                |nl                             ->      reset_display_and_return_token NL
+                |nl_tab                         ->      reset_display_and_return_token NL_TAB
+                |nl_tab_tab                     ->      reset_display_and_return_token NL_TAB_TAB
+                |nl_tab_tab_tab                 ->      reset_display_and_return_token NL_TAB_TAB_TAB
                 |_ -> raise (ERROR ("unexpected string on line " ^ (line_of_lexbuf lexbuf) ^ ": \"" ^ (lexeme lexbuf) ^ "\""))
         )
 
@@ -208,4 +224,8 @@ and end_of_file (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token =
         |true -> let _ = return_nl.contents <- false in let _ = token lexbuf in NL
         |false -> EOF
 
-
+and skip_newlines (lexbuf : Sedlexing.lexbuf) : unit =
+	match%sedlex lexbuf with
+	|nl_not_nl -> Sedlexing.rollback lexbuf
+	|nl -> skip_newlines lexbuf
+	|_ -> ()
