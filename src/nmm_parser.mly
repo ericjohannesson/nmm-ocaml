@@ -300,6 +300,15 @@ special_blks:
   |lb1 special_blk_dsp0 NL blks0                 { (Cs_blks ((Cu_blk_dsp $2)::$4)):ts_blks }
 ;
 
+hdr:
+  |txt_units0                                     { (Cs_hdr (Cs_txt_units $1)):ts_hdr }
+;
+
+nls:
+  |NL                                             { }
+  |NL nls                                         { }
+;
+
 
 (* Level 0: *)
 
@@ -911,9 +920,6 @@ pilcrow_spaces_rpt_spaces_id_nl:
   |PILCROW_SPACES_RPT_SPACES_ID_NL                { Cs_par_rpt (id_of_string $1):ts_par_rpt }
 ;
 
-hdr:
-  |txt_units0                                     { (Cs_hdr (Cs_txt_units $1)):ts_hdr }
-;
 
 dsp_lbl_tab:
   |dsp_auto_tab                                   { (Cu_lbl_auto $1):tu_lbl }
@@ -967,8 +973,4 @@ tabs:
   |tabs TAB                                       { }
 ;
 
-nls:
-  |NL                                             { }
-  |NL nls                                         { }
-;
 
