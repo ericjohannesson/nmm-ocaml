@@ -67,7 +67,7 @@ let pilcrow_refs_nls = [%sedlex.regexp? Utf8 "¶", Plus " ", "REFS", Plus nl]
 let esc_char = [%sedlex.regexp? '\\', any]
 
 let start_vrb = [%sedlex.regexp? "START", tab, "VERBATIM", nl]
-let vrb_line = [%sedlex.regexp? Plus (Compl (Chars "\r\n\t"))]
+let vrb_line = [%sedlex.regexp? Plus (Compl (Chars "\r\n\t")), nl]
 let end_vrb = [%sedlex.regexp? "END", tab, "VERBATIM", nl]
 let tab_end_vrb = [%sedlex.regexp? tab, end_vrb]
 let tab_tab_end_vrb = [%sedlex.regexp? tab, tab_end_vrb]
@@ -102,9 +102,10 @@ let line_of_lexbuf (lexbuf:Sedlexing.lexbuf):string=
         match Sedlexing.lexing_positions lexbuf with
         (start_pos,end_pos) -> string_of_int (start_pos.pos_lnum)
 
-(* refs *)
+let remove_nls (s : string) : string =
+	String.concat "" (String.split_on_char '\n' s)
 
-let return_nl: bool ref = ref true
+(* refs *)
 
 let verbatim : bool ref = ref false
 
@@ -113,13 +114,6 @@ let set_verbatim_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
 
 let reset_verbatim_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
 	let _ : unit = verbatim.contents <- false in tkn
-
-let first_nl : bool ref = ref true
-
-let nl_or_vrb_line_empty (first : bool ) : Nmm_parser.token =
-        match first with
-        |true -> let _ : unit = first_nl.contents <- false in NL
-        |false -> VRB_LINE_EMPTY
 
 let display : bool ref = ref false
 
@@ -136,6 +130,10 @@ let nte_count () : int =
         let _ : unit = nte_counter.contents <- n + 1 in
         n
 
+let end_of_file : bool ref = ref false
+
+let set_end_of_file_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
+	let _ : unit = end_of_file.contents <- true in tkn
 
 (* the lexer *)
 
@@ -181,7 +179,7 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |nte_lbr                        ->      NTE_LBR (nte_count ())
                 |txt                            ->      TXT (lexeme lexbuf)
                 |start_vrb                      ->      set_verbatim_and_return_token START_VRB
-                |eof                            ->      end_of_file lexbuf
+                |eof                            ->      if end_of_file.contents then EOF else set_end_of_file_and_return_token NL
                 |_ -> raise (ERROR ("unexpected string on line " ^ (line_of_lexbuf lexbuf) ^ ": \"" ^ (lexeme lexbuf) ^ "\""))
         )
 
@@ -191,8 +189,8 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |tab_end_vrb                    ->      reset_verbatim_and_return_token TAB_END_VRB
                 |tab_tab_end_vrb                ->      reset_verbatim_and_return_token TAB_TAB_END_VRB
                 |tab_tab_tab_end_vrb            ->      reset_verbatim_and_return_token TAB_TAB_TAB_END_VRB
-                |vrb_line                       ->      let _ : unit = first_nl.contents <- true in VRB_LINE (lexeme lexbuf)
-                |nl                             ->      nl_or_vrb_line_empty first_nl.contents
+                |vrb_line                       ->      VRB_LINE (remove_nls (lexeme lexbuf))
+                |nl                             ->      VRB_LINE_EMPTY
                 |tab                            ->      TAB
                 |_ -> raise (ERROR ("unexpected string on line " ^ (line_of_lexbuf lexbuf) ^ ": \"" ^ (lexeme lexbuf) ^ "\""))
         )
@@ -219,10 +217,6 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
                 |_ -> raise (ERROR ("unexpected string on line " ^ (line_of_lexbuf lexbuf) ^ ": \"" ^ (lexeme lexbuf) ^ "\""))
         )
 
-and end_of_file (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token =
-        match return_nl.contents with
-        |true -> let _ = return_nl.contents <- false in let _ = token lexbuf in NL
-        |false -> EOF
 
 and skip_newlines (lexbuf : Sedlexing.lexbuf) : unit =
 	match%sedlex lexbuf with

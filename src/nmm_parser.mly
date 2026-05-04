@@ -412,7 +412,7 @@ vrb_lines0:
 ;
 
 vrb_line0:
-  |VRB_LINE NL                                    { Cs_vrb_line $1 : ts_vrb_line }
+  |VRB_LINE                                       { Cs_vrb_line $1 : ts_vrb_line }
   |VRB_LINE_EMPTY                                 { Cs_vrb_line "" : ts_vrb_line }
 ;
 
@@ -625,7 +625,7 @@ vrb_lines1:
 ;
 
 vrb_line1:
-  |tab1 VRB_LINE NL                               { Cs_vrb_line $2 : ts_vrb_line }
+  |tab1 VRB_LINE                                  { Cs_vrb_line $2 : ts_vrb_line }
   |VRB_LINE_EMPTY                                 { Cs_vrb_line "" : ts_vrb_line }
 ;
 
@@ -736,7 +736,7 @@ vrb_lines2:
 ;
 
 vrb_line2:
-  |tab2 VRB_LINE NL                               { Cs_vrb_line $2 : ts_vrb_line }
+  |tab2 VRB_LINE                                  { Cs_vrb_line $2 : ts_vrb_line }
   |VRB_LINE_EMPTY                                 { Cs_vrb_line "" : ts_vrb_line }
 ;
 
@@ -797,7 +797,7 @@ vrb_lines3:
 ;
 
 vrb_line3:
-  |tab3 VRB_LINE NL                               { Cs_vrb_line $2 : ts_vrb_line }
+  |tab3 VRB_LINE                                  { Cs_vrb_line $2 : ts_vrb_line }
   |VRB_LINE_EMPTY                                 { Cs_vrb_line "" : ts_vrb_line }
 ;
 
