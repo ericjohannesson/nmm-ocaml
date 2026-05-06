@@ -129,8 +129,6 @@ debian-package-extras: debian bin/txt-of-nmm.sh bin/html-of-nmm.sh bin/pdf-of-nm
 	bash make_debian_package_extras.sh
 	cd -
 
-debian-packages:
-	make debian-package
-	make debian-package-extras
-
+debian-packages: debian-package debian-package-extras
+	@echo "Debian packages built"
 

@@ -4,7 +4,7 @@ release="1"
 architecture="amd64"
 maintainer="Eric Johannesson <eric@ericjohannesson.com>"
 homepage="https://github.com/ericjohannesson/nmm-ocaml"
-description="Some convenient wrapper scripts for nmm-ocaml: txt-of-nmm, html-of-nmm, and pdf-of-nmm"
+description="Some convenient wrapper scripts for nmm-ocaml (txt-of-nmm, html-of-nmm, pdf-of-nmm)"
 depends="nmm-ocaml, bash, sed, weasyprint"
 
 directory="${package}_${version}-${release}_${architecture}"
