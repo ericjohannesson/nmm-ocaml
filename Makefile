@@ -123,3 +123,14 @@ debian-package: debian bin/nmm-ocaml bin/nmm-ocaml-bash-completion.sh
 	cd debian
 	bash make_debian_package.sh
 	cd -
+
+debian-package-extras: debian bin/txt-of-nmm.sh bin/html-of-nmm.sh bin/pdf-of-nmm.sh
+	cd debian
+	bash make_debian_package_extras.sh
+	cd -
+
+debian-packages:
+	make debian-package
+	make debian-package-extras
+
+
