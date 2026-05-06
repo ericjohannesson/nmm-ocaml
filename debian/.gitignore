@@ -1,1 +1,2 @@
-nmm-ocaml*
+*.deb
+deb/*.deb

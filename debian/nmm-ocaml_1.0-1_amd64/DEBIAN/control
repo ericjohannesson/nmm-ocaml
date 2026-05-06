@@ -1,0 +1,7 @@
+Package: nmm-ocaml
+Version: 1.0
+Maintainer: Eric Johannesson <eric@ericjohannesson.com>
+Depends: libc6
+Architecture: amd64
+Homepage: https://github.com/ericjohannesson/nmm-ocaml
+Description: An implementation of no-markup-markup in OCaml

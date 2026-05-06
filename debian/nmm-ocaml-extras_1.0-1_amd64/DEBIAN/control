@@ -1,0 +1,7 @@
+Package: nmm-ocaml-extras
+Version: 1.0
+Maintainer: Eric Johannesson <eric@ericjohannesson.com>
+Depends: nmm-ocaml, bash, sed, weasyprint
+Architecture: amd64
+Homepage: https://github.com/ericjohannesson/nmm-ocaml
+Description: Some convenient wrapper scripts for nmm-ocaml (txt-of-nmm, html-of-nmm, pdf-of-nmm)
