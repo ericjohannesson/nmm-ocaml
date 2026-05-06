@@ -122,13 +122,16 @@ utop: opam_package
 debian-package: debian bin/nmm-ocaml bin/nmm-ocaml-bash-completion.sh
 	cd debian
 	bash make_debian_package.sh
+	mkdir -p deb
+	mv *.deb deb/
 	cd -
 
 debian-package-extras: debian bin/txt-of-nmm.sh bin/html-of-nmm.sh bin/pdf-of-nmm.sh
 	cd debian
 	bash make_debian_package_extras.sh
+	mkdir -p deb
+	mv *.deb deb/
 	cd -
 
 debian-packages: debian-package debian-package-extras
-	@echo "Debian packages built"
 
