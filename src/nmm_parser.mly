@@ -85,7 +85,7 @@ let date_of_string (s : string) : tu_date =
 %token                          NL TAB NL_TAB NL_TAB_TAB NL_TAB_TAB_TAB
 %token                          DASH_TAB ITM_AUTO_TAB DSP_AUTO_TAB PILCROW_NL SECTION_NL SECTION_REFS_NLS PILCROW_REFS_NLS
 %token                          START_VRB VRB_LINE_EMPTY END_VRB TAB_END_VRB TAB_TAB_END_VRB TAB_TAB_TAB_END_VRB
-%token                          PREAMBLE TITLE AUTHOR DATE ABSTRACT
+%token                          PREAMBLE_COLON TITLE_COLON AUTHOR_COLON DATE_COLON ABSTRACT_COLON
 %token <string>                 VRB_LINE
 %token <string>                 ESC_CHAR
 %token <string>                 TXT C_REF
@@ -187,28 +187,28 @@ doc:
 
 
 doc_preamble:
-  | PREAMBLE TAB preamble_lines                   { (Cs_preamble $3) : ts_preamble }
-  | PREAMBLE NL_TAB preamble_lines                { (Cs_preamble $3) : ts_preamble }
+  | PREAMBLE_COLON TAB preamble_lines            { (Cs_preamble $3) : ts_preamble }
+  | PREAMBLE_COLON NL_TAB preamble_lines         { (Cs_preamble $3) : ts_preamble }
 ;
 
 doc_title:
-  | TITLE TAB lines                               { (Cs_title $3) : ts_title }
-  | TITLE NL_TAB lines                            { (Cs_title $3) : ts_title }
+  | TITLE_COLON TAB lines                        { (Cs_title $3) : ts_title }
+  | TITLE_COLON NL_TAB lines                     { (Cs_title $3) : ts_title }
 ;
 
 doc_author:
-  | AUTHOR TAB lines                              { (Cs_author $3) : ts_author }
-  | AUTHOR NL_TAB lines                           { (Cs_author $3) : ts_author }
+  | AUTHOR_COLON TAB lines                       { (Cs_author $3) : ts_author }
+  | AUTHOR_COLON NL_TAB lines                    { (Cs_author $3) : ts_author }
 ;
 
 doc_date:
-  | DATE TAB lines                              { (date_of_string $3) : tu_date }
-  | DATE NL_TAB lines                           { (date_of_string $3) : tu_date }
+  | DATE_COLON TAB lines                         { (date_of_string $3) : tu_date }
+  | DATE_COLON NL_TAB lines                      { (date_of_string $3) : tu_date }
 ;
 
 doc_abstract:
-  | ABSTRACT TAB blks1                            { (Cs_abstract (Cs_blks $3)) : ts_abstract }
-  | ABSTRACT lb1 blks1                            { (Cs_abstract (Cs_blks $3)) : ts_abstract }
+  | ABSTRACT_COLON TAB blks1                     { (Cs_abstract (Cs_blks $3)) : ts_abstract }
+  | ABSTRACT_COLON lb1 blks1                     { (Cs_abstract (Cs_blks $3)) : ts_abstract }
 ;
 
 doc_refs:
@@ -866,11 +866,11 @@ txt_nte:
   |LBR                                            { "[":string }
   |PILCROW                                        { "¶":string }
   |SECTION                                        { "§":string }
-  |PREAMBLE                                       { "PREAMBLE":string }
-  |TITLE                                          { "TITLE":string }
-  |AUTHOR                                         { "AUTHOR":string }
-  |DATE                                           { "DATE":string }
-  |ABSTRACT                                       { "ABSTRACT":string }
+  |PREAMBLE_COLON                                 { "PREAMBLE:":string }
+  |TITLE_COLON                                    { "TITLE:":string }
+  |AUTHOR_COLON                                   { "AUTHOR:":string }
+  |DATE_COLON                                     { "DATE:":string }
+  |ABSTRACT_COLON                                 { "ABSTRACT:":string }
   |ESC_CHAR                                       { $1:string }
 ;
 
