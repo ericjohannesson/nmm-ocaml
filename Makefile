@@ -119,19 +119,8 @@ byte: src
 utop: opam_package
 	utop -require sedlex -require uuseg -require xml-light -require str -I $(realpath opam_package) $(realpath opam_package/nmm_ocaml.cma)
 
-debian-package: debian bin/nmm-ocaml bin/nmm-ocaml-bash-completion.sh
+debian/debian_packages: debian bin/nmm-ocaml bin/*
 	cd debian
-	bash make_debian_package.sh
-	mkdir -p deb
-	mv *.deb deb/
+	make
 	cd -
-
-debian-package-extras: debian bin/txt-of-nmm.sh bin/html-of-nmm.sh bin/pdf-of-nmm.sh
-	cd debian
-	bash make_debian_package_extras.sh
-	mkdir -p deb
-	mv *.deb deb/
-	cd -
-
-debian-packages: debian-package debian-package-extras
 
