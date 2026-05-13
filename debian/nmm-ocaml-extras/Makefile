@@ -8,7 +8,7 @@ MAKEFLAGS += --no-builtin-rules
 .PHONY: default clean test
 
 default:
-	make debian_package
+	make packages
 
 clean:
 	# remove anything in .gitignore, including directories
@@ -42,24 +42,23 @@ ${directory}/DEBIAN/control:
 ${directory}/usr/bin/txt-of-nmm: ../../bin/txt-of-nmm.sh
 	mkdir -p ${directory}/usr/bin
 	cp ../../bin/txt-of-nmm.sh ${directory}/usr/bin/txt-of-nmm
+	chmod +x ${directory}/usr/bin/txt-of-nmm
 
 ${directory}/usr/bin/html-of-nmm: ../../bin/html-of-nmm.sh
 	mkdir -p ${directory}/usr/bin
 	cp ../../bin/html-of-nmm.sh ${directory}/usr/bin/html-of-nmm
+	chmod +x ${directory}/usr/bin/html-of-nmm
 
 ${directory}/usr/bin/pdf-of-nmm: ../../bin/pdf-of-nmm.sh
 	mkdir -p ${directory}/usr/bin
 	cp ../../bin/pdf-of-nmm.sh ${directory}/usr/bin/pdf-of-nmm
-
-${directory}/usr/share/bash-completion/completions/nmm-ocaml: ../../bin/nmm-ocaml-bash-completion.sh
-	mkdir -p ${directory}/usr/share/bash-completion/completions
-	cp ../../bin/nmm-ocaml-bash-completion.sh ${directory}/usr/share/bash-completion/completions/nmm-ocaml
+	chmod +x ${directory}/usr/bin/pdf-of-nmm
 
 ${directory}/usr/bin: ${directory}/usr/bin/txt-of-nmm ${directory}/usr/bin/html-of-nmm ${directory}/usr/bin/pdf-of-nmm
 
-${directory}: ${directory}/DEBIAN/control ${directory}/usr/bin ${directory}/usr/share/bash-completion/completions/nmm-ocaml
+${directory}: ${directory}/DEBIAN/control ${directory}/usr/bin
 
-debian_package: ${directory}
+packages: ${directory}
 	dpkg-deb --root-owner-group --build ${directory}
-	mkdir -p debian_package
-	mv *.deb debian_package/
+	mkdir -p packages
+	mv *.deb packages/

@@ -8,7 +8,7 @@ MAKEFLAGS += --no-builtin-rules
 .PHONY: default clean test
 
 default:
-	make debian_packages
+	make packages
 
 clean:
 	# remove anything in .gitignore, including directories
@@ -16,17 +16,17 @@ clean:
 
 
 
-debian_packages: nmm-ocaml/debian_package nmm-ocaml-extras/debian_package
-	mkdir -p debian_packages
-	mv nmm-ocaml/debian_package/*.deb debian_packages/
-	mv nmm-ocaml-extras/debian_package/*.deb debian_packages/
+packages: nmm-ocaml/packages nmm-ocaml-extras/packages
+	mkdir -p packages
+	mv nmm-ocaml/packages/*.deb packages/
+	mv nmm-ocaml-extras/packages/*.deb packages/
 
-nmm-ocaml/debian_package: nmm-ocaml ../bin/nmm-ocaml ../bin/nmm-ocaml-bash-completion.sh
+nmm-ocaml/packages: nmm-ocaml ../bin/nmm-ocaml ../bin/nmm-ocaml-bash-completion.sh
 	cd nmm-ocaml
 	make
 	cd -
 
-nmm-ocaml-extras/debian_package: nmm-ocaml-extras ../bin/txt-of-nmm.sh ../bin/html-of-nmm.sh ../bin/pdf-of-nmm.sh ../bin/nmm-ocaml-bash-completion.sh
+nmm-ocaml-extras/packages: nmm-ocaml-extras ../bin/txt-of-nmm.sh ../bin/html-of-nmm.sh ../bin/pdf-of-nmm.sh
 	cd nmm-ocaml-extras
 	make
 	cd -

@@ -8,7 +8,7 @@ MAKEFLAGS += --no-builtin-rules
 .PHONY: default clean test
 
 default:
-	make debian_package
+	make packages
 
 clean:
 	# remove anything in .gitignore, including directories
@@ -49,7 +49,7 @@ ${directory}/usr/share/bash-completion/completions/nmm-ocaml: ../../bin/nmm-ocam
 
 ${directory}: ${directory}/DEBIAN/control ${directory}/usr/bin/nmm-ocaml ${directory}/usr/share/bash-completion/completions/nmm-ocaml
 
-debian_package: ${directory}
+packages: ${directory}
 	dpkg-deb --root-owner-group --build ${directory}
-	mkdir -p debian_package
-	mv *.deb debian_package/
+	mkdir -p packages
+	mv *.deb packages/

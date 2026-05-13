@@ -119,7 +119,7 @@ byte: src
 utop: opam_package
 	utop -require sedlex -require uuseg -require xml-light -require str -I $(realpath opam_package) $(realpath opam_package/nmm_ocaml.cma)
 
-debian/debian_packages: debian bin/nmm-ocaml bin/*
+debian/packages: debian bin/nmm-ocaml bin/*
 	cd debian
 	make
 	cd -

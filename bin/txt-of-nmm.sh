@@ -19,5 +19,5 @@ _nmm_ocaml_make_txt () {
 	esac
 }
 
-_nmm_ocaml_make_html $@
+_nmm_ocaml_make_txt $@
 
