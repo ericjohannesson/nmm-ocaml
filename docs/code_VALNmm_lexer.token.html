@@ -107,7 +107,7 @@
 
 
 <span class="keyword">and</span> skip_newlines (lexbuf : <span class="constructor">Sedlexing</span>.lexbuf) : unit =
-	<span class="keyword">match</span>%sedlex lexbuf <span class="keyword">with</span>
-	<span class="keywordsign">|</span>nl_not_nl <span class="keywordsign">-&gt;</span> <span class="constructor">Sedlexing</span>.rollback lexbuf
-	<span class="keywordsign">|</span>nl <span class="keywordsign">-&gt;</span> skip_newlines lexbuf
-	<span class="keywordsign">|</span>_ <span class="keywordsign">-&gt;</span> ()</code></body></html>
+        <span class="keyword">match</span>%sedlex lexbuf <span class="keyword">with</span>
+        <span class="keywordsign">|</span>nl_not_nl <span class="keywordsign">-&gt;</span> <span class="constructor">Sedlexing</span>.rollback lexbuf
+        <span class="keywordsign">|</span>nl <span class="keywordsign">-&gt;</span> skip_newlines lexbuf
+        <span class="keywordsign">|</span>_ <span class="keywordsign">-&gt;</span> ()</code></body></html>

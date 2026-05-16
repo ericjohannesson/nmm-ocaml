@@ -248,13 +248,13 @@
                 <span class="keywordsign">|</span>_ <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_vrb_line"</span>,[],[xml_of_string s])
 
 <span class="keyword">and</span> xml_of_ts_txt_lines (txt_lines : ts_txt_lines) : <span class="constructor">Xml</span>.xml =
-	<span class="keyword">match</span> txt_lines <span class="keyword">with</span>
-	<span class="keywordsign">|</span><span class="constructor">Cs_txt_lines</span> txt_line_list <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_lines"</span>,[],<span class="constructor">List</span>.map xml_of_ts_txt_line txt_line_list)
+        <span class="keyword">match</span> txt_lines <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">Cs_txt_lines</span> txt_line_list <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_lines"</span>,[],<span class="constructor">List</span>.map xml_of_ts_txt_line txt_line_list)
 
 
 <span class="keyword">and</span> xml_of_ts_txt_line (txt_line : ts_txt_line) : <span class="constructor">Xml</span>.xml =
-	<span class="keyword">match</span> txt_line <span class="keyword">with</span>
-	<span class="keywordsign">|</span><span class="constructor">Cs_txt_line</span> txt_units <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_line"</span>,[],[xml_of_ts_txt_units txt_units])
+        <span class="keyword">match</span> txt_line <span class="keyword">with</span>
+        <span class="keywordsign">|</span><span class="constructor">Cs_txt_line</span> txt_units <span class="keywordsign">-&gt;</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"cs_txt_line"</span>,[],[xml_of_ts_txt_units txt_units])
 
 <span class="keyword">and</span> xml_of_ts_txt_units (txt_units:ts_txt_units):<span class="constructor">Xml</span>.xml=
         <span class="keyword">match</span> txt_units <span class="keyword">with</span>
