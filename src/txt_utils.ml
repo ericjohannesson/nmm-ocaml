@@ -251,7 +251,7 @@ let make_string (n:int) (s:string) : string=
 
 
 let string_of_ts_txt_lines (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (txt_lines : ts_txt_lines) : string =
-	string_of_ts_txt_units doc_settings cref_table nte_table path (Cs_txt_units (Common_utils.txt_units_of_txt_lines txt_lines))
+        string_of_ts_txt_units doc_settings cref_table nte_table path (Cs_txt_units (Common_utils.txt_units_of_txt_lines txt_lines))
 
 let lines_of_ts_hdr (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (hdr : ts_hdr) : string list =
         match hdr with 
@@ -260,7 +260,7 @@ let lines_of_ts_hdr (doc_settings : t_doc_settings) (cref_table : t_cref_table) 
                 |path_hd::path_tl -> (
                         let indent : string = String.make (doc_settings.left_margin) ' ' in
                         let hdr_string : string = string_of_ts_txt_lines doc_settings cref_table nte_table path txt_lines
-			in
+                        in
                         let hdr_lines : string list = lines_of_string doc_settings doc_settings.left_margin hdr_string in
                         match path_hd with
                         |SEC_NODE _ | APP_NODE _ -> (

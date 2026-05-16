@@ -162,14 +162,14 @@ let rec doc_of_nmm_stdin (print_tokens:bool) : Doc_types.tr_doc=
 
 
 let doc_of_nmm_file_with_tagger (tagger : Doc_types.tr_blk_itm -> Doc_types.tr_blk_itm) (path : string) : Doc_types.tr_doc =
-	let _ : unit = Nmm_parser.blk_itm_tagger_ref.contents <- tagger in
-	doc_of_nmm_file false path
+        let _ : unit = Nmm_parser.blk_itm_tagger_ref.contents <- tagger in
+        doc_of_nmm_file false path
 
 let doc_of_nmm_stdin_with_tagger (tagger : Doc_types.tr_blk_itm -> Doc_types.tr_blk_itm) : Doc_types.tr_doc =
-	let _ : unit = Nmm_parser.blk_itm_tagger_ref.contents <- tagger in
-	doc_of_nmm_stdin false
+        let _ : unit = Nmm_parser.blk_itm_tagger_ref.contents <- tagger in
+        doc_of_nmm_stdin false
 
 let doc_of_nmm_string_with_tagger (tagger : Doc_types.tr_blk_itm -> Doc_types.tr_blk_itm) (s : string) : Doc_types.tr_doc =
-	let _ : unit = Nmm_parser.blk_itm_tagger_ref.contents <- tagger in
-	doc_of_nmm_string false s
+        let _ : unit = Nmm_parser.blk_itm_tagger_ref.contents <- tagger in
+        doc_of_nmm_string false s
 

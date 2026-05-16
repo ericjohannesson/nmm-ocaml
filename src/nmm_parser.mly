@@ -187,28 +187,28 @@ doc:
 
 
 doc_preamble:
-  | PREAMBLE_COLON TAB preamble_lines            { (Cs_preamble $3) : ts_preamble }
-  | PREAMBLE_COLON NL_TAB preamble_lines         { (Cs_preamble $3) : ts_preamble }
+  | PREAMBLE_COLON TAB preamble_lines             { (Cs_preamble $3) : ts_preamble }
+  | PREAMBLE_COLON NL_TAB preamble_lines          { (Cs_preamble $3) : ts_preamble }
 ;
 
 doc_title:
-  | TITLE_COLON TAB lines                        { (Cs_title $3) : ts_title }
-  | TITLE_COLON NL_TAB lines                     { (Cs_title $3) : ts_title }
+  | TITLE_COLON TAB lines                         { (Cs_title $3) : ts_title }
+  | TITLE_COLON NL_TAB lines                      { (Cs_title $3) : ts_title }
 ;
 
 doc_author:
-  | AUTHOR_COLON TAB lines                       { (Cs_author $3) : ts_author }
-  | AUTHOR_COLON NL_TAB lines                    { (Cs_author $3) : ts_author }
+  | AUTHOR_COLON TAB lines                        { (Cs_author $3) : ts_author }
+  | AUTHOR_COLON NL_TAB lines                     { (Cs_author $3) : ts_author }
 ;
 
 doc_date:
-  | DATE_COLON TAB lines                         { (date_of_string $3) : tu_date }
-  | DATE_COLON NL_TAB lines                      { (date_of_string $3) : tu_date }
+  | DATE_COLON TAB lines                          { (date_of_string $3) : tu_date }
+  | DATE_COLON NL_TAB lines                       { (date_of_string $3) : tu_date }
 ;
 
 doc_abstract:
-  | ABSTRACT_COLON TAB blks1                     { (Cs_abstract (Cs_blks $3)) : ts_abstract }
-  | ABSTRACT_COLON lb1 blks1                     { (Cs_abstract (Cs_blks $3)) : ts_abstract }
+  | ABSTRACT_COLON TAB blks1                      { (Cs_abstract (Cs_blks $3)) : ts_abstract }
+  | ABSTRACT_COLON lb1 blks1                      { (Cs_abstract (Cs_blks $3)) : ts_abstract }
 ;
 
 doc_refs:
@@ -292,12 +292,12 @@ par_main:
 ;
 
 blks:
-  |blks0                                         { Cs_blks $1 : ts_blks }
+  |blks0                                          { Cs_blks $1 : ts_blks }
 ;
 
 special_blks:
-  |lb1 special_blk_dsp0                          { (Cs_blks ((Cu_blk_dsp $2)::[])):ts_blks }
-  |lb1 special_blk_dsp0 NL blks0                 { (Cs_blks ((Cu_blk_dsp $2)::$4)):ts_blks }
+  |lb1 special_blk_dsp0                           { (Cs_blks ((Cu_blk_dsp $2)::[])):ts_blks }
+  |lb1 special_blk_dsp0 NL blks0                  { (Cs_blks ((Cu_blk_dsp $2)::$4)):ts_blks }
 ;
 
 hdr:
@@ -338,12 +338,12 @@ blk_txt0:
 ;
 
 txt_lines0:
-  |txt_line0 lb0				{ $1 :: [] : ts_txt_line list }
-  |txt_line0 lb0 txt_lines0			{ $1 :: $3 : ts_txt_line list }
+  |txt_line0 lb0                                  { $1 :: [] : ts_txt_line list }
+  |txt_line0 lb0 txt_lines0                       { $1 :: $3 : ts_txt_line list }
 ;
 
 txt_line0:
-  |txt_units0					{ Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
+  |txt_units0                                     { Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
 ;
 
 txt_units0:
@@ -450,13 +450,21 @@ blk(n):
 ;
 
 blk_txt(n):
-  |txt_units(n)                                           { (Cs_blk_txt (Cs_txt_units $1)):ts_blk_txt }
+  |txt_lines(n)                                           { (Cs_blk_txt (Cs_txt_lines $1)):ts_blk_txt }
+;
+
+txt_lines(n):
+  |txt_line(n) lb0                                        { $1 :: [] : ts_txt_line list }
+  |txt_line(n) lb(n) txt_lines(n)                         { $1 :: $3 : ts_txt_line list }
+;
+
+txt_line(n):
+  |txt_units(n)                                           { Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
 ;
 
 txt_units(n):
-  |txt_unit(n) lb0                                        { ($1::[]):tu_txt_unit list }
+  |txt_unit(n)                                            { ($1::[]):tu_txt_unit list }
   |txt_unit(n) txt_units(n)                               { ($1::$2):tu_txt_unit list }
-  |txt_unit(n) lb(n) txt_units(n)                         { ($1::((Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg " "))::$3)):tu_txt_unit list }
 ;
 
 txt_unit(n):
@@ -565,12 +573,12 @@ blk_txt1:
 ;
 
 txt_lines1:
-  |txt_line1 lb0				{ $1 :: [] : ts_txt_line list }
-  |txt_line1 lb1 txt_lines1			{ $1 :: $3 : ts_txt_line list }
+  |txt_line1 lb0                                  { $1 :: [] : ts_txt_line list }
+  |txt_line1 lb1 txt_lines1                       { $1 :: $3 : ts_txt_line list }
 ;
 
 txt_line1:
-  |txt_units1					{ Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
+  |txt_units1                                     { Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
 ;
 
 txt_units1:
@@ -683,12 +691,12 @@ blk_txt2:
 ;
 
 txt_lines2:
-  |txt_line2 lb0				{ $1 :: [] : ts_txt_line list }
-  |txt_line2 lb2 txt_lines2			{ $1 :: $3 : ts_txt_line list }
+  |txt_line2 lb0                                  { $1 :: [] : ts_txt_line list }
+  |txt_line2 lb2 txt_lines2                       { $1 :: $3 : ts_txt_line list }
 ;
 
 txt_line2:
-  |txt_units2					{ Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
+  |txt_units2                                     { Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
 ;
 
 txt_units2:
@@ -794,12 +802,12 @@ blk_txt3:
 ;
 
 txt_lines3:
-  |txt_line3 lb0				{ $1 :: [] : ts_txt_line list }
-  |txt_line3 lb3 txt_lines3			{ $1 :: $3 : ts_txt_line list }
+  |txt_line3 lb0                                  { $1 :: [] : ts_txt_line list }
+  |txt_line3 lb3 txt_lines3                       { $1 :: $3 : ts_txt_line list }
 ;
 
 txt_line3:
-  |txt_units3					{ Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
+  |txt_units3                                     { Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
 ;
 
 txt_units3:
@@ -880,13 +888,13 @@ txt_lines_nte:
 ;
 
 txt_line_nte:
-  |txt_units_nte					{ Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
+  |txt_units_nte                                  { Cs_txt_line (Cs_txt_units $1) : ts_txt_line }
 ;
 
 
 txt_units_nte:
-  |txt_unit_nte					{ $1 :: [] : tu_txt_unit list }
-  |txt_unit_nte txt_units_nte			{ $1 :: $2 : tu_txt_unit list }
+  |txt_unit_nte                                   { $1 :: [] : tu_txt_unit list }
+  |txt_unit_nte txt_units_nte                     { $1 :: $2 : tu_txt_unit list }
 ;
 
 txt_unit_nte:

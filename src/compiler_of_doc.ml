@@ -314,10 +314,10 @@ and acc_of_tr_blk_itm (doc_settings : t_doc_settings) (cref_table : t_cref_table
                 let newacc : t_acc = CREF_TABLE (
                         match a.fld_blk_itm_tag_or_id with
                         | Some (tag_or_id : tu_tag_or_id) -> (
-				match tag_or_id with
-				|Cu_tag_or_id_id id -> (id, path, Cref_element_blk_itm a) :: table
-				|Cu_tag_or_id_tag _ -> table
-			)
+                                match tag_or_id with
+                                |Cu_tag_or_id_id id -> (id, path, Cref_element_blk_itm a) :: table
+                                |Cu_tag_or_id_tag _ -> table
+                        )
                         | None -> table
                 )
                 in acc_of_ts_blks doc_settings cref_table nte_table path newacc a.fld_blk_itm_main
@@ -905,11 +905,11 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
         in
         let auto_numbering : int -> int -> string = auto_numbering_of_string options.numbering in
         let allow_custom_numbering : bool = options.allow_custom_numbering in
-	let expand_tag : ts_tag -> (string * string) option =
-		match options.tags with
-		|None -> doc_settings.expand_tag
-		|Some path -> Tags.expander_of_file path
-	in
+        let expand_tag : ts_tag -> (string * string) option =
+                match options.tags with
+                |None -> doc_settings.expand_tag
+                |Some path -> Tags.expander_of_file path
+        in
         let new_doc_settings : t_doc_settings = {
                 doc_width = doc_width;
                 left_margin = left_margin;
@@ -949,11 +949,11 @@ let exml_of_tr_doc (options : t_exml_options) (doc : tr_doc) : Xml.xml =
         let doc_settings : t_doc_settings = doc_settings_of_tr_doc doc in
         let auto_numbering = auto_numbering_of_string options.numbering in
         let allow_custom_numbering : bool = options.allow_custom_numbering in
-	let expand_tag : ts_tag -> (string * string) option =
-		match options.tags with
-		|None -> doc_settings.expand_tag
-		|Some path -> Tags.expander_of_file path
-	in
+        let expand_tag : ts_tag -> (string * string) option =
+                match options.tags with
+                |None -> doc_settings.expand_tag
+                |Some path -> Tags.expander_of_file path
+        in
         let new_doc_settings : t_doc_settings = {
                 doc_width = doc_settings.doc_width;
                 left_margin = doc_settings.left_margin;

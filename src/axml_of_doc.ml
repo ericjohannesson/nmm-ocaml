@@ -229,13 +229,13 @@ and xml_of_ts_vrb_line (vrb_line : ts_vrb_line) : Xml.xml =
                 |_ -> Xml.Element ("cs_vrb_line",[],[xml_of_string s])
 
 and xml_of_ts_txt_lines (txt_lines : ts_txt_lines) : Xml.xml =
-	match txt_lines with
-	|Cs_txt_lines txt_line_list -> Xml.Element ("cs_txt_lines",[],List.map xml_of_ts_txt_line txt_line_list)
+        match txt_lines with
+        |Cs_txt_lines txt_line_list -> Xml.Element ("cs_txt_lines",[],List.map xml_of_ts_txt_line txt_line_list)
 
 
 and xml_of_ts_txt_line (txt_line : ts_txt_line) : Xml.xml =
-	match txt_line with
-	|Cs_txt_line txt_units -> Xml.Element ("cs_txt_line",[],[xml_of_ts_txt_units txt_units])
+        match txt_line with
+        |Cs_txt_line txt_units -> Xml.Element ("cs_txt_line",[],[xml_of_ts_txt_units txt_units])
 
 and xml_of_ts_txt_units (txt_units:ts_txt_units):Xml.xml=
         match txt_units with

@@ -418,20 +418,20 @@ and f_ts_txt_lines_of_xml (nte_count) (xml:Xml.xml): ts_txt_lines * int =
 
 
 and f_ts_txt_line_list_of_xml_list (nte_count : int) (xml_list : Xml.xml list) : (ts_txt_line list) * int =
-	let rec aux nte_nr lst (acc : ts_txt_line list) =
-		match lst with
-		|[] -> List.rev acc, nte_nr
-		|hd::tl -> 
-			match f_ts_txt_line_of_xml nte_nr hd with
-			|xml, new_nte_nr -> aux new_nte_nr tl (xml::acc)
-	in aux nte_count xml_list []
+        let rec aux nte_nr lst (acc : ts_txt_line list) =
+                match lst with
+                |[] -> List.rev acc, nte_nr
+                |hd::tl -> 
+                        match f_ts_txt_line_of_xml nte_nr hd with
+                        |xml, new_nte_nr -> aux new_nte_nr tl (xml::acc)
+        in aux nte_count xml_list []
 
 and f_ts_txt_line_of_xml (nte_count : int) (xml : Xml.xml) : ts_txt_line * int =
-	match xml with
-	|Xml.Element ("cs_txt_line",[],[x]) -> (
-		match f_ts_txt_units_of_xml nte_count x with 
-		|txt_units, nte_nr -> Cs_txt_line txt_units, nte_nr
-	)
+        match xml with
+        |Xml.Element ("cs_txt_line",[],[x]) -> (
+                match f_ts_txt_units_of_xml nte_count x with 
+                |txt_units, nte_nr -> Cs_txt_line txt_units, nte_nr
+        )
     |_ -> raise (Error (String.concat "" ["expected cs_txt_line; got: ";string_of_xml_list [xml]]))
 
 and f_ts_blk_blt_of_xml (nte_count : int) (xml:Xml.xml):ts_blk_blt * int=

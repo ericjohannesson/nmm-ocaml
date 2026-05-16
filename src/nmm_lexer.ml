@@ -103,25 +103,25 @@ let line_of_lexbuf (lexbuf:Sedlexing.lexbuf):string=
         (start_pos,end_pos) -> string_of_int (start_pos.pos_lnum)
 
 let remove_nls (s : string) : string =
-	String.concat "" (String.split_on_char '\n' s)
+        String.concat "" (String.split_on_char '\n' s)
 
 (* refs *)
 
 let verbatim : bool ref = ref false
 
 let set_verbatim_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
-	let _ : unit = verbatim.contents <- true in tkn
+        let _ : unit = verbatim.contents <- true in tkn
 
 let reset_verbatim_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
-	let _ : unit = verbatim.contents <- false in tkn
+        let _ : unit = verbatim.contents <- false in tkn
 
 let display : bool ref = ref false
 
 let set_display_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
-	let _ : unit = display.contents <- true in tkn
+        let _ : unit = display.contents <- true in tkn
 
 let reset_display_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
-	let _ : unit = display.contents <- false in tkn
+        let _ : unit = display.contents <- false in tkn
 
 let nte_counter : int ref = ref 0
 
@@ -133,7 +133,7 @@ let nte_count () : int =
 let end_of_file : bool ref = ref false
 
 let set_end_of_file_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token =
-	let _ : unit = end_of_file.contents <- true in tkn
+        let _ : unit = end_of_file.contents <- true in tkn
 
 (* the lexer *)
 
@@ -219,7 +219,7 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token=
 
 
 and skip_newlines (lexbuf : Sedlexing.lexbuf) : unit =
-	match%sedlex lexbuf with
-	|nl_not_nl -> Sedlexing.rollback lexbuf
-	|nl -> skip_newlines lexbuf
-	|_ -> ()
+        match%sedlex lexbuf with
+        |nl_not_nl -> Sedlexing.rollback lexbuf
+        |nl -> skip_newlines lexbuf
+        |_ -> ()
