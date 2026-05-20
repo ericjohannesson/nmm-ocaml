@@ -174,6 +174,50 @@ and xml_of_nte_table_opt (doc_settings : t_doc_settings) (cref_table : t_cref_ta
 
 (* blk *)
 
+and acc_of_ts_blks (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (acc : t_acc) (a : ts_blks) : t_acc =
+        let new_doc_settings = doc_settings_of_ts_blks doc_settings (lvl_of_path path) a in
+        match a with Cs_blks (b : tu_blk list) ->
+        let rec aux (auto_nr : int) (acc : t_acc) (b : tu_blk list) : t_acc = (
+                match b with
+                | [] -> acc
+                | hd :: tl -> (
+                        match acc_of_tu_blk new_doc_settings cref_table nte_table auto_nr path acc hd with
+                        (acc : t_acc), (auto_nr : int) -> aux auto_nr (add_empty_lines_after_blk hd tl acc) tl
+                )
+        )
+        in 
+        aux 0 acc b
+
+and acc_of_tu_blk (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (auto_nr : int) (path : t_path) (acc : t_acc) (a : tu_blk) : t_acc * int =
+        match a with
+        | Cu_blk_itm (b : tr_blk_itm) ->
+                let node : t_node = node_of_blk_itm doc_settings path auto_nr b in
+                let next_auto_nr =
+                        match b.fld_blk_itm_lbl with 
+                        |Cu_lbl_auto Cs_lbl_auto -> auto_nr + 1
+                        | _ -> auto_nr
+                in
+                acc_of_tr_blk_itm doc_settings cref_table nte_table (node :: path) acc b, next_auto_nr
+        | Cu_blk_dsp (b : ts_blk_dsp) ->
+                let node : t_node = DSP_NODE in
+                acc_of_ts_blk_dsp doc_settings cref_table nte_table auto_nr (node :: path) acc b
+        | Cu_blk_txt (b : ts_blk_txt) -> acc_of_ts_blk_txt doc_settings cref_table nte_table path acc b, auto_nr
+        | Cu_blk_blt (b : ts_blk_blt) ->
+                let node : t_node = BLT_NODE in
+                acc_of_ts_blk_blt doc_settings cref_table nte_table (node :: path) acc b, auto_nr
+        | Cu_blk_vrb (b: ts_blk_vrb) -> acc_of_ts_blk_vrb doc_settings path acc b, auto_nr
+        | Cu_blk_nte (b : tr_blk_nte) -> acc_of_tr_blk_nte doc_settings cref_table path acc b, auto_nr
+        | Cu_blk_qtn (b : ts_blk_qtn) -> acc_of_ts_blk_qtn doc_settings path acc b, auto_nr
+
+and acc_of_ts_blk_qtn (doc_settings : t_doc_settings) (path : t_path) (acc : t_acc) (a : ts_blk_qtn) : t_acc =
+        match acc with
+                | MARGIN_LABELS _
+                | CREF_TABLE _ 
+		| NTE_TABLE _ -> acc
+                | LINES acc_lines -> LINES (List.concat [acc_lines; Txt_utils.lines_of_ts_blk_qtn doc_settings path a])
+                | EXML acc_list -> EXML (List.concat [acc_list; [Exml_utils.xml_of_ts_blk_qtn a]])
+
+
 and acc_of_ts_blk_txt (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (acc : t_acc) (a : ts_blk_txt) : t_acc =
         match acc with
                 | MARGIN_LABELS _
@@ -267,39 +311,6 @@ and add_empty_lines_after_blk (hd : tu_blk) (tl:tu_blk list) (acc : t_acc) : t_a
         |_, _, _ -> acc
 
 
-and acc_of_ts_blks (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (acc : t_acc) (a : ts_blks) : t_acc =
-        let new_doc_settings = doc_settings_of_ts_blks doc_settings (lvl_of_path path) a in
-        match a with Cs_blks (b : tu_blk list) ->
-        let rec aux (auto_nr : int) (acc : t_acc) (b : tu_blk list) : t_acc = (
-                match b with
-                | [] -> acc
-                | hd :: tl -> (
-                        match acc_of_tu_blk new_doc_settings cref_table nte_table auto_nr path acc hd with
-                        (acc : t_acc), (auto_nr : int) -> aux auto_nr (add_empty_lines_after_blk hd tl acc) tl
-                )
-        )
-        in 
-        aux 0 acc b
-
-and acc_of_tu_blk (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (auto_nr : int) (path : t_path) (acc : t_acc) (a : tu_blk) : t_acc * int =
-        match a with
-        | Cu_blk_itm (b : tr_blk_itm) ->
-                let node : t_node = node_of_blk_itm doc_settings path auto_nr b in
-                let next_auto_nr =
-                        match b.fld_blk_itm_lbl with 
-                        |Cu_lbl_auto Cs_lbl_auto -> auto_nr + 1
-                        | _ -> auto_nr
-                in
-                acc_of_tr_blk_itm doc_settings cref_table nte_table (node :: path) acc b, next_auto_nr
-        | Cu_blk_dsp (b : ts_blk_dsp) ->
-                let node : t_node = DSP_NODE in
-                acc_of_ts_blk_dsp doc_settings cref_table nte_table auto_nr (node :: path) acc b
-        | Cu_blk_txt (b : ts_blk_txt) -> acc_of_ts_blk_txt doc_settings cref_table nte_table path acc b, auto_nr
-        | Cu_blk_blt (b : ts_blk_blt) ->
-                let node : t_node = BLT_NODE in
-                acc_of_ts_blk_blt doc_settings cref_table nte_table (node :: path) acc b, auto_nr
-        | Cu_blk_vrb (b: ts_blk_vrb) -> acc_of_ts_blk_vrb doc_settings path acc b, auto_nr
-        | Cu_blk_nte (b : tr_blk_nte) -> acc_of_tr_blk_nte doc_settings cref_table path acc b, auto_nr
 
 and acc_of_tr_blk_nte (doc_settings : t_doc_settings) (cref_table : t_cref_table) (path : t_path) (acc : t_acc) (a : tr_blk_nte) : t_acc =
         match acc with
