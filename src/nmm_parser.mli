@@ -31,6 +31,8 @@ type token =
         |TAB_TAB_TAB_END_VRB
 	|START_QTN
 	|END_QTN
+	|BR
+	|TAB_END_QTN
         |PREAMBLE_COLON
         |TITLE_COLON
         |AUTHOR_COLON

@@ -67,7 +67,7 @@ native: src
 	cd native
 	ocamlopt -c -for-pack Nmm_ocaml doc_types.ml IO.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
-	ocamlyacc --strict nmm_parser.mly
+	ocamlyacc -v nmm_parser.mly
 	# replace generated mli-file:
 	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmx, nmm_parser.cmxi:
@@ -95,7 +95,7 @@ byte: src
 	# generate doc_types.cmo, doc_types.cmi:
 	ocamlc -c -for-pack Nmm_ocaml doc_types.ml IO.ml
 	# generate nmm_parser.ml, nmm_parser.mli:
-	ocamlyacc --strict nmm_parser.mly
+	ocamlyacc -v nmm_parser.mly
 	# replace generated mli-file:
 	cp ../src/nmm_parser.mli nmm_parser.mli
 	# generate nmm_parser.cmo, nmm_parser.cmi:
