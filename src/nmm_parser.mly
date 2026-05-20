@@ -85,6 +85,7 @@ let date_of_string (s : string) : tu_date =
 %token                          NL TAB NL_TAB NL_TAB_TAB NL_TAB_TAB_TAB
 %token                          DASH_TAB ITM_AUTO_TAB DSP_AUTO_TAB PILCROW_NL SECTION_NL SECTION_REFS_NLS PILCROW_REFS_NLS
 %token                          START_VRB VRB_LINE_EMPTY END_VRB TAB_END_VRB TAB_TAB_END_VRB TAB_TAB_TAB_END_VRB
+%token				START_QTN END_QTN
 %token                          PREAMBLE_COLON TITLE_COLON AUTHOR_COLON DATE_COLON ABSTRACT_COLON
 %token <string>                 VRB_LINE
 %token <string>                 ESC_CHAR
