@@ -17,8 +17,7 @@ _nmm_ocaml_make_html () {
 
 	case $exit_code in
 		0)
-			cp $temp $(basename -s .nmm ${@: -1}).html
-			rm $temp
+			mv $temp $(basename -s .nmm ${@: -1}).html
 			;;
 		*)
 			rm $temp

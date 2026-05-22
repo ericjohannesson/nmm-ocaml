@@ -17,8 +17,7 @@ _nmm_ocaml_make_pdf () {
 
 	case $exit_code in
 		0)
-			cp $temp $(basename -s .nmm ${@: -1}).pdf
-			rm $temp
+			mv $temp $(basename -s .nmm ${@: -1}).pdf
 			;;
 		*)
 			rm $temp

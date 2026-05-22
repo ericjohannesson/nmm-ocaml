@@ -9,8 +9,7 @@ _nmm_ocaml_make_txt () {
 
 	case $exit_code in
 		0)
-			cp $temp $(basename -s .nmm ${@: -1}).txt
-			rm $temp
+			mv $temp $(basename -s .nmm ${@: -1}).txt
 			;;
 		*)
 			rm $temp
