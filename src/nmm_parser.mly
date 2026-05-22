@@ -454,6 +454,7 @@ qtn_line_std0:
 
 qtn_line_br0:
   |BR TAB qtn_units0                              { Cs_qtn_line_br (Cs_qtn_units $3) : ts_qtn_line_br }
+  |BR TAB                                         { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
 ;
 
 qtn_units0:
@@ -462,12 +463,8 @@ qtn_units0:
 ;
 
 qtn_unit0:
-  |qtn_unit_wysiwyg0                              { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
+  |qtn_unit_wysiwyg                              { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
   |qtn_unit_emph0                                 { Cu_qtn_unit_emph $1 : tu_qtn_unit }
-;
-
-qtn_unit_wysiwyg0:
-  |txt                                            { (Cs_qtn_unit_wysiwyg $1):ts_qtn_unit_wysiwyg }
 ;
 
 qtn_unit_emph0:
@@ -595,6 +592,48 @@ vrb_line(n):
 
 end_vrb(n):
   |TAB_end_vrb(n-1)                                       { }
+;
+
+blk_qtn(n):
+  |START_QTN qtn_lines(n) TAB_END_QTN             { (Cs_blk_qtn (Cs_qtn_lines $2)):ts_blk_qtn }
+;
+
+qtn_lines(n):
+  |qtn_line(n) nls                                { $1::[] : tu_qtn_line list }
+  |qtn_line(n) nls qtn_lines(n)                   { $1::$3 : tu_qtn_line list }
+;
+
+qtn_line(n):
+  |qtn_line_std(n)                                { Cu_qtn_line_std $1 : tu_qtn_line }
+  |qtn_line_br(n)                                 { Cu_qtn_line_br $1 : tu_qtn_line }
+;
+
+qtn_line_std(n):
+  |TAB TAB qtn_units(n)                           { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
+;
+
+qtn_line_br(n):
+  |TAB BR TAB qtn_units(n)                        { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
+  |BR TAB                                         { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
+;
+
+qtn_units(n):
+  |qtn_unit(n)                                    { ($1::[]):tu_qtn_unit list }
+  |qtn_unit(n) qtn_units(n)                       { ($1::$2):tu_qtn_unit list }
+;
+
+qtn_unit(n):
+  |qtn_unit_wysiwyg                               { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
+  |qtn_unit_emph(n)                               { Cu_qtn_unit_emph $1 : tu_qtn_unit }
+;
+
+qtn_unit_emph(n):
+  |STAR qtn_emph_txt(n) STAR                      { Cs_qtn_unit_emph $2:ts_qtn_unit_emph }
+;
+
+qtn_emph_txt(n):
+  |emph_txt                                       { $1 : string }
+  |emph_txt NL TAB TAB qtn_emph_txt(n)            { $1 ^ " " ^ $5 : string }
 ;
 
 tab(n):
@@ -744,6 +783,7 @@ qtn_line_std1:
 
 qtn_line_br1:
   |TAB BR TAB qtn_units1                          { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
+  |BR TAB                                         { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
 ;
 
 qtn_units1:
@@ -752,12 +792,8 @@ qtn_units1:
 ;
 
 qtn_unit1:
-  |qtn_unit_wysiwyg1                              { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
+  |qtn_unit_wysiwyg                               { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
   |qtn_unit_emph1                                 { Cu_qtn_unit_emph $1 : tu_qtn_unit }
-;
-
-qtn_unit_wysiwyg1:
-  |txt                                            { (Cs_qtn_unit_wysiwyg $1):ts_qtn_unit_wysiwyg }
 ;
 
 qtn_unit_emph1:
@@ -768,7 +804,6 @@ qtn_emph_txt1:
   |emph_txt                                       { $1 : string }
   |emph_txt NL TAB TAB qtn_emph_txt1              { $1 ^ " " ^ $5 : string }
 ;
-
 
 tab1:
   |TAB                                            { }
@@ -817,7 +852,6 @@ txt_units2:
   |txt_unit2 txt_units2                           { ($1::$2):tu_txt_unit list }
 ;
 
-
 txt_unit2:
   |txt_unit_wysiwyg                               { Cu_txt_unit_wysiwyg $1 : tu_txt_unit }
   |txt_unit_emph2                                 { Cu_txt_unit_emph $1 : tu_txt_unit }
@@ -864,7 +898,6 @@ blk_dsp2:
 
 special_blk_dsp2:
   |special_dsp_lines2                             { (Cs_blk_dsp (Cs_dsp_lines $1)):ts_blk_dsp }
-
 ;
 
 dsp_lines2:
@@ -1083,6 +1116,11 @@ emph_txt_nte:
   |txt_nte                                        { $1:string }
   |txt_nte emph_txt_nte                           { ($1 ^ $2):string }
 ;
+
+qtn_unit_wysiwyg:
+  |txt                                            { (Cs_qtn_unit_wysiwyg $1):ts_qtn_unit_wysiwyg }
+;
+
 
 c_ref:
   |C_REF                                          { (c_ref_of_string $1):ts_c_ref }
