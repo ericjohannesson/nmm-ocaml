@@ -609,12 +609,12 @@ qtn_line(n):
 ;
 
 qtn_line_std(n):
-  |TAB TAB qtn_units(n)                           { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
+  |tab(n) TAB qtn_units(n)                        { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
 ;
 
 qtn_line_br(n):
-  |TAB BR TAB qtn_units(n)                        { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
-  |BR TAB                                         { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
+  |tab(n) BR TAB qtn_units(n)                     { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
+  |tab(n) BR TAB                                  { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
 ;
 
 qtn_units(n):
@@ -633,15 +633,15 @@ qtn_unit_emph(n):
 
 qtn_emph_txt(n):
   |emph_txt                                       { $1 : string }
-  |emph_txt NL TAB TAB qtn_emph_txt(n)            { $1 ^ " " ^ $5 : string }
+  |emph_txt NL tab(n) TAB qtn_emph_txt(n)         { $1 ^ " " ^ $5 : string }
 ;
 
 tab(n):
-  |tab(n-1)_TAB                                           { }
+  |tab(n-1) TAB                                   { }
 ;
 
 lb(n):
-  |lb(n-1)_TAB                                            { }
+  |lb(n-1)_TAB                                    { }
 ;
 *)
 
@@ -778,12 +778,12 @@ qtn_line1:
 ;
 
 qtn_line_std1:
-  |TAB TAB qtn_units1                             { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
+  |tab1 TAB qtn_units1                             { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
 ;
 
 qtn_line_br1:
-  |TAB BR TAB qtn_units1                          { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
-  |BR TAB                                         { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
+  |tab1 BR TAB qtn_units1                          { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
+  |tab1 BR TAB                                     { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
 ;
 
 qtn_units1:
@@ -802,7 +802,7 @@ qtn_unit_emph1:
 
 qtn_emph_txt1:
   |emph_txt                                       { $1 : string }
-  |emph_txt NL TAB TAB qtn_emph_txt1              { $1 ^ " " ^ $5 : string }
+  |emph_txt NL tab1 TAB qtn_emph_txt1             { $1 ^ " " ^ $5 : string }
 ;
 
 tab1:
@@ -832,6 +832,7 @@ blk2:
   |blk_itm2                                       { (Cu_blk_itm (blk_itm_tagger_ref.contents $1)):tu_blk }
   |blk_dsp2                                       { (Cu_blk_dsp $1):tu_blk }
   |blk_vrb2                                       { (Cu_blk_vrb $1):tu_blk }
+  |blk_qtn2                                       { Cu_blk_qtn $1 : tu_blk }
 ;
 
 blk_txt2:
@@ -930,8 +931,50 @@ end_vrb2:
   |TAB_TAB_END_VRB                                { }
 ;
 
+blk_qtn2:
+  |START_QTN qtn_lines2 TAB_END_QTN               { (Cs_blk_qtn (Cs_qtn_lines $2)):ts_blk_qtn }
+;
+
+qtn_lines2:
+  |qtn_line2 nls                                  { $1::[] : tu_qtn_line list }
+  |qtn_line2 nls qtn_lines2                       { $1::$3 : tu_qtn_line list }
+;
+
+qtn_line2:
+  |qtn_line_std2                                  { Cu_qtn_line_std $1 : tu_qtn_line }
+  |qtn_line_br2                                   { Cu_qtn_line_br $1 : tu_qtn_line }
+;
+
+qtn_line_std2:
+  |tab2 TAB qtn_units2                            { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
+;
+
+qtn_line_br2:
+  |tab2 BR TAB qtn_units2                         { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
+  |tab2 BR TAB                                    { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
+;
+
+qtn_units2:
+  |qtn_unit2                                      { ($1::[]):tu_qtn_unit list }
+  |qtn_unit2 qtn_units2                           { ($1::$2):tu_qtn_unit list }
+;
+
+qtn_unit2:
+  |qtn_unit_wysiwyg                               { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
+  |qtn_unit_emph2                                 { Cu_qtn_unit_emph $1 : tu_qtn_unit }
+;
+
+qtn_unit_emph2:
+  |STAR qtn_emph_txt2 STAR                        { Cs_qtn_unit_emph $2:ts_qtn_unit_emph }
+;
+
+qtn_emph_txt2:
+  |emph_txt                                       { $1 : string }
+  |emph_txt NL tab2 TAB qtn_emph_txt2             { $1 ^ " " ^ $5 : string }
+;
+
 tab2:
-  |TAB TAB                                        { }
+  |tab1 TAB                                       { }
 ;
 
 lb2:
@@ -948,6 +991,7 @@ blks3:
 blk3:
   |blk_txt3                                       { (Cu_blk_txt $1):tu_blk }
   |blk_vrb3                                       { (Cu_blk_vrb $1):tu_blk }
+  |blk_qtn3                                       { Cu_blk_qtn $1 : tu_blk }
   (* et cetera *)
 ;
 
@@ -1003,8 +1047,50 @@ end_vrb3:
   |TAB_TAB_TAB_END_VRB                            { }
 ;
 
+blk_qtn3:
+  |START_QTN qtn_lines3 TAB_END_QTN               { (Cs_blk_qtn (Cs_qtn_lines $2)):ts_blk_qtn }
+;
+
+qtn_lines3:
+  |qtn_line3 nls                                  { $1::[] : tu_qtn_line list }
+  |qtn_line3 nls qtn_lines3                       { $1::$3 : tu_qtn_line list }
+;
+
+qtn_line3:
+  |qtn_line_std3                                  { Cu_qtn_line_std $1 : tu_qtn_line }
+  |qtn_line_br3                                   { Cu_qtn_line_br $1 : tu_qtn_line }
+;
+
+qtn_line_std3:
+  |tab3 TAB qtn_units3                             { Cs_qtn_line_std (Cs_qtn_units $3) : ts_qtn_line_std }
+;
+
+qtn_line_br3:
+  |tab3 BR TAB qtn_units3                          { Cs_qtn_line_br (Cs_qtn_units $4) : ts_qtn_line_br }
+  |tab3 BR TAB                                     { Cs_qtn_line_br (Cs_qtn_units []) : ts_qtn_line_br }
+;
+
+qtn_units3:
+  |qtn_unit3                                      { ($1::[]):tu_qtn_unit list }
+  |qtn_unit3 qtn_units3                           { ($1::$2):tu_qtn_unit list }
+;
+
+qtn_unit3:
+  |qtn_unit_wysiwyg                               { Cu_qtn_unit_wysiwyg $1 : tu_qtn_unit }
+  |qtn_unit_emph3                                 { Cu_qtn_unit_emph $1 : tu_qtn_unit }
+;
+
+qtn_unit_emph3:
+  |STAR qtn_emph_txt3 STAR                        { Cs_qtn_unit_emph $2:ts_qtn_unit_emph }
+;
+
+qtn_emph_txt3:
+  |emph_txt                                       { $1 : string }
+  |emph_txt NL tab3 TAB qtn_emph_txt3             { $1 ^ " " ^ $5 : string }
+;
+
 tab3:
-  |TAB TAB TAB                                    { }
+  |tab2 TAB                                       { }
 ;
 
 lb3:
