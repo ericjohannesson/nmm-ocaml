@@ -311,7 +311,7 @@ nls:
 ;
 
 
-(* Level 0: *)
+(* Level 0 *)
 
 blks0:
   |blk0                                           { ($1::[]):tu_blk list }
@@ -497,11 +497,12 @@ special_blks(n):
 ;
 
 blk(n):
-  |blk_txt(n)                                             { (Cu_blk_txt $1):tu_blk }
-  |blk_blt(n)                                             { (Cu_blk_blt $1):tu_blk }
-  |blk_itm(n)                                             { (Cu_blk_itm $1):tu_blk }
-  |blk_dsp(n)                                             { (Cu_blk_dsp $1):tu_blk }
-  |blk_vrb(n)                                             { (Cu_blk_vrb $1):tu_blk }
+  |blk_txt(n)                                       { Cu_blk_txt $1 : tu_blk }
+  |blk_blt(n)                                       { Cu_blk_blt $1 : tu_blk }
+  |blk_itm(n)                                       { Cu_blk_itm (blk_itm_tagger_ref.contents $1) : tu_blk }
+  |blk_dsp(n)                                       { Cu_blk_dsp $1 : tu_blk }
+  |blk_vrb(n)                                       { Cu_blk_vrb $1 : tu_blk }
+  |blk_qtn(n)                                       { Cu_blk_qtn $1 : tu_blk }
 ;
 
 blk_txt(n):
@@ -541,7 +542,6 @@ nte_inline(n):
 
 nte_inline_long(n):
   |NTE_LBR lb(n+1) blks(n+1) RBR                          { Cs_nte_inline (Cs_blks $3, Cs_int $1) : ts_nte_inline}
-;
 ;
 
 emph_txt(n):
@@ -606,7 +606,7 @@ lb(n):
 ;
 *)
 
-(* Level 1: *)
+(* Level 1 *)
 
 blks1:
   |blk1                                           { ($1::[]):tu_blk list }
@@ -620,12 +620,12 @@ special_blks1:
 ;
 
 blk1:
-  |blk_txt1                                       { (Cu_blk_txt $1):tu_blk }
-  |blk_blt1                                       { (Cu_blk_blt $1):tu_blk }
-  |blk_itm1                                       { (Cu_blk_itm (blk_itm_tagger_ref.contents $1)):tu_blk }
-  |blk_dsp1                                       { (Cu_blk_dsp $1):tu_blk }
-  |blk_vrb1                                       { (Cu_blk_vrb $1):tu_blk }
-  |blk_qtn1                                       { Cu_blk_qtn $1:tu_blk }
+  |blk_txt1                                       { Cu_blk_txt $1 : tu_blk }
+  |blk_blt1                                       { Cu_blk_blt $1 : tu_blk }
+  |blk_itm1                                       { Cu_blk_itm (blk_itm_tagger_ref.contents $1) : tu_blk }
+  |blk_dsp1                                       { Cu_blk_dsp $1 : tu_blk }
+  |blk_vrb1                                       { Cu_blk_vrb $1 : tu_blk }
+  |blk_qtn1                                       { Cu_blk_qtn $1 : tu_blk }
 ;
 
 blk_txt1:
@@ -778,7 +778,7 @@ lb1:
   |NL_TAB                                         { }
 ;
 
-(* Level 2: *)
+(* Level 2 *)
 
 blks2:
   |blk2                                           { ($1::[]):tu_blk list }
@@ -905,7 +905,7 @@ lb2:
   |NL_TAB_TAB                                     { }
 ;
 
-(* Level 3: *)
+(* Level 3 *)
 
 blks3:
   |blk3                                           { ($1::[]):tu_blk list }
@@ -1002,7 +1002,7 @@ dsp_unit:
 ;
 
 txt_unit_wysiwyg:
-  |txt                                            { Cs_txt_unit_wysiwyg $1 : ts_txt_unit_wysiwyg }
+  |txt                                           { Cs_txt_unit_wysiwyg $1 : ts_txt_unit_wysiwyg }
 ;
 
 txt_unit_emph:
@@ -1041,11 +1041,18 @@ txt_units_nte:
 ;
 
 txt_unit_nte:
-  |txt_nte                                        { (Cu_txt_unit_wysiwyg (Cs_txt_unit_wysiwyg $1)):tu_txt_unit }
-  |STAR emph_txt_nte STAR                         { (Cu_txt_unit_emph (Cs_txt_unit_emph $2)):tu_txt_unit }
-  |c_ref                                          { (Cu_txt_unit_c_ref (Cs_txt_unit_c_ref $1)):tu_txt_unit }
+  |txt_unit_wysiwyg_nte                           { Cu_txt_unit_wysiwyg $1 : tu_txt_unit }
+  |txt_unit_emph_nte                              { Cu_txt_unit_emph $1 : tu_txt_unit }
+  |txt_unit_c_ref                                 { Cu_txt_unit_c_ref $1 : tu_txt_unit }
 ;
 
+txt_unit_wysiwyg_nte:
+  |txt_nte                                        { Cs_txt_unit_wysiwyg $1 : ts_txt_unit_wysiwyg }
+;
+
+txt_unit_emph_nte:
+  |STAR emph_txt_nte STAR                         { Cs_txt_unit_emph $2 : ts_txt_unit_emph }
+;
 
 txt:
   |txt_nte                                        { $1 : string }
@@ -1090,7 +1097,7 @@ dsp_id:
 ;
 
 ch_nl:
-  |CH_TAG_OR_ID_NL                                { tag_or_id_of_string $1 }
+  |CH_TAG_OR_ID_NL                                { tag_or_id_of_string $1 : tu_tag_or_id }
 ;
 
 section_nl:
