@@ -5,7 +5,7 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-.PHONY: default clean test
+.PHONY: default clean
 
 default:
 	make packages
@@ -15,7 +15,6 @@ clean:
 	git clean -fdX
 
 package = nmm-ocaml-extras
-version = 1.0
 release = 1
 architecture = amd64
 maintainer = Eric Johannesson <eric@ericjohannesson.com>
