@@ -384,52 +384,6 @@ and f_tu_blk_of_xml (nte_count : int) (xml:Xml.xml):tu_blk * int =
     |Xml.Element ("cu_blk_qtn",[],[x]) -> Cu_blk_qtn (f_ts_blk_qtn_of_xml x), nte_count
     |_ -> raise (Error (String.concat "" ["expected cu_blk_txt, cu_blk_blt, cu_blk_itm, cu_blk_dsp, cu_blk_nte, or cu_blk_qtn; got: ";string_of_xml_list [xml]]))
 
-(* tag_or_id *)
-
-and f_ch_sec_par_tag_or_id_opt_of_xml_list (xml_list:Xml.xml list): (tu_tag_or_id option) * (Xml.xml list) =
-    match xml_list with
-    |[] -> (None, xml_list)
-    |hd::tl ->
-        match hd with
-        |Xml.Element ("cu_tag_or_id_tag",[],[xml]) -> (Some (Cu_tag_or_id_tag (f_ts_tag_of_xml xml)), tl)
-        |Xml.Element ("cu_tag_or_id_id",[],[xml]) -> (Some (Cu_tag_or_id_id (f_tr_id_of_xml xml)), tl)
-        | _ -> (None, xml_list)
-
-and f_tu_tag_or_id_opt_of_xml_list (xml_list:Xml.xml list):tu_tag_or_id option =
-    match xml_list with
-    |[] -> None
-    |hd::tl ->
-        match hd with
-        |Xml.Element ("cu_tag_or_id_tag",[],[xml]) -> Some (Cu_tag_or_id_tag (f_ts_tag_of_xml xml))
-        |Xml.Element ("cu_tag_or_id_id",[],[xml]) -> Some (Cu_tag_or_id_id (f_tr_id_of_xml xml))
-        |_ -> f_tu_tag_or_id_opt_of_xml_list tl
-
-(* hdr *)
-
-and f_ts_hdr_opt_of_xml_list (nte_count : int) (xml_list:Xml.xml list):(ts_hdr option) * int =
-    match xml_list with
-    |[] -> None, nte_count
-    |hd::tl ->
-        match hd with
-        |Xml.Element ("cs_hdr",[],[xml]) -> (
-                match f_ts_txt_lines_of_xml nte_count xml with
-                |txt_lines, nte_nr -> Some (Cs_hdr txt_lines), nte_nr
-        )
-        |_ -> f_ts_hdr_opt_of_xml_list nte_count tl
-
-
-and f_ch_sec_par_hdr_opt_of_xml_list (nte_count : int) (xml_list:Xml.xml list): (ts_hdr option) * (Xml.xml list) * int =
-    match xml_list with
-    |[] -> None, xml_list, nte_count
-    |hd::tl ->
-        match hd with
-        |Xml.Element ("cs_hdr",[],[xml]) -> (
-                match f_ts_txt_lines_of_xml nte_count xml with
-                |txt_lines, nte_nr -> Some (Cs_hdr txt_lines), tl, nte_nr
-        )
-        |_ -> None, xml_list, nte_count
-
-
 
 (* blk_txt *)
 
@@ -699,52 +653,52 @@ and f_ts_vrb_line_of_xml (xml:Xml.xml):ts_vrb_line =
     |Xml.Element ("cs_vrb_line",[],xml_list) -> Cs_vrb_line (f_string_of_pcdata_list xml_list)
     |_ -> raise (Error (String.concat "" ["expected cs_vrb_line; got: ";string_of_xml_list [xml]]))
 
-(* lbl *)
 
-and f_itm_lbl_of_xml_list (xml_list:Xml.xml list) : tu_lbl * (Xml.xml list) =
+(* hdr *)
+
+and f_ts_hdr_opt_of_xml_list (nte_count : int) (xml_list:Xml.xml list):(ts_hdr option) * int =
     match xml_list with
-    |hd::tl -> (
-        match hd with
-        |Xml.Element ("cu_lbl_auto",[],[xml]) -> (Cu_lbl_auto (f_ts_lbl_auto_of_xml xml), tl)
-        |Xml.Element ("cu_lbl_custom",[],[xml]) -> (Cu_lbl_custom (f_ts_lbl_custom_of_xml xml), tl)
-        |xml -> raise (Error (String.concat "" ["expected cu_lbl_auto or cu_lbl_custom; got: ";string_of_xml_list [xml]]))
-    )
-    |[] -> raise (Error (String.concat "" ["expected cu_lbl_auto or cu_lbl_custom; got: ";string_of_xml_list xml_list]))
-
-
-and f_ts_lbl_auto_of_xml (xml:Xml.xml):ts_lbl_auto=
-        match xml with 
-        |Xml.Element ("cs_lbl_auto",[],[]) -> Cs_lbl_auto
-    |_ -> raise (Error (String.concat "" ["expected cs_lbl_auto; got: ";string_of_xml_list [xml]]))
-
-and f_ts_lbl_custom_of_xml (xml:Xml.xml):ts_lbl_custom=
-        match xml with 
-        |Xml.Element ("cs_lbl_custom",[],pcdata_list) -> Cs_lbl_custom (f_string_of_pcdata_list pcdata_list) 
-    |_ -> raise (Error (String.concat "" ["expected cs_lbl_custom; got: ";string_of_xml_list [xml]]))
-
-and f_dsp_lbl_opt_of_xml_list (xml_list:Xml.xml list): (tu_lbl option) * (Xml.xml list) =
-    match xml_list with
-    |[] -> (None, xml_list)
+    |[] -> None, nte_count
     |hd::tl ->
         match hd with
-        |Xml.Element ("cu_lbl_auto",[],[xml]) -> (Some (Cu_lbl_auto (f_ts_lbl_auto_of_xml xml)), tl)
-        |Xml.Element ("cu_lbl_custom",[],[xml]) -> (Some (Cu_lbl_custom (f_ts_lbl_custom_of_xml xml)), tl)
-        |_ -> (None, xml_list)
+        |Xml.Element ("cs_hdr",[],[xml]) -> (
+                match f_ts_txt_lines_of_xml nte_count xml with
+                |txt_lines, nte_nr -> Some (Cs_hdr txt_lines), nte_nr
+        )
+        |_ -> f_ts_hdr_opt_of_xml_list nte_count tl
 
-(* tag *)
 
-and f_ts_tag_of_xml (xml:Xml.xml):ts_tag =
-    match xml with
-    |Xml.Element ("cs_tag",[],pcdata_list) -> Cs_tag (f_string_of_pcdata_list pcdata_list)
-    |_ -> raise (Error (String.concat "" ["expected cs_tag; got: ";string_of_xml_list [xml]]))
+and f_ch_sec_par_hdr_opt_of_xml_list (nte_count : int) (xml_list:Xml.xml list): (ts_hdr option) * (Xml.xml list) * int =
+    match xml_list with
+    |[] -> None, xml_list, nte_count
+    |hd::tl ->
+        match hd with
+        |Xml.Element ("cs_hdr",[],[xml]) -> (
+                match f_ts_txt_lines_of_xml nte_count xml with
+                |txt_lines, nte_nr -> Some (Cs_hdr txt_lines), tl, nte_nr
+        )
+        |_ -> None, xml_list, nte_count
 
 
 (* tag_or_id *)
 
-and f_nte_id_of_xml_list (xml_list:Xml.xml list): tr_id * (Xml.xml list) =
+and f_ch_sec_par_tag_or_id_opt_of_xml_list (xml_list:Xml.xml list): (tu_tag_or_id option) * (Xml.xml list) =
     match xml_list with
-    |hd::tl -> f_tr_id_of_xml hd, tl
-    |_ -> raise (Error "blk_nte cannot be empty")
+    |[] -> (None, xml_list)
+    |hd::tl ->
+        match hd with
+        |Xml.Element ("cu_tag_or_id_tag",[],[xml]) -> (Some (Cu_tag_or_id_tag (f_ts_tag_of_xml xml)), tl)
+        |Xml.Element ("cu_tag_or_id_id",[],[xml]) -> (Some (Cu_tag_or_id_id (f_tr_id_of_xml xml)), tl)
+        | _ -> (None, xml_list)
+
+and f_tu_tag_or_id_opt_of_xml_list (xml_list:Xml.xml list):tu_tag_or_id option =
+    match xml_list with
+    |[] -> None
+    |hd::tl ->
+        match hd with
+        |Xml.Element ("cu_tag_or_id_tag",[],[xml]) -> Some (Cu_tag_or_id_tag (f_ts_tag_of_xml xml))
+        |Xml.Element ("cu_tag_or_id_id",[],[xml]) -> Some (Cu_tag_or_id_id (f_tr_id_of_xml xml))
+        |_ -> f_tu_tag_or_id_opt_of_xml_list tl
 
 and f_itm_tag_or_id_opt_of_xml_list (xml_list:Xml.xml list): (tu_tag_or_id option) * (Xml.xml list) =
     match xml_list with
@@ -755,6 +709,13 @@ and f_itm_tag_or_id_opt_of_xml_list (xml_list:Xml.xml list): (tu_tag_or_id optio
         |Xml.Element ("cu_tag_or_id_tag",_,_) -> (f_tu_tag_or_id_opt_of_xml_list [hd], tl)
         |Xml.Element ("cs_blks",_,_) -> None, xml_list
         |xml -> raise (Error (String.concat "" ["expected cu_tag_or_id_id or cu_tag_or_id_tag; got: ";string_of_xml_list [xml]]))
+
+(* id *)
+
+and f_nte_id_of_xml_list (xml_list:Xml.xml list): tr_id * (Xml.xml list) =
+    match xml_list with
+    |hd::tl -> f_tr_id_of_xml hd, tl
+    |_ -> raise (Error "blk_nte cannot be empty")
 
 
 and f_dsp_id_opt_of_xml_list (xml_list:Xml.xml list): (tr_id option) * (Xml.xml list) =
@@ -781,6 +742,14 @@ and f_tr_id_of_xml (xml:Xml.xml):tr_id =
             fld_id_scope    =   Some (f_tu_scope_of_xml z);
         }
     |_ -> raise (Error (String.concat "" ["expected cr_id; got: ";string_of_xml_list [xml]]))
+
+(* tag *)
+
+and f_ts_tag_of_xml (xml:Xml.xml):ts_tag =
+    match xml with
+    |Xml.Element ("cs_tag",[],pcdata_list) -> Cs_tag (f_string_of_pcdata_list pcdata_list)
+    |_ -> raise (Error (String.concat "" ["expected cs_tag; got: ";string_of_xml_list [xml]]))
+
 
 (* name *)
 
@@ -828,6 +797,39 @@ and f_ts_int_of_xml (xml : Xml.xml) : ts_int =
                 try Cs_int (int_of_string s) with _ -> raise (Error (String.concat "" ["expected integer pcdata; got: ";s]))
         )
         |_ -> raise (Error (String.concat "" ["expected pcdata; got: ";string_of_xml_list [xml]]))
+
+(* lbl *)
+
+and f_itm_lbl_of_xml_list (xml_list:Xml.xml list) : tu_lbl * (Xml.xml list) =
+    match xml_list with
+    |hd::tl -> (
+        match hd with
+        |Xml.Element ("cu_lbl_auto",[],[xml]) -> (Cu_lbl_auto (f_ts_lbl_auto_of_xml xml), tl)
+        |Xml.Element ("cu_lbl_custom",[],[xml]) -> (Cu_lbl_custom (f_ts_lbl_custom_of_xml xml), tl)
+        |xml -> raise (Error (String.concat "" ["expected cu_lbl_auto or cu_lbl_custom; got: ";string_of_xml_list [xml]]))
+    )
+    |[] -> raise (Error (String.concat "" ["expected cu_lbl_auto or cu_lbl_custom; got: ";string_of_xml_list xml_list]))
+
+
+and f_ts_lbl_auto_of_xml (xml:Xml.xml):ts_lbl_auto=
+        match xml with 
+        |Xml.Element ("cs_lbl_auto",[],[]) -> Cs_lbl_auto
+    |_ -> raise (Error (String.concat "" ["expected cs_lbl_auto; got: ";string_of_xml_list [xml]]))
+
+and f_ts_lbl_custom_of_xml (xml:Xml.xml):ts_lbl_custom=
+        match xml with 
+        |Xml.Element ("cs_lbl_custom",[],pcdata_list) -> Cs_lbl_custom (f_string_of_pcdata_list pcdata_list) 
+    |_ -> raise (Error (String.concat "" ["expected cs_lbl_custom; got: ";string_of_xml_list [xml]]))
+
+and f_dsp_lbl_opt_of_xml_list (xml_list:Xml.xml list): (tu_lbl option) * (Xml.xml list) =
+    match xml_list with
+    |[] -> (None, xml_list)
+    |hd::tl ->
+        match hd with
+        |Xml.Element ("cu_lbl_auto",[],[xml]) -> (Some (Cu_lbl_auto (f_ts_lbl_auto_of_xml xml)), tl)
+        |Xml.Element ("cu_lbl_custom",[],[xml]) -> (Some (Cu_lbl_custom (f_ts_lbl_custom_of_xml xml)), tl)
+        |_ -> (None, xml_list)
+
 
 (* string *)
 

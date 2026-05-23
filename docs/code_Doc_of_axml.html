@@ -411,52 +411,6 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_blk_qtn"</span>,[],[x])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cu_blk_qtn</span>&nbsp;(f_ts_blk_qtn_of_xml&nbsp;x),&nbsp;nte_count<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cu_blk_txt,&nbsp;cu_blk_blt,&nbsp;cu_blk_itm,&nbsp;cu_blk_dsp,&nbsp;cu_blk_nte,&nbsp;or&nbsp;cu_blk_qtn;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
 <br>
-<span class="comment">(*&nbsp;tag_or_id&nbsp;*)</span><br>
-<br>
-<span class="keyword">and</span>&nbsp;f_ch_sec_par_tag_or_id_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(tu_tag_or_id&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_tag"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_tag</span>&nbsp;(f_ts_tag_of_xml&nbsp;xml)),&nbsp;tl)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_id"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_id</span>&nbsp;(f_tr_id_of_xml&nbsp;xml)),&nbsp;tl)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
-<br>
-<span class="keyword">and</span>&nbsp;f_tu_tag_or_id_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):tu_tag_or_id&nbsp;option&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_tag"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_tag</span>&nbsp;(f_ts_tag_of_xml&nbsp;xml))<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_id"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_id</span>&nbsp;(f_tr_id_of_xml&nbsp;xml))<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;f_tu_tag_or_id_opt_of_xml_list&nbsp;tl<br>
-<br>
-<span class="comment">(*&nbsp;hdr&nbsp;*)</span><br>
-<br>
-<span class="keyword">and</span>&nbsp;f_ts_hdr_opt_of_xml_list&nbsp;(nte_count&nbsp;:&nbsp;int)&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):(ts_hdr&nbsp;option)&nbsp;*&nbsp;int&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;nte_count<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_hdr"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;f_ts_txt_lines_of_xml&nbsp;nte_count&nbsp;xml&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>txt_lines,&nbsp;nte_nr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cs_hdr</span>&nbsp;txt_lines),&nbsp;nte_nr<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;f_ts_hdr_opt_of_xml_list&nbsp;nte_count&nbsp;tl<br>
-<br>
-<br>
-<span class="keyword">and</span>&nbsp;f_ch_sec_par_hdr_opt_of_xml_list&nbsp;(nte_count&nbsp;:&nbsp;int)&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(ts_hdr&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;*&nbsp;int&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;xml_list,&nbsp;nte_count<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_hdr"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;f_ts_txt_lines_of_xml&nbsp;nte_count&nbsp;xml&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>txt_lines,&nbsp;nte_nr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cs_hdr</span>&nbsp;txt_lines),&nbsp;tl,&nbsp;nte_nr<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;xml_list,&nbsp;nte_count<br>
-<br>
-<br>
 <br>
 <span class="comment">(*&nbsp;blk_txt&nbsp;*)</span><br>
 <br>
@@ -726,52 +680,52 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_vrb_line"</span>,[],xml_list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_vrb_line</span>&nbsp;(f_string_of_pcdata_list&nbsp;xml_list)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_vrb_line;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
 <br>
-<span class="comment">(*&nbsp;lbl&nbsp;*)</span><br>
 <br>
-<span class="keyword">and</span>&nbsp;f_itm_lbl_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;:&nbsp;tu_lbl&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
+<span class="comment">(*&nbsp;hdr&nbsp;*)</span><br>
+<br>
+<span class="keyword">and</span>&nbsp;f_ts_hdr_opt_of_xml_list&nbsp;(nte_count&nbsp;:&nbsp;int)&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):(ts_hdr&nbsp;option)&nbsp;*&nbsp;int&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_auto"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Cu_lbl_auto</span>&nbsp;(f_ts_lbl_auto_of_xml&nbsp;xml),&nbsp;tl)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_custom"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Cu_lbl_custom</span>&nbsp;(f_ts_lbl_custom_of_xml&nbsp;xml),&nbsp;tl)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>xml&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cu_lbl_auto&nbsp;or&nbsp;cu_lbl_custom;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
-&nbsp;&nbsp;&nbsp;&nbsp;)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cu_lbl_auto&nbsp;or&nbsp;cu_lbl_custom;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;xml_list]))<br>
-<br>
-<br>
-<span class="keyword">and</span>&nbsp;f_ts_lbl_auto_of_xml&nbsp;(xml:<span class="constructor">Xml</span>.xml):ts_lbl_auto=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml&nbsp;<span class="keyword">with</span>&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_auto"</span>,[],[])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_lbl_auto</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_lbl_auto;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
-<br>
-<span class="keyword">and</span>&nbsp;f_ts_lbl_custom_of_xml&nbsp;(xml:<span class="constructor">Xml</span>.xml):ts_lbl_custom=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml&nbsp;<span class="keyword">with</span>&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_custom"</span>,[],pcdata_list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_lbl_custom</span>&nbsp;(f_string_of_pcdata_list&nbsp;pcdata_list)&nbsp;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_lbl_custom;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
-<br>
-<span class="keyword">and</span>&nbsp;f_dsp_lbl_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(tu_lbl&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;nte_count<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_auto"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_lbl_auto</span>&nbsp;(f_ts_lbl_auto_of_xml&nbsp;xml)),&nbsp;tl)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_custom"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_lbl_custom</span>&nbsp;(f_ts_lbl_custom_of_xml&nbsp;xml)),&nbsp;tl)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_hdr"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;f_ts_txt_lines_of_xml&nbsp;nte_count&nbsp;xml&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>txt_lines,&nbsp;nte_nr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cs_hdr</span>&nbsp;txt_lines),&nbsp;nte_nr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;f_ts_hdr_opt_of_xml_list&nbsp;nte_count&nbsp;tl<br>
 <br>
-<span class="comment">(*&nbsp;tag&nbsp;*)</span><br>
 <br>
-<span class="keyword">and</span>&nbsp;f_ts_tag_of_xml&nbsp;(xml:<span class="constructor">Xml</span>.xml):ts_tag&nbsp;=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_tag"</span>,[],pcdata_list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_tag</span>&nbsp;(f_string_of_pcdata_list&nbsp;pcdata_list)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_tag;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<span class="keyword">and</span>&nbsp;f_ch_sec_par_hdr_opt_of_xml_list&nbsp;(nte_count&nbsp;:&nbsp;int)&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(ts_hdr&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;*&nbsp;int&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;xml_list,&nbsp;nte_count<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_hdr"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;f_ts_txt_lines_of_xml&nbsp;nte_count&nbsp;xml&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>txt_lines,&nbsp;nte_nr&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cs_hdr</span>&nbsp;txt_lines),&nbsp;tl,&nbsp;nte_nr<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;xml_list,&nbsp;nte_count<br>
 <br>
 <br>
 <span class="comment">(*&nbsp;tag_or_id&nbsp;*)</span><br>
 <br>
-<span class="keyword">and</span>&nbsp;f_nte_id_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;tr_id&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
+<span class="keyword">and</span>&nbsp;f_ch_sec_par_tag_or_id_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(tu_tag_or_id&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;f_tr_id_of_xml&nbsp;hd,&nbsp;tl<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;<span class="string">"blk_nte&nbsp;cannot&nbsp;be&nbsp;empty"</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_tag"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_tag</span>&nbsp;(f_ts_tag_of_xml&nbsp;xml)),&nbsp;tl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_id"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_id</span>&nbsp;(f_tr_id_of_xml&nbsp;xml)),&nbsp;tl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
+<br>
+<span class="keyword">and</span>&nbsp;f_tu_tag_or_id_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):tu_tag_or_id&nbsp;option&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_tag"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_tag</span>&nbsp;(f_ts_tag_of_xml&nbsp;xml))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_id"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_tag_or_id_id</span>&nbsp;(f_tr_id_of_xml&nbsp;xml))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;f_tu_tag_or_id_opt_of_xml_list&nbsp;tl<br>
 <br>
 <span class="keyword">and</span>&nbsp;f_itm_tag_or_id_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(tu_tag_or_id&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
@@ -782,6 +736,13 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_tag"</span>,_,_)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(f_tu_tag_or_id_opt_of_xml_list&nbsp;[hd],&nbsp;tl)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_blks"</span>,_,_)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">None</span>,&nbsp;xml_list<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>xml&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cu_tag_or_id_id&nbsp;or&nbsp;cu_tag_or_id_tag;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<br>
+<span class="comment">(*&nbsp;id&nbsp;*)</span><br>
+<br>
+<span class="keyword">and</span>&nbsp;f_nte_id_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;tr_id&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;f_tr_id_of_xml&nbsp;hd,&nbsp;tl<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;<span class="string">"blk_nte&nbsp;cannot&nbsp;be&nbsp;empty"</span>)<br>
 <br>
 <br>
 <span class="keyword">and</span>&nbsp;f_dsp_id_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(tr_id&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
@@ -808,6 +769,14 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fld_id_scope&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;<span class="constructor">Some</span>&nbsp;(f_tu_scope_of_xml&nbsp;z);<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cr_id;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<br>
+<span class="comment">(*&nbsp;tag&nbsp;*)</span><br>
+<br>
+<span class="keyword">and</span>&nbsp;f_ts_tag_of_xml&nbsp;(xml:<span class="constructor">Xml</span>.xml):ts_tag&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_tag"</span>,[],pcdata_list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_tag</span>&nbsp;(f_string_of_pcdata_list&nbsp;pcdata_list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_tag;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<br>
 <br>
 <span class="comment">(*&nbsp;name&nbsp;*)</span><br>
 <br>
@@ -855,6 +824,39 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">try</span>&nbsp;<span class="constructor">Cs_int</span>&nbsp;(int_of_string&nbsp;s)&nbsp;<span class="keyword">with</span>&nbsp;_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;integer&nbsp;pcdata;&nbsp;got:&nbsp;"</span>;s]))<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;pcdata;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<br>
+<span class="comment">(*&nbsp;lbl&nbsp;*)</span><br>
+<br>
+<span class="keyword">and</span>&nbsp;f_itm_lbl_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;:&nbsp;tu_lbl&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_auto"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Cu_lbl_auto</span>&nbsp;(f_ts_lbl_auto_of_xml&nbsp;xml),&nbsp;tl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_custom"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Cu_lbl_custom</span>&nbsp;(f_ts_lbl_custom_of_xml&nbsp;xml),&nbsp;tl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>xml&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cu_lbl_auto&nbsp;or&nbsp;cu_lbl_custom;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cu_lbl_auto&nbsp;or&nbsp;cu_lbl_custom;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;xml_list]))<br>
+<br>
+<br>
+<span class="keyword">and</span>&nbsp;f_ts_lbl_auto_of_xml&nbsp;(xml:<span class="constructor">Xml</span>.xml):ts_lbl_auto=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml&nbsp;<span class="keyword">with</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_auto"</span>,[],[])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_lbl_auto</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_lbl_auto;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<br>
+<span class="keyword">and</span>&nbsp;f_ts_lbl_custom_of_xml&nbsp;(xml:<span class="constructor">Xml</span>.xml):ts_lbl_custom=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml&nbsp;<span class="keyword">with</span>&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_custom"</span>,[],pcdata_list)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Cs_lbl_custom</span>&nbsp;(f_string_of_pcdata_list&nbsp;pcdata_list)&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;raise&nbsp;(<span class="constructor">Error</span>&nbsp;(<span class="constructor">String</span>.concat&nbsp;<span class="string">""</span>&nbsp;[<span class="string">"expected&nbsp;cs_lbl_custom;&nbsp;got:&nbsp;"</span>;string_of_xml_list&nbsp;[xml]]))<br>
+<br>
+<span class="keyword">and</span>&nbsp;f_dsp_lbl_opt_of_xml_list&nbsp;(xml_list:<span class="constructor">Xml</span>.xml&nbsp;list):&nbsp;(tu_lbl&nbsp;option)&nbsp;*&nbsp;(<span class="constructor">Xml</span>.xml&nbsp;list)&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;xml_list&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>[]&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>hd::tl&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hd&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_auto"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_lbl_auto</span>&nbsp;(f_ts_lbl_auto_of_xml&nbsp;xml)),&nbsp;tl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_custom"</span>,[],[xml])&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">Some</span>&nbsp;(<span class="constructor">Cu_lbl_custom</span>&nbsp;(f_ts_lbl_custom_of_xml&nbsp;xml)),&nbsp;tl)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(<span class="constructor">None</span>,&nbsp;xml_list)<br>
+<br>
 <br>
 <span class="comment">(*&nbsp;string&nbsp;*)</span><br>
 <br>

@@ -164,6 +164,12 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;c:<span class="constructor">Xml</span>.xml&nbsp;list=[xml_of_tu_secs_pars_or_blks&nbsp;ch.fld_ch_main]&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cr_ch"</span>,[],<span class="constructor">List</span>.concat&nbsp;[a;b;c])<br>
 <br>
+<span class="keyword">and</span>&nbsp;xml_of_tu_secs_pars_or_blks&nbsp;(secs_pars_or_blks:tu_secs_pars_or_blks):<span class="constructor">Xml</span>.xml=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;secs_pars_or_blks&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_secs_pars_or_blks_secs</span>&nbsp;(secs:ts_secs)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_secs_pars_or_blks_secs"</span>,[],[xml_of_ts_secs&nbsp;secs])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_secs_pars_or_blks_pars</span>&nbsp;(pars:ts_pars)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_secs_pars_or_blks_pars"</span>,[],[xml_of_ts_pars&nbsp;pars])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_secs_pars_or_blks_blks</span>&nbsp;(blks:ts_blks)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_secs_pars_or_blks_blks"</span>,[],[xml_of_ts_blks&nbsp;blks])<br>
+<br>
 <span class="comment">(*&nbsp;secs&nbsp;*)</span><br>
 <br>
 <span class="keyword">and</span>&nbsp;xml_of_ts_secs&nbsp;(secs:ts_secs):<span class="constructor">Xml</span>.xml=<br>
@@ -183,6 +189,11 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;c:<span class="constructor">Xml</span>.xml&nbsp;list=[xml_of_tu_pars_or_blks&nbsp;sec.fld_sec_main]&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cr_sec"</span>,[],<span class="constructor">List</span>.concat&nbsp;[a;b;c])<br>
+<br>
+<span class="keyword">and</span>&nbsp;xml_of_tu_pars_or_blks&nbsp;(pars_or_blks:tu_pars_or_blks):<span class="constructor">Xml</span>.xml=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;pars_or_blks&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_pars_or_blks_pars</span>&nbsp;(pars:ts_pars)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_pars_or_blks_pars"</span>,[],[xml_of_ts_pars&nbsp;pars])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_pars_or_blks_blks</span>&nbsp;(blks:ts_blks)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_pars_or_blks_blks"</span>,[],[xml_of_ts_blks&nbsp;blks])<br>
 <br>
 <span class="comment">(*&nbsp;pars&nbsp;*)</span><br>
 <br>
@@ -230,16 +241,6 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_blk_nte</span>&nbsp;(blk_nte:tr_blk_nte)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_blk_nte"</span>,[],[xml_of_tr_blk_nte&nbsp;blk_nte])<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_blk_qtn</span>&nbsp;(blk_qtn:ts_blk_qtn)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_blk_qtn"</span>,[],[xml_of_ts_blk_qtn&nbsp;blk_qtn])<br>
 <br>
-<span class="keyword">and</span>&nbsp;xml_of_tu_secs_pars_or_blks&nbsp;(secs_pars_or_blks:tu_secs_pars_or_blks):<span class="constructor">Xml</span>.xml=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;secs_pars_or_blks&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_secs_pars_or_blks_secs</span>&nbsp;(secs:ts_secs)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_secs_pars_or_blks_secs"</span>,[],[xml_of_ts_secs&nbsp;secs])<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_secs_pars_or_blks_pars</span>&nbsp;(pars:ts_pars)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_secs_pars_or_blks_pars"</span>,[],[xml_of_ts_pars&nbsp;pars])<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_secs_pars_or_blks_blks</span>&nbsp;(blks:ts_blks)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_secs_pars_or_blks_blks"</span>,[],[xml_of_ts_blks&nbsp;blks])<br>
-<br>
-<span class="keyword">and</span>&nbsp;xml_of_tu_pars_or_blks&nbsp;(pars_or_blks:tu_pars_or_blks):<span class="constructor">Xml</span>.xml=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;pars_or_blks&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_pars_or_blks_pars</span>&nbsp;(pars:ts_pars)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_pars_or_blks_pars"</span>,[],[xml_of_ts_pars&nbsp;pars])<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_pars_or_blks_blks</span>&nbsp;(blks:ts_blks)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_pars_or_blks_blks"</span>,[],[xml_of_ts_blks&nbsp;blks])<br>
 <br>
 <span class="comment">(*&nbsp;blk_txt&nbsp;*)</span><br>
 <br>
@@ -384,6 +385,13 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="string">""</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_vrb_line"</span>,[],[])&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>_&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_vrb_line"</span>,[],[xml_of_string&nbsp;s])<br>
 <br>
+<span class="comment">(*&nbsp;hdr&nbsp;*)</span><br>
+<br>
+<span class="keyword">and</span>&nbsp;xml_of_ts_hdr&nbsp;(hdr:ts_hdr):<span class="constructor">Xml</span>.xml=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hdr&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_hdr</span>&nbsp;(txt_lines:ts_txt_lines)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_hdr"</span>,[],[xml_of_ts_txt_lines&nbsp;txt_lines])<br>
+<br>
+<br>
 <br>
 <span class="comment">(*&nbsp;c_ref&nbsp;*)</span><br>
 <br>
@@ -400,6 +408,9 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 <span class="keyword">and</span>&nbsp;xml_of_ts_nte_inline&nbsp;(a:ts_nte_inline):<span class="constructor">Xml</span>.xml=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">Cs_nte_inline</span>&nbsp;(blks,&nbsp;_)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;xml_of_ts_blks&nbsp;blks<br>
 <br>
+<br>
+<span class="comment">(*&nbsp;int&nbsp;*)</span><br>
+<br>
 <span class="keyword">and</span>&nbsp;xml_of_ts_int&nbsp;(i&nbsp;:&nbsp;ts_int)&nbsp;:&nbsp;<span class="constructor">Xml</span>.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;i&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_int</span>&nbsp;k&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_int"</span>,[],[<span class="constructor">Xml</span>.<span class="constructor">PCData</span>&nbsp;(string_of_int&nbsp;k)])<br>
@@ -411,27 +422,6 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_tag_or_id_tag</span>&nbsp;(tag:ts_tag)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_tag"</span>,[],[xml_of_ts_tag&nbsp;tag])<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_tag_or_id_id</span>&nbsp;(id:tr_id)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_tag_or_id_id"</span>,[],[xml_of_tr_id&nbsp;id])<br>
 <br>
-<span class="comment">(*&nbsp;hdr&nbsp;*)</span><br>
-<br>
-<span class="keyword">and</span>&nbsp;xml_of_ts_hdr&nbsp;(hdr:ts_hdr):<span class="constructor">Xml</span>.xml=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;hdr&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_hdr</span>&nbsp;(txt_lines:ts_txt_lines)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_hdr"</span>,[],[xml_of_ts_txt_lines&nbsp;txt_lines])<br>
-<br>
-<br>
-<span class="comment">(*&nbsp;lbl&nbsp;*)</span><br>
-<br>
-<span class="keyword">and</span>&nbsp;xml_of_tu_lbl&nbsp;(a:tu_lbl):<span class="constructor">Xml</span>.xml=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_lbl_auto</span>&nbsp;(b:ts_lbl_auto)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_auto"</span>,[],[xml_of_ts_lbl_auto&nbsp;b])<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_lbl_custom</span>&nbsp;(b:ts_lbl_custom)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_custom"</span>,[],[xml_of_ts_lbl_custom&nbsp;b])<br>
-<br>
-<span class="keyword">and</span>&nbsp;xml_of_ts_lbl_auto&nbsp;(a:ts_lbl_auto):<span class="constructor">Xml</span>.xml=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">Cs_lbl_auto</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_auto"</span>,[],[])<br>
-<br>
-<span class="keyword">and</span>&nbsp;xml_of_ts_lbl_custom&nbsp;(a:ts_lbl_custom):<span class="constructor">Xml</span>.xml=<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">Cs_lbl_custom</span>&nbsp;(b:string)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_custom"</span>,[],[xml_of_string&nbsp;b])<br>
-<br>
-<br>
 <span class="keyword">and</span>&nbsp;xml_of_tr_id&nbsp;(id:tr_id):<span class="constructor">Xml</span>.xml=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;a:<span class="constructor">Xml</span>.xml=xml_of_ts_tag&nbsp;id.fld_id_tag&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;b:<span class="constructor">Xml</span>.xml=xml_of_ts_name&nbsp;id.fld_id_name&nbsp;<span class="keyword">in</span><br>
@@ -441,6 +431,7 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cr_id"</span>,[],[a;b;c])<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cr_id"</span>,[],[a;b])<br>
+<br>
 <br>
 <span class="comment">(*&nbsp;scope&nbsp;*)</span><br>
 <br>
@@ -466,6 +457,21 @@ type&nbsp;xml&nbsp;=&nbsp;Xml_light_types.xml&nbsp;=<br>
 <br>
 <span class="keyword">and</span>&nbsp;xml_of_string&nbsp;(s:string):<span class="constructor">Xml</span>.xml=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">PCData</span>&nbsp;(<span class="constructor">Exml_utils</span>.pcdata_of_string&nbsp;s)<br>
+<br>
+<span class="comment">(*&nbsp;lbl&nbsp;*)</span><br>
+<br>
+<span class="keyword">and</span>&nbsp;xml_of_tu_lbl&nbsp;(a:tu_lbl):<span class="constructor">Xml</span>.xml=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_lbl_auto</span>&nbsp;(b:ts_lbl_auto)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_auto"</span>,[],[xml_of_ts_lbl_auto&nbsp;b])<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_lbl_custom</span>&nbsp;(b:ts_lbl_custom)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cu_lbl_custom"</span>,[],[xml_of_ts_lbl_custom&nbsp;b])<br>
+<br>
+<span class="keyword">and</span>&nbsp;xml_of_ts_lbl_auto&nbsp;(a:ts_lbl_auto):<span class="constructor">Xml</span>.xml=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">Cs_lbl_auto</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_auto"</span>,[],[])<br>
+<br>
+<span class="keyword">and</span>&nbsp;xml_of_ts_lbl_custom&nbsp;(a:ts_lbl_custom):<span class="constructor">Xml</span>.xml=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;a&nbsp;<span class="keyword">with</span>&nbsp;<span class="constructor">Cs_lbl_custom</span>&nbsp;(b:string)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Xml</span>.<span class="constructor">Element</span>&nbsp;(<span class="string">"cs_lbl_custom"</span>,[],[xml_of_string&nbsp;b])<br>
+<br>
+<br>
 <br>
 <span class="comment">(*&nbsp;normalize&nbsp;*)</span><br>
 <br>

@@ -137,6 +137,12 @@ and xml_of_tr_ch (ch:tr_ch):Xml.xml=
         let c:Xml.xml list=[xml_of_tu_secs_pars_or_blks ch.fld_ch_main] in
         Xml.Element ("cr_ch",[],List.concat [a;b;c])
 
+and xml_of_tu_secs_pars_or_blks (secs_pars_or_blks:tu_secs_pars_or_blks):Xml.xml=
+        match secs_pars_or_blks with
+        |Cu_secs_pars_or_blks_secs (secs:ts_secs) -> Xml.Element ("cu_secs_pars_or_blks_secs",[],[xml_of_ts_secs secs])
+        |Cu_secs_pars_or_blks_pars (pars:ts_pars) -> Xml.Element ("cu_secs_pars_or_blks_pars",[],[xml_of_ts_pars pars])
+        |Cu_secs_pars_or_blks_blks (blks:ts_blks) -> Xml.Element ("cu_secs_pars_or_blks_blks",[],[xml_of_ts_blks blks])
+
 (* secs *)
 
 and xml_of_ts_secs (secs:ts_secs):Xml.xml=
@@ -156,6 +162,11 @@ and xml_of_tr_sec (sec:tr_sec):Xml.xml=
         in
         let c:Xml.xml list=[xml_of_tu_pars_or_blks sec.fld_sec_main] in
         Xml.Element ("cr_sec",[],List.concat [a;b;c])
+
+and xml_of_tu_pars_or_blks (pars_or_blks:tu_pars_or_blks):Xml.xml=
+        match pars_or_blks with
+        |Cu_pars_or_blks_pars (pars:ts_pars) -> Xml.Element ("cu_pars_or_blks_pars",[],[xml_of_ts_pars pars])
+        |Cu_pars_or_blks_blks (blks:ts_blks) -> Xml.Element ("cu_pars_or_blks_blks",[],[xml_of_ts_blks blks])
 
 (* pars *)
 
@@ -203,16 +214,6 @@ and xml_of_tu_blk (blk:tu_blk):Xml.xml=
         |Cu_blk_nte (blk_nte:tr_blk_nte) -> Xml.Element ("cu_blk_nte",[],[xml_of_tr_blk_nte blk_nte])
         |Cu_blk_qtn (blk_qtn:ts_blk_qtn) -> Xml.Element ("cu_blk_qtn",[],[xml_of_ts_blk_qtn blk_qtn])
 
-and xml_of_tu_secs_pars_or_blks (secs_pars_or_blks:tu_secs_pars_or_blks):Xml.xml=
-        match secs_pars_or_blks with
-        |Cu_secs_pars_or_blks_secs (secs:ts_secs) -> Xml.Element ("cu_secs_pars_or_blks_secs",[],[xml_of_ts_secs secs])
-        |Cu_secs_pars_or_blks_pars (pars:ts_pars) -> Xml.Element ("cu_secs_pars_or_blks_pars",[],[xml_of_ts_pars pars])
-        |Cu_secs_pars_or_blks_blks (blks:ts_blks) -> Xml.Element ("cu_secs_pars_or_blks_blks",[],[xml_of_ts_blks blks])
-
-and xml_of_tu_pars_or_blks (pars_or_blks:tu_pars_or_blks):Xml.xml=
-        match pars_or_blks with
-        |Cu_pars_or_blks_pars (pars:ts_pars) -> Xml.Element ("cu_pars_or_blks_pars",[],[xml_of_ts_pars pars])
-        |Cu_pars_or_blks_blks (blks:ts_blks) -> Xml.Element ("cu_pars_or_blks_blks",[],[xml_of_ts_blks blks])
 
 (* blk_txt *)
 
@@ -357,6 +358,13 @@ and xml_of_ts_vrb_line (vrb_line : ts_vrb_line) : Xml.xml =
                 |"" -> Xml.Element ("cs_vrb_line",[],[]) 
                 |_ -> Xml.Element ("cs_vrb_line",[],[xml_of_string s])
 
+(* hdr *)
+
+and xml_of_ts_hdr (hdr:ts_hdr):Xml.xml=
+        match hdr with
+        |Cs_hdr (txt_lines:ts_txt_lines) -> Xml.Element ("cs_hdr",[],[xml_of_ts_txt_lines txt_lines])
+
+
 
 (* c_ref *)
 
@@ -373,6 +381,9 @@ and xml_of_ts_nte_ref (a:ts_nte_ref):Xml.xml=
 and xml_of_ts_nte_inline (a:ts_nte_inline):Xml.xml=
         match a with Cs_nte_inline (blks, _) -> xml_of_ts_blks blks
 
+
+(* int *)
+
 and xml_of_ts_int (i : ts_int) : Xml.xml =
         match i with
         |Cs_int k -> Xml.Element ("cs_int",[],[Xml.PCData (string_of_int k)])
@@ -384,27 +395,6 @@ and xml_of_tu_tag_or_id (tag_or_id:tu_tag_or_id):Xml.xml=
         |Cu_tag_or_id_tag (tag:ts_tag) -> Xml.Element ("cu_tag_or_id_tag",[],[xml_of_ts_tag tag])
         |Cu_tag_or_id_id (id:tr_id) -> Xml.Element ("cu_tag_or_id_id",[],[xml_of_tr_id id])
 
-(* hdr *)
-
-and xml_of_ts_hdr (hdr:ts_hdr):Xml.xml=
-        match hdr with
-        |Cs_hdr (txt_lines:ts_txt_lines) -> Xml.Element ("cs_hdr",[],[xml_of_ts_txt_lines txt_lines])
-
-
-(* lbl *)
-
-and xml_of_tu_lbl (a:tu_lbl):Xml.xml=
-        match a with
-        |Cu_lbl_auto (b:ts_lbl_auto) -> Xml.Element ("cu_lbl_auto",[],[xml_of_ts_lbl_auto b])
-        |Cu_lbl_custom (b:ts_lbl_custom) -> Xml.Element ("cu_lbl_custom",[],[xml_of_ts_lbl_custom b])
-
-and xml_of_ts_lbl_auto (a:ts_lbl_auto):Xml.xml=
-        match a with Cs_lbl_auto -> Xml.Element ("cs_lbl_auto",[],[])
-
-and xml_of_ts_lbl_custom (a:ts_lbl_custom):Xml.xml=
-        match a with Cs_lbl_custom (b:string) -> Xml.Element ("cs_lbl_custom",[],[xml_of_string b])
-
-
 and xml_of_tr_id (id:tr_id):Xml.xml=
         let a:Xml.xml=xml_of_ts_tag id.fld_id_tag in
         let b:Xml.xml=xml_of_ts_name id.fld_id_name in
@@ -414,6 +404,7 @@ and xml_of_tr_id (id:tr_id):Xml.xml=
                 Xml.Element ("cr_id",[],[a;b;c])
         |None -> 
                 Xml.Element ("cr_id",[],[a;b])
+
 
 (* scope *)
 
@@ -439,6 +430,21 @@ and xml_of_ts_name (name:ts_name):Xml.xml=
 
 and xml_of_string (s:string):Xml.xml=
         PCData (Exml_utils.pcdata_of_string s)
+
+(* lbl *)
+
+and xml_of_tu_lbl (a:tu_lbl):Xml.xml=
+        match a with
+        |Cu_lbl_auto (b:ts_lbl_auto) -> Xml.Element ("cu_lbl_auto",[],[xml_of_ts_lbl_auto b])
+        |Cu_lbl_custom (b:ts_lbl_custom) -> Xml.Element ("cu_lbl_custom",[],[xml_of_ts_lbl_custom b])
+
+and xml_of_ts_lbl_auto (a:ts_lbl_auto):Xml.xml=
+        match a with Cs_lbl_auto -> Xml.Element ("cs_lbl_auto",[],[])
+
+and xml_of_ts_lbl_custom (a:ts_lbl_custom):Xml.xml=
+        match a with Cs_lbl_custom (b:string) -> Xml.Element ("cs_lbl_custom",[],[xml_of_string b])
+
+
 
 (* normalize *)
 
