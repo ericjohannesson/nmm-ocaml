@@ -55,7 +55,14 @@ ${directory}/usr/bin/pdf-of-nmm: ../../bin/pdf-of-nmm.sh
 
 ${directory}/usr/bin: ${directory}/usr/bin/txt-of-nmm ${directory}/usr/bin/html-of-nmm ${directory}/usr/bin/pdf-of-nmm
 
-${directory}: ${directory}/DEBIAN/control ${directory}/usr/bin
+${directory}/usr/share/bash-completion/completions: ../../bin/nmm-ocaml-bash-completion.sh
+	mkdir -p ${directory}/usr/share/bash-completion/completions
+	cp ../../bin/nmm-ocaml-bash-completion.sh ${directory}/usr/share/bash-completion/completions/txt-of-nmm
+	cp ../../bin/nmm-ocaml-bash-completion.sh ${directory}/usr/share/bash-completion/completions/html-of-nmm
+	cp ../../bin/nmm-ocaml-bash-completion.sh ${directory}/usr/share/bash-completion/completions/pdf-of-nmm
+
+
+${directory}: ${directory}/DEBIAN/control ${directory}/usr/bin ${directory}/usr/share/bash-completion/completions
 
 packages: ${directory}
 	dpkg-deb --root-owner-group --build ${directory}
