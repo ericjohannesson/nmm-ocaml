@@ -302,7 +302,7 @@ h2, h3, h4, h5 {
     line-height : 130%;
 }
 
-.sec_lbl.hdr {
+.sec.pars > .sec_lbl.hdr {
     float : none;
 }
 
