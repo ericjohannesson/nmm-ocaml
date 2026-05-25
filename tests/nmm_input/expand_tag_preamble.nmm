@@ -1,8 +1,8 @@
 PREAMBLE:
-	tag=PRF,Proof
-	tag=THM,Theorem
-	tag=THMS,Theorems
-	tag=PRFS,Proofs
+	tag=PRF,Beviset
+	tag=THM,Teoremet
+	tag=THMS,Teoremen
+	tag=PRFS,Bevisen
 
 ¶ THM:main
 Main

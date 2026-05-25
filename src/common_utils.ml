@@ -582,7 +582,7 @@ let set_par_prefix (v : string) (doc_settings : t_doc_settings) : t_doc_settings
         allow_custom_numbering = doc_settings.allow_custom_numbering;
         }
 
-let set_expand_tag (expand_tag_old : Doc_types.ts_tag -> (string * string) option) (v : string) (doc_settings : t_doc_settings) : t_doc_settings =
+let set_expand_tag (v : string) (doc_settings : t_doc_settings) : t_doc_settings =
         try
         {
         doc_width = doc_settings.doc_width;
@@ -599,7 +599,7 @@ let set_expand_tag (expand_tag_old : Doc_types.ts_tag -> (string * string) optio
         sec_prefix = doc_settings.sec_prefix;
         app_prefix = doc_settings.app_prefix;
         par_prefix = doc_settings.par_prefix;
-        expand_tag = tag_value_of_string expand_tag_old v;
+        expand_tag = tag_value_of_string doc_settings.expand_tag v;
         auto_numbering = doc_settings.auto_numbering;
         allow_custom_numbering = doc_settings.allow_custom_numbering;
         }
@@ -627,7 +627,7 @@ let doc_settings_of_ts_preamble (doc_settings : t_doc_settings) (preamble : Doc_
                                 |Some ("abstract-hdr", v) -> set_abstract_hdr v settings
                                 |Some ("refs-hdr", v) -> set_refs_hdr v settings
                                 |Some ("endnotes-hdr", v) -> set_endnotes_hdr v settings
-                                |Some ("tag", v) -> set_expand_tag settings.expand_tag v settings
+                                |Some ("tag", v) -> set_expand_tag v settings
                                 |_ -> let _ : unit = IO.print_warning 
                                         (String.concat "" ["WARNING: invalid attribute: ";hd;"; ";"ignoring it"]) in settings
                         in aux tl new_doc_settings
