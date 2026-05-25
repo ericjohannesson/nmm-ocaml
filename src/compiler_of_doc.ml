@@ -134,21 +134,7 @@ and acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
                 |None, lines -> LINES (List.concat [acc_lines;lines])
                 |_,[] -> raise (Error "dps_line cannot be empty")
         )
-        | EXML acc_list -> (
-                let xml_list_main:Xml.xml list = Exml_utils.xml_list_of_ts_txt_units doc_settings cref_table nte_table path a.fld_dsp_line_units in 
-                let xml_list_lbl:Xml.xml list = 
-                        match label_of_path_opt doc_settings path with
-                        |None -> []
-                        |Some (s:string) -> [Exml_utils.xml_of_string s]
-                in
-                let xml_main:Xml.xml = Xml.Element ("dsp_line_main",[],xml_list_main) in
-                let xml_lbl:Xml.xml = Xml.Element ("dsp_line_lbl",[],xml_list_lbl) in
-                let xml_clear : Xml.xml = Xml.Element ("clear",[],[]) in
-                let attr_list: (string*string) list = attr_list_of_tr_id_opt doc_settings path ["dsp_line"] a.fld_dsp_line_id in
-                match a.fld_dsp_line_lbl with
-                |None -> EXML (List.concat [acc_list;[Xml.Element ("dsp_line", attr_list, [xml_main])]])
-                |Some _ -> EXML (List.concat [acc_list;[Xml.Element ("dsp_line", attr_list, [xml_lbl; xml_clear; xml_main])]])
-        )
+        | EXML acc_list -> EXML (List.concat [acc_list;[Exml_utils.xml_of_tr_dsp_line doc_settings cref_table nte_table path a]])
         | NTE_TABLE acc_table -> NTE_TABLE (Common_utils.nte_table_of_tr_dsp_line doc_settings cref_table path acc_table a)
 
 (* blk_vrb *)
