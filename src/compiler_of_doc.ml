@@ -128,12 +128,7 @@ and acc_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
                         | Some (id : tr_id) -> CREF_TABLE ((id, path, Cref_element_dsp_line a) :: table)
                         | None -> acc
         )
-        | LINES acc_lines -> (
-                match a.fld_dsp_line_lbl, Txt_utils.lines_of_ts_txt_units doc_settings cref_table nte_table path a.fld_dsp_line_units with
-                |Some _, hd::tl -> LINES (List.concat [acc_lines;[Txt_utils.insert_label doc_settings path hd];tl])
-                |None, lines -> LINES (List.concat [acc_lines;lines])
-                |_,[] -> raise (Error "dps_line cannot be empty")
-        )
+        | LINES acc_lines -> LINES (List.concat [acc_lines; Txt_utils.lines_of_tr_dsp_line doc_settings cref_table nte_table path a])
         | EXML acc_list -> EXML (List.concat [acc_list;[Exml_utils.xml_of_tr_dsp_line doc_settings cref_table nte_table path a]])
         | NTE_TABLE acc_table -> NTE_TABLE (Common_utils.nte_table_of_tr_dsp_line doc_settings cref_table path acc_table a)
 
@@ -901,7 +896,7 @@ let cref_table_of_tr_doc (doc_settings : t_doc_settings) (doc : tr_doc) : t_cref
         | CREF_TABLE table -> check_cref_table doc_settings (List.rev table)
         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
 
-(* footnote table *)
+(* note table *)
 
 let nte_table_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (doc : tr_doc) : t_nte_table =
         let _ : unit = IO.quiet.contents <- true in
