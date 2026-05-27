@@ -241,12 +241,12 @@ KEY_VALUE := | 'doc-width=' INT
              | 'abstract-indent=' INT
              | 'refs-indent=' INT
              | 'tab-length=' INT
-             | 'abstract-hdr=' LABEL_FORM ',' CREF_FORM
-             | 'refs-hdr=' LABEL_FORM ',' CREF_FORM
-             | 'ch-prefix=' LABEL_FORM ',' CREF_FORM
-             | 'sec-prefix=' LABEL_FORM ',' CREF_FORM
-             | 'par-prefix=' LABEL_FORM ',' CREF_FORM
-             | 'tag=' TAG ',' LABEL_FORM ',' CREF_FORM
+             | 'abstract-hdr=' LABEL_FORM [ ',' CREF_FORM ]
+             | 'refs-hdr=' LABEL_FORM [ ',' CREF_FORM ]
+             | 'ch-prefix=' LABEL_FORM [ ',' CREF_FORM ]
+             | 'sec-prefix=' LABEL_FORM [ ',' CREF_FORM ]
+             | 'par-prefix=' LABEL_FORM [ ',' CREF_FORM ]
+             | 'tag=' TAG ',' LABEL_FORM [',' CREF_FORM]
 
 LABEL_FORM := TAG
 
