@@ -107,7 +107,7 @@ let margin_left_of_tr_doc (doc : Doc_types.tr_doc) : string =
         let margin : float = (Float.of_int (max_length + 2)) *. 0.6 in
         String.concat "" [Printf.sprintf "%.2f" margin; "rem"]
 
-let internal_css (tab_length : string) (margin_left : string) : string =
+let default_css (tab_length : string) (margin_left : string) : string =
 "
 html {
     font-family : monospace;

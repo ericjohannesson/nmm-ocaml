@@ -74,7 +74,7 @@ KEY_VALUE := | 'doc-width=' INT
              | 'ch-prefix=' LABEL_FORM ',' CREF_FORM
              | 'sec-prefix=' LABEL_FORM ',' CREF_FORM
              | 'par-prefix=' LABEL_FORM ',' CREF_FORM
-             | 'tag=' TAG '>' LABEL_FORM ',' CREF_FORM
+             | 'tag=' TAG ',' LABEL_FORM ',' CREF_FORM
 
 LABEL_FORM := TAG
 
@@ -231,7 +231,8 @@ type t_txt_options = {
 type t_html_options = {
         margin : int option;
         lang : string;
-        css : string list;
+        internal_css : string list;
+        external_css : string list;
         quiet : bool;
         numbering : string;
         allow_custom_numbering : bool;

@@ -1559,7 +1559,8 @@ type t_txt_options = {
 type t_html_options = {
         margin : int option;
         lang : string;
-        css : string list;
+        internal_css : string list;
+        external_css : string list;
         quiet : bool;
         numbering : string;
         allow_custom_numbering : bool;
@@ -1608,7 +1609,8 @@ let txt_options_default () : t_txt_options = {
 let html_options_default () : t_html_options = {
         margin = None;
         lang = "en";
-        css = [];
+        internal_css = [];
+        external_css = [];
         quiet = false;
         numbering = "a1i";
         allow_custom_numbering = false;
