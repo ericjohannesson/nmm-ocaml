@@ -7,7 +7,7 @@ MAKEFLAGS += --no-builtin-rules
 
 .PHONY: default clean test utop clean-docs install-opam_package
 
-version = 1.2
+version = 1.3
 export version
 
 default:
@@ -33,12 +33,29 @@ install-opam_package: opam/package src/cli.ml
 utop: opam/package
 	utop -require sedlex -require uuseg -require xml-light -require str -I $(realpath opam/package) $(realpath opam/package/nmm_ocaml.cma)
 
+bin: bin/nmm-ocaml bin/txt-of-nmm bin/html-of-nmm bin/pdf-of-nmm
 
 bin/nmm-ocaml: native
+	mkdir -p bin
 	cd native
 	ocamlfind ocamlopt -o nmm-ocaml -linkpkg -package sedlex.ppx -package uuseg -package xml-light -package str -package unix nmm_ocaml.cmxa cli.ml
 	cd -
 	mv native/nmm-ocaml bin/
+
+bin/txt-of-nmm: scripts/txt-of-nmm.sh
+	mkdir -p bin
+	cp scripts/txt-of-nmm.sh bin/txt-of-nmm
+	chmod +x bin/txt-of-nmm
+
+bin/html-of-nmm: scripts/html-of-nmm.sh
+	mkdir -p bin
+	cp scripts/html-of-nmm.sh bin/html-of-nmm
+	chmod +x bin/html-of-nmm
+
+bin/pdf-of-nmm: scripts/pdf-of-nmm.sh
+	mkdir -p bin
+	cp scripts/pdf-of-nmm.sh bin/pdf-of-nmm
+	chmod +x bin/pdf-of-nmm
 
 
 docs: byte
@@ -107,7 +124,7 @@ byte: src
 	ocamlc -a -o nmm_ocaml.cma nmm_ocaml.cmo
 	cd -
 
-debian/packages: debian bin/* test
+debian/packages: debian bin test
 	cd debian
 	make
 	cd -
