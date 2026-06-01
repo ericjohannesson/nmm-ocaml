@@ -101,7 +101,7 @@ let xml_list_of_refs_hdr (doc_settings : t_doc_settings): Xml.xml list =
 (* tag_or_id *)
 
 let cdata_of_string (s : string) : string =
-	pcdata_of_string s
+        pcdata_of_string s
 
 let string_of_scope (doc_settings : t_doc_settings) (path : t_path) (scope : tu_scope) : string =
         match scope with
@@ -227,18 +227,18 @@ let xml_of_ts_blk_txt (doc_settings : t_doc_settings) (cref_table : t_cref_table
 (* dsp_line *)
 
 let xml_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (a : tr_dsp_line) : Xml.xml =
-	let xml_list_main:Xml.xml list = xml_list_of_ts_txt_units doc_settings cref_table nte_table path a.fld_dsp_line_units in 
+        let xml_list_main:Xml.xml list = xml_list_of_ts_txt_units doc_settings cref_table nte_table path a.fld_dsp_line_units in 
         let xml_list_lbl:Xml.xml list = 
-		match label_of_path_opt doc_settings path with
-			|None -> []
-			|Some (s:string) -> [xml_of_string s]
-	in
-	let xml_main:Xml.xml = Xml.Element ("dsp_line_main",[],xml_list_main) in
-	let xml_lbl:Xml.xml = Xml.Element ("dsp_line_lbl",[],xml_list_lbl) in
-	let xml_clear : Xml.xml = Xml.Element ("clear",[],[]) in
-	let attr_list: (string*string) list = attr_list_of_tr_id_opt doc_settings path ["dsp_line"] a.fld_dsp_line_id in
+                match label_of_path_opt doc_settings path with
+                        |None -> []
+                        |Some (s:string) -> [xml_of_string s]
+        in
+        let xml_main:Xml.xml = Xml.Element ("dsp_line_main",[],xml_list_main) in
+        let xml_lbl:Xml.xml = Xml.Element ("dsp_line_lbl",[],xml_list_lbl) in
+        let xml_clear : Xml.xml = Xml.Element ("clear",[],[]) in
+        let attr_list: (string*string) list = attr_list_of_tr_id_opt doc_settings path ["dsp_line"] a.fld_dsp_line_id in
         match a.fld_dsp_line_lbl with
-		|None -> Xml.Element ("dsp_line", attr_list, [xml_main])
+                |None -> Xml.Element ("dsp_line", attr_list, [xml_main])
                 |Some _ -> Xml.Element ("dsp_line", attr_list, [xml_lbl; xml_clear; xml_main])
 
 

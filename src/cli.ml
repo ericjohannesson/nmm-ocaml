@@ -222,8 +222,8 @@ let anon_arg_fun arg : unit =
                 |"html-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_html_of_nmm
                 |"check-xml-schema"
                 |"validate-xml"
-		|"show-axml-schema"
-		|"show-exml-schema"
+                |"show-axml-schema"
+                |"show-exml-schema"
                 |"show-default-css" -> ()
                 |"exml-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_exml_of_nmm
                 |"exml-of-axml" -> keyspecdoc_list.contents <- keyspecdoc_list_exml_of_axml
@@ -245,8 +245,8 @@ let anon_arg_fun arg : unit =
                 |"html-of-nmm" -> path_to_nmm_file.contents <- arg
                 |"check-xml-schema" -> path_to_dtd_file.contents <- arg
                 |"validate-xml" -> let _ : unit = path_to_dtd_file.contents <- arg in keyspecdoc_list.contents <- (keyspecdoc_stdin::keyspecdoc_list.contents)
-		|"show-axml-schema"
-		|"show-exml-schema"
+                |"show-axml-schema"
+                |"show-exml-schema"
                 |"show-default-css" -> raise (Error (String.concat " " ["one too many arguments:";arg]))
                 |"exml-of-nmm" -> path_to_nmm_file.contents <- arg
                 |"exml-of-axml" -> path_to_xml_file.contents <- arg
@@ -363,8 +363,8 @@ let _ : unit =
                 |true -> print_endline (Main.validate_xml path_to_dtd_file.contents "-")
                 |false -> print_endline (Main.validate_xml path_to_dtd_file.contents path_to_xml_file.contents)
         )
-	|"show-axml-schema" -> print_endline (Main.axml_schema ())
-	|"show-exml-schema" -> print_endline (Main.exml_schema ())
+        |"show-axml-schema" -> print_endline (Main.axml_schema ())
+        |"show-exml-schema" -> print_endline (Main.exml_schema ())
         |"show-default-css" -> print_endline (Main.default_css ())
         |"test-with-axml" -> (
                 let options : Common_utils.t_html_options = {

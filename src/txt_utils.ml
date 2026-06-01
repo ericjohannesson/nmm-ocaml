@@ -237,7 +237,7 @@ let underline (s : string) : string =
         let lst = utf_8_grapheme_clusters s in
         let map (el : string) : string = 
                 match el with
-		| "g" | "j" | "p" | "q" | "y" -> el
+                | "g" | "j" | "p" | "q" | "y" -> el
                 |_ -> el ^ "\u{0332}"
         in
         String.concat "" (List.map map lst)

@@ -53,12 +53,12 @@ let html_of_doc (options : Common_utils.t_html_options) (doc : Doc_types.tr_doc)
                 |None -> Html_utils.margin_left_of_tr_doc doc
         in
         let internal_css: string = (
-		"<style>\n" ^ 
-		(Html_utils.default_css "6ch" margin_left) ^ "\n" ^
-		(String.concat "\n" (List.map IO.string_of_file options.internal_css)) ^ 
-		"\n</style>"
-	) 
-	in
+                "<style>\n" ^ 
+                (Html_utils.default_css "6ch" margin_left) ^ "\n" ^
+                (String.concat "\n" (List.map IO.string_of_file options.internal_css)) ^ 
+                "\n</style>"
+        ) 
+        in
         let external_css: string =
                 let map (uri : string) : string = ("<link rel=\"stylesheet\" href=\"" ^ uri ^ "\">\n") in
                 String.concat "" (List.map map options.external_css)
