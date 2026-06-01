@@ -26,7 +26,7 @@ test_with_nmm(){
 	local input_dir="nmm_input"
 	for file in $(ls $input_dir/*.nmm)
 	do
-		../bin/nmm-ocaml test-with-nmm $@ $file
+		../bin/nmm-ocaml test-with-nmm $@ $file > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -43,7 +43,7 @@ test_with_xml(){
 	local input_dir="axml_input"
 	for file in $(ls $input_dir/*.xml)
 	do
-		../bin/nmm-ocaml test-with-axml $@ $file
+		../bin/nmm-ocaml test-with-axml $@ $file > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -320,9 +320,9 @@ make_tests
 curr_code=$?
 if [ $curr_code -gt 0 ]
 then
-	printf '\e[1;31m%-6s\e[m\n' "*** nmm-ocaml: some tests FAILED ***"
+	printf '\e[1;31m%-6s\e[m\n' "*** nmm-ocaml: Some tests FAILED ***"
 else
-	printf '\e[1;32m%-6s\e[m\n' "*** nmm-ocaml: all tests PASSED ***"
+	printf '\e[1;32m%-6s\e[m\n' "*** nmm-ocaml: All tests PASSED ***"
 fi
 
 exit $curr_code
