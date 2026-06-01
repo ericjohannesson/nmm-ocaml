@@ -126,6 +126,9 @@
 <br>
 <span class="comment">(*&nbsp;tag_or_id&nbsp;*)</span><br>
 <br>
+<span class="keyword">let</span>&nbsp;cdata_of_string&nbsp;(s&nbsp;:&nbsp;string)&nbsp;:&nbsp;string&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pcdata_of_string&nbsp;s<br>
+<br>
 <span class="keyword">let</span>&nbsp;string_of_scope&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(scope&nbsp;:&nbsp;tu_scope)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;scope&nbsp;<span class="keyword">with</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cu_scope_gbl</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="string">"GBL"</span><br>
@@ -136,8 +139,8 @@
 <br>
 <span class="keyword">let</span>&nbsp;cdata_of_tr_id&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(id&nbsp;:&nbsp;tr_id)&nbsp;:&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;id.fld_id_tag,&nbsp;id.fld_id_name,&nbsp;id.fld_id_scope&nbsp;<span class="keyword">with</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Some</span>&nbsp;scope&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;(string_of_scope&nbsp;doc_settings&nbsp;path&nbsp;scope))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;cdata_of_string&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span><span class="constructor">Cs_tag</span>&nbsp;(tag_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Cs_name</span>&nbsp;(name_string&nbsp;:&nbsp;string),&nbsp;<span class="constructor">Some</span>&nbsp;scope&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;cdata_of_string&nbsp;(tag_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;name_string&nbsp;^&nbsp;<span class="string">"_"</span>&nbsp;^&nbsp;(string_of_scope&nbsp;doc_settings&nbsp;path&nbsp;scope))<br>
 <br>
 <span class="keyword">let</span>&nbsp;attr_list_of_tr_id&nbsp;(doc_settings&nbsp;:&nbsp;t_doc_settings)&nbsp;(path&nbsp;:&nbsp;t_path)&nbsp;(id&nbsp;:&nbsp;tr_id)&nbsp;:&nbsp;(string*string)&nbsp;list&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[(<span class="string">"id"</span>,&nbsp;cdata_of_tr_id&nbsp;doc_settings&nbsp;path&nbsp;id)]<br>

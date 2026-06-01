@@ -99,6 +99,9 @@ let xml_list_of_refs_hdr (doc_settings : t_doc_settings): Xml.xml list =
 
 (* tag_or_id *)
 
+let cdata_of_string (s : string) : string =
+	pcdata_of_string s
+
 let string_of_scope (doc_settings : t_doc_settings) (path : t_path) (scope : tu_scope) : string =
         match scope with
         |Cu_scope_gbl -> "GBL"
@@ -109,8 +112,8 @@ let string_of_scope (doc_settings : t_doc_settings) (path : t_path) (scope : tu_
 
 let cdata_of_tr_id (doc_settings : t_doc_settings) (path : t_path) (id : tr_id) : string =
         match id.fld_id_tag, id.fld_id_name, id.fld_id_scope with
-        |Cs_tag (tag_string : string), Cs_name (name_string : string), None -> (tag_string ^ "_" ^ name_string)
-        |Cs_tag (tag_string : string), Cs_name (name_string : string), Some scope -> (tag_string ^ "_" ^ name_string ^ "_" ^ (string_of_scope doc_settings path scope))
+        |Cs_tag (tag_string : string), Cs_name (name_string : string), None -> cdata_of_string (tag_string ^ "_" ^ name_string)
+        |Cs_tag (tag_string : string), Cs_name (name_string : string), Some scope -> cdata_of_string (tag_string ^ "_" ^ name_string ^ "_" ^ (string_of_scope doc_settings path scope))
 
 let attr_list_of_tr_id (doc_settings : t_doc_settings) (path : t_path) (id : tr_id) : (string*string) list =
         [("id", cdata_of_tr_id doc_settings path id)]
