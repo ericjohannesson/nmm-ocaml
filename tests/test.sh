@@ -1,16 +1,27 @@
 #! /usr/bin/env bash
 
 show_default_css(){
+	mkdir -p css
 	../bin/nmm-ocaml show-default-css > css/default.css
+}
+
+show_exml_schema(){
+	mkdir -p dtd
+	../bin/nmm-ocaml show-exml-schema > dtd/exml.dtd
+}
+
+show_axml_schema(){
+	mkdir -p dtd
+	../bin/nmm-ocaml show-axml-schema > dtd/axml.dtd
 }
 
 check_xml_schemas(){
 	local exit_code=0
 	local curr_code=0
-	local input_dir="../docs/specs"
-	for file in $(ls $input_dir/*.dtd)
+	local input_dir="dtd"
+	for file in $(ls ${input_dir}/*.dtd)
 	do
-		../bin/nmm-ocaml check-xml-schema $file > /dev/null
+		../bin/nmm-ocaml check-xml-schema "$file" > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -24,9 +35,9 @@ test_with_nmm(){
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
-	for file in $(ls $input_dir/*.nmm)
+	for file in $(ls ${input_dir}/*.nmm)
 	do
-		../bin/nmm-ocaml test-with-nmm $@ $file > /dev/null
+		../bin/nmm-ocaml test-with-nmm $@ "$file" > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -41,9 +52,9 @@ test_with_xml(){
 	local exit_code=0
 	local curr_code=0
 	local input_dir="axml_input"
-	for file in $(ls $input_dir/*.xml)
+	for file in $(ls ${input_dir}/*.xml)
 	do
-		../bin/nmm-ocaml test-with-axml $@ $file > /dev/null
+		../bin/nmm-ocaml test-with-axml $@ "$file" > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -59,9 +70,9 @@ make_txt_output(){
 	local input_dir="nmm_input"
 	local output_dir="txt_output"
 	mkdir -p $output_dir
-	for file in $(ls $input_dir/*.nmm)
+	for file in $(ls ${input_dir}/*.nmm)
 	do
-		../bin/nmm-ocaml txt-of-nmm $@ $file > $output_dir/$(basename $file).txt
+		../bin/nmm-ocaml txt-of-nmm $@ "$file" > ${output_dir}/$(basename $file).txt
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -77,9 +88,9 @@ make_html_output(){
 	local input_dir="nmm_input"
 	local output_dir="html_output"
 	mkdir -p $output_dir
-	for file in $(ls $input_dir/*.nmm)
+	for file in $(ls ${input_dir}/*.nmm)
 	do
-		../bin/nmm-ocaml html-of-nmm $@ $file > $output_dir/$(basename $file).html
+		../bin/nmm-ocaml html-of-nmm $@ "$file" > ${output_dir}/$(basename $file).html
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -96,9 +107,9 @@ make_xml_output(){
 	local input_dir="nmm_input"
 	local output_dir="axml_output"
 	mkdir -p $output_dir
-	for file in $(ls $input_dir/*.nmm)
+	for file in $(ls ${input_dir}/*.nmm)
 	do
-		../bin/nmm-ocaml axml-of-nmm $@ $file > $output_dir/$(basename $file).xml
+		../bin/nmm-ocaml axml-of-nmm $@ "$file" > ${output_dir}/$(basename $file).xml
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -113,14 +124,16 @@ show_txt_diff(){
 	local curr_code=0
 	local output_dir="txt_output"
 	local expected_output_dir="expected_txt_output"
-	for file in $(ls $output_dir/*.txt)
+	for file in $(ls ${output_dir}/*.txt)
 	do
-		diff $expected_output_dir/$(basename $file) $output_dir/$(basename $file) > /dev/null
+		local expected_output_file="${expected_output_dir}/$(basename $file)"
+		local output_file="${output_dir}/$(basename $file)"
+		diff "$expected_output_file" "$output_file" > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "differs from expected output: $file"
+			echo $expected_output_file differs from $output_file
 		fi
 	done
 	return $exit_code
@@ -132,14 +145,16 @@ show_html_diff(){
 	local curr_code=0
 	local output_dir="html_output"
 	local expected_output_dir="expected_html_output"
-	for file in $(ls $output_dir/*.html)
+	for file in $(ls ${output_dir}/*.html)
 	do
-		diff $expected_output_dir/$(basename $file) $output_dir/$(basename $file) > /dev/null
+		local expected_output_file="${expected_output_dir}/$(basename $file)"
+		local output_file="${output_dir}/$(basename $file)"
+		diff "$expected_output_file" "$output_file" > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "differs from expected output: $file"
+			echo $expected_output_file differs from $output_file
 		fi
 	done
 	return $exit_code
@@ -150,25 +165,24 @@ show_xml_diff(){
 	local curr_code=0
 	local output_dir="axml_output"
 	local expected_output_dir="expected_axml_output"
-	for file in $(ls $output_dir/*.xml)
+	for file in $(ls ${output_dir}/*.xml)
 	do
-		diff $expected_output_dir/$(basename $file) $output_dir/$(basename $file) > /dev/null
+		local expected_output_file="${expected_output_dir}/$(basename $file)"
+		local output_file="${output_dir}/$(basename $file)"
+		diff "$expected_output_file" "$output_file" > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
 			exit_code=$curr_code
-			echo "differs from expected output: $file"
+			echo $expected_output_file differs from $output_file
 		fi
 	done
 	return $exit_code
 }
 
 test_auto_date(){
-	local DATE
-	local LINE
-	local curr_code
-	SYS_DATE=$(date +'%Y-%m-%d %H:%M UTC%:::z')
-	DOC_DATE=$(../bin/nmm-ocaml txt-of-nmm nmm_input/date_auto/date_auto.nmm | head -n 1)
+	local SYS_DATE=$(date +'%Y-%m-%d %H:%M UTC%:::z')
+	local DOC_DATE=$(../bin/nmm-ocaml txt-of-nmm nmm_input/date_auto/date_auto.nmm | head -n 1)
 	if [ "$DOC_DATE" = "$SYS_DATE" ]
 	then
 		return 0
@@ -186,25 +200,25 @@ test_normalize_axml(){
 	TEMP_DIR_TXT_OF_XML=$(mktemp -d)
 	TEMP_DIR_TXT_OF_NMM=$(mktemp -d)
 
-	for file in $(ls $input_dir/*.nmm)
+	for file in $(ls ${input_dir}/*.nmm)
 	do
-		../bin/nmm-ocaml txt-of-nmm $@ $file > $TEMP_DIR_TXT_OF_NMM/$(basename -s .nmm $file).txt
-		../bin/nmm-ocaml axml-of-nmm $file > $TEMP_DIR_XML_OF_NMM/$(basename -s .nmm $file).xml
+		../bin/nmm-ocaml txt-of-nmm $@ "$file" > ${TEMP_DIR_TXT_OF_NMM}/$(basename -s .nmm $file).txt
+		../bin/nmm-ocaml axml-of-nmm "$file" > ${TEMP_DIR_XML_OF_NMM}/$(basename -s .nmm $file).xml
 	done
 
 
-	for file in $(ls $TEMP_DIR_XML_OF_NMM/*.xml)
+	for file in $(ls ${TEMP_DIR_XML_OF_NMM}/*.xml)
 	do
-		../bin/nmm-ocaml txt-of-axml $@ $file > $TEMP_DIR_TXT_OF_XML/$(basename -s .xml $file).txt
+		../bin/nmm-ocaml txt-of-axml $@ "$file" > ${TEMP_DIR_TXT_OF_XML}/$(basename -s .xml $file).txt
 	done
 
 	local exit_code=0
 	local curr_code=0
 	local output_dir=$TEMP_DIR_TXT_OF_XML
 	local expected_output_dir=$TEMP_DIR_TXT_OF_NMM
-	for file in $(ls $output_dir/*.txt)
+	for file in $(ls ${output_dir}/*.txt)
 	do
-		diff $expected_output_dir/$(basename $file) $output_dir/$(basename $file) > /dev/null
+		diff ${expected_output_dir}/$(basename $file) ${output_dir}/$(basename $file) > /dev/null
 		curr_code=$?
 		if [ $curr_code -gt 0 ]
 		then
@@ -226,6 +240,8 @@ make_tests(){
 	local exit_code=0
 	local curr_code=0
 
+	show_exml_schema
+	show_axml_schema
 	check_xml_schemas
 	curr_code=$?
 	if [ $curr_code -gt 0 ]

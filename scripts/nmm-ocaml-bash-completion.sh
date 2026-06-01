@@ -6,7 +6,7 @@
 
 _nmm_ocaml_get_options () {
 
-	local subcommands='html-of-nmm txt-of-nmm exml-of-nmm axml-of-nmm html-of-axml txt-of-axml exml-of-axml'
+	local subcommands='html-of-nmm txt-of-nmm exml-of-nmm axml-of-nmm html-of-axml txt-of-axml exml-of-axml show-exml-schema show-axml-schema show-default-css'
 	local axml_options='--tags'
 	local exml_options="$axml_options --quiet --numbering --allow-custom-numbering"
 	local txt_options="$exml_options --margin --width"
@@ -37,10 +37,10 @@ _nmm_ocaml_get_options () {
 			echo $lang_options
 			;;
 		--margin )
-			echo $(seq 0 100) #etc
+			echo $(seq 0 9)  #etc
 			;;
 		--width )
-			echo $(seq 1 100) #etc
+			echo $(seq 1 9) #etc
 			;;
 		*)
 			echo ''
@@ -73,7 +73,7 @@ _nmm_ocaml () {
 		--tags | --internal-css | --external-css )
 			COMPREPLY=( $(compgen -f -- ${cur}) )
 			;;
-		- )
+		- | show-* )
 			COMPREPLY=()
 			;;
 		* )
