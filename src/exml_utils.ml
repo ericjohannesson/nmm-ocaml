@@ -81,14 +81,14 @@ let xml_list_of_tu_date_opt (doc_settings : t_doc_settings) (date_opt : tu_date 
                 |Some xml -> [xml]
                 |None -> []
 
-(* abstract *)
+(* abstract_hdr *)
 
 let xml_list_of_abstract_hdr (doc_settings : t_doc_settings) : Xml.xml list =
         match doc_settings.abstract_hdr with
         |None -> []
         |Some (abstract_hdr,_) -> [Xml.Element ("abstract_hdr",[],[xml_of_string abstract_hdr])]
 
-(* refs *)
+(* refs_hdr *)
 
 let xml_list_of_refs_hdr (doc_settings : t_doc_settings): Xml.xml list =
         match doc_settings.refs_hdr with
@@ -96,6 +96,7 @@ let xml_list_of_refs_hdr (doc_settings : t_doc_settings): Xml.xml list =
         |Some (hdr,_) ->
                 let content : Xml.xml list = [xml_of_string hdr] in
                 [Xml.Element ("refs_hdr",[],content)]
+
 
 (* tag_or_id *)
 
@@ -222,6 +223,7 @@ let xml_of_ts_blk_txt (doc_settings : t_doc_settings) (cref_table : t_cref_table
         match blk_txt with
         |Cs_blk_txt (txt_lines : ts_txt_lines) -> Xml.Element ("blk_txt",[],xml_list_of_ts_txt_units doc_settings cref_table nte_table path (Cs_txt_units (Common_utils.txt_units_of_txt_lines txt_lines)))
 
+
 (* dsp_line *)
 
 let xml_of_tr_dsp_line (doc_settings : t_doc_settings) (cref_table : t_cref_table) (nte_table : t_nte_table) (path : t_path) (a : tr_dsp_line) : Xml.xml =
@@ -257,8 +259,8 @@ let xml_of_ts_blk_vrb (blk_vrb : ts_blk_vrb) : Xml.xml =
         match blk_vrb with
         |Cs_blk_vrb (vrb_lines : ts_vrb_lines) -> Xml.Element ("blk_vrb",[],xml_list_of_ts_vrb_lines vrb_lines)
 
-(* blk_qtn *)
 
+(* blk_qtn *)
 
 let xml_of_ts_qtn_unit_emph (qtn_unit_emph : ts_qtn_unit_emph) : Xml.xml =
         match qtn_unit_emph with
@@ -311,7 +313,6 @@ let xml_list_of_ts_qtn_lines (qtn_lines : ts_qtn_lines) : Xml.xml list =
 let xml_of_ts_blk_qtn (blk_qtn : ts_blk_qtn) : Xml.xml =
         match blk_qtn with
         |Cs_blk_qtn (qtn_lines : ts_qtn_lines) -> Xml.Element ("blk_qtn", [], xml_list_of_ts_qtn_lines qtn_lines)
-
 
 (* par_hdr *)
 
