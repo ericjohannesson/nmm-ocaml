@@ -6,7 +6,7 @@
 
 _nmm_ocaml_get_options () {
 
-	local subcommands='html-of-nmm txt-of-nmm exml-of-nmm axml-of-nmm html-of-axml txt-of-axml exml-of-axml show-exml-schema show-axml-schema show-default-css validate-xml check-xml-schema'
+	local subcommands='html-of-nmm txt-of-nmm exml-of-nmm axml-of-nmm html-of-axml txt-of-axml exml-of-axml show-exml-schema show-axml-schema show-default-css validate-xml check-xml-schema normalize-axml'
 	local axml_options='--tags'
 	local exml_options="$axml_options --quiet --numbering --allow-custom-numbering"
 	local txt_options="$exml_options --margin --width"
