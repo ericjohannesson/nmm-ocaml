@@ -180,7 +180,7 @@ and lines_of_nte_blks (doc_settings : t_doc_settings) (cref_table : t_cref_table
         let new_cref_table =
                 match acc_of_ts_blks doc_settings [] [] path (CREF_TABLE cref_table) blks with
                 |CREF_TABLE table -> table
-                |_ -> raise (Error "unexpected")
+                |_ -> raise (Error "accumulator output type not identical to accumulator input type")
         in
         match acc_of_ts_blks doc_settings new_cref_table [] path (LINES []) blks with
                 |LINES lines -> (
@@ -188,7 +188,7 @@ and lines_of_nte_blks (doc_settings : t_doc_settings) (cref_table : t_cref_table
                         |hd :: tl -> (insert_label doc_settings path hd)::tl
                         |[] -> []
                 )
-                |_ -> raise (Error "unexpected")
+                |_ -> raise (Error "accumulator output type not identical to accumulator input type")
 
 
 
@@ -238,12 +238,12 @@ and xml_of_nte_blks (doc_settings : t_doc_settings) (cref_table : t_cref_table) 
         let new_cref_table =
                 match acc_of_ts_blks doc_settings [] [] path (CREF_TABLE cref_table) blks with
                 |CREF_TABLE table -> table
-                |_ -> raise (Error "unexpected")
+                |_ -> raise (Error "accumulator output type not identical to accumulator input type")
         in
         let xml_list_main : Xml.xml list = 
                 match acc_of_ts_blks doc_settings new_cref_table [] path (EXML []) blks with
                 |EXML xml_list -> xml_list
-                |_ -> raise (Error "unexpected")
+                |_ -> raise (Error "accumulator output type not identical to accumulator input type")
         in
         let addendum : string = string_of_int i in
         let attr_list : (string * string) list = [("id","NTE" ^ addendum)] in
@@ -263,12 +263,12 @@ and xml_of_blk_nte (doc_settings : t_doc_settings) (cref_table : t_cref_table) (
         let new_cref_table =
                 match acc_of_ts_blks doc_settings [] [] path (CREF_TABLE cref_table) blk_nte.fld_blk_nte_main with
                 |CREF_TABLE table -> table
-                |_ -> raise (Error "unexpected")
+                |_ -> raise (Error "accumulator output type not identical to accumulator input type")
         in
         let xml_list_main : Xml.xml list = 
                 match acc_of_ts_blks doc_settings new_cref_table [] path (EXML []) blk_nte.fld_blk_nte_main with
                 |EXML xml_list -> xml_list
-                |_ -> raise (Error "unexpected")
+                |_ -> raise (Error "accumulator output type not identical to accumulator input type")
         in
         let addendum : string =
                 match nte_ref with
@@ -320,6 +320,8 @@ and xml_of_nte_table_opt (doc_settings : t_doc_settings) (cref_table : t_cref_ta
                 |Some hdr, (SEC_NODE _)::_ -> Some (Xml.Element ("sec_endnotes_hdr",[],[xml_of_string hdr]))
                 |Some hdr, (APP_NODE _)::_ -> Some (Xml.Element ("app_endnotes_hdr",[],[xml_of_string hdr]))
                 |Some hdr, (PAR_NODE _)::_ -> Some (Xml.Element ("par_endnotes_hdr",[],[xml_of_string hdr]))
+                |Some hdr, ABSTRACT_NODE::_ -> Some (Xml.Element ("abstract_endnotes_hdr",[],[xml_of_string hdr]))
+                |Some hdr, REFS_NODE::_ -> Some (Xml.Element ("refs_endnotes_hdr",[],[xml_of_string hdr]))
                 |_, _ -> None
         in
         match xml_hdr_opt, xml_list, path with
@@ -333,6 +335,10 @@ and xml_of_nte_table_opt (doc_settings : t_doc_settings) (cref_table : t_cref_ta
         |Some hdr, _::_, (APP_NODE _)::_ -> Some (Xml.Element ("app_endnotes", [], hdr::xml_list))
         |None, _::_, (PAR_NODE _)::_ -> Some (Xml.Element ("par_endnotes", [], xml_list))
         |Some hdr, _::_, (PAR_NODE _)::_ -> Some (Xml.Element ("par_endnotes", [], hdr::xml_list))
+        |None, _::_, ABSTRACT_NODE::_ -> Some (Xml.Element ("abstract_endnotes", [], xml_list))
+        |Some hdr, _::_, ABSTRACT_NODE::_ -> Some (Xml.Element ("abstract_endnotes", [], hdr::xml_list))
+        |None, _::_, REFS_NODE::_ -> Some (Xml.Element ("refs_endnotes", [], xml_list))
+        |Some hdr, _::_, REFS_NODE::_ -> Some (Xml.Element ("refs_endnotes", [], hdr::xml_list))
         |_,_,_ -> None
 
 
@@ -757,14 +763,27 @@ let acc_of_ts_abstract (doc_settings : t_doc_settings) (cref_table : t_cref_tabl
                         | _ -> ["";""]
                         in
                         let hdr : string list = Txt_utils.lines_of_abstract_hdr doc_settings doc_class in
+                        let endnotes : string list =
+                                match doc_class with
+                                |DOC_BLKS -> []
+                                |_ -> lines_of_nte_table doc_settings cref_table path nte_table
+                        in
                         match acc_of_ts_blks doc_settings cref_table nte_table path (LINES []) b with
-                        |LINES lines -> LINES (List.concat [hdr; lines; padding])
+                        |LINES lines -> LINES (List.concat [hdr; lines; endnotes; padding])
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 |EXML _ -> (
                         let hdr : Xml.xml list = Exml_utils.xml_list_of_abstract_hdr doc_settings in
+                        let endnotes : Xml.xml list =
+                                match doc_class with
+                                |DOC_BLKS -> []
+                                |_ ->
+                                        match xml_of_nte_table_opt doc_settings cref_table path nte_table with
+                                        |Some xml -> [xml]
+                                        |None -> []
+                        in
                         match acc_of_ts_blks doc_settings cref_table nte_table path (EXML []) b with
-                        |EXML xml_list -> EXML [Xml.Element ("abstract",[],List.concat [hdr;xml_list])]
+                        |EXML xml_list -> EXML [Xml.Element ("abstract",[],List.concat [hdr;xml_list;endnotes])]
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 | _ -> acc_of_ts_blks doc_settings cref_table nte_table path acc b
@@ -782,14 +801,27 @@ let acc_of_ts_refs (doc_settings : t_doc_settings) (cref_table : t_cref_table) (
                         | _ -> ["";""]
                         in
                         let hdr : string list = Txt_utils.lines_of_refs_hdr doc_settings doc_class in
+                        let endnotes : string list =
+                                match doc_class with
+                                |DOC_BLKS -> []
+                                |_ -> lines_of_nte_table doc_settings cref_table path nte_table
+                        in
                         match acc_of_ts_blks doc_settings cref_table nte_table path (LINES []) b with
-                        |LINES lines -> LINES (List.concat [padding; hdr; lines])
+                        |LINES lines -> LINES (List.concat [padding; hdr; lines; endnotes])
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 |EXML _ -> (
                         let hdr : Xml.xml list = Exml_utils.xml_list_of_refs_hdr doc_settings in
+                        let endnotes : Xml.xml list =
+                                match doc_class with
+                                |DOC_BLKS -> []
+                                |_ ->
+                                        match xml_of_nte_table_opt doc_settings cref_table path nte_table with
+                                        |Some xml -> [xml]
+                                        |None -> []
+                        in
                         match acc_of_ts_blks doc_settings cref_table nte_table path (EXML []) b with
-                        |EXML xml_list -> EXML [Xml.Element ("refs",[],List.concat [hdr;xml_list])]
+                        |EXML xml_list -> EXML [Xml.Element ("refs",[],List.concat [hdr;xml_list; endnotes])]
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 | _ -> acc_of_ts_blks doc_settings cref_table nte_table path acc b
@@ -823,12 +855,20 @@ let acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (n
                                 |NTE_TABLE table -> table
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 in
-                let table_main : t_nte_table = 
-                        match acc_of_tu_doc_main doc_settings cref_table nte_table path acc doc.fld_doc_main with
-                        |NTE_TABLE table -> table
-                        | _ -> raise (Error "accumulator output type not identical to accumulator input type")
+                let table_main : t_nte_table =
+                        match doc_class with
+                        |DOC_BLKS -> (
+                                match acc_of_tu_doc_main doc_settings cref_table nte_table path (NTE_TABLE table_abstract) doc.fld_doc_main with
+                                |NTE_TABLE table -> table
+                                | _ -> raise (Error "accumulator output type not identical to accumulator input type")
+                        )
+                        |_ -> (
+                                match acc_of_tu_doc_main doc_settings cref_table nte_table path acc doc.fld_doc_main with
+                                |NTE_TABLE table -> List.concat [table_abstract;table]
+                                | _ -> raise (Error "accumulator output type not identical to accumulator input type")
+                        )
                 in
-                NTE_TABLE (List.concat [table_abstract; table_main; table_refs])
+                NTE_TABLE (List.concat [table_main; table_refs])
         )
         | CREF_TABLE _ -> (
                 let table_abstract : t_cref_table = 
@@ -861,7 +901,7 @@ let acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (n
                 let lines_abstract:string list =
                         match doc.fld_doc_abstract with
                         |None -> []
-                        |Some (abstract : ts_abstract) -> 
+                        |Some (abstract : ts_abstract) ->
                                 match acc_of_ts_abstract doc_settings cref_table nte_table doc_class (ABSTRACT_NODE::path) acc abstract with
                                 |LINES lines -> lines
                                 | _ -> raise (Error "accumulator output type not identical to accumulator input type")
@@ -887,8 +927,8 @@ let acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (n
                         |[],[] -> []
                 in
                 let lines_endnotes : string list =
-                        match doc.fld_doc_main with
-                        |Cu_doc_main_blks _ -> lines_of_nte_table doc_settings cref_table path nte_table
+                        match doc_class with
+                        |DOC_BLKS -> lines_of_nte_table doc_settings cref_table path nte_table
                         |_ -> []
                 in
                 LINES (List.concat [lines_title;lines_authors_date;lines_abstract;lines_main;lines_refs;lines_endnotes])
@@ -919,7 +959,7 @@ let acc_of_tr_doc (doc_settings : t_doc_settings) (cref_table : t_cref_table) (n
                         | _ -> raise (Error "accumulator output type not identical to accumulator input type")
                 )
                 in
-                let xml_endnotes_opt : Xml.xml option = xml_of_nte_table_opt doc_settings cref_table [] nte_table in
+                let xml_endnotes_opt : Xml.xml option = xml_of_nte_table_opt doc_settings cref_table path nte_table in
                 let xml_endnotes_list : Xml.xml list =
                         match doc.fld_doc_main, xml_endnotes_opt with
                         |Cu_doc_main_blks _, Some xml -> [xml]

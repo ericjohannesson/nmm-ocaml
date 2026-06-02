@@ -407,9 +407,9 @@ let exml_schema () : string =
     datetime CDATA #IMPLIED
 >
 
-<!ELEMENT abstract (abstract_hdr?, (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+)>
+<!ELEMENT abstract (abstract_hdr?, (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+, abstract_endnotes?)>
 <!ELEMENT doc_main (ch+ | sec+ | par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+)>
-<!ELEMENT refs (refs_hdr?, (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+)>
+<!ELEMENT refs (refs_hdr?, (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+, refs_endnotes?)>
 
 <!ELEMENT abstract_hdr (#PCDATA)>
 <!ELEMENT refs_hdr (#PCDATA)>
@@ -501,11 +501,15 @@ let exml_schema () : string =
 <!ELEMENT ch_endnotes (ch_endnotes_hdr?, blk_nte+)>
 <!ELEMENT sec_endnotes (sec_endnotes_hdr?, blk_nte+)>
 <!ELEMENT par_endnotes (par_endnotes_hdr?, blk_nte+)>
+<!ELEMENT abstract_endnotes (abstract_endnotes_hdr?, blk_nte+)>
+<!ELEMENT refs_endnotes (refs_endnotes_hdr?, blk_nte+)>
 
 <!ELEMENT doc_endnotes_hdr (#PCDATA)>
 <!ELEMENT ch_endnotes_hdr (#PCDATA)>
 <!ELEMENT sec_endnotes_hdr (#PCDATA)>
 <!ELEMENT par_endnotes_hdr (#PCDATA)>
+<!ELEMENT abstract_endnotes_hdr (#PCDATA)>
+<!ELEMENT refs_endnotes_hdr (#PCDATA)>
 
 <!ELEMENT blk_nte (blk_nte_lbl, clear, blk_nte_main)>
 <!ATTLIST blk_nte
