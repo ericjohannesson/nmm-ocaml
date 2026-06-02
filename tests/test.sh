@@ -1,25 +1,18 @@
 #! /usr/bin/env bash
 
 show_default_css(){
-	mkdir -p css
-	../bin/nmm-ocaml show-default-css > css/default.css
+	mkdir -p css_output
+	../bin/nmm-ocaml show-default-css > css_output/default.css
 }
 
-show_exml_schema(){
-	mkdir -p dtd
-	../bin/nmm-ocaml show-exml-schema > dtd/exml.dtd
-}
-
-show_axml_schema(){
-	mkdir -p dtd
-	../bin/nmm-ocaml show-axml-schema > dtd/axml.dtd
-}
 
 check_xml_schemas(){
 	local exit_code=0
 	local curr_code=0
-	local input_dir="dtd"
-	for file in $(ls ${input_dir}/*.dtd)
+	mkdir -p dtd_output
+	../bin/nmm-ocaml show-exml-schema > dtd_output/exml.dtd
+	../bin/nmm-ocaml show-axml-schema > dtd_output/axml.dtd
+	for file in $(ls dtd_output/*.dtd)
 	do
 		../bin/nmm-ocaml check-xml-schema "$file" > /dev/null
 		curr_code=$?
@@ -240,8 +233,6 @@ make_tests(){
 	local exit_code=0
 	local curr_code=0
 
-	show_exml_schema
-	show_axml_schema
 	check_xml_schemas
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
