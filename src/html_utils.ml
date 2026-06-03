@@ -335,7 +335,7 @@ h2, h3, h4, h5 {
 
 
 .par_tag + .par_hdr::before {
-    content : \" (\";
+    content : \"(\";
 }
 
 .par_tag + .par_hdr::after {
@@ -358,11 +358,11 @@ h2, h3, h4, h5 {
 }
 
 .par_hdr + .blk.txt::before {
-    content : \"  \";
+    content : \" \";
 }
 
 .par_tag.hdr + .blk.txt::before {
-    content : \"  \";
+    content : \" \";
 }
 
 * + .blk {
