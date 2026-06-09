@@ -36,6 +36,12 @@ Ideally, if [xml] is an object of type [Xml.xml], both [parse_string print_token
 *)
 
 
+(** {2 PCDATA} *)
+
+val pcdata_of_string : string -> string
+
+val string_of_pcdata : string -> string
+
 (** {2 For debugging purposes} *)
 
 val diff_of_xmls : Xml.xml -> Xml.xml -> (Xml.xml option * Xml.xml option) list

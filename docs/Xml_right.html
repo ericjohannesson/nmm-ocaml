@@ -27,7 +27,8 @@
 <link title="Axml_of_doc" rel="Chapter" href="Axml_of_doc.html">
 <link title="Doc_of_axml" rel="Chapter" href="Doc_of_axml.html">
 <link title="Html_utils" rel="Chapter" href="Html_utils.html">
-<link title="Main" rel="Chapter" href="Main.html"><link title="For debugging purposes" rel="Section" href="#2_Fordebuggingpurposes">
+<link title="Main" rel="Chapter" href="Main.html"><link title="PCDATA" rel="Section" href="#2_PCDATA">
+<link title="For debugging purposes" rel="Section" href="#2_Fordebuggingpurposes">
 <title>Nmm_ocaml : Xml_right</title>
 </head>
 <body>
@@ -79,7 +80,9 @@
 </div>
 <p>Ideally, if <code class="code">xml</code> is an object of type <code class="code"><span class="constructor">Xml</span>.xml</code>, both <code class="code">parse_string&nbsp;print_tokens&nbsp;(to_string&nbsp;xml)</code> and
 <code class="code">parse_string&nbsp;print_tokens&nbsp;(to_string_fmt&nbsp;xml)</code> should evaluate to <code class="code">xml</code>.</p>
-<h3 id="2_Fordebuggingpurposes">For debugging purposes</h3>
+<h3 id="2_PCDATA">PCDATA</h3>
+<pre><span id="VALpcdata_of_string"><span class="keyword">val</span> <a href="code_VALXml_right.pcdata_of_string.html">pcdata_of_string</a></span> : <code class="type">string -&gt; string</code></pre>
+<pre><span id="VALstring_of_pcdata"><span class="keyword">val</span> <a href="code_VALXml_right.string_of_pcdata.html">string_of_pcdata</a></span> : <code class="type">string -&gt; string</code></pre><h3 id="2_Fordebuggingpurposes">For debugging purposes</h3>
 <pre><span id="VALdiff_of_xmls"><span class="keyword">val</span> <a href="code_VALXml_right.diff_of_xmls.html">diff_of_xmls</a></span> : <code class="type">Xml.xml -&gt; Xml.xml -&gt; (Xml.xml option * Xml.xml option) list</code></pre>
 <pre><span id="VALxml_diff"><span class="keyword">val</span> <a href="code_VALXml_right.xml_diff.html">xml_diff</a></span> : <code class="type">Xml.xml -&gt; Xml.xml -&gt; string</code></pre>
 <pre><span id="VALxml_diff_of_files"><span class="keyword">val</span> <a href="code_VALXml_right.xml_diff_of_files.html">xml_diff_of_files</a></span> : <code class="type">string -&gt; string -&gt; string</code></pre></body></html>
