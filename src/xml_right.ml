@@ -136,6 +136,12 @@ let string_of_pcdata (s : string): string =
         let s_quot = Str.global_replace (Str.regexp "&quot;") "\"" s_apos in
         s_quot
 
+(* text *)
+
+let rec text_of_xml (xml : Xml.xml) : string =
+        match xml with
+        |Xml.Element (_,_,xml_list) -> String.concat "\n" (List.map text_of_xml xml_list)
+        |Xml.PCData s -> string_of_pcdata s
 
 (* for debugging purposes *)
 
