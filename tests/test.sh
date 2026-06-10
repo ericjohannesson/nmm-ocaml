@@ -1,12 +1,12 @@
 #! /usr/bin/env bash
 
-show_default_css(){
+show_default_css () {
 	mkdir -p css_output
 	../bin/nmm-ocaml show-default-css > css_output/default.css
 }
 
 
-check_xml_schemas(){
+check_xml_schemas () {
 	local exit_code=0
 	local curr_code=0
 	mkdir -p dtd_output
@@ -24,7 +24,7 @@ check_xml_schemas(){
 	return $exit_code
 }
 
-test_with_nmm(){
+test_with_nmm () {
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
@@ -41,7 +41,7 @@ test_with_nmm(){
 }
 
 
-test_with_xml(){
+test_with_xml () {
 	local exit_code=0
 	local curr_code=0
 	local input_dir="axml_input"
@@ -57,7 +57,7 @@ test_with_xml(){
 	return $exit_code
 }
 
-make_txt_output(){
+make_txt_output () {
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
@@ -75,7 +75,7 @@ make_txt_output(){
 	return $exit_code
 }
 
-make_html_output(){
+make_html_output () {
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
@@ -94,7 +94,7 @@ make_html_output(){
 }
 
 
-make_xml_output(){
+make_xml_output () {
 	local exit_code=0
 	local curr_code=0
 	local input_dir="nmm_input"
@@ -112,7 +112,7 @@ make_xml_output(){
 	return $exit_code
 }
 
-show_txt_diff(){
+show_txt_diff () {
 	local exit_code=0
 	local curr_code=0
 	local output_dir="txt_output"
@@ -133,7 +133,7 @@ show_txt_diff(){
 }
 
 
-show_html_diff(){
+show_html_diff () {
 	local exit_code=0
 	local curr_code=0
 	local output_dir="html_output"
@@ -153,7 +153,7 @@ show_html_diff(){
 	return $exit_code
 }
 
-show_xml_diff(){
+show_xml_diff () {
 	local exit_code=0
 	local curr_code=0
 	local output_dir="axml_output"
@@ -173,7 +173,7 @@ show_xml_diff(){
 	return $exit_code
 }
 
-test_auto_date(){
+test_auto_date () {
 	local sys_date=$(date +'%Y-%m-%d %H:%M UTC%:::z')
 	local doc_date=$(../bin/nmm-ocaml txt-of-nmm nmm_input/date_auto/date_auto.nmm | head -n 1)
 	if [ "$doc_date" = "$sys_date" ]
@@ -185,7 +185,7 @@ test_auto_date(){
 	fi
 }
 
-test_normalize_axml(){
+test_normalize_axml () {
 	local exit_code=0
 	local curr_code=0
 
@@ -229,7 +229,7 @@ test_normalize_axml(){
 }
 
 
-make_tests(){
+make_tests () {
 	local exit_code=0
 	local curr_code=0
 
@@ -237,70 +237,70 @@ make_tests(){
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	show_default_css
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	test_with_nmm --quiet
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	test_with_xml --quiet
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	make_txt_output --quiet --allow-custom-numbering
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	make_html_output --quiet --allow-custom-numbering
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	make_xml_output --tags tags/tags.tsv
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	show_txt_diff
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	show_html_diff
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	show_xml_diff
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 
@@ -308,29 +308,26 @@ make_tests(){
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
 	fi
 
 	test_normalize_axml --quiet
 	curr_code=$?
 	if [ $curr_code -gt 0 ]
 	then
-	exit_code=$curr_code
+		exit_code=$curr_code
+	fi
+
+	if [ $exit_code -gt 0 ]
+	then
+		printf '\e[1;31m%-6s\e[m\n' "*** nmm-ocaml: Some tests FAILED ***"
+	else
+		printf '\e[1;32m%-6s\e[m\n' "*** nmm-ocaml: All tests PASSED ***"
 	fi
 
 	return $exit_code
-
 }
 
 make_tests
 
-EXIT_CODE=$?
 
-if [ $EXIT_CODE -gt 0 ]
-then
-	printf '\e[1;31m%-6s\e[m\n' "*** nmm-ocaml: Some tests FAILED ***"
-else
-	printf '\e[1;32m%-6s\e[m\n' "*** nmm-ocaml: All tests PASSED ***"
-fi
-
-exit $EXIT_CODE
