@@ -2,6 +2,10 @@ open Doc_types
 
 exception Error of string
 
+(* version *)
+
+let version () : string = "1.9"
+
 (* parsing nmm *)
 
 let doc_of_nmm (options : Common_utils.t_axml_options) (path : string) : Doc_types.tr_doc =
