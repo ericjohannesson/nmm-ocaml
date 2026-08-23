@@ -7,9 +7,6 @@ MAKEFLAGS += --no-builtin-rules
 
 .PHONY: default clean test utop clean-docs install-opam_package
 
-version = 1.8
-export version
-
 default:
 	@echo 'no default target'
 
