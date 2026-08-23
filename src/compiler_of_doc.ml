@@ -1040,9 +1040,9 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
         in
         let tab_length : int =
                 match options.indent with
-		|None -> doc_settings.tab_length
-		|Some n -> n
-	in
+                |None -> doc_settings.tab_length
+                |Some n -> n
+        in
         let new_doc_settings : t_doc_settings = {
                 doc_width = doc_width;
                 left_margin = left_margin;
