@@ -1766,27 +1766,27 @@ type t_txt_options = {
   indent : int option;
   width : int option;
   quiet : bool;
-  numbering : string;
-  allow_custom_numbering : bool;
+  numbering : string option;
+  allow_custom_numbering : bool option;
   tags : string option;
 }
 
 type t_html_options = {
   margin : int option;
   indent : int option;
-  lang : string;
+  lang : string option;
   internal_css : string list;
   external_css : string list;
   quiet : bool;
-  numbering : string;
-  allow_custom_numbering : bool;
+  numbering : string option;
+  allow_custom_numbering : bool option;
   tags : string option;
 }
 
 type t_exml_options = {
   quiet : bool;
-  numbering : string;
-  allow_custom_numbering : bool;
+  numbering : string option;
+  allow_custom_numbering : bool option;
   tags : string option;
 }
 
@@ -1818,8 +1818,8 @@ let txt_options_default () : t_txt_options =
     indent = None;
     width = None;
     quiet = false;
-    numbering = "a1i";
-    allow_custom_numbering = false;
+    numbering = None;
+    allow_custom_numbering = None;
     tags = None;
   }
 
@@ -1827,20 +1827,20 @@ let html_options_default () : t_html_options =
   {
     margin = None;
     indent = None;
-    lang = "en";
+    lang = None;
     internal_css = [];
     external_css = [];
     quiet = false;
-    numbering = "a1i";
-    allow_custom_numbering = false;
+    numbering = None;
+    allow_custom_numbering = None;
     tags = None;
   }
 
 let exml_options_default () : t_exml_options =
   {
     quiet = false;
-    numbering = "a1i";
-    allow_custom_numbering = false;
+    numbering = None;
+    allow_custom_numbering = None;
     tags = None;
   }
 

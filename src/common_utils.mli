@@ -239,27 +239,27 @@ type t_txt_options = {
   indent : int option;
   width : int option;
   quiet : bool;
-  numbering : string;
-  allow_custom_numbering : bool;
+  numbering : string option;
+  allow_custom_numbering : bool option;
   tags : string option;
 }
 
 type t_html_options = {
   margin : int option;
   indent : int option;
-  lang : string;
+  lang : string option;
   internal_css : string list;
   external_css : string list;
   quiet : bool;
-  numbering : string;
-  allow_custom_numbering : bool;
+  numbering : string option;
+  allow_custom_numbering : bool option;
   tags : string option;
 }
 
 type t_exml_options = {
   quiet : bool;
-  numbering : string;
-  allow_custom_numbering : bool;
+  numbering : string option;
+  allow_custom_numbering : bool option;
   tags : string option;
 }
 
