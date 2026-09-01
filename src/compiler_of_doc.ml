@@ -1460,13 +1460,13 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
   in
   let new_doc_settings : t_doc_settings =
     {
-      doc_width;
-      left_margin;
+      doc_width = doc_width;
+      left_margin = left_margin;
       title_indent = left_margin;
       author_indent = left_margin;
       abstract_indent = left_margin;
       refs_indent = left_margin;
-      tab_length;
+      tab_length = tab_length;
       abstract_hdr = doc_settings.abstract_hdr;
       refs_hdr = doc_settings.refs_hdr;
       endnotes_hdr = doc_settings.endnotes_hdr;
@@ -1474,9 +1474,9 @@ let txt_of_tr_doc (options : t_txt_options) (doc : tr_doc) : string =
       sec_prefix = doc_settings.sec_prefix;
       app_prefix = doc_settings.app_prefix;
       par_prefix = doc_settings.par_prefix;
-      expand_tag;
-      auto_numbering;
-      allow_custom_numbering;
+      expand_tag = expand_tag;
+      auto_numbering = auto_numbering;
+      allow_custom_numbering = allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
   in
@@ -1524,9 +1524,9 @@ let exml_of_tr_doc (options : t_exml_options) (doc : tr_doc) : Xml.xml =
       sec_prefix = doc_settings.sec_prefix;
       app_prefix = doc_settings.app_prefix;
       par_prefix = doc_settings.par_prefix;
-      expand_tag;
-      auto_numbering;
-      allow_custom_numbering;
+      expand_tag = expand_tag;
+      auto_numbering = auto_numbering;
+      allow_custom_numbering = allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
   in
