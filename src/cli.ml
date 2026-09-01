@@ -5,6 +5,7 @@ exception Error of string
 let usage : string =
   "nmm-ocaml v" ^ Main.version ()
   ^ "
+
 USAGE:
 nmm-ocaml [
   | txt-of-nmm   [ <txt-options>  ] { <path-to-nmm-file>  | - }

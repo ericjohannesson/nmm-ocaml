@@ -802,6 +802,70 @@ let set_nte_numbering (v : string) (doc_settings : t_doc_settings) :
     in
     doc_settings
 
+let set_auto_numbering (v : string) (doc_settings : t_doc_settings) :
+    t_doc_settings =
+  try
+    {
+      doc_width = doc_settings.doc_width;
+      left_margin = doc_settings.left_margin;
+      title_indent = doc_settings.title_indent;
+      author_indent = doc_settings.author_indent;
+      abstract_indent = doc_settings.abstract_indent;
+      refs_indent = doc_settings.refs_indent;
+      tab_length = doc_settings.tab_length;
+      abstract_hdr = doc_settings.abstract_hdr;
+      refs_hdr = doc_settings.refs_hdr;
+      endnotes_hdr = doc_settings.endnotes_hdr;
+      ch_prefix = doc_settings.ch_prefix;
+      sec_prefix = doc_settings.sec_prefix;
+      app_prefix = doc_settings.app_prefix;
+      par_prefix = doc_settings.par_prefix;
+      expand_tag = doc_settings.expand_tag;
+      auto_numbering = auto_numbering_of_string v;
+      allow_custom_numbering = doc_settings.allow_custom_numbering;
+      nte_numbering = doc_settings.nte_numbering;
+    }
+  with _ ->
+    let _ : unit =
+      IO.print_warning
+        (String.concat ""
+           [ "WARNING: invalid auto-numbering value: ";
+              v; "; "; "ignoring it." ])
+    in
+    doc_settings
+
+let set_allow_custom_numbering (v : string) (doc_settings : t_doc_settings) :
+    t_doc_settings =
+  try
+    {
+      doc_width = doc_settings.doc_width;
+      left_margin = doc_settings.left_margin;
+      title_indent = doc_settings.title_indent;
+      author_indent = doc_settings.author_indent;
+      abstract_indent = doc_settings.abstract_indent;
+      refs_indent = doc_settings.refs_indent;
+      tab_length = doc_settings.tab_length;
+      abstract_hdr = doc_settings.abstract_hdr;
+      refs_hdr = doc_settings.refs_hdr;
+      endnotes_hdr = doc_settings.endnotes_hdr;
+      ch_prefix = doc_settings.ch_prefix;
+      sec_prefix = doc_settings.sec_prefix;
+      app_prefix = doc_settings.app_prefix;
+      par_prefix = doc_settings.par_prefix;
+      expand_tag = doc_settings.expand_tag;
+      auto_numbering = doc_settings.auto_numbering;
+      allow_custom_numbering = bool_of_string v;
+      nte_numbering = doc_settings.nte_numbering;
+    }
+  with _ ->
+    let _ : unit =
+      IO.print_warning
+        (String.concat ""
+           [ "WARNING: invalid allow-custom-numbering value: ";
+             v; "; "; "ignoring it." ])
+    in
+    doc_settings
+
 let doc_settings_of_ts_preamble (doc_settings : t_doc_settings)
     (preamble : Doc_types.ts_preamble) : t_doc_settings =
   let rec aux (str_list : string list) (settings : t_doc_settings) :
@@ -825,11 +889,15 @@ let doc_settings_of_ts_preamble (doc_settings : t_doc_settings)
           | Some ("endnotes-hdr", v) -> set_endnotes_hdr v settings
           | Some ("tag", v) -> set_expand_tag v settings
           | Some ("notes", v) -> set_nte_numbering v settings
+          | Some ("auto-numbering", v) -> set_auto_numbering v settings
+          | Some ("allow-custom-numbering", v) ->
+              set_allow_custom_numbering v settings
           | _ ->
               let _ : unit =
                 IO.print_warning
                   (String.concat ""
-                     [ "WARNING: invalid attribute: "; hd; "; "; "ignoring it" ])
+                     [ "WARNING: invalid attribute: ";
+                       hd; "; "; "ignoring it" ])
               in
               settings
         in
@@ -959,15 +1027,12 @@ let path_from_common_ancestor (c_ref_loc : t_path) (id_loc : t_path) : t_path =
         | true -> aux rev_c_ref_loc_tl rev_id_loc_tl
         | false -> List.rev rev_id_loc)
     | [], [] -> (
-        (*                      let _ : unit = IO.print_warning ("WARNING: self-reference in " ^ (string_of_path c_ref_loc)) in *)
         try [ List.hd id_loc ]
         with _ -> raise (Error "id_loc not expected to be an empty path"))
     | _ :: _, [] -> (
-        (*                      let _ : unit = IO.print_warning ("WARNING: reference to parent node in " ^ (string_of_path c_ref_loc)) in *)
         try [ List.hd id_loc ]
         with _ -> raise (Error "id_loc not expected to be an empty path"))
     | [], _ :: _ ->
-        (*                      let _:unit=IO.print_warning ("WARNING: reference to child node in " ^ (string_of_path c_ref_loc)) in *)
         List.rev rev_id_loc
   in
   aux rev_c_ref_loc rev_id_loc
