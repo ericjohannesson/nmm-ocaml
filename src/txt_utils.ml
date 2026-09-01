@@ -687,6 +687,26 @@ let doc_settings_of_txt_options (margin_labels : string list)
     | Some (w : int) -> w
     | None -> if 68 + left_margin > 80 then 80 else 68 + left_margin
   in
+  let title_indent : int =
+    match doc_settings.title_indent with
+     | 0 -> left_margin
+     | n -> n
+  in
+  let author_indent : int =
+    match doc_settings.author_indent with
+     | 0 -> left_margin
+     | n -> n
+  in
+  let abstract_indent : int =
+    match doc_settings.abstract_indent with
+     | 0 -> left_margin
+     | n -> n
+  in
+  let refs_indent : int =
+    match doc_settings.refs_indent with
+     | 0 -> left_margin
+     | n -> n
+  in
   let auto_numbering : int -> int -> string =
     auto_numbering_of_string options.numbering
   in
@@ -702,10 +722,10 @@ let doc_settings_of_txt_options (margin_labels : string list)
   {
     doc_width = doc_width;
     left_margin = left_margin;
-    title_indent = left_margin;
-    author_indent = left_margin;
-    abstract_indent = left_margin;
-    refs_indent = left_margin;
+    title_indent = title_indent;
+    author_indent = author_indent;
+    abstract_indent = abstract_indent;
+    refs_indent = refs_indent;
     tab_length = tab_length;
     abstract_hdr = doc_settings.abstract_hdr;
     refs_hdr = doc_settings.refs_hdr;

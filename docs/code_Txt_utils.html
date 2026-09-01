@@ -714,6 +714,26 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Some</span>&nbsp;(w&nbsp;:&nbsp;int)&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;w<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">None</span>&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="keyword">if</span>&nbsp;68&nbsp;+&nbsp;left_margin&nbsp;&gt;&nbsp;80&nbsp;<span class="keyword">then</span>&nbsp;80&nbsp;<span class="keyword">else</span>&nbsp;68&nbsp;+&nbsp;left_margin<br>
 &nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;title_indent&nbsp;:&nbsp;int&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;doc_settings.title_indent&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;0&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;left_margin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;n&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n<br>
+&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;author_indent&nbsp;:&nbsp;int&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;doc_settings.author_indent&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;0&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;left_margin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;n&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n<br>
+&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;abstract_indent&nbsp;:&nbsp;int&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;doc_settings.abstract_indent&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;0&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;left_margin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;n&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n<br>
+&nbsp;&nbsp;<span class="keyword">in</span><br>
+&nbsp;&nbsp;<span class="keyword">let</span>&nbsp;refs_indent&nbsp;:&nbsp;int&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">match</span>&nbsp;doc_settings.refs_indent&nbsp;<span class="keyword">with</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;0&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;left_margin<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;n&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;n<br>
+&nbsp;&nbsp;<span class="keyword">in</span><br>
 &nbsp;&nbsp;<span class="keyword">let</span>&nbsp;auto_numbering&nbsp;:&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;auto_numbering_of_string&nbsp;options.numbering<br>
 &nbsp;&nbsp;<span class="keyword">in</span><br>
@@ -729,10 +749,10 @@
 &nbsp;&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;doc_width&nbsp;=&nbsp;doc_width;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;left_margin&nbsp;=&nbsp;left_margin;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;title_indent&nbsp;=&nbsp;left_margin;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;author_indent&nbsp;=&nbsp;left_margin;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;abstract_indent&nbsp;=&nbsp;left_margin;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;refs_indent&nbsp;=&nbsp;left_margin;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title_indent&nbsp;=&nbsp;title_indent;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;author_indent&nbsp;=&nbsp;author_indent;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;abstract_indent&nbsp;=&nbsp;abstract_indent;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;refs_indent&nbsp;=&nbsp;refs_indent;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;tab_length&nbsp;=&nbsp;tab_length;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;abstract_hdr&nbsp;=&nbsp;doc_settings.abstract_hdr;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;refs_hdr&nbsp;=&nbsp;doc_settings.refs_hdr;<br>
