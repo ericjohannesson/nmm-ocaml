@@ -1793,27 +1793,27 @@
 &nbsp;&nbsp;indent&nbsp;:&nbsp;int&nbsp;option;<br>
 &nbsp;&nbsp;width&nbsp;:&nbsp;int&nbsp;option;<br>
 &nbsp;&nbsp;quiet&nbsp;:&nbsp;bool;<br>
-&nbsp;&nbsp;numbering&nbsp;:&nbsp;string;<br>
-&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;numbering&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool&nbsp;option;<br>
 &nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
 }<br>
 <br>
 <span class="keyword">type</span>&nbsp;t_html_options&nbsp;=&nbsp;{<br>
 &nbsp;&nbsp;margin&nbsp;:&nbsp;int&nbsp;option;<br>
 &nbsp;&nbsp;indent&nbsp;:&nbsp;int&nbsp;option;<br>
-&nbsp;&nbsp;lang&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;lang&nbsp;:&nbsp;string&nbsp;option;<br>
 &nbsp;&nbsp;internal_css&nbsp;:&nbsp;string&nbsp;list;<br>
 &nbsp;&nbsp;external_css&nbsp;:&nbsp;string&nbsp;list;<br>
 &nbsp;&nbsp;quiet&nbsp;:&nbsp;bool;<br>
-&nbsp;&nbsp;numbering&nbsp;:&nbsp;string;<br>
-&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;numbering&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool&nbsp;option;<br>
 &nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
 }<br>
 <br>
 <span class="keyword">type</span>&nbsp;t_exml_options&nbsp;=&nbsp;{<br>
 &nbsp;&nbsp;quiet&nbsp;:&nbsp;bool;<br>
-&nbsp;&nbsp;numbering&nbsp;:&nbsp;string;<br>
-&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool;<br>
+&nbsp;&nbsp;numbering&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;allow_custom_numbering&nbsp;:&nbsp;bool&nbsp;option;<br>
 &nbsp;&nbsp;tags&nbsp;:&nbsp;string&nbsp;option;<br>
 }<br>
 <br>
@@ -1845,8 +1845,8 @@
 &nbsp;&nbsp;&nbsp;&nbsp;indent&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;}<br>
 <br>
@@ -1854,20 +1854,20 @@
 &nbsp;&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;margin&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;indent&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;lang&nbsp;=&nbsp;<span class="string">"en"</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;lang&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;internal_css&nbsp;=&nbsp;[];<br>
 &nbsp;&nbsp;&nbsp;&nbsp;external_css&nbsp;=&nbsp;[];<br>
 &nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;}<br>
 <br>
 <span class="keyword">let</span>&nbsp;exml_options_default&nbsp;()&nbsp;:&nbsp;t_exml_options&nbsp;=<br>
 &nbsp;&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;quiet&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="string">"a1i"</span>;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="keyword">false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;numbering&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;allow_custom_numbering&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;tags&nbsp;=&nbsp;<span class="constructor">None</span>;<br>
 &nbsp;&nbsp;}<br>
 <br>
