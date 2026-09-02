@@ -678,7 +678,7 @@ let doc_settings_of_margin_labels (doc_settings : t_doc_settings)
   let doc_width_auto : int =
     if 68 + left_margin_auto > 80 then 80 else 68 + left_margin_auto
   in
-  {
+  { doc_settings with
     doc_width = doc_width_auto;
     left_margin = left_margin_auto;
     title_indent = left_margin_auto;
@@ -686,18 +686,6 @@ let doc_settings_of_margin_labels (doc_settings : t_doc_settings)
     date_indent = left_margin_auto;
     abstract_indent = left_margin_auto;
     refs_indent = left_margin_auto;
-    tab_length = doc_settings.tab_length;
-    abstract_hdr = doc_settings.abstract_hdr;
-    refs_hdr = doc_settings.refs_hdr;
-    endnotes_hdr = doc_settings.endnotes_hdr;
-    ch_prefix = doc_settings.ch_prefix;
-    sec_prefix = doc_settings.sec_prefix;
-    app_prefix = doc_settings.app_prefix;
-    par_prefix = doc_settings.par_prefix;
-    expand_tag = doc_settings.expand_tag;
-    auto_numbering = doc_settings.auto_numbering;
-    allow_custom_numbering = doc_settings.allow_custom_numbering;
-    nte_numbering = doc_settings.nte_numbering;
   }
 
 
@@ -734,24 +722,12 @@ let doc_settings_of_txt_options (doc_settings : t_doc_settings)
     match options.indent with None -> doc_settings.tab_length | Some n -> n
   in
   {
+    doc_settings with
     doc_width = doc_width;
     left_margin = left_margin;
-    title_indent = doc_settings.title_indent;
-    author_indent = doc_settings.author_indent;
-    date_indent = doc_settings.date_indent;
-    abstract_indent = doc_settings.abstract_indent;
-    refs_indent = doc_settings.refs_indent;
     tab_length = tab_length;
-    abstract_hdr = doc_settings.abstract_hdr;
-    refs_hdr = doc_settings.refs_hdr;
-    endnotes_hdr = doc_settings.endnotes_hdr;
-    ch_prefix = doc_settings.ch_prefix;
-    sec_prefix = doc_settings.sec_prefix;
-    app_prefix = doc_settings.app_prefix;
-    par_prefix = doc_settings.par_prefix;
     expand_tag = expand_tag;
     auto_numbering = auto_numbering;
     allow_custom_numbering = allow_custom_numbering;
-    nte_numbering = doc_settings.nte_numbering;
   }
 
