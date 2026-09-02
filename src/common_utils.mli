@@ -50,10 +50,9 @@ val doc_settings_of_tr_doc :
   Doc_types.tr_doc ->
   t_doc_settings
 (** [doc_settings_of_tr_doc doc] checks if [doc] has a preamble. If so, it
-    attempts to parse that preamble and adjusts [doc_settings_default]
-    accordingly (possibly overriding the default settings).
+    attempts to parse that preamble and return updated document settings.
 
-    Prints a warning to [stderr] if parsing fails, and keeps the default value.
+    Prints a warning to [stderr] if parsing fails, and keeps the default setting.
 
     [Cs_preamble (preamble : string)] is valid for parsing just in case
     [preamble] has the following format:
@@ -61,13 +60,13 @@ val doc_settings_of_tr_doc :
     {v
     PREAMBLE ::= KEY_VALUE [';' KEY_VALUE]*
 
-    KEY_VALUE ::= | 'doc-width=' INT
-                  | 'left-margin=' INT
-                  | 'title-indent=' INT
-                  | 'author-indent=' INT
-                  | 'abstract-indent=' INT
-                  | 'refs-indent=' INT
-                  | 'tab-length=' INT
+    KEY_VALUE ::= | 'doc-width=' NAT
+                  | 'left-margin=' NAT
+                  | 'title-indent=' NAT
+                  | 'author-indent=' NAT
+                  | 'abstract-indent=' NAT
+                  | 'refs-indent=' NAT
+                  | 'tab-length=' NAT
                   | 'abstract-hdr=' LABEL_FORM [ ',' CREF_FORM ]
                   | 'refs-hdr=' LABEL_FORM [ ',' CREF_FORM ]
                   | 'ch-prefix=' LABEL_FORM [ ',' CREF_FORM ]
@@ -75,6 +74,8 @@ val doc_settings_of_tr_doc :
                   | 'par-prefix=' LABEL_FORM [ ',' CREF_FORM ]
                   | 'tag=' STRING ',' LABEL_FORM [',' CREF_FORM]
                   | 'notes=' STRING [',' STRING]*
+                  | 'numbering=' \{ '1ai' | '1ia' | 'a1i' | 'ai1' | 'i1a' | 'ia1' \}
+                  | 'allow-custom-numbering=' \{ 'true' | 'false' \}
 
     LABEL_FORM ::= STRING
 
@@ -82,7 +83,7 @@ val doc_settings_of_tr_doc :
 
     STRING ::= [! ';' ',']*
 
-    INT ::= ['0'-'9']+
+    NAT ::= ['0'-'9']+
     v} *)
 
 (** {2 Cross-references} *)
