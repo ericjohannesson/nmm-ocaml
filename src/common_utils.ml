@@ -354,32 +354,35 @@ let nte_numbering_of_string (v : string) : int -> string =
 let set_doc_width (v : string) (doc_settings : t_doc_settings) : t_doc_settings
     =
   try
-    {
-      doc_width = int_of_string v;
-      left_margin = doc_settings.left_margin;
-      title_indent = doc_settings.title_indent;
-      author_indent = doc_settings.author_indent;
-      abstract_indent = doc_settings.abstract_indent;
-      refs_indent = doc_settings.refs_indent;
-      tab_length = doc_settings.tab_length;
-      abstract_hdr = doc_settings.abstract_hdr;
-      refs_hdr = doc_settings.refs_hdr;
-      endnotes_hdr = doc_settings.endnotes_hdr;
-      ch_prefix = doc_settings.ch_prefix;
-      sec_prefix = doc_settings.sec_prefix;
-      app_prefix = doc_settings.app_prefix;
-      par_prefix = doc_settings.par_prefix;
-      expand_tag = doc_settings.expand_tag;
-      auto_numbering = doc_settings.auto_numbering;
-      allow_custom_numbering = doc_settings.allow_custom_numbering;
-      nte_numbering = doc_settings.nte_numbering;
-    }
+    let value = int_of_string v in
+    if value > -1 then
+      {
+        doc_width = value;
+        left_margin = doc_settings.left_margin;
+        title_indent = doc_settings.title_indent;
+        author_indent = doc_settings.author_indent;
+        abstract_indent = doc_settings.abstract_indent;
+        refs_indent = doc_settings.refs_indent;
+        tab_length = doc_settings.tab_length;
+        abstract_hdr = doc_settings.abstract_hdr;
+        refs_hdr = doc_settings.refs_hdr;
+        endnotes_hdr = doc_settings.endnotes_hdr;
+        ch_prefix = doc_settings.ch_prefix;
+        sec_prefix = doc_settings.sec_prefix;
+        app_prefix = doc_settings.app_prefix;
+        par_prefix = doc_settings.par_prefix;
+        expand_tag = doc_settings.expand_tag;
+        auto_numbering = doc_settings.auto_numbering;
+        allow_custom_numbering = doc_settings.allow_custom_numbering;
+        nte_numbering = doc_settings.nte_numbering;
+      }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
         (String.concat ""
            [
-             "WARNING: invalid doc_width value: ";
+             "WARNING: invalid doc-width value: ";
              v;
              "\n";
              "using default value.";
@@ -390,6 +393,8 @@ let set_doc_width (v : string) (doc_settings : t_doc_settings) : t_doc_settings
 let set_left_margin (v : string) (doc_settings : t_doc_settings) :
     t_doc_settings =
   try
+    let value = int_of_string v in
+    if value > -1 then
     {
       doc_width = doc_settings.doc_width;
       left_margin = int_of_string v;
@@ -410,6 +415,7 @@ let set_left_margin (v : string) (doc_settings : t_doc_settings) :
       allow_custom_numbering = doc_settings.allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
@@ -426,6 +432,8 @@ let set_left_margin (v : string) (doc_settings : t_doc_settings) :
 let set_title_indent (v : string) (doc_settings : t_doc_settings) :
     t_doc_settings =
   try
+    let value = int_of_string v in
+    if value > -1 then
     {
       doc_width = doc_settings.doc_width;
       left_margin = doc_settings.left_margin;
@@ -446,6 +454,7 @@ let set_title_indent (v : string) (doc_settings : t_doc_settings) :
       allow_custom_numbering = doc_settings.allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
@@ -462,6 +471,8 @@ let set_title_indent (v : string) (doc_settings : t_doc_settings) :
 let set_author_indent (v : string) (doc_settings : t_doc_settings) :
     t_doc_settings =
   try
+    let value = int_of_string v in
+    if value > -1 then
     {
       doc_width = doc_settings.doc_width;
       left_margin = doc_settings.left_margin;
@@ -482,6 +493,7 @@ let set_author_indent (v : string) (doc_settings : t_doc_settings) :
       allow_custom_numbering = doc_settings.allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
@@ -498,6 +510,8 @@ let set_author_indent (v : string) (doc_settings : t_doc_settings) :
 let set_abstract_indent (v : string) (doc_settings : t_doc_settings) :
     t_doc_settings =
   try
+    let value = int_of_string v in
+    if value > -1 then
     {
       doc_width = doc_settings.doc_width;
       left_margin = doc_settings.left_margin;
@@ -518,6 +532,7 @@ let set_abstract_indent (v : string) (doc_settings : t_doc_settings) :
       allow_custom_numbering = doc_settings.allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
@@ -534,6 +549,8 @@ let set_abstract_indent (v : string) (doc_settings : t_doc_settings) :
 let set_refs_indent (v : string) (doc_settings : t_doc_settings) :
     t_doc_settings =
   try
+    let value = int_of_string v in
+    if value > -1 then
     {
       doc_width = doc_settings.doc_width;
       left_margin = doc_settings.left_margin;
@@ -554,6 +571,7 @@ let set_refs_indent (v : string) (doc_settings : t_doc_settings) :
       allow_custom_numbering = doc_settings.allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
@@ -570,6 +588,8 @@ let set_refs_indent (v : string) (doc_settings : t_doc_settings) :
 let set_tab_length (v : string) (doc_settings : t_doc_settings) : t_doc_settings
     =
   try
+    let value = int_of_string v in
+    if value > -1 then
     {
       doc_width = doc_settings.doc_width;
       left_margin = doc_settings.left_margin;
@@ -590,6 +610,7 @@ let set_tab_length (v : string) (doc_settings : t_doc_settings) : t_doc_settings
       allow_custom_numbering = doc_settings.allow_custom_numbering;
       nte_numbering = doc_settings.nte_numbering;
     }
+    else raise (Invalid_argument v)
   with _ ->
     let _ : unit =
       IO.print_warning
