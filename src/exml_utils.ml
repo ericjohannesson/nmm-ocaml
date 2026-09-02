@@ -502,6 +502,7 @@ let doc_settings_of_exml_options (doc_settings : t_doc_settings)
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;

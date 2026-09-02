@@ -27,6 +27,7 @@ type t_doc_settings = {
   left_margin : int;
   title_indent : int;
   author_indent : int;
+  date_indent : int;
   abstract_indent : int;
   refs_indent : int;
   tab_length : int;
@@ -233,6 +234,7 @@ let doc_settings_default () : t_doc_settings =
     left_margin = 0;
     title_indent = 0;
     author_indent = 0;
+    date_indent = 0;
     abstract_indent = 0;
     refs_indent = 0;
     tab_length = 6;
@@ -286,6 +288,7 @@ let doc_settings_of_ts_blks (doc_settings : t_doc_settings) (lvl : int)
                         left_margin = doc_settings.left_margin;
                         title_indent = doc_settings.title_indent;
                         author_indent = doc_settings.author_indent;
+                        date_indent = doc_settings.date_indent;
                         abstract_indent = doc_settings.abstract_indent;
                         refs_indent = doc_settings.refs_indent;
                         tab_length = doc_settings.tab_length;
@@ -361,6 +364,7 @@ let set_doc_width (v : string) (doc_settings : t_doc_settings) : t_doc_settings
         left_margin = doc_settings.left_margin;
         title_indent = doc_settings.title_indent;
         author_indent = doc_settings.author_indent;
+        date_indent = doc_settings.date_indent;
         abstract_indent = doc_settings.abstract_indent;
         refs_indent = doc_settings.refs_indent;
         tab_length = doc_settings.tab_length;
@@ -400,6 +404,7 @@ let set_left_margin (v : string) (doc_settings : t_doc_settings) :
       left_margin = int_of_string v;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -439,6 +444,7 @@ let set_title_indent (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = int_of_string v;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -478,6 +484,7 @@ let set_author_indent (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = int_of_string v;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -517,6 +524,7 @@ let set_abstract_indent (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = int_of_string v;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -556,6 +564,7 @@ let set_refs_indent (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = int_of_string v;
       tab_length = doc_settings.tab_length;
@@ -595,6 +604,7 @@ let set_tab_length (v : string) (doc_settings : t_doc_settings) : t_doc_settings
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = int_of_string v;
@@ -631,6 +641,7 @@ let set_abstract_hdr (v : string) (doc_settings : t_doc_settings) :
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;
@@ -653,6 +664,7 @@ let set_refs_hdr (v : string) (doc_settings : t_doc_settings) : t_doc_settings =
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;
@@ -676,6 +688,7 @@ let set_endnotes_hdr (v : string) (doc_settings : t_doc_settings) :
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;
@@ -699,6 +712,7 @@ let set_ch_prefix (v : string) (doc_settings : t_doc_settings) : t_doc_settings
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;
@@ -722,6 +736,7 @@ let set_sec_prefix (v : string) (doc_settings : t_doc_settings) : t_doc_settings
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;
@@ -745,6 +760,7 @@ let set_par_prefix (v : string) (doc_settings : t_doc_settings) : t_doc_settings
     left_margin = doc_settings.left_margin;
     title_indent = doc_settings.title_indent;
     author_indent = doc_settings.author_indent;
+    date_indent = doc_settings.date_indent;
     abstract_indent = doc_settings.abstract_indent;
     refs_indent = doc_settings.refs_indent;
     tab_length = doc_settings.tab_length;
@@ -769,6 +785,7 @@ let set_expand_tag (v : string) (doc_settings : t_doc_settings) : t_doc_settings
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -800,6 +817,7 @@ let set_nte_numbering (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -831,6 +849,7 @@ let set_auto_numbering (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;
@@ -863,6 +882,7 @@ let set_allow_custom_numbering (v : string) (doc_settings : t_doc_settings) :
       left_margin = doc_settings.left_margin;
       title_indent = doc_settings.title_indent;
       author_indent = doc_settings.author_indent;
+      date_indent = doc_settings.date_indent;
       abstract_indent = doc_settings.abstract_indent;
       refs_indent = doc_settings.refs_indent;
       tab_length = doc_settings.tab_length;

@@ -18,6 +18,7 @@ type t_doc_settings = {
   left_margin : int;
   title_indent : int;
   author_indent : int;
+  date_indent : int;
   abstract_indent : int;
   refs_indent : int;
   tab_length : int;
