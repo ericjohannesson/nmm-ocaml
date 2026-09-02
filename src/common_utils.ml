@@ -909,11 +909,12 @@ let doc_settings_of_ts_preamble (doc_settings : t_doc_settings)
       let str_list : string list = String.split_on_char ';' s in
       aux str_list doc_settings
 
-let doc_settings_of_tr_doc (doc : Doc_types.tr_doc) : t_doc_settings =
+let doc_settings_of_tr_doc (doc_settings : t_doc_settings)
+    (doc : Doc_types.tr_doc) : t_doc_settings =
   match doc.fld_doc_preamble with
-  | None -> doc_settings_default ()
+  | None -> doc_settings
   | Some preamble ->
-      doc_settings_of_ts_preamble (doc_settings_default ()) preamble
+      doc_settings_of_ts_preamble doc_settings preamble
 
 (* cross-references *)
 

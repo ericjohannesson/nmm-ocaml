@@ -45,7 +45,10 @@ val auto_numbering_of_string : string -> int -> int -> string
 val doc_settings_of_ts_blks :
   t_doc_settings -> int -> Doc_types.ts_blks -> t_doc_settings
 
-val doc_settings_of_tr_doc : Doc_types.tr_doc -> t_doc_settings
+val doc_settings_of_tr_doc :
+  t_doc_settings ->
+  Doc_types.tr_doc ->
+  t_doc_settings
 (** [doc_settings_of_tr_doc doc] checks if [doc] has a preamble. If so, it
     attempts to parse that preamble and adjusts [doc_settings_default]
     accordingly (possibly overriding the default settings).

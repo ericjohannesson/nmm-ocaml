@@ -670,42 +670,49 @@ let left_margin_of_margin_labels (margin_labels : string list) : int =
 
 (* doc settings *)
 
-let doc_settings_of_txt_options (margin_labels : string list)
-    (doc_settings : t_doc_settings) (options : t_txt_options)
-    : t_doc_settings =
+let doc_settings_of_margin_labels (doc_settings : t_doc_settings)
+    (margin_labels : string list) : t_doc_settings =
   let left_margin_auto : int =
     left_margin_of_margin_labels margin_labels
   in
+  let doc_width_auto : int =
+    if 68 + left_margin_auto > 80 then 80 else 68 + left_margin_auto
+  in
+  {
+    doc_width = doc_width_auto;
+    left_margin = left_margin_auto;
+    title_indent = left_margin_auto;
+    author_indent = left_margin_auto;
+    abstract_indent = left_margin_auto;
+    refs_indent = left_margin_auto;
+    tab_length = doc_settings.tab_length;
+    abstract_hdr = doc_settings.abstract_hdr;
+    refs_hdr = doc_settings.refs_hdr;
+    endnotes_hdr = doc_settings.endnotes_hdr;
+    ch_prefix = doc_settings.ch_prefix;
+    sec_prefix = doc_settings.sec_prefix;
+    app_prefix = doc_settings.app_prefix;
+    par_prefix = doc_settings.par_prefix;
+    expand_tag = doc_settings.expand_tag;
+    auto_numbering = doc_settings.auto_numbering;
+    allow_custom_numbering = doc_settings.allow_custom_numbering;
+    nte_numbering = doc_settings.nte_numbering;
+  }
+
+
+let doc_settings_of_txt_options (doc_settings : t_doc_settings)
+    (margin_labels : string list) (options : t_txt_options)
+    : t_doc_settings =
   let left_margin : int =
-    match (options.margin, left_margin_auto = 0) with
-    | Some _, true -> 0
-    | Some (m : int), false -> m
-    | None, _ -> left_margin_auto
+    match (options.margin, margin_labels) with
+    | Some _, [] -> doc_settings.left_margin
+    | Some (m : int), _ -> m
+    | None, _ -> doc_settings.left_margin
   in
   let doc_width : int =
     match options.width with
     | Some (w : int) -> w
-    | None -> if 68 + left_margin > 80 then 80 else 68 + left_margin
-  in
-  let title_indent : int =
-    match doc_settings.title_indent with
-     | 0 -> left_margin
-     | n -> n
-  in
-  let author_indent : int =
-    match doc_settings.author_indent with
-     | 0 -> left_margin
-     | n -> n
-  in
-  let abstract_indent : int =
-    match doc_settings.abstract_indent with
-     | 0 -> left_margin
-     | n -> n
-  in
-  let refs_indent : int =
-    match doc_settings.refs_indent with
-     | 0 -> left_margin
-     | n -> n
+    | None -> doc_settings.doc_width
   in
   let auto_numbering : int -> int -> string =
     match options.numbering with
@@ -728,10 +735,10 @@ let doc_settings_of_txt_options (margin_labels : string list)
   {
     doc_width = doc_width;
     left_margin = left_margin;
-    title_indent = title_indent;
-    author_indent = author_indent;
-    abstract_indent = abstract_indent;
-    refs_indent = refs_indent;
+    title_indent = doc_settings.title_indent;
+    author_indent = doc_settings.author_indent;
+    abstract_indent = doc_settings.abstract_indent;
+    refs_indent = doc_settings.refs_indent;
     tab_length = tab_length;
     abstract_hdr = doc_settings.abstract_hdr;
     refs_hdr = doc_settings.refs_hdr;

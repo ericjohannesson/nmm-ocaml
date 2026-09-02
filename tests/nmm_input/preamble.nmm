@@ -1,4 +1,8 @@
 START	PREAMBLE
+	title-indent=0
+	author-indent=0
+	abstract-indent=0
+	refs-indent=0
 	left-margin=10
 END	PREAMBLE
 
@@ -10,9 +14,6 @@ AUTHOR:
 
 ABSTRACT:
 	Some abstract
-
-DATE:
-	auto
 
 §
 Section header
