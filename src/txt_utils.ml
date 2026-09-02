@@ -241,7 +241,7 @@ let lines_of_ts_date_auto (doc_settings : t_doc_settings) (date : ts_date_auto)
           [ date_string; time_string; utc_timezone time.timezone ]
       in
       List.concat
-        [ lines_of_string doc_settings.doc_width doc_settings.author_indent s; [ "" ] ]
+        [ lines_of_string doc_settings.doc_width doc_settings.date_indent s; [ "" ] ]
 
 let lines_of_tu_date (doc_settings : t_doc_settings) (date : tu_date) :
     string list =
