@@ -36,11 +36,8 @@ _nmm_ocaml_get_options () {
 		--lang )
 			echo $lang_options
 			;;
-		--margin | --indent )
+		--margin | --indent | --width )
 			echo $(seq 0 9)  #etc
-			;;
-		--width )
-			echo $(seq 1 9) #etc
 			;;
 		*)
 			echo ''
