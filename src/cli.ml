@@ -2,11 +2,14 @@ open Nmm_ocaml
 
 exception Error of string
 
-let usage : string =
-  "nmm-ocaml v" ^ Main.version ()
-  ^ "
+let usage_msg : string =
+"USAGE:
+  nmm-ocaml COMMAND [ OPTIONS ] [ ARGS ]
+OPTIONS:"
 
-USAGE:
+
+let help_msg : string =
+"USAGE:
 nmm-ocaml [
   | txt-of-nmm   [ <txt-options>  ] { <path-to-nmm-file>  | - }
   | html-of-nmm  [ <html-options> ] { <path-to-nmm-file>  | - }
@@ -80,6 +83,7 @@ let allow_custom_numbering : bool option ref = ref None
 let tags : string option ref = ref None
 let keyspecdoc_list : t_keyspecdoc list ref = ref []
 
+
 let set_margin (s : string) : unit =
   try 
     let i = int_of_string s in
@@ -94,8 +98,8 @@ let set_indent (s : string) : unit =
     indent.contents <- Some i
   with _ -> raise (Error ("invalid --indent argument: " ^ s))
 
-let keyspecdoc_margin : t_keyspecdoc = ("--margin", Arg.String set_margin, "")
-let keyspecdoc_indent : t_keyspecdoc = ("--indent", Arg.String set_indent, "")
+let keyspecdoc_margin : t_keyspecdoc = ("--margin", Arg.String set_margin, "<non-negative-integer>")
+let keyspecdoc_indent : t_keyspecdoc = ("--indent", Arg.String set_indent, "<non-negative-integer>")
 
 let set_width (s : string) : unit =
   try
@@ -104,12 +108,12 @@ let set_width (s : string) : unit =
     width.contents <- Some i
   with _ -> raise (Error ("invalid --width argument: " ^ s))
 
-let keyspecdoc_width : t_keyspecdoc = ("--width", Arg.String set_width, "")
+let keyspecdoc_width : t_keyspecdoc = ("--width", Arg.String set_width, "<non-negative-integer>")
 
 let set_lang (s : string) : unit =
   lang.contents <- Some s
 
-let keyspecdoc_lang : t_keyspecdoc = ("--lang", Arg.String set_lang, "")
+let keyspecdoc_lang : t_keyspecdoc = ("--lang", Arg.String set_lang, "<language-code>")
 
 let add_internal_css (s : string) : unit =
   internal_css.contents <- s :: internal_css.contents
@@ -118,28 +122,28 @@ let add_external_css (s : string) : unit =
   external_css.contents <- s :: external_css.contents
 
 let keyspecdoc_internal_css : t_keyspecdoc =
-  ("--internal-css", Arg.String add_internal_css, "")
+  ("--internal-css", Arg.String add_internal_css, "<path-to-css-file>")
 
 let keyspecdoc_external_css : t_keyspecdoc =
-  ("--external-css", Arg.String add_external_css, "")
+  ("--external-css", Arg.String add_external_css, "<uri>")
 
 let keyspecdoc_stdin : t_keyspecdoc = ("-", Arg.Set read_from_stdin, "")
-let keyspecdoc_quiet : t_keyspecdoc = ("--quiet", Arg.Set quiet, "")
+let keyspecdoc_quiet : t_keyspecdoc = ("--quiet", Arg.Set quiet, " ")
 
 let set_numbering (s : string) : unit =
   numbering.contents <- Some s
 
 let keyspecdoc_numbering : t_keyspecdoc =
-  ("--numbering", Arg.String set_numbering, "")
+  ("--numbering", Arg.String set_numbering, "{ a1i | ai1 | 1ai | 1ia | ia1 | i1a }")
 
 let set_allow_custom_numbering () : unit =
   allow_custom_numbering.contents <- (Some true)
 
 let keyspecdoc_allow_custom_numbering : t_keyspecdoc =
-  ("--allow-custom-numbering", Arg.Unit set_allow_custom_numbering, "")
+  ("--allow-custom-numbering", Arg.Unit set_allow_custom_numbering, " ")
 
 let add_tags (s : string) : unit = tags.contents <- Some s
-let keyspecdoc_tags : t_keyspecdoc = ("--tags", Arg.String add_tags, "")
+let keyspecdoc_tags : t_keyspecdoc = ("--tags", Arg.String add_tags, "<path-to-tsv-file>")
 
 let keyspecdoc_list_txt_of_nmm : t_keyspecdoc list =
   [
@@ -239,7 +243,7 @@ let anon_arg_fun arg : unit =
             keyspecdoc_list.contents <- keyspecdoc_list_exml_of_axml
         | "normalize-axml" ->
             keyspecdoc_list.contents <- keyspecdoc_list_normalize_axml
-        | _ -> raise (Error (String.concat " " [ "unknown command:"; arg ]))
+        | unknown -> raise (Error (String.concat " " [ "unknown command:"; unknown ]))
       in
       let _ : unit = cmd_name.contents <- arg in
       anon_arg_count.contents <- anon_arg_count.contents + 1
@@ -262,10 +266,10 @@ let anon_arg_fun arg : unit =
         | "exml-of-nmm" -> path_to_nmm_file.contents <- arg
         | "exml-of-axml" -> path_to_xml_file.contents <- arg
         | "normalize-axml" -> path_to_xml_file.contents <- arg
-        | _ ->
+        | unknown ->
             raise
               (Error
-                 (String.concat " " [ "unknown command:"; cmd_name.contents ]))
+                 (String.concat " " [ "unknown command:"; unknown ]))
       in
       anon_arg_count.contents <- anon_arg_count.contents + 1
   | 2 ->
@@ -275,16 +279,16 @@ let anon_arg_fun arg : unit =
         | "txt-of-nmm" | "test-with-nmm" | "html-of-nmm" | "check-xml-schema" ->
             raise (Error (String.concat " " [ "one too many arguments:"; arg ]))
         | "validate-xml" -> path_to_xml_file.contents <- arg
-        | _ ->
+        | unknown ->
             raise
               (Error
-                 (String.concat " " [ "unknown command:"; cmd_name.contents ]))
+                 (String.concat " " [ "unknown command:"; unknown ]))
       in
       anon_arg_count.contents <- anon_arg_count.contents + 1
   | _ -> raise (Error (String.concat " " [ "one too many arguments:"; arg ]))
 
 let _ : unit =
-  let _ : unit = Arg.parse_dynamic keyspecdoc_list anon_arg_fun usage in
+  let _ : unit = Arg.parse_dynamic keyspecdoc_list anon_arg_fun usage_msg in
   match cmd_name.contents with
   | "txt-of-axml" -> (
       let options : Common_utils.t_txt_options =
@@ -454,5 +458,5 @@ let _ : unit =
           | "" -> raise (Error "missing path-to-axml-file")
           | path -> print_endline (Main.normalize_axml_file path)))
   | "version" -> print_endline (Main.version ())
-  | "" | "help" -> print_endline usage
+  | "" | "help" -> print_endline help_msg
   | unknown -> raise (Error ("unknown command: " ^ unknown))
