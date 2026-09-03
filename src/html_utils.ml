@@ -93,10 +93,10 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "div",
           [ ("class", "sec_lbl") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("sec_hdr", _, xml_list) ->
+  | Xml.Element ("sec_hdr", attr_list, xml_list) ->
       Xml.Element
         ( sec_hdr_of_doc_class doc_class,
-          [ ("class", "sec_hdr") ],
+          ("class", "sec_hdr") :: attr_list,
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("sec_lbl_hdr", _, xml_list) ->
       Xml.Element
@@ -126,15 +126,15 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "div",
           [ ("class", "par_tag") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("par_hdr", _, xml_list) ->
+  | Xml.Element ("par_hdr", attr_list, xml_list) ->
       Xml.Element
         ( par_hdr_of_doc_class doc_class,
-          [ ("class", "par_hdr") ],
+          ("class", "par_hdr") :: attr_list,
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("par_tag_hdr", _, xml_list) ->
+  | Xml.Element ("par_tag_hdr", attr_list, xml_list) ->
       Xml.Element
         ( par_hdr_of_doc_class doc_class,
-          [ ("class", "par_tag hdr") ],
+          ("class", "par_tag hdr") :: attr_list,
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("par_main", _, xml_list) ->
       Xml.Element
@@ -537,6 +537,7 @@ h2, h3, h4, h5 {
   ^ ";
     font-size   : 150%;
     line-height : 130%;
+    bookmark-label : attr(bookmark) \"  \" content();
 }
 
 .sec.pars > .sec_lbl.hdr {
@@ -559,6 +560,7 @@ h2, h3, h4, h5 {
     font-weight  : bold;
     display      : inline;
     font-size    : inherit;
+    bookmark-label : attr(bookmark) \"  \" content();
 }
 
 
