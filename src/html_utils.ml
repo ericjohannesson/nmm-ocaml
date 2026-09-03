@@ -374,13 +374,11 @@ h2, h3, h4, h5 {
 }
 
 .doc.pars .title {
-    margin-left : "
-  ^ margin_left ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.secs .title {
-    margin-left : " ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.chs .title {
@@ -403,26 +401,22 @@ h2, h3, h4, h5 {
 }
 
 .doc.pars .authors {
-    margin-left : "
-  ^ margin_left ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.secs .authors {
-    margin-left : " ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 /************ DATE ******************/
 
 
 .doc.pars .date {
-    margin-left : "
-  ^ margin_left ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.secs .date {
-    margin-left : " ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 /************ ABSTRACT ******************/
@@ -436,13 +430,11 @@ h2, h3, h4, h5 {
 }
 
 .doc.pars .abstract {
-    margin-left : "
-  ^ margin_left ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.secs .abstract {
-    margin-left : " ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .abstract_hdr {
@@ -459,13 +451,11 @@ h2, h3, h4, h5 {
 }
 
 .doc.pars .refs {
-    margin-left : "
-  ^ margin_left ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.secs .refs {
-    margin-left : " ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .doc.chs .refs {
@@ -532,9 +522,7 @@ h2, h3, h4, h5 {
 }
 
 .sec_hdr {
-    margin-left : "
-  ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
     font-size   : 150%;
     line-height : 130%;
     bookmark-label : attr(bookmark) \"  \" content();
@@ -576,9 +564,7 @@ h2, h3, h4, h5 {
 }
 
 .par_main {
-    margin-left : "
-  ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 
@@ -605,9 +591,7 @@ h2, h3, h4, h5 {
 }
 
 .sec_main > .blk {
-    margin-left : "
-  ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .blk.txt {
@@ -621,9 +605,7 @@ h2, h3, h4, h5 {
 }
 
 .blk_blt_main {
-    margin-left : "
-  ^ tab_length
-  ^ ";
+    margin-left : " ^ tab_length ^ ";
 }
 
 
@@ -632,9 +614,7 @@ h2, h3, h4, h5 {
 }
 
 .blk_itm_main {
-    margin-left : "
-  ^ tab_length
-  ^ ";
+    margin-left : " ^ tab_length ^ ";
 }
 
 
@@ -643,18 +623,14 @@ h2, h3, h4, h5 {
 }
 
 .dsp_line_main {
-    margin-left : "
-  ^ tab_length
-  ^ ";
+    margin-left : " ^ tab_length ^ ";
     white-space : pre;
 }
 
 .blk_qtn_main {
     hyphens     : auto;
     white-space : pre-wrap;
-    margin-left : "
-  ^ tab_length
-  ^ ";
+    margin-left : " ^ tab_length ^ ";
 }
 
 /******** ENDNOTES/FOOTNOTES ************/
@@ -671,9 +647,7 @@ h2, h3, h4, h5 {
 }
 
 .sec_endnotes, .par_endnotes {
-    margin-left : "
-  ^ margin_left
-  ^ ";
+    margin-left : " ^ margin_left ^ ";
 }
 
 .blk_nte_lbl {
@@ -681,9 +655,7 @@ h2, h3, h4, h5 {
 }
 
 .blk_nte_main {
-    margin-left : "
-  ^ tab_length
-  ^ ";
+    margin-left : " ^ tab_length ^ ";
 }
 
 /*************** BIB ********************/
