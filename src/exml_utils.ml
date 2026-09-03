@@ -428,7 +428,7 @@ let par_hdr_opt (doc_settings : t_doc_settings) (cref_table : t_cref_table)
       let tag : string =
         match tag_content with
         | [Xml.PCData s] -> s
-        | _ -> "" (* cannot happen? *)
+        | _ -> "" (* cannot happen *)
       in
       Some
         [
