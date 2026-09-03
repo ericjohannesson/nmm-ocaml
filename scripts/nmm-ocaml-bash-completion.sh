@@ -70,7 +70,7 @@ _nmm_ocaml () {
     --numbering | --margin | --indent | --width )
       COMPREPLY=( $(compgen -W "${options}") )
       ;;
-    --tags | --internal-css | --external-css | --validate-xml | --check-xml-schema )
+    --tags | --internal-css | --external-css | validate-xml | check-xml-schema )
       COMPREPLY=( $(compgen -f -- ${cur}) )
       ;;
     - | show-* | version | help )
