@@ -2,66 +2,135 @@ open Nmm_ocaml
 
 exception Error of string
 
-let usage_msg : string =
-"USAGE:
-  nmm-ocaml COMMAND [ OPTIONS ] [ ARGS ]
-OPTIONS:"
+let commands : string list =
+  [
+    "txt-of-nmm";
+    "html-of-nmm";
+    "exml-of-nmm";
+    "axml-of-nmm";
+    "txt-of-axml";
+    "html-of-axml";
+    "exml-of-axml";
+    "check-xml-schema";
+    "validate-xml";
+    "normalize-axml";
+    "show-axml-schema";
+    "show-exml-schema";
+    "version";
+    "help";
+  ]
 
+let usage_msg_of_command (command : string) : string =
+  match command with
+  | "txt-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
+  | "html-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
+  | "exml-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
+  | "axml-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
+  | "txt-of-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE | - }"
+  | "html-of-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE | - }"
+  | "exml-of-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE | - }"
+  | "check-xml-schema" -> "PATH-TO-DTD-FILE"
+  | "validate-xml" -> "PATH-TO-DTD-FILE { PATH-TO-XML-FILE | - }"
+  | "normalize-axml" -> "{ PATH-TO-AXML-FILE | - }"
+  | _ -> ""
+
+let usage_msg : string =
+  let map (command : string) : string =
+    String.concat " " [command; usage_msg_of_command command]
+  in
+  String.concat "\n" [
+    "nmm-ocaml [";
+    "  | " ^ (String.concat "\n  | " (List.map map commands));
+    "]";
+  ]
+
+let stdin_msg : string =
+"In cases where '-' may be provided instead of a path, the program
+reads from standard input."
+
+
+let axml_options : string list =
+  [
+    "--tags PATH-TO-TSV-FILE";
+  ]
+
+let exml_options : string list =
+  List.concat [
+    axml_options;
+    [
+      "--numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }";
+      "--allow-custom-numbering";
+      "--quiet";
+    ];
+  ]
+
+let txt_options : string list =
+  List.concat [
+    exml_options;
+    [
+      "--margin NON-NEGATIVE-INTEGER";
+      "--indent NON-NEGATIVE-INTEGER";
+      "--width NON-NEGATIVE-INTEGER";
+    ];
+  ]
+
+let html_options : string list =
+  List.concat [
+    exml_options;
+    [
+      "--margin NON-NEGATIVE-INTEGER";
+      "--indent NON-NEGATIVE-INTEGER";
+      "--lang ISO-LANGUAGE-CODE";
+      "--internal-css PATH-TO-CSS-FILE";
+      "--external-css URI";
+    ];
+  ]
+
+let options_of_command (command : string) : string list =
+  match command with
+  | "txt-of-nmm"
+  | "txt-of-axml" -> txt_options
+  | "html-of-nmm"
+  | "html-of-axml" -> html_options
+  | "exml-of-nmm" 
+  | "exml-of-axml" -> exml_options
+  | "axml-of-nmm" -> axml_options
+  | _ -> []
+
+let options_msg_of_command (command : string) : string =
+  match options_of_command command with
+  | [] -> ""
+  | options ->
+      String.concat "" [
+        "OPTIONS:\n";
+        "  ";  
+        String.concat "\n  " (options_of_command command);
+      ]
 
 let help_msg : string =
-"USAGE:
-nmm-ocaml [
-  | txt-of-nmm   [ <txt-options>  ] { <path-to-nmm-file>  | - }
-  | html-of-nmm  [ <html-options> ] { <path-to-nmm-file>  | - }
-  | exml-of-nmm  [ <exml-options> ] { <path-to-nmm-file>  | - }
+  String.concat "" [
+    "USAGE:\n";
+    usage_msg; "\n\n";
+    stdin_msg; "\n\n";
+    "TXT-OPTIONS:\n  ";
+    String.concat "\n  " txt_options;"\n\n";
+    "HTML-OPTIONS:\n  ";
+    String.concat "\n  " html_options;"\n\n";
+    "EXML-OPTIONS:";"\n  ";
+    String.concat "\n  " exml_options;"\n\n";
+    "AXML-OPTIONS:";"\n  ";
+    String.concat "\n  " axml_options;
+  ]
 
-  | axml-of-nmm  [ <axml-options> ] { <path-to-nmm-file>  | - }
-
-  | txt-of-axml  [ <txt-options>  ] { <path-to-axml-file> | - }
-  | html-of-axml [ <html-options> ] { <path-to-axml-file> | - }
-  | exml-of-axml [ <exml-options> ] { <path-to-axml-file> | - }
-
-  | check-xml-schema <path-to-dtd-file>
-  | validate-xml <path-to-dtd-file> { <path-to-xml-file> | - }
-  | normalize-axml { <path-to-axml-file> | - }
-  | show-axml-schema
-  | show-exml-schema
-  | show-default-css
-  | version
-  | help
-]
-
-In cases where '-' may be provided instead of a path, the program
-reads from standard input.
-
-TXT-OPTIONS:
-  --margin <non-negative-integer>
-  --indent <non-negative-integer>
-  --width <non-negative-integer>
-  --quiet
-  --numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }
-  --allow-custom-numbering
-  --tags <path-to-tsv-file>
-
-HTML-OPTIONS:
-  --margin <non-negative-integer>
-  --indent <non-negative-integer>
-  --lang <language-code>
-  --internal-css <path-to-css-file>
-  --external-css <uri>
-  --quiet
-  --numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }
-  --allow-custom-numbering
-  --tags <path-to-tsv-file>
-
-EXML-OPTIONS:
-  --numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }
-  --allow-custom-numbering
-  --quiet
-  --tags <path-to-tsv-file>
-
-AXML-OPTIONS:
-  --tags <path-to-tsv-file>"
+let help_msg_of_command (command : string) : string =
+  match command with
+  | "" -> "USAGE:\n" ^ usage_msg
+  | _ ->
+    String.concat "\n" [
+     "USAGE:";
+     command ^ " " ^ usage_msg_of_command command;
+     "  " ^ (options_msg_of_command command);
+    ]
 
 type t_keyspecdoc = Arg.key * Arg.spec * Arg.doc
 
@@ -81,8 +150,20 @@ let quiet : bool ref = ref false
 let numbering : string option ref = ref None
 let allow_custom_numbering : bool option ref = ref None
 let tags : string option ref = ref None
-let keyspecdoc_list : t_keyspecdoc list ref = ref []
+let help : bool ref = ref false
 
+let keyspecdoc_help1 : t_keyspecdoc = ("-help", Arg.Set help, "")
+let keyspecdoc_help2 : t_keyspecdoc = ("--help", Arg.Set help, "")
+let keyspecdoc_help3 : t_keyspecdoc = ("-h", Arg.Set help, "")
+
+let help_list : t_keyspecdoc list =
+  [
+    keyspecdoc_help1;
+    keyspecdoc_help2;
+    keyspecdoc_help3;
+  ]
+
+let keyspecdoc_list : t_keyspecdoc list ref = ref help_list
 
 let set_margin (s : string) : unit =
   try 
@@ -98,8 +179,8 @@ let set_indent (s : string) : unit =
     indent.contents <- Some i
   with _ -> raise (Error ("invalid --indent argument: " ^ s))
 
-let keyspecdoc_margin : t_keyspecdoc = ("--margin", Arg.String set_margin, "<non-negative-integer>")
-let keyspecdoc_indent : t_keyspecdoc = ("--indent", Arg.String set_indent, "<non-negative-integer>")
+let keyspecdoc_margin : t_keyspecdoc = ("--margin", Arg.String set_margin, "")
+let keyspecdoc_indent : t_keyspecdoc = ("--indent", Arg.String set_indent, "")
 
 let set_width (s : string) : unit =
   try
@@ -108,12 +189,12 @@ let set_width (s : string) : unit =
     width.contents <- Some i
   with _ -> raise (Error ("invalid --width argument: " ^ s))
 
-let keyspecdoc_width : t_keyspecdoc = ("--width", Arg.String set_width, "<non-negative-integer>")
+let keyspecdoc_width : t_keyspecdoc = ("--width", Arg.String set_width, "")
 
 let set_lang (s : string) : unit =
   lang.contents <- Some s
 
-let keyspecdoc_lang : t_keyspecdoc = ("--lang", Arg.String set_lang, "<language-code>")
+let keyspecdoc_lang : t_keyspecdoc = ("--lang", Arg.String set_lang, "")
 
 let add_internal_css (s : string) : unit =
   internal_css.contents <- s :: internal_css.contents
@@ -122,103 +203,79 @@ let add_external_css (s : string) : unit =
   external_css.contents <- s :: external_css.contents
 
 let keyspecdoc_internal_css : t_keyspecdoc =
-  ("--internal-css", Arg.String add_internal_css, "<path-to-css-file>")
+  ("--internal-css", Arg.String add_internal_css, "")
 
 let keyspecdoc_external_css : t_keyspecdoc =
-  ("--external-css", Arg.String add_external_css, "<uri>")
+  ("--external-css", Arg.String add_external_css, "")
 
 let keyspecdoc_stdin : t_keyspecdoc = ("-", Arg.Set read_from_stdin, "")
-let keyspecdoc_quiet : t_keyspecdoc = ("--quiet", Arg.Set quiet, " ")
+let keyspecdoc_quiet : t_keyspecdoc = ("--quiet", Arg.Set quiet, "")
 
 let set_numbering (s : string) : unit =
   numbering.contents <- Some s
 
 let keyspecdoc_numbering : t_keyspecdoc =
-  ("--numbering", Arg.String set_numbering, "{ a1i | ai1 | 1ai | 1ia | ia1 | i1a }")
+  ("--numbering", Arg.String set_numbering, "")
 
 let set_allow_custom_numbering () : unit =
   allow_custom_numbering.contents <- (Some true)
 
 let keyspecdoc_allow_custom_numbering : t_keyspecdoc =
-  ("--allow-custom-numbering", Arg.Unit set_allow_custom_numbering, " ")
+  ("--allow-custom-numbering", Arg.Unit set_allow_custom_numbering, "")
 
 let add_tags (s : string) : unit = tags.contents <- Some s
-let keyspecdoc_tags : t_keyspecdoc = ("--tags", Arg.String add_tags, "<path-to-tsv-file>")
+let keyspecdoc_tags : t_keyspecdoc = ("--tags", Arg.String add_tags, "")
 
-let keyspecdoc_list_txt_of_nmm : t_keyspecdoc list =
-  [
-    keyspecdoc_margin;
-    keyspecdoc_indent;
-    keyspecdoc_width;
-    keyspecdoc_stdin;
-    keyspecdoc_quiet;
-    keyspecdoc_numbering;
-    keyspecdoc_allow_custom_numbering;
-    keyspecdoc_tags;
+let normalize_axml_list : t_keyspecdoc list =
+  keyspecdoc_stdin::help_list
+
+let axml_of_nmm_list : t_keyspecdoc list =
+    keyspecdoc_tags::normalize_axml_list
+
+let exml_of_nmm_list : t_keyspecdoc list =
+  List.concat [
+    axml_of_nmm_list;
+    [
+      keyspecdoc_quiet;
+      keyspecdoc_numbering;
+      keyspecdoc_allow_custom_numbering;
+    ];
   ]
 
-let keyspecdoc_list_txt_of_xml : t_keyspecdoc list =
-  [
-    keyspecdoc_margin;
-    keyspecdoc_indent;
-    keyspecdoc_stdin;
-    keyspecdoc_quiet;
-    keyspecdoc_width;
-    keyspecdoc_numbering;
-    keyspecdoc_allow_custom_numbering;
-    keyspecdoc_tags;
+
+let txt_of_nmm_list : t_keyspecdoc list =
+  List.concat [
+    exml_of_nmm_list;
+    [
+      keyspecdoc_margin;
+      keyspecdoc_indent;
+      keyspecdoc_width;
+    ];
   ]
 
-let keyspecdoc_list_xml_of_nmm : t_keyspecdoc list =
-  [ keyspecdoc_stdin; keyspecdoc_tags ]
+let txt_of_axml_list : t_keyspecdoc list =
+  txt_of_nmm_list
 
-let keyspecdoc_list_html_of_nmm : t_keyspecdoc list =
-  [
-    keyspecdoc_margin;
-    keyspecdoc_indent;
-    keyspecdoc_stdin;
-    keyspecdoc_quiet;
-    keyspecdoc_lang;
-    keyspecdoc_internal_css;
-    keyspecdoc_external_css;
-    keyspecdoc_numbering;
-    keyspecdoc_allow_custom_numbering;
-    keyspecdoc_tags;
+
+let html_of_nmm_list : t_keyspecdoc list =
+  List.concat [
+    exml_of_nmm_list;
+    [
+      keyspecdoc_margin;
+      keyspecdoc_indent;
+      keyspecdoc_lang;
+      keyspecdoc_internal_css;
+      keyspecdoc_external_css;
+    ];
   ]
 
-let keyspecdoc_list_html_of_xml : t_keyspecdoc list =
-  [
-    keyspecdoc_margin;
-    keyspecdoc_indent;
-    keyspecdoc_stdin;
-    keyspecdoc_quiet;
-    keyspecdoc_lang;
-    keyspecdoc_internal_css;
-    keyspecdoc_external_css;
-    keyspecdoc_numbering;
-    keyspecdoc_allow_custom_numbering;
-    keyspecdoc_tags;
-  ]
+let html_of_axml_list : t_keyspecdoc list =
+  html_of_nmm_list
 
-let keyspecdoc_list_exml_of_nmm : t_keyspecdoc list =
-  [
-    keyspecdoc_stdin;
-    keyspecdoc_quiet;
-    keyspecdoc_numbering;
-    keyspecdoc_allow_custom_numbering;
-    keyspecdoc_tags;
-  ]
 
-let keyspecdoc_list_exml_of_axml : t_keyspecdoc list =
-  [
-    keyspecdoc_stdin;
-    keyspecdoc_quiet;
-    keyspecdoc_numbering;
-    keyspecdoc_allow_custom_numbering;
-    keyspecdoc_tags;
-  ]
+let exml_of_axml_list : t_keyspecdoc list =
+  exml_of_nmm_list
 
-let keyspecdoc_list_normalize_axml : t_keyspecdoc list = [ keyspecdoc_stdin ]
 
 let anon_arg_fun arg : unit =
   match anon_arg_count.contents with
@@ -226,23 +283,23 @@ let anon_arg_fun arg : unit =
       let _ : unit =
         match arg with
         | "txt-of-axml" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_txt_of_xml
+            keyspecdoc_list.contents <- txt_of_axml_list
         | "test-with-axml" | "html-of-axml" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_html_of_xml
+            keyspecdoc_list.contents <- html_of_axml_list
         | "axml-of-nmm" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_xml_of_nmm
-        | "txt-of-nmm" -> keyspecdoc_list.contents <- keyspecdoc_list_txt_of_nmm
+            keyspecdoc_list.contents <- axml_of_nmm_list
+        | "txt-of-nmm" -> keyspecdoc_list.contents <- txt_of_nmm_list
         | "test-with-nmm" | "html-of-nmm" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_html_of_nmm
+            keyspecdoc_list.contents <- html_of_nmm_list
         | "check-xml-schema" | "validate-xml" | "show-axml-schema"
         | "show-exml-schema" | "show-default-css" | "version" | "help" ->
             ()
         | "exml-of-nmm" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_exml_of_nmm
+            keyspecdoc_list.contents <- exml_of_nmm_list
         | "exml-of-axml" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_exml_of_axml
+            keyspecdoc_list.contents <- exml_of_axml_list
         | "normalize-axml" ->
-            keyspecdoc_list.contents <- keyspecdoc_list_normalize_axml
+            keyspecdoc_list.contents <- normalize_axml_list
         | unknown -> raise (Error (String.concat " " [ "unknown command:"; unknown ]))
       in
       let _ : unit = cmd_name.contents <- arg in
@@ -288,8 +345,10 @@ let anon_arg_fun arg : unit =
   | _ -> raise (Error (String.concat " " [ "one too many arguments:"; arg ]))
 
 let _ : unit =
-  let _ : unit = Arg.parse_dynamic keyspecdoc_list anon_arg_fun usage_msg in
-  match cmd_name.contents with
+  let _ : unit = Arg.parse_dynamic keyspecdoc_list anon_arg_fun "" in
+  let command : string = cmd_name.contents in
+  if help.contents then print_endline (help_msg_of_command command) else
+  match command with
   | "txt-of-axml" -> (
       let options : Common_utils.t_txt_options =
         {
@@ -306,7 +365,7 @@ let _ : unit =
       | true -> print_endline (Main.txt_of_axml options "-")
       | false -> (
           match path_to_xml_file.contents with
-          | "" -> raise (Error "missing path-to-axml-file")
+          | "" -> raise (Error "missing PATH-TO-AXML-FILE")
           | path -> print_endline (Main.txt_of_axml options path)))
   | "html-of-axml" -> (
       let options : Common_utils.t_html_options =
@@ -326,7 +385,7 @@ let _ : unit =
       | true -> print_endline (Main.html_of_axml options "-")
       | false -> (
           match path_to_xml_file.contents with
-          | "" -> raise (Error "missing path-to-axml-file")
+          | "" -> raise (Error "missing PATH-TO-AXML-FILE")
           | path -> print_endline (Main.html_of_axml options path)))
   | "axml-of-nmm" -> (
       let options : Common_utils.t_axml_options = { tags = tags.contents } in
@@ -334,7 +393,7 @@ let _ : unit =
       | true -> print_endline (Main.axml_of_nmm options "-")
       | false -> (
           match path_to_nmm_file.contents with
-          | "" -> raise (Error "missing path-to-nmm-file")
+          | "" -> raise (Error "missing PATH-TO-NMM-FILE")
           | path -> print_endline (Main.axml_of_nmm options path)))
   | "txt-of-nmm" -> (
       let options : Common_utils.t_txt_options =
@@ -352,7 +411,7 @@ let _ : unit =
       | true -> print_endline (Main.txt_of_nmm options "-")
       | false -> (
           match path_to_nmm_file.contents with
-          | "" -> raise (Error "missing path-to-nmm-file")
+          | "" -> raise (Error "missing PATH-TO-NMM-FILE")
           | path -> print_endline (Main.txt_of_nmm options path)))
   | "html-of-nmm" -> (
       let options : Common_utils.t_html_options =
@@ -372,7 +431,7 @@ let _ : unit =
       | true -> print_endline (Main.html_of_nmm options "-")
       | false -> (
           match path_to_nmm_file.contents with
-          | "" -> raise (Error "missing path-to-nmm-file")
+          | "" -> raise (Error "missing PATH-TO-NMM-FILE")
           | path -> print_endline (Main.html_of_nmm options path)))
   | "check-xml-schema" ->
       print_endline (Main.check_xml_schema path_to_dtd_file.contents)
@@ -401,7 +460,7 @@ let _ : unit =
         }
       in
       match path_to_xml_file.contents with
-      | "" -> raise (Error "missing path-to-axml-file")
+      | "" -> raise (Error "missing PATH-TO-AXML-FILE")
       | path -> Test.test_with_axml_file options path)
   | "test-with-nmm" -> (
       let options : Common_utils.t_html_options =
@@ -418,7 +477,7 @@ let _ : unit =
         }
       in
       match path_to_nmm_file.contents with
-      | "" -> raise (Error "missing path-to-nmm-file")
+      | "" -> raise (Error "missing PATH-TO-NMM-FILE")
       | path -> Test.test_with_nmm_file options path)
   | "exml-of-nmm" -> (
       let options : Common_utils.t_exml_options =
@@ -433,7 +492,7 @@ let _ : unit =
       | true -> print_endline (Main.exml_of_nmm options "-")
       | false -> (
           match path_to_nmm_file.contents with
-          | "" -> raise (Error "missing path-to-nmm-file")
+          | "" -> raise (Error "missing PATH-TO-NMM-FILE")
           | path -> print_endline (Main.exml_of_nmm options path)))
   | "exml-of-axml" -> (
       let options : Common_utils.t_exml_options =
@@ -448,14 +507,14 @@ let _ : unit =
       | true -> print_endline (Main.exml_of_axml options "-")
       | false -> (
           match path_to_xml_file.contents with
-          | "" -> raise (Error "missing path-to-axml-file")
+          | "" -> raise (Error "missing PATH-TO-AXML-FILE")
           | path -> print_endline (Main.exml_of_axml options path)))
   | "normalize-axml" -> (
       match read_from_stdin.contents with
       | true -> print_endline (Main.normalize_axml_file "-")
       | false -> (
           match path_to_xml_file.contents with
-          | "" -> raise (Error "missing path-to-axml-file")
+          | "" -> raise (Error "missing PATH-TO-AXML-FILE")
           | path -> print_endline (Main.normalize_axml_file path)))
   | "version" -> print_endline (Main.version ())
   | "" | "help" -> print_endline help_msg
