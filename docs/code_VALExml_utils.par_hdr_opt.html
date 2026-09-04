@@ -54,7 +54,7 @@
       <span class="keyword">let</span> tag : string =
         <span class="keyword">match</span> tag_content <span class="keyword">with</span>
         <span class="keywordsign">|</span> [<span class="constructor">Xml</span>.<span class="constructor">PCData</span> s] <span class="keywordsign">-&gt;</span> s
-        <span class="keywordsign">|</span> _ <span class="keywordsign">-&gt;</span> <span class="string">""</span> <span class="comment">(* cannot happen? *)</span>
+        <span class="keywordsign">|</span> _ <span class="keywordsign">-&gt;</span> <span class="string">""</span> <span class="comment">(* cannot happen *)</span>
       <span class="keyword">in</span>
       <span class="constructor">Some</span>
         [
