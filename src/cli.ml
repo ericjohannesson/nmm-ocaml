@@ -35,14 +35,22 @@ let usage_msg_of_command (command : string) : string =
   | _ -> ""
 
 let usage_msg : string =
-  let map (command : string) : string =
-    String.concat " " [command; usage_msg_of_command command]
-  in
-  String.concat "\n" [
-    "nmm-ocaml [";
-    "  | " ^ (String.concat "\n  | " (List.map map commands));
-    "]";
-  ]
+"nmm-ocaml [
+  | txt-of-nmm   [ TXT-OPTIONS  ] { PATH-TO-NMM-FILE  | - }
+  | html-of-nmm  [ HTML-OPTIONS ] { PATH-TO-NMM-FILE  | - }
+  | exml-of-nmm  [ EXML-OPTIONS ] { PATH-TO-NMM-FILE  | - }
+  | axml-of-nmm  [ AXML-OPTIONS ] { PATH-TO-NMM-FILE  | - }
+  | txt-of-axml  [ TXT-OPTIONS  ] { PATH-TO-AXML-FILE | - }
+  | html-of-axml [ HTML-OPTIONS ] { PATH-TO-AXML-FILE | - }
+  | exml-of-axml [ EXML-OPTIONS ] { PATH-TO-AXML-FILE | - }
+  | check-xml-schema PATH-TO-DTD-FILE
+  | validate-xml PATH-TO-DTD-FILE { PATH-TO-XML-FILE | - }
+  | normalize-axml { PATH-TO-AXML-FILE | - }
+  | show-axml-schema
+  | show-exml-schema
+  | version
+  | help
+]"
 
 let stdin_msg : string =
 "In cases where '-' may be provided instead of a path, the program
@@ -180,6 +188,7 @@ let set_indent (s : string) : unit =
   with _ -> raise (Error ("invalid --indent argument: " ^ s))
 
 let keyspecdoc_margin : t_keyspecdoc = ("--margin", Arg.String set_margin, "")
+
 let keyspecdoc_indent : t_keyspecdoc = ("--indent", Arg.String set_indent, "")
 
 let set_width (s : string) : unit =
@@ -209,6 +218,7 @@ let keyspecdoc_external_css : t_keyspecdoc =
   ("--external-css", Arg.String add_external_css, "")
 
 let keyspecdoc_stdin : t_keyspecdoc = ("-", Arg.Set read_from_stdin, "")
+
 let keyspecdoc_quiet : t_keyspecdoc = ("--quiet", Arg.Set quiet, "")
 
 let set_numbering (s : string) : unit =
@@ -230,7 +240,7 @@ let normalize_axml_list : t_keyspecdoc list =
   keyspecdoc_stdin::help_list
 
 let axml_of_nmm_list : t_keyspecdoc list =
-    keyspecdoc_tags::normalize_axml_list
+  keyspecdoc_tags::normalize_axml_list
 
 let exml_of_nmm_list : t_keyspecdoc list =
   List.concat [
