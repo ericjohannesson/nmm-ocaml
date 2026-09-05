@@ -110,7 +110,7 @@ let options_msg_of_command (command : string) : string =
   | [] -> ""
   | options ->
       String.concat "" [
-        "OPTIONS:\n";
+        "  OPTIONS:\n";
         "  ";  
         String.concat "\n  " (options_of_command command);
       ]
@@ -134,12 +134,15 @@ let help_msg_of_command (command : string) : string =
   match command with
   | "" -> "USAGE:\n" ^ usage_msg
   | _ ->
-    String.concat "\n" [
-     "USAGE:";
-     "nmm-ocaml" ^ " " ^ command ^ " " ^ (usage_msg_of_command command);
-     "  " ^ (options_msg_of_command command);
-    ]
-
+    let usage_msg : string =
+      match usage_msg_of_command command with
+      | "" -> String.concat " " ["nmm-ocaml"; command]
+      | s -> String.concat " " ["nmm-ocaml"; command; s]
+    in
+    match options_msg_of_command command with
+      | "" -> String.concat "\n" ["USAGE:"; usage_msg]
+      | s -> String.concat "\n" ["USAGE:"; usage_msg; s]
+ 
 type t_keyspecdoc = Arg.key * Arg.spec * Arg.doc
 
 let cmd_name : string ref = ref ""
