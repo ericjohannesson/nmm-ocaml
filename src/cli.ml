@@ -136,7 +136,7 @@ let help_msg_of_command (command : string) : string =
   | _ ->
     String.concat "\n" [
      "USAGE:";
-     command ^ " " ^ usage_msg_of_command command;
+     "nmm-ocaml" ^ " " ^ command ^ " " ^ (usage_msg_of_command command);
      "  " ^ (options_msg_of_command command);
     ]
 
