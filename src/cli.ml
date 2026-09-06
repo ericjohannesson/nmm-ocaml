@@ -14,8 +14,8 @@ let usage_msg_of_command (command : string) : string =
   | "check-xml-schema" -> "PATH-TO-DTD-FILE"
   | "validate-xml" -> "PATH-TO-DTD-FILE { PATH-TO-XML-FILE | - }"
   | "normalize-axml" -> "{ PATH-TO-AXML-FILE | - }"
-  | "test-with-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE }"
-  | "test-with-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE }"
+  | "test-with-nmm" -> "[ OPTIONS ] PATH-TO-NMM-FILE"
+  | "test-with-axml" -> "[ OPTIONS ] PATH-TO-AXML-FILE"
   | _ -> ""
 
 let usage_msg : string =
