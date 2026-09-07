@@ -35,7 +35,7 @@ let identity_test_w_doc (doc : Doc_types.tr_doc)
   | true -> ()
   | false ->
       raise
-        (Error "doc_of_axml (axml_of_doc doc) ≠ doc")
+        (Error "doc_of_axml (axml_of_doc doc) != doc")
 
 let identity_test_w_axml (axml : Xml.xml)
     (axml_of_doc : Xml.xml) : unit =
@@ -43,7 +43,7 @@ let identity_test_w_axml (axml : Xml.xml)
   | true -> ()
   | false ->
       raise
-        (Error "axml_of_doc (doc_of_axml axml) ≠ axml")
+        (Error "axml_of_doc (doc_of_axml axml) != axml")
 
 let xml_right_test (format : string) (xml : Xml.xml) : unit =
   try
@@ -57,7 +57,7 @@ let xml_right_test (format : string) (xml : Xml.xml) : unit =
              (String.concat " "
                 [
                   format;
-                  "≠ Xml_right.parse_string (Xml_right.to_string";
+                  "!= Xml_right.parse_string (Xml_right.to_string";
                   format;
                   ")";
                 ]))
@@ -75,7 +75,7 @@ let xml_right_test_fmt (format : string) (xml : Xml.xml) : unit =
              (String.concat " "
                 [
                   format;
-                  "≠ Xml_right.parse_string (Xml_right.to_string_fmt";
+                  "!= Xml_right.parse_string (Xml_right.to_string_fmt";
                   format;
                   ")";
                 ]))
