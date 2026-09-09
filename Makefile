@@ -23,9 +23,11 @@ clean-docs:
 	rm -f docs/*.html
 	rm -f docs/specs/*.txt
 
-install-opam_package: opam/package src/cli.ml
+switch = $(shell opam switch show)
+
+install-opam_package: opam/package
 	ocamlfind install nmm-ocaml opam/package/*
-	ocamlfind ocamlopt -o ~/.opam/default/bin/nmm-ocaml \
+	ocamlfind ocamlopt -o ~/.opam/${switch}/bin/nmm-ocaml \
 		-linkpkg \
 		-package sedlex.ppx \
 		-package uuseg \
@@ -239,12 +241,12 @@ byte: src
 	ocamlc -a -o nmm_ocaml.cma nmm_ocaml.cmo
 	cd -
 
-debian/packages: debian bin test
+debian/packages: debian bin
 	cd debian
 	make
 	cd -
 
-opam/package: opam native byte test
+opam/package: opam byte bin/nmm-ocaml
 	cd opam
 	make
 	cd -

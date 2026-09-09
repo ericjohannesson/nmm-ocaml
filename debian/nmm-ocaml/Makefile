@@ -14,16 +14,11 @@ clean:
 	git clean -fdX
 
 package = nmm-ocaml
-release = 1
-architecture = amd64
-maintainer = Eric Johannesson <eric@ericjohannesson.com>
-homepage = https://github.com/ericjohannesson/nmm-ocaml
 description = An implementation of no-markup-markup in OCaml
 depends = libc6
 
 directory = ${package}_${version}-${release}_${architecture}
 
-version := $(shell ../../bin/nmm-ocaml version)
 
 define control
 Package: ${package}

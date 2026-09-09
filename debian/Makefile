@@ -9,6 +9,12 @@ MAKEFLAGS += --no-builtin-rules
 
 default: packages
 
+export architecture = $(shell bash get-architecture.sh)
+export version = $(shell ../bin/nmm-ocaml version)
+export release = 1
+export maintainer = Eric Johannesson <eric@ericjohannesson.com>
+export homepage = https://github.com/ericjohannesson/nmm-ocaml
+
 clean:
 	# remove anything in .gitignore, including directories
 	git clean -fdX
