@@ -246,7 +246,7 @@ debian/packages: debian bin
 	make
 	cd -
 
-opam/package: opam byte bin/nmm-ocaml
+opam/package: opam byte
 	cd opam
 	make
 	cd -
