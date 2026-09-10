@@ -246,7 +246,7 @@ debian/packages: debian bin
 	make
 	cd -
 
-opam/package: opam byte
+opam/package: opam byte native
 	cd opam
 	make
 	cd -
