@@ -69,8 +69,10 @@ AXML-OPTIONS:
 
 For installing the opam package manager, see https://opam.ocaml.org/
 
-For installing the dependencies (requires ocaml 4.14.0 or higher)
-and building the executable that implements the command line interface,
+(On debian-based linux with apt, it is sufficient to run `sudo apt install opam`)
+
+
+For installing the opam-dependencies and building the executable that implements the command line interface,
 clone this repository and run the following commands in its root directory:
 ```bash
 opam install ocaml sedlex uuseg xml-light ocamlfind
@@ -81,8 +83,7 @@ For installing nmm-ocaml as a local opam package, simply run
 ```bash
 opam install .
 ```
-
-This will automatically install the dependencies, and build an executable at `~/.opam/<your-opam-switch>/bin/nmm-ocaml`.
+This will automatically install the opam-dependencies, and build an executable at `~/.opam/<your-opam-switch>/bin/nmm-ocaml`.
 
 
 ## Documentation
