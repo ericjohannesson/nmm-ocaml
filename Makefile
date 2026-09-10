@@ -23,11 +23,9 @@ clean-docs:
 	rm -f docs/*.html
 	rm -f docs/specs/*.txt
 
-switch = $(shell opam switch show)
-
 install-opam_package: opam/package
 	ocamlfind install nmm-ocaml opam/package/*
-	ocamlfind ocamlopt -o ~/.opam/${switch}/bin/nmm-ocaml \
+	ocamlfind ocamlopt -o $(shell opam var bin)/nmm-ocaml \
 		-linkpkg \
 		-package sedlex.ppx \
 		-package uuseg \
