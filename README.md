@@ -65,21 +65,24 @@ AXML-OPTIONS:
   --tags PATH-TO-TSV-FILE
 ```
 
-## Installation
+## Build and install with opam
 
 For installing the opam package manager, see https://opam.ocaml.org/
 
-For installing nmm-ocaml as a local opam package, clone this repository and run the following command in its root directory:
+For installing the depencies and building the executable that implements the command line interface,
+clone this repository and run the following commands in its root directory:
+```bash
+opam install ocaml sedlex uuseg xml-light ocamlfind
+make bin/nmm-ocaml
+```
+
+For installing nmm-ocaml as a local opam package, simply run
 ```bash
 opam install .
 ```
 
-This will also build an executable file at `~/.opam/default/bin/nmm-ocaml` which implements the command-line interface.
+This will automatically install the depencies, and build an executable at `~/.opam/<your-opam-switch>/bin/nmm-ocaml`.
 
-For only building the executable, run
-```bash
-make bin/nmm-ocaml
-```
 
 ## Documentation
 
