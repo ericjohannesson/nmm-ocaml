@@ -27,7 +27,7 @@ packages: nmm-ocaml/packages nmm-ocaml-extras/packages
 nmm-ocaml/packages: \
 		 nmm-ocaml \
 		../bin/nmm-ocaml \
-		../scripts/nmm-ocaml-bash-completion.sh
+		../share
 	cd nmm-ocaml
 	make
 	cd -
@@ -37,7 +37,7 @@ nmm-ocaml-extras/packages: \
 		../bin/txt-of-nmm \
 		../bin/html-of-nmm \
 		../bin/pdf-of-nmm \
-		../scripts/nmm-ocaml-bash-completion.sh
+		../share
 	cd nmm-ocaml-extras
 	make
 	cd -

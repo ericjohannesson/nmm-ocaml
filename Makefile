@@ -239,7 +239,7 @@ byte: src
 	ocamlc -a -o nmm_ocaml.cma nmm_ocaml.cmo
 	cd -
 
-debian/packages: debian bin
+debian/packages: debian bin share
 	cd debian
 	make
 	cd -
@@ -248,3 +248,9 @@ opam/package: opam byte native
 	cd opam
 	make
 	cd -
+
+share: scripts/nmm-ocaml-bash-completion.sh
+	mkdir -p share/bash-completion/completions
+	cp scripts/nmm-ocaml-bash-completion.sh \
+		share/bash-completion/completions/nmm-ocaml
+	
