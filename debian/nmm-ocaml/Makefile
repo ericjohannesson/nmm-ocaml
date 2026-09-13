@@ -14,11 +14,14 @@ clean:
 	git clean -fdX
 
 package = nmm-ocaml
-description = An implementation of no-markup-markup in OCaml
-depends = libc6
+version = $(shell ../../bin/nmm-ocaml version)
+release = 0
+architecture = $(shell bash get-architecture.sh)
 
 directory = ${package}_${version}-${release}_${architecture}
 
+depends = libc6
+description = An implementation of no-markup-markup in OCaml
 
 define control
 Package: ${package}

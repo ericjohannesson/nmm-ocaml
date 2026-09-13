@@ -14,18 +14,24 @@ clean:
 	git clean -fdX
 
 package = nmm-ocaml-extras
-description = Some convenient wrapper scripts for nmm-ocaml \
-	(txt-of-nmm, html-of-nmm, pdf-of-nmm)
-depends = nmm-ocaml, bash, sed, weasyprint
+version = 0
+release = 0
+architecture = all
 
 directory = ${package}_${version}-${release}_${architecture}
+
+description = Some convenient wrapper scripts for nmm-ocaml \
+	(txt-of-nmm, html-of-nmm, pdf-of-nmm)
+
+depends = nmm-ocaml, bash, sed, weasyprint
+
 
 define control
 Package: ${package}
 Version: ${version}
 Maintainer: ${maintainer}
 Depends: ${depends}
-Architecture: all
+Architecture: ${architecture}
 Homepage: ${homepage}
 Description: ${description}
 endef
