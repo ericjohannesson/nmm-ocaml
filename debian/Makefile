@@ -11,7 +11,7 @@ default: packages
 
 export architecture = $(shell bash get-architecture.sh)
 export version = $(shell ../bin/nmm-ocaml version)
-export release = 1
+export release = 0
 export maintainer = Eric Johannesson <eric@ericjohannesson.com>
 export homepage = https://github.com/ericjohannesson/nmm-ocaml
 
