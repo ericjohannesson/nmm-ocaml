@@ -25,7 +25,7 @@ Package: ${package}
 Version: ${version}
 Maintainer: ${maintainer}
 Depends: ${depends}
-Architecture: ${architecture}
+Architecture: all
 Homepage: ${homepage}
 Description: ${description}
 endef
