@@ -17,7 +17,6 @@ pkgs.stdenv.mkDerivation {
   installPhase = ''
     mkdir -p $out/bin
     cp bin/nmm-ocaml $out/bin/
-    mkdir -p $out/share
-    cp -r share/* $out/share/
+    cp -r share $out/
   '';
 }
