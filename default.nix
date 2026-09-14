@@ -4,11 +4,11 @@ pkgs.stdenv.mkDerivation {
   version = "0";
   src = ./.;
   buildInputs = with pkgs; [
-      ocaml
-      ocamlPackages.findlib
-      ocamlPackages.sedlex
-      ocamlPackages.uuseg
-      ocamlPackages.xml-light
+    ocaml
+    ocamlPackages.findlib
+    ocamlPackages.sedlex
+    ocamlPackages.uuseg
+    ocamlPackages.xml-light
   ];
   buildPhase = ''
     make bin/nmm-ocaml
