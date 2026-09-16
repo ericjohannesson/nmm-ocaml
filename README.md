@@ -117,11 +117,11 @@ make bin/nmm-ocaml
 
 On standard nix (without nix-commands), to build and add the executable to your nix profile, run
 ```bash
-nix-env --install --file default.nix
+nix-env --install --file .
 ```
 To do the same on experimental nix (with nix-commands), run
 ```bash
-nix profile add --file default.nix
+nix profile add --file .
 ```
 
 ## Documentation
