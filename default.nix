@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.stdenv.mkDerivation {
-  name = "nmm-ocaml";
+  pname = "nmm-ocaml";
   version = "0";
   src = ./.;
   buildInputs = with pkgs; [
