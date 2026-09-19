@@ -4,32 +4,32 @@ exception Error of string
 
 let usage_msg_of_command (command : string) : string =
   match command with
-  | "txt-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
-  | "html-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
-  | "exml-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
-  | "axml-of-nmm" -> "[ OPTIONS ] { PATH-TO-NMM-FILE | - }"
-  | "txt-of-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE | - }"
-  | "html-of-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE | - }"
-  | "exml-of-axml" -> "[ OPTIONS ] { PATH-TO-AXML-FILE | - }"
-  | "check-xml-schema" -> "PATH-TO-DTD-FILE"
-  | "validate-xml" -> "PATH-TO-DTD-FILE { PATH-TO-XML-FILE | - }"
-  | "normalize-axml" -> "{ PATH-TO-AXML-FILE | - }"
-  | "test-with-nmm" -> "[ OPTIONS ] PATH-TO-NMM-FILE"
-  | "test-with-axml" -> "[ OPTIONS ] PATH-TO-AXML-FILE"
+  | "txt-of-nmm" -> "[OPTIONS] {NMM-FILE | -}"
+  | "html-of-nmm" -> "[OPTIONS] {NMM-FILE | -}"
+  | "exml-of-nmm" -> "[OPTIONS] {NMM-FILE | -}"
+  | "axml-of-nmm" -> "[OPTIONS] {NMM-FILE | -}"
+  | "txt-of-axml" -> "[OPTIONS] {AXML-FILE | -}"
+  | "html-of-axml" -> "[OPTIONS] {AXML-FILE | -}"
+  | "exml-of-axml" -> "[OPTIONS] {AXML-FILE | -}"
+  | "check-xml-schema" -> "DTD-FILE"
+  | "validate-xml" -> "DTD-FILE {XML-FILE | -}"
+  | "normalize-axml" -> "{AXML-FILE | -}"
+  | "test-with-nmm" -> "[OPTIONS] NMM-FILE"
+  | "test-with-axml" -> "[OPTIONS] AXML-FILE"
   | _ -> ""
 
 let usage_msg : string =
 "nmm-ocaml [
-  | txt-of-nmm   [ TXT-OPTIONS  ] { PATH-TO-NMM-FILE  | - }
-  | html-of-nmm  [ HTML-OPTIONS ] { PATH-TO-NMM-FILE  | - }
-  | exml-of-nmm  [ EXML-OPTIONS ] { PATH-TO-NMM-FILE  | - }
-  | axml-of-nmm  [ AXML-OPTIONS ] { PATH-TO-NMM-FILE  | - }
-  | txt-of-axml  [ TXT-OPTIONS  ] { PATH-TO-AXML-FILE | - }
-  | html-of-axml [ HTML-OPTIONS ] { PATH-TO-AXML-FILE | - }
-  | exml-of-axml [ EXML-OPTIONS ] { PATH-TO-AXML-FILE | - }
-  | check-xml-schema PATH-TO-DTD-FILE
-  | validate-xml PATH-TO-DTD-FILE { PATH-TO-XML-FILE | - }
-  | normalize-axml { PATH-TO-AXML-FILE | - }
+  | txt-of-nmm   [TXT-OPTIONS ] {NMM-FILE  | -}
+  | html-of-nmm  [HTML-OPTIONS] {NMM-FILE  | -}
+  | exml-of-nmm  [EXML-OPTIONS] {NMM-FILE  | -}
+  | axml-of-nmm  [AXML-OPTIONS] {NMM-FILE  | -}
+  | txt-of-axml  [TXT-OPTIONS ] {AXML-FILE | -}
+  | html-of-axml [HTML-OPTIONS] {AXML-FILE | -}
+  | exml-of-axml [EXML-OPTIONS] {AXML-FILE | -}
+  | check-xml-schema DTD-FILE
+  | validate-xml DTD-FILE {XML-FILE | -}
+  | normalize-axml {AXML-FILE | -}
   | show-axml-schema
   | show-exml-schema
   | version
@@ -43,14 +43,14 @@ reads from standard input."
 
 let axml_options : string list =
   [
-    "--tags PATH-TO-TSV-FILE";
+    "--tags TSV-FILE";
   ]
 
 let exml_options : string list =
   List.concat [
     axml_options;
     [
-      "--numbering { a1i | ai1 | 1ai | 1ia | ia1 | i1a }";
+      "--numbering {a1i | ai1 | 1ai | 1ia | ia1 | i1a}";
       "--allow-custom-numbering";
       "--quiet";
     ];
@@ -73,7 +73,7 @@ let html_options : string list =
       "--margin NON-NEGATIVE-INTEGER";
       "--indent NON-NEGATIVE-INTEGER";
       "--lang ISO-LANGUAGE-CODE";
-      "--internal-css PATH-TO-CSS-FILE";
+      "--internal-css CSS-FILE";
       "--external-css URI";
     ];
   ]

@@ -28,6 +28,9 @@
 <body>
 <code class="code"><span class="keyword">let</span> <span class="keyword">rec</span> html_of_exml (doc_class : <span class="constructor">Common_utils</span>.t_doc_class) (element : <span class="constructor">Xml</span>.xml)
     : <span class="constructor">Xml</span>.xml =
+  <span class="keyword">let</span> clear : <span class="constructor">Xml</span>.xml =
+    <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"div"</span>, [ (<span class="string">"class"</span>, <span class="string">"clear"</span>) ], [ <span class="constructor">Xml</span>.<span class="constructor">PCData</span> <span class="string">""</span> ])
+  <span class="keyword">in</span>
   <span class="keyword">match</span> element <span class="keyword">with</span>
   <span class="keywordsign">|</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"doc"</span>, attr_list, xml_list) <span class="keywordsign">-&gt;</span>
       <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"main"</span>, attr_list, <span class="constructor">List</span>.map (html_of_exml doc_class) xml_list)
@@ -219,8 +222,8 @@
           <span class="constructor">List</span>.map (html_of_exml doc_class) xml_list )
   <span class="keywordsign">|</span> <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"dsp_line"</span>, attr_list, xml_list) <span class="keywordsign">-&gt;</span> (
       <span class="keyword">match</span> <span class="constructor">List</span>.map (html_of_exml doc_class) xml_list <span class="keyword">with</span>
-      <span class="keywordsign">|</span> lbl::[main] <span class="keywordsign">-&gt;</span> 
-          <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"div"</span>, attr_list, lbl::clear::[main])
+      <span class="keywordsign">|</span> [lbl; main] <span class="keywordsign">-&gt;</span> 
+          <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"div"</span>, attr_list, [lbl; clear; main])
       <span class="keywordsign">|</span> lst <span class="keywordsign">-&gt;</span> 
           <span class="constructor">Xml</span>.<span class="constructor">Element</span> (<span class="string">"div"</span>, attr_list, lst)
   )

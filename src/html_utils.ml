@@ -15,12 +15,12 @@ let par_hdr_of_doc_class (doc_class : Common_utils.t_doc_class) : string =
   | DOC_PARS -> "h2"
   | DOC_BLKS -> raise (Error "unexpected document class")
 
-let clear : Xml.xml =
-  Xml.Element ("div", [ ("class", "clear") ], [ Xml.PCData "" ])
-
 
 let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
     : Xml.xml =
+  let clear : Xml.xml =
+    Xml.Element ("div", [ ("class", "clear") ], [ Xml.PCData "" ])
+  in
   match element with
   | Xml.Element ("doc", attr_list, xml_list) ->
       Xml.Element ("main", attr_list, List.map (html_of_exml doc_class) xml_list)
@@ -212,8 +212,8 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("dsp_line", attr_list, xml_list) -> (
       match List.map (html_of_exml doc_class) xml_list with
-      | lbl::[main] -> 
-          Xml.Element ("div", attr_list, lbl::clear::[main])
+      | [lbl; main] -> 
+          Xml.Element ("div", attr_list, [lbl; clear; main])
       | lst -> 
           Xml.Element ("div", attr_list, lst)
   )
