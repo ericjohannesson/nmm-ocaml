@@ -24,11 +24,13 @@ nmm-ocaml [
   | txt-of-axml  [TXT-OPTIONS ] {AXML-FILE | -}
   | html-of-axml [HTML-OPTIONS] {AXML-FILE | -}
   | exml-of-axml [EXML-OPTIONS] {AXML-FILE | -}
-  | check-xml-schema DTD-FILE
-  | validate-xml DTD-FILE {XML-FILE | -}
   | normalize-axml {AXML-FILE | -}
+  | validate-axml  {AXML-FILE | -}
+  | validate-exml  {EXML-FILE | -}
   | show-axml-schema
   | show-exml-schema
+  | check-xml-schema DTD-FILE
+  | validate-xml DTD-FILE {XML-FILE | -}
   | version
   | help
 ]

@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {} }:
 pkgs.stdenv.mkDerivation {
   pname = "nmm-ocaml";
-  version = "2";
+  version = "3";
   src = ./.;
   buildInputs = with pkgs; [
     ocaml
