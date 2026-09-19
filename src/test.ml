@@ -1,12 +1,31 @@
 exception Error of string
 
-let exml_dtd : Dtd.dtd = Dtd.parse_string (Exml_utils.exml_schema ())
-let exml_dtd_checked : Dtd.checked = Dtd.check exml_dtd
+let exml_dtd_checked () : Dtd.checked =
+  try
+    Dtd.check (Dtd.parse_string (Exml_utils.exml_schema ()))
+  with
+  | Xml_light_errors.Dtd_check_error e ->
+      raise
+        (Error
+           (String.concat " "
+              [
+                "Xml_light_errors.Dtd_check_error:";
+                Dtd.check_error e;
+              ]))
+  | Xml_light_errors.Dtd_parse_error e ->
+      raise
+        (Error
+           (String.concat " "
+              [
+                "Xml_light_errors.Dtd_parse_error:";
+                Dtd.parse_error e;
+              ]))
+  
 
 
 let validate_exml (exml : Xml.xml) : unit =
   try
-    let _ = Dtd.prove exml_dtd_checked "doc" exml in
+    let _ = Dtd.prove (exml_dtd_checked ()) "doc" exml in
     ()
   with Dtd.Prove_error e ->
     raise
@@ -14,13 +33,31 @@ let validate_exml (exml : Xml.xml) : unit =
          (String.concat " "
             [ "exml Ddt.prove_error:"; Dtd.prove_error e ]))
 
-let axml_dtd : Dtd.dtd = Dtd.parse_string (Axml_of_doc.axml_schema ())
-let axml_dtd_checked : Dtd.checked = Dtd.check axml_dtd
+let axml_dtd_checked () : Dtd.checked =
+  try
+    Dtd.check (Dtd.parse_string (Axml_of_doc.axml_schema ()))
+  with
+  | Xml_light_errors.Dtd_check_error e ->
+      raise
+        (Error
+           (String.concat " "
+              [
+                "Xml_light_errors.Dtd_check_error:";
+                Dtd.check_error e;
+              ]))
+  | Xml_light_errors.Dtd_parse_error e ->
+      raise
+        (Error
+           (String.concat " "
+              [
+                "Xml_light_errors.Dtd_parse_error:";
+                Dtd.parse_error e;
+              ]))
 
 
 let validate_axml (axml : Xml.xml) : unit =
   try
-    let _ = Dtd.prove axml_dtd_checked "cr_doc" axml in
+    let _ = Dtd.prove (axml_dtd_checked ()) "cr_doc" axml in
     ()
   with Dtd.Prove_error e ->
     raise
