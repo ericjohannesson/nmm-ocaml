@@ -249,7 +249,7 @@ debian/packages: debian bin share
 	make
 	cd -
 
-opam/package: opam byte native
+opam/package: opam byte bin/nmm-ocaml
 	cd opam
 	make
 	cd -
@@ -258,4 +258,4 @@ share: scripts/nmm-ocaml-bash-completion.sh
 	mkdir -p share/bash-completion/completions
 	cp scripts/nmm-ocaml-bash-completion.sh \
 		share/bash-completion/completions/nmm-ocaml
-	
+
