@@ -2,7 +2,7 @@ exception Error of string
 
 (* version *)
 
-let version () : string = "3"
+let version () : string = "4"
 
 (* parsing nmm *)
 
