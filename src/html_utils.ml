@@ -89,9 +89,13 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "div",
           [ ("class", "ch_main") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("sec", attr_list, xml_list) ->
-      Xml.Element
-        ("section", attr_list, List.map (html_of_exml doc_class) xml_list)
+  | Xml.Element ("sec", attr_list, xml_list) -> (
+      match List.map (html_of_exml doc_class) xml_list with
+      | hd::tl -> 
+          Xml.Element
+            ("section", attr_list, hd::clear::tl )
+      | [] -> raise (Error "empty sec") 
+  )
   | Xml.Element ("sec_lbl", _, xml_list) ->
       Xml.Element
         ( "div",
@@ -349,7 +353,7 @@ let margin_left_of_tr_doc (doc : Doc_types.tr_doc) : float =
   in
   match Txt_utils.max_length_of_margin_labels margin_labels with
   | 0 -> 0.0
-  | n -> (Float.of_int (n + 1)) *. 0.6 +. 1.0
+  | n -> (Float.of_int (n+4)) *. 0.6
 
 let internal_css_of_file (path : string) : string =
   let comment : string =
@@ -700,8 +704,9 @@ let default_css (tab_length : string) (margin_left : string) : string =
 
 @media print {
 
-  .doc {
-    font-size : 12pt;
+  html {
+    font-family : monospace;
+    font-size   : 12px;
   }
 
   .refs_hdr, .abstract_hdr, .ch_hdr, .ch_lbl, .sec_hdr, .sec_lbl, .par_hdr, .par_lbl, .par_tag, .blk_itm_lbl, .blk_blt_lbl, .clear {
@@ -735,8 +740,8 @@ let default_css (tab_length : string) (margin_left : string) : string =
   @page {
     size          : a4;
     width         : 80ch;
-    margin-left   : auto;
-    margin-right  : auto;
+    margin-left   : 20mm;
+    margin-right  : 20mm;
     margin-top    : 20mm;
     margin-bottom : 30mm;
 
