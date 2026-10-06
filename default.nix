@@ -5,7 +5,7 @@
 }:
 pkgs.stdenv.mkDerivation {
   pname = "nmm-ocaml";
-  version = "5";
+  version = "6";
   src = ./.;
   buildInputs = with pkgs; [
     ocaml
