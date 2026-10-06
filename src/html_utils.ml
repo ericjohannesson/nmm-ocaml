@@ -493,7 +493,7 @@ let default_css (tab_length : string) (margin_left : string) : string =
 }
 
 .doc.chs .refs_hdr {
-    font-size : 200%;
+    font-size     : 200%;
     margin-bottom : 3rem;
 }
 
@@ -547,10 +547,10 @@ let default_css (tab_length : string) (margin_left : string) : string =
 }
 
 .sec_hdr {
-    margin-top  : 0;
-    margin-left : " ^ margin_left ^ ";
-    font-size   : 150%;
-    line-height : 130%;
+    margin-top     : 0;
+    margin-left    : " ^ margin_left ^ ";
+    font-size      : 150%;
+    line-height    : 130%;
     bookmark-label : attr(bookmark) \"  \" content();
 }
 
@@ -572,10 +572,10 @@ let default_css (tab_length : string) (margin_left : string) : string =
 }
 
 .par_tag, .par_hdr {
-    margin-top   : 0;
-    font-weight  : bold;
-    display      : inline;
-    font-size    : inherit;
+    margin-top     : 0;
+    font-weight    : bold;
+    display        : inline;
+    font-size      : inherit;
     bookmark-label : attr(bookmark) \"  \" content();
 }
 
@@ -701,7 +701,7 @@ let default_css (tab_length : string) (margin_left : string) : string =
 @media print {
 
   .doc {
-    font-size : 12px;
+    font-size : 12pt;
   }
 
   .refs_hdr, .abstract_hdr, .ch_hdr, .ch_lbl, .sec_hdr, .sec_lbl, .par_hdr, .par_lbl, .par_tag, .blk_itm_lbl, .blk_blt_lbl, .clear {
@@ -734,11 +734,11 @@ let default_css (tab_length : string) (margin_left : string) : string =
 
   @page {
     size          : a4;
-    margin-top    : 20mm;
-    margin-left   : 20mm;
-    margin-right  : 20mm;
-    margin-bottom : 30mm;
     width         : 80ch;
+    margin-left   : auto;
+    margin-right  : auto;
+    margin-top    : 20mm;
+    margin-bottom : 30mm;
 
     @top-center {
        content : \" \";
