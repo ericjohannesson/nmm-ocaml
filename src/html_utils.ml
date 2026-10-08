@@ -594,11 +594,13 @@ let default_css (tab_length : string) (margin_left : string) : string =
 /************** BLK *********************/
 
 .par_hdr + .blk.txt {
-  display : inline;
+  display     : inline;
+  margin-left : 1ch;
 }
 
 .par_tag.hdr + .blk.txt {
-  display : inline;
+  display     : inline;
+  margin-left : 1ch;
 }
 
 * + .blk {
