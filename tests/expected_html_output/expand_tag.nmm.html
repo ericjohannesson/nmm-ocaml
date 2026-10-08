@@ -223,19 +223,10 @@
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) "  " content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) "  (" content() ")";
-}
-
-.par_tag + .par_hdr::before {
-  content : "(";
-}
-
-.par_tag + .par_hdr::after {
-  content : ")";
 }
 
 .par_main {
@@ -251,14 +242,6 @@
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : " ";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : " ";
 }
 
 * + .blk {
@@ -413,7 +396,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">THEOREM</div>
-<h3 class="par_hdr" bookmark="¶ 1.1  THEOREM">Main</h3>
+<h3 class="par_hdr" bookmark="¶ 1.1  THEOREM">(Main)</h3>
 <div class="ITM blk itm" id="ITM_1">
 <div class="blk_itm_lbl">(a)</div>
 <div class="clear"></div>
@@ -453,7 +436,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">PROOF</div>
-<h3 class="par_hdr" bookmark="¶ 1.2  PROOF">of <a class="txt_unit_c_ref" href="#THM_main">Theorem 1.1</a></h3>
+<h3 class="par_hdr" bookmark="¶ 1.2  PROOF">(of <a class="txt_unit_c_ref" href="#THM_main">Theorem 1.1</a>)</h3>
 <p class="blk txt">By straightforward induction on the complexity of nothing.</p>
 <p class="blk txt">&apos;[THM:main]&apos; -&gt; <a class="txt_unit_c_ref" href="#THM_main">Theorem 1.1</a></p>
 <p class="blk txt">&apos;[ITM:1]&apos; -&gt; <a class="txt_unit_c_ref" href="#ITM_1">(a) of Theorem 1.1</a></p>
@@ -473,7 +456,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">PROOF</div>
-<h3 class="par_hdr" bookmark="¶ 2.1  PROOF">of <a class="txt_unit_c_ref" href="#THM_main">Theorem 1.1</a></h3>
+<h3 class="par_hdr" bookmark="¶ 2.1  PROOF">(of <a class="txt_unit_c_ref" href="#THM_main">Theorem 1.1</a>)</h3>
 <p class="blk txt">By straightforward induction on the complexity of nothing.</p>
 <p class="blk txt">&apos;[THM:main]&apos; -&gt; <a class="txt_unit_c_ref" href="#THM_main">Theorem 1.1</a></p>
 <p class="blk txt">&apos;[ITM:1]&apos; -&gt; <a class="txt_unit_c_ref" href="#ITM_1">(a) of Theorem 1.1</a></p>

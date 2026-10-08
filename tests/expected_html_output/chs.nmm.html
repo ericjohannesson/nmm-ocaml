@@ -223,19 +223,10 @@
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) "  " content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) "  (" content() ")";
-}
-
-.par_tag + .par_hdr::before {
-  content : "(";
-}
-
-.par_tag + .par_hdr::after {
-  content : ")";
 }
 
 .par_main {
@@ -251,14 +242,6 @@
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : " ";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : " ";
 }
 
 * + .blk {

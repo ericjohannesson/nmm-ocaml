@@ -223,19 +223,10 @@
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) "  " content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) "  (" content() ")";
-}
-
-.par_tag + .par_hdr::before {
-  content : "(";
-}
-
-.par_tag + .par_hdr::after {
-  content : ")";
 }
 
 .par_main {
@@ -251,14 +242,6 @@
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : " ";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : " ";
 }
 
 * + .blk {
@@ -409,7 +392,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">Teoremet</div>
-<h2 class="par_hdr" bookmark="¶ 1  Teoremet">Main</h2>
+<h2 class="par_hdr" bookmark="¶ 1  Teoremet">(Main)</h2>
 <p class="blk txt">Nothing lasts forever.</p>
 </div>
 </section>
@@ -418,7 +401,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">Beviset</div>
-<h2 class="par_hdr" bookmark="¶ 2  Beviset">of <a class="txt_unit_c_ref" href="#THM_main">Teoremet 1</a></h2>
+<h2 class="par_hdr" bookmark="¶ 2  Beviset">(of <a class="txt_unit_c_ref" href="#THM_main">Teoremet 1</a>)</h2>
 <p class="blk txt">By straightforward induction on the complexity of nothing.</p>
 </div>
 </section>
@@ -448,7 +431,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">Bevisen</div>
-<h2 class="par_hdr" bookmark="¶ 4  Bevisen">of <a class="txt_unit_c_ref" href="#THMS_aux">Teoremen 3</a></h2>
+<h2 class="par_hdr" bookmark="¶ 4  Bevisen">(of <a class="txt_unit_c_ref" href="#THMS_aux">Teoremen 3</a>)</h2>
 <div class="blk itm">
 <div class="blk_itm_lbl">(a)</div>
 <div class="clear"></div>

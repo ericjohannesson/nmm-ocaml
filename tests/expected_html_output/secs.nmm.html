@@ -223,19 +223,10 @@
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) "  " content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) "  (" content() ")";
-}
-
-.par_tag + .par_hdr::before {
-  content : "(";
-}
-
-.par_tag + .par_hdr::after {
-  content : ")";
 }
 
 .par_main {
@@ -251,14 +242,6 @@
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : " ";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : " ";
 }
 
 * + .blk {
@@ -582,7 +565,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">DEFINITION</div>
-<h3 class="par_hdr" bookmark="¶ 2.4  DEFINITION">Provability</h3>
+<h3 class="par_hdr" bookmark="¶ 2.4  DEFINITION">(Provability)</h3>
 <p class="blk txt">We say that Γ ⊢ φ just in case there is a proof from Γ to φ.</p>
 </div>
 </section>

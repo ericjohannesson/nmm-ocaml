@@ -223,19 +223,10 @@
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) "  " content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) "  (" content() ")";
-}
-
-.par_tag + .par_hdr::before {
-  content : "(";
-}
-
-.par_tag + .par_hdr::after {
-  content : ")";
 }
 
 .par_main {
@@ -251,14 +242,6 @@
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : " ";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : " ";
 }
 
 * + .blk {
@@ -462,7 +445,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">THEOREM</div>
-<h2 class="par_hdr" bookmark="¶ 7  THEOREM">Header of paragraph</h2>
+<h2 class="par_hdr" bookmark="¶ 7  THEOREM">(Header of paragraph)</h2>
 <p class="blk txt">Block of text.</p>
 <p class="blk txt">Another block of text.</p>
 </div>

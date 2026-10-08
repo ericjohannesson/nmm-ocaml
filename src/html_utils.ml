@@ -580,19 +580,10 @@ let default_css (tab_length : string) (margin_left : string) : string =
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) \"  \" content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) \"  (\" content() \")\";
-}
-
-.par_tag + .par_hdr::before {
-  content : \"(\";
-}
-
-.par_tag + .par_hdr::after {
-  content : \")\";
 }
 
 .par_main {
@@ -608,14 +599,6 @@ let default_css (tab_length : string) (margin_left : string) : string =
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : \" \";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : \" \";
 }
 
 * + .blk {

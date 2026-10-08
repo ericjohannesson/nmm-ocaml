@@ -224,19 +224,10 @@
   font-weight    : bold;
   display        : inline;
   font-size      : inherit;
+}
+
+.par_tag.hdr, .par_hdr {
   bookmark-label : attr(bookmark) "  " content();
-}
-
-.par_tag + .par_hdr {
-  bookmark-label : attr(bookmark) "  (" content() ")";
-}
-
-.par_tag + .par_hdr::before {
-  content : "(";
-}
-
-.par_tag + .par_hdr::after {
-  content : ")";
 }
 
 .par_main {
@@ -252,14 +243,6 @@
 
 .par_tag.hdr + .blk.txt {
   display : inline;
-}
-
-.par_hdr + .blk.txt::before {
-  content : " ";
-}
-
-.par_tag.hdr + .blk.txt::before {
-  content : " ";
 }
 
 * + .blk {
@@ -537,7 +520,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">DEFINITION</div>
-<h3 class="par_hdr" bookmark="¶ 2.3  DEFINITION">Proof by non-straightforward induction</h3>
+<h3 class="par_hdr" bookmark="¶ 2.3  DEFINITION">(Proof by non-straightforward induction)</h3>
 <p class="blk txt">We say that a theory T and formulas φ(x) and ψ(x) exemplify a case of <em class="txt_unit_emph">proof by non-straightforward induction</em> just in case</p>
 <div class="blk dsp">
 <div class="DSP dsp_line" id="DSP_good1">
@@ -647,7 +630,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">PROOF</div>
-<h3 class="par_hdr" bookmark="¶ 3.3  PROOF">of <a class="txt_unit_c_ref" href="#FCT_good">Fact 2.4</a></h3>
+<h3 class="par_hdr" bookmark="¶ 3.3  PROOF">(of <a class="txt_unit_c_ref" href="#FCT_good">Fact 2.4</a>)</h3>
 <p class="blk txt">To verify that cases of proof by non-straightforward induction are indeed possible, it suffices to find <em class="txt_unit_emph">true</em> formulas φ(x) and ψ(x) (<em class="txt_unit_emph">true</em> in the sense of being satisfied by all natural numbers in the standard model as well as in the non-standard model) with the following profile regarding the non-standard numbers of M:</p>
 <div class="blk dsp">
 <div class="dsp_line">
@@ -712,7 +695,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">DEFINITION</div>
-<h3 class="par_hdr" bookmark="¶ 4.2  DEFINITION">Proof by incomparable induction hypothesis</h3>
+<h3 class="par_hdr" bookmark="¶ 4.2  DEFINITION">(Proof by incomparable induction hypothesis)</h3>
 <p class="blk txt">We say that a theory T and formulas φ(x) and ψ(x) exemplify a case of <em class="txt_unit_emph">proof by incomparable induction hypothesis</em> just in case they exemplify a case of proof by non-straightforward induction and, in addition,</p>
 <div class="blk dsp">
 <div class="DSP dsp_line" id="DSP_inc1">
@@ -826,7 +809,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">DEFINITION</div>
-<h3 class="par_hdr" bookmark="¶ 4.6  DEFINITION">Proof by weakened induction hypothesis</h3>
+<h3 class="par_hdr" bookmark="¶ 4.6  DEFINITION">(Proof by weakened induction hypothesis)</h3>
 <p class="blk txt">We say that a theory T and formulas φ(x) and ψ(x) exemplify a case of <em class="txt_unit_emph">proof by weakened induction hypothesis</em> just in case they they exemplify a case of proof by non-straightforward induction and, in addition,</p>
 <div class="blk dsp">
 <div class="DSP dsp_line" id="DSP_weak1">
@@ -993,7 +976,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">LEMMA</div>
-<h3 class="par_hdr" bookmark="¶ 5.3  LEMMA">Generalizing Lemma 2.8 of Hetzl and Wong</h3>
+<h3 class="par_hdr" bookmark="¶ 5.3  LEMMA">(Generalizing Lemma 2.8 of Hetzl and Wong)</h3>
 <p class="blk txt">Let Θ(x,z̄) be a formula, and define φ(x) as</p>
 <div class="blk dsp">
 <div class="dsp_line">
@@ -1111,7 +1094,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">FACT</div>
-<h3 class="par_hdr" bookmark="¶ 5.5  FACT">Generalizing Proposition 2.9 of Hetzl and Wong</h3>
+<h3 class="par_hdr" bookmark="¶ 5.5  FACT">(Generalizing Proposition 2.9 of Hetzl and Wong)</h3>
 <p class="blk txt">For any formulas θ₁(x,z̄), ..., θₙ(x,z̄), there is a formula φ(x) such that</p>
 <div class="blk dsp">
 <div class="DSP dsp_line" id="DSP_fct1.1">
@@ -1192,7 +1175,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">FACT</div>
-<h3 class="par_hdr" bookmark="¶ 5.9  FACT">Generalizing Corollary 2.10 of Hetzl and Wong</h3>
+<h3 class="par_hdr" bookmark="¶ 5.9  FACT">(Generalizing Corollary 2.10 of Hetzl and Wong)</h3>
 <p class="blk txt">Let IND be the set of induction axioms, let T be a set of sentences, and let σ be a sentence. If T + IND ⊢ σ, then there is a formula φ(x) such that T + Iφ ⊢ σ.</p>
 </div>
 </section>
@@ -1209,7 +1192,7 @@
 <div class="clear"></div>
 <div class="par_main">
 <div class="par_tag">FACT</div>
-<h3 class="par_hdr" bookmark="¶ 5.11  FACT">Generalizing Proposition 3.2 of Hetzl and Wong</h3>
+<h3 class="par_hdr" bookmark="¶ 5.11  FACT">(Generalizing Proposition 3.2 of Hetzl and Wong)</h3>
 <p class="blk txt">Assume that T + IND ⊢ σ but T ⊬ σ, and let φ(x) be x = 0 → σ. Then we have</p>
 <div class="blk dsp">
 <div class="DSP dsp_line" id="DSP_fct2.1">
