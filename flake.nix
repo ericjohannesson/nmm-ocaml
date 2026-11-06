@@ -7,8 +7,7 @@
 
   outputs = inputs: {
     packages = builtins.mapAttrs (system: pkgs: {
-      nmm-ocaml = pkgs.callPackage ./default.nix { };
-      default = inputs.self.packages.${system}.nmm-ocaml;
+      default = pkgs.callPackage ./. { };
     }) inputs.nixpkgs.legacyPackages;
   };
 }
