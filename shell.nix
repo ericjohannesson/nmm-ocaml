@@ -16,4 +16,8 @@ let
 in
 pkgs.mkShell {
   packages = build_pkgs ++ dev_pkgs;
+  shellHook = ''
+    echo "Welcome to the developer shell for nmm-ocaml!"
+    export PS1="\[\033[01;36m\][nmm-ocaml-dev-shell]\033[00m\] $PS1"
+  '';
 }
