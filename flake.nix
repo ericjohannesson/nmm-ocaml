@@ -1,18 +1,47 @@
 {
   description = "nmm-ocaml";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
-  };
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
 
-  outputs = inputs: {
-    packages = builtins.mapAttrs (system: pkgs: {
-      default = pkgs.callPackage ./default.nix { };
-    }) inputs.nixpkgs.legacyPackages;
+  outputs =
+    { self, ... }@inputs:
+    let
+      inherit (inputs.nixpkgs) lib;
 
-    devShells = builtins.mapAttrs (system: pkgs: {
-      default = pkgs.callPackage ./shell.nix { };
-    }) inputs.nixpkgs.legacyPackages;
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "aarch64-darwin"
+      ];
 
-  };
+      forEachSupportedSystem =
+        f:
+        lib.genAttrs supportedSystems (
+          system:
+          f {
+            inherit system;
+            pkgs = import inputs.nixpkgs {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          }
+        );
+    in
+    {
+
+      devShells = forEachSupportedSystem (
+        { pkgs, system }:
+        {
+          default = pkgs.callPackage ./shell.nix { };
+        }
+      );
+ 
+      packages = forEachSupportedSystem (
+        { pkgs, system }:
+        {
+          default = pkgs.callPackage ./default.nix { };
+        }
+      );
+
+    };
 }
