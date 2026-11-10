@@ -2,7 +2,7 @@
   description = "nmm-ocaml";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
   };
 
   outputs = inputs: {
