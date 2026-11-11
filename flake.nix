@@ -16,24 +16,20 @@
         "aarch64-darwin"
       ];
 
-      pkgs_of_system =
-        sys:
-#        import i.nixpkgs {
-#          system = sys;
-#        };
-        i.nixpkgs.legacyPackages.${sys};
+      syspkgs = i.nixpkgs.legacyPackages;
+
     in
     {
 
-      devShells = lib.genAttrs systems (sys:
+      devShells = lib.genAttrs systems (system:
         {
-          default = (pkgs_of_system sys).callPackage ./shell.nix { };
+          default = syspkgs.${system}.callPackage ./shell.nix { };
         }
       );
  
-      packages = lib.genAttrs systems (sys:
+      packages = lib.genAttrs systems (system:
         {
-          default = (pkgs_of_system sys).callPackage ./default.nix { };
+          default = syspkgs.${system}.callPackage ./default.nix { };
         }
       );
 
