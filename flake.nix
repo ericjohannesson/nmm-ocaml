@@ -18,9 +18,10 @@
 
       pkgs_of_system =
         sys:
-        import i.nixpkgs {
-          system = sys;
-        };
+#        import i.nixpkgs {
+#          system = sys;
+#        };
+        i.nixpkgs.legacyPackages.${sys};
     in
     {
 
