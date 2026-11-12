@@ -1,5 +1,5 @@
 {
-  description = "nmm-ocaml";
+  description = "An implementation of no-markup-markup in OCaml";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
