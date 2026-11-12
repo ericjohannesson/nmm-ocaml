@@ -12,8 +12,6 @@ let
   dev_pkgs = with pkgs; [
     ocamlPackages.utop
     ocamlformat
-    gh
-    gh-markdown-preview
   ];
 in
 
@@ -23,7 +21,7 @@ pkgs.mkShell {
 
   shellHook = ''
     echo "Welcome to the developer shell for nmm-ocaml!"
-    export PS1="\[\033[01;36m\][dev-shell]\033[00m\] $PS1"
+    export PS1="(dev-shell) $PS1"
   '';
 
 }
