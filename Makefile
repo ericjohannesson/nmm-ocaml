@@ -5,7 +5,7 @@ SHELL := bash
 MAKEFLAGS += --warn-undefined-variables
 MAKEFLAGS += --no-builtin-rules
 
-.PHONY: default clean test utop clean-docs install-opam_package test-verbose
+.PHONY: default clean test utop clean-docs install-opam_package test-verbose format
 
 default:
 	@echo 'no default target'
@@ -259,3 +259,5 @@ share: scripts/nmm-ocaml-bash-completion.sh
 	cp scripts/nmm-ocaml-bash-completion.sh \
 		share/bash-completion/completions/nmm-ocaml
 
+format: src scripts/ocamlformat.sh .ocamlformat
+	bash scripts/ocamlformat.sh
