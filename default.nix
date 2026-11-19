@@ -3,7 +3,7 @@ pkgs.stdenv.mkDerivation {
 
   pname = "nmm-ocaml";
 
-  version = "9";
+  version = "10";
 
   src = ./.;
 
