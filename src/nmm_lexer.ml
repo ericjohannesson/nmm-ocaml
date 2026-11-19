@@ -200,7 +200,13 @@ let set_end_of_file_and_return_token (tkn : Nmm_parser.token) : Nmm_parser.token
 
 (* the lexer *)
 
-let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token =
+let rec skip_newlines (lexbuf : Sedlexing.lexbuf) : unit =
+  match%sedlex lexbuf with
+  | nl_not_nl -> Sedlexing.rollback lexbuf
+  | nl -> skip_newlines lexbuf
+  | _ -> ()
+
+let token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token =
   match
     ( lexer_env.verbatim,
       lexer_env.display,
@@ -337,8 +343,4 @@ let rec token (lexbuf : Sedlexing.lexbuf) : Nmm_parser.token =
                ("unexpected string on line " ^ line_of_lexbuf lexbuf ^ ": \""
               ^ lexeme lexbuf ^ "\"")))
 
-and skip_newlines (lexbuf : Sedlexing.lexbuf) : unit =
-  match%sedlex lexbuf with
-  | nl_not_nl -> Sedlexing.rollback lexbuf
-  | nl -> skip_newlines lexbuf
-  | _ -> ()
+
