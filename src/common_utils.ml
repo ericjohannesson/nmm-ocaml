@@ -651,7 +651,7 @@ let preamble_options_of_ts_preamble (options : t_preamble_options)
               let _ : unit =
                 IO.print_warning
                   (String.concat ""
-                     [ "WARNING: invalid attribute: \'";
+                     [ "WARNING: invalid preamble attribute: \'";
                        hd; "\'; "; "ignoring it" ])
               in
               options
