@@ -248,7 +248,7 @@ and acc_of_tr_blk_nte (doc_settings : t_doc_settings)
   | CREF_TABLE table ->
       CREF_TABLE
         ((blk_nte.fld_blk_nte_id, path, Cref_element_blk_nte blk_nte) :: table)
-  | _ -> acc
+  | MARGIN_LABELS _ | LINES _ | EXML _ | NTE_TABLE _ -> acc
 
 and lines_of_nte_blks (doc_settings : t_doc_settings)
     (cref_table : t_cref_table) (path : t_path) (blks : ts_blks) : string list =
