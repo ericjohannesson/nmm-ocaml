@@ -2,40 +2,36 @@ exception Error of string
 
 
 let xml_right_test (format : string) (xml : Xml.xml) : unit =
-  try
-    let xml_string : string = Xml_right.to_string xml in
-    let xml_of_string : Xml.xml = Xml_right.parse_string false xml_string in
-    match xml = xml_of_string with
-    | true -> ()
-    | false ->
-        raise
-          (Error
-             (String.concat " "
-                [
-                  format;
-                  "!= Xml_right.parse_string (Xml_right.to_string";
-                  format;
-                  ")";
-                ]))
-  with Error s | Xml_right.Error s -> raise (Error s)
+  let xml_string : string = Xml_right.to_string xml in
+  let xml_of_string : Xml.xml = Xml_right.parse_string false xml_string in
+  match xml = xml_of_string with
+  | true -> ()
+  | false ->
+      raise
+        (Error
+           (String.concat " "
+              [
+                format;
+                "!= Xml_right.parse_string (Xml_right.to_string";
+                format;
+                ")";
+              ]))
 
 let xml_right_test_fmt (format : string) (xml : Xml.xml) : unit =
-  try
-    let xml_string : string = Xml_right.to_string_fmt xml in
-    let xml_of_string : Xml.xml = Xml_right.parse_string false xml_string in
-    match xml = xml_of_string with
-    | true -> ()
-    | false ->
-        raise
-          (Error
-             (String.concat " "
-                [
-                  format;
-                  "!= Xml_right.parse_string (Xml_right.to_string_fmt";
-                  format;
-                  ")";
-                ]))
-  with Error s | Xml_right.Error s -> raise (Error s)
+  let xml_string : string = Xml_right.to_string_fmt xml in
+  let xml_of_string : Xml.xml = Xml_right.parse_string false xml_string in
+  match xml = xml_of_string with
+  | true -> ()
+  | false ->
+      raise
+        (Error
+           (String.concat " "
+              [
+                format;
+                "!= Xml_right.parse_string (Xml_right.to_string_fmt";
+                format;
+                ")";
+              ]))
 
 let test_with_nmm_file (options : Common_utils.t_exml_options)
     (path : string) : unit =
@@ -64,6 +60,8 @@ let test_with_nmm_file (options : Common_utils.t_exml_options)
   with
   | Error e -> 
       raise (Error (String.concat " " [ path; "->"; "Error:"; e ]))
+  | Xml_right.Error e ->
+      raise (Error (String.concat " " [ path; "->"; "Xml_right.Error:"; e ]))
   | Main.Error e ->
       raise (Error (String.concat " " [ path; "->"; "Main.Error:"; e ]))
   | Compiler_of_doc.Error e ->

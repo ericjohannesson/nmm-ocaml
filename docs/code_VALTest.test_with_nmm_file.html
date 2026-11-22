@@ -53,6 +53,8 @@
   <span class="keyword">with</span>
   <span class="keywordsign">|</span> <span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span> 
       raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [ path; <span class="string">"-&gt;"</span>; <span class="string">"Error:"</span>; e ]))
+  <span class="keywordsign">|</span> <span class="constructor">Xml_right</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span>
+      raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [ path; <span class="string">"-&gt;"</span>; <span class="string">"Xml_right.Error:"</span>; e ]))
   <span class="keywordsign">|</span> <span class="constructor">Main</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span>
       raise (<span class="constructor">Error</span> (<span class="constructor">String</span>.concat <span class="string">" "</span> [ path; <span class="string">"-&gt;"</span>; <span class="string">"Main.Error:"</span>; e ]))
   <span class="keywordsign">|</span> <span class="constructor">Compiler_of_doc</span>.<span class="constructor">Error</span> e <span class="keywordsign">-&gt;</span>
