@@ -1,20 +1,5 @@
 exception Error of string
 
-let identity_test_w_doc (doc : Doc_types.tr_doc)
-    (doc_of_axml : Doc_types.tr_doc) : unit =
-  match doc = doc_of_axml with
-  | true -> ()
-  | false ->
-      raise
-        (Error "doc_of_axml (axml_of_doc doc) != doc")
-
-let identity_test_w_axml (axml : Xml.xml)
-    (axml_of_doc : Xml.xml) : unit =
-  match axml = axml_of_doc with
-  | true -> ()
-  | false ->
-      raise
-        (Error "axml_of_doc (doc_of_axml axml) != axml")
 
 let xml_right_test (format : string) (xml : Xml.xml) : unit =
   try
@@ -62,7 +47,13 @@ let test_with_nmm_file (options : Common_utils.t_exml_options)
     let doc_of_axml : Doc_types.tr_doc = Doc_of_axml.f_tr_doc_of_axml axml in
     let exml : Xml.xml = Compiler_of_doc.exml_of_tr_doc options doc
     in
-    let _ : unit = identity_test_w_doc doc doc_of_axml in
+    let _ : unit =
+      match doc_of_axml = doc with
+      | true -> ()
+      | false ->
+        raise
+          (Error "doc_of_axml (axml_of_doc doc) != doc")
+    in
     let _ : unit = xml_right_test "axml" axml in
     let _ : unit = xml_right_test "exml" exml in
     let _ : unit = xml_right_test_fmt "axml" axml in
@@ -89,7 +80,13 @@ let test_with_axml_file (options : Common_utils.t_exml_options) (path : string)
     let doc : Doc_types.tr_doc = Doc_of_axml.f_tr_doc_of_axml axml in
     let axml_of_doc : Xml.xml = Axml_of_doc.axml_of_tr_doc doc in
     let exml : Xml.xml = Compiler_of_doc.exml_of_tr_doc options doc in
-    let _ : unit = identity_test_w_axml axml axml_of_doc in
+    let _ : unit =
+      match axml_of_doc = axml with
+      | true -> ()
+      | false ->
+        raise
+          (Error "axml_of_doc (doc_of_axml axml) != axml")
+    in
     let _ : unit = xml_right_test "axml" axml in
     let _ : unit = xml_right_test "exml" exml in
     let _ : unit = xml_right_test_fmt "axml" axml in
