@@ -51,6 +51,11 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "h2",
           [ ("class", "abstract_hdr") ],
           List.map (html_of_exml doc_class) xml_list )
+  | Xml.Element ("abstract_main", _, xml_list) ->
+      Xml.Element
+        ( "div",
+          [ ("class", "abstract_main") ],
+          List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("refs", _, xml_list) ->
       Xml.Element
         ( "section",
@@ -60,6 +65,11 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
       Xml.Element
         ( "h2",
           [ ("class", "refs_hdr") ],
+          List.map (html_of_exml doc_class) xml_list )
+  | Xml.Element ("refs_main", _, xml_list) ->
+      Xml.Element
+        ( "div",
+          [ ("class", "refs_main") ],
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("doc_main", _, xml_list) ->
       Xml.Element
@@ -158,57 +168,62 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "div",
           [ ("class", "par_main") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_txt", _, xml_list) ->
+  | Xml.Element ("blk", _, xml_list) ->
       Xml.Element
-        ( "p",
-          [ ("class", "blk txt") ],
+        ( "div",
+          [ ("class", "blk") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_qtn", _, xml_list) ->
+  | Xml.Element ("txt", _, xml_list) ->
       Xml.Element
         ( "p",
-          [ ("class", "blk qtn") ],
+          [ ("class", "txt") ],
+          List.map (html_of_exml doc_class) xml_list )
+  | Xml.Element ("qtn", _, xml_list) ->
+      Xml.Element
+        ( "p",
+          [ ("class", "qtn") ],
           List.map (html_of_exml doc_class) xml_list
         )
   | Xml.Element ("br", _, _) -> Xml.Element ("br", [], [])
-  | Xml.Element ("blk_itm", attr_list, xml_list) -> (
+  | Xml.Element ("itm", attr_list, xml_list) -> (
       match List.map (html_of_exml doc_class) xml_list with
       | hd::tl -> 
           Xml.Element ("div", attr_list, hd::clear::tl)
       | [] -> raise (Error "empty blk_itm")
   )
-  | Xml.Element ("blk_itm_lbl", _, xml_list) ->
+  | Xml.Element ("itm_lbl", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk_itm_lbl") ],
+          [ ("class", "itm_lbl") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_itm_main", _, xml_list) ->
+  | Xml.Element ("itm_main", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk_itm_main") ],
+          [ ("class", "itm_main") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_blt", _, xml_list) -> (
+  | Xml.Element ("blt", _, xml_list) -> (
       match List.map (html_of_exml doc_class) xml_list with
       | hd::tl -> 
           Xml.Element
             ( "div",
-              [ ("class", "blk blt") ],
+              [ ("class", "blt") ],
               hd::clear::tl )
-      | [] -> raise (Error "empty blk_blt")
+      | [] -> raise (Error "empty blt")
   )
-  | Xml.Element ("blk_blt_lbl", _, xml_list) ->
+  | Xml.Element ("blt_lbl", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk_blt_lbl") ],
+          [ ("class", "blt_lbl") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_blt_main", _, xml_list) ->
+  | Xml.Element ("blt_main", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk_blt_main") ],
+          [ ("class", "blt_main") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_dsp", _, xml_list) ->
+  | Xml.Element ("dsp", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk dsp") ],
+          [ ("class", "dsp") ],
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("dsp_line", attr_list, xml_list) -> (
       match List.map (html_of_exml doc_class) xml_list with
@@ -227,10 +242,10 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "div",
           [ ("class", "dsp_line_main") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_vrb", _, xml_list) ->
+  | Xml.Element ("vrb", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk vrb") ],
+          [ ("class", "vrb") ],
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("vrb_line", _, xml_list) ->
       Xml.Element
@@ -315,22 +330,22 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "h5",
           [ ("class", "refs_endnotes_hdr") ],
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_nte", attr_list, xml_list) -> (
+  | Xml.Element ("nte", attr_list, xml_list) -> (
       match List.map (html_of_exml doc_class) xml_list with
       | hd::tl ->
         Xml.Element
-          ( "div", ("class", "blk nte") :: attr_list, hd::clear::tl )
-      | [] -> raise (Error "empty blk_nte")
+          ( "div", ("class", "nte") :: attr_list, hd::clear::tl )
+      | [] -> raise (Error "empty nte")
   )
-  | Xml.Element ("blk_nte_lbl", attr_list, xml_list) ->
+  | Xml.Element ("nte_lbl", attr_list, xml_list) ->
       Xml.Element
         ( "a",
-          ("class", "blk_nte_lbl") :: attr_list,
+          ("class", "nte_lbl") :: attr_list,
           List.map (html_of_exml doc_class) xml_list )
-  | Xml.Element ("blk_nte_main", _, xml_list) ->
+  | Xml.Element ("nte_main", _, xml_list) ->
       Xml.Element
         ( "div",
-          [ ("class", "blk_nte_main") ],
+          [ ("class", "nte_main") ],
           List.map (html_of_exml doc_class) xml_list )
   | Xml.PCData s -> Xml.PCData s
   | Xml.Element ("clear", _, _) ->

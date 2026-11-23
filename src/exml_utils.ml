@@ -279,11 +279,14 @@ let xml_of_ts_blk_txt (doc_settings : t_doc_settings)
     (blk_txt : ts_blk_txt) : Xml.xml =
   match blk_txt with
   | Cs_blk_txt (txt_lines : ts_txt_lines) ->
-      Xml.Element
-        ( "blk_txt",
-          [],
-          xml_list_of_ts_txt_units doc_settings cref_table nte_table path
+      Xml.Element ("blk", [],
+        [Xml.Element
+          ( "txt",
+            [],
+            xml_list_of_ts_txt_units doc_settings cref_table nte_table path
             (Cs_txt_units (Common_utils.txt_units_of_txt_lines txt_lines)) )
+        ]
+      )
 
 (* dsp_line *)
 
@@ -326,7 +329,9 @@ let xml_list_of_ts_vrb_lines (vrb_lines : ts_vrb_lines) : Xml.xml list =
 let xml_of_ts_blk_vrb (blk_vrb : ts_blk_vrb) : Xml.xml =
   match blk_vrb with
   | Cs_blk_vrb (vrb_lines : ts_vrb_lines) ->
-      Xml.Element ("blk_vrb", [], xml_list_of_ts_vrb_lines vrb_lines)
+      Xml.Element ("blk", [],
+        [Xml.Element ("vrb", [], xml_list_of_ts_vrb_lines vrb_lines)]
+      )
 
 (* blk_qtn *)
 
@@ -394,7 +399,9 @@ let xml_list_of_ts_qtn_lines (qtn_lines : ts_qtn_lines) : Xml.xml list =
 let xml_of_ts_blk_qtn (blk_qtn : ts_blk_qtn) : Xml.xml =
   match blk_qtn with
   | Cs_blk_qtn (qtn_lines : ts_qtn_lines) ->
-      Xml.Element ("blk_qtn", [], xml_list_of_ts_qtn_lines qtn_lines)
+      Xml.Element ("blk", [],
+        [Xml.Element ("qtn", [], xml_list_of_ts_qtn_lines qtn_lines)]
+      )
 
 (* par_hdr *)
 
@@ -487,7 +494,7 @@ let rec normalize_exml (xml : Xml.xml) : Xml.xml =
   match xml with
   | Xml.Element (tag, attr_list, xml_list) -> (
       match tag with
-      | "blk_qtn" | "blk_txt" | "dsp_line_main" | "par_hdr_inline" | "par_hdr"
+      | "qtn" | "txt" | "dsp_line_main" | "par_hdr_inline" | "par_hdr"
       | "sec_hdr" | "ch_hdr" ->
           Xml.Element (tag, attr_list, normalize_exml_txt_units xml_list)
       | _ -> Xml.Element (tag, attr_list, List.map normalize_exml xml_list))
@@ -538,9 +545,11 @@ let exml_schema () : string =
     datetime CDATA #IMPLIED
 >
 
-<!ELEMENT abstract (abstract_hdr?, (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+, abstract_endnotes?)>
-<!ELEMENT doc_main (ch+ | sec+ | par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+)>
-<!ELEMENT refs (refs_hdr?, (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+, refs_endnotes?)>
+<!ELEMENT abstract (abstract_hdr?, abstract_main, abstract_endnotes?)>
+<!ELEMENT abstract_main (blk+)>
+<!ELEMENT doc_main (ch+ | sec+ | par+ | blk+)>
+<!ELEMENT refs (refs_hdr?, refs_main, refs_endnotes?)>
+<!ELEMENT refs_main (blk+)>
 
 <!ELEMENT abstract_hdr (#PCDATA)>
 <!ELEMENT refs_hdr (#PCDATA)>
@@ -563,32 +572,31 @@ let exml_schema () : string =
     id CDATA #IMPLIED
 >
 
-<!ELEMENT ch_main (sec+ | par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+)>
-<!ELEMENT sec_main (par+ | (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+)>
-<!ELEMENT par_main (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+>
-<!ELEMENT par_main_w_hdr (
-    ((par_tag?, par_hdr) | par_tag_hdr ),
-    (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn )+)
->
+<!ELEMENT ch_main (sec+ | par+ | blk+)>
+<!ELEMENT sec_main (par+ | blk+)>
+<!ELEMENT par_main (blk+)>
+<!ELEMENT par_main_w_hdr (((par_tag?, par_hdr) | par_tag_hdr ), blk+)>
 
-<!ELEMENT blk_txt (txt_unit_wysiwyg | txt_unit_emph | txt_unit_c_ref | txt_unit_nte)+>
-<!ELEMENT blk_blt (blk_blt_lbl, blk_blt_main)>
-<!ELEMENT blk_itm (blk_itm_lbl, blk_itm_main)>
-<!ATTLIST blk_itm 
+<!ELEMENT blk (txt | blt | itm | dsp | vrb | qtn)>
+
+<!ELEMENT txt (txt_unit_wysiwyg | txt_unit_emph | txt_unit_c_ref | txt_unit_nte)+>
+<!ELEMENT blt (blt_lbl, blt_main)>
+<!ELEMENT itm (itm_lbl, itm_main)>
+<!ATTLIST itm 
     class CDATA #REQUIRED
     id CDATA #IMPLIED
 >
-<!ELEMENT blk_dsp (dsp_line+)>
+<!ELEMENT dsp (dsp_line+)>
 
-<!ELEMENT blk_vrb ((vrb_line | vrb_line_empty)+)>
+<!ELEMENT vrb ((vrb_line | vrb_line_empty)+)>
 <!ELEMENT vrb_line (#PCDATA)>
 <!ELEMENT vrb_line_empty EMPTY>
 
-<!ELEMENT blk_qtn (txt_unit_wysiwyg | txt_unit_emph | br)+>
+<!ELEMENT qtn (txt_unit_wysiwyg | txt_unit_emph | br)+>
 <!ELEMENT br EMPTY>
 
-<!ELEMENT blk_blt_main (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+>
-<!ELEMENT blk_itm_main (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+>
+<!ELEMENT blt_main (blk+)>
+<!ELEMENT itm_main (blk+)>
 
 <!ELEMENT ch_hdr (txt_unit_wysiwyg | txt_unit_emph | txt_unit_c_ref | txt_unit_nte)+>
 <!ELEMENT sec_hdr (txt_unit_wysiwyg | txt_unit_emph | txt_unit_c_ref | txt_unit_nte)+>
@@ -612,8 +620,8 @@ let exml_schema () : string =
 <!ELEMENT sec_lbl_hdr (#PCDATA)>
 <!ELEMENT par_lbl (#PCDATA)>
 <!ELEMENT par_lbl_hdr (#PCDATA)>
-<!ELEMENT blk_blt_lbl (#PCDATA)>
-<!ELEMENT blk_itm_lbl (#PCDATA)>
+<!ELEMENT blt_lbl (#PCDATA)>
+<!ELEMENT itm_lbl (#PCDATA)>
 <!ELEMENT dsp_line_lbl (#PCDATA)>
 
 <!ELEMENT txt_unit_wysiwyg (#PCDATA)>
@@ -636,12 +644,12 @@ let exml_schema () : string =
 
 <!ELEMENT dsp_line_main (txt_unit_wysiwyg | txt_unit_emph | txt_unit_c_ref | txt_unit_nte)+>
 
-<!ELEMENT doc_endnotes (doc_endnotes_hdr?, blk_nte+)>
-<!ELEMENT ch_endnotes (ch_endnotes_hdr?, blk_nte+)>
-<!ELEMENT sec_endnotes (sec_endnotes_hdr?, blk_nte+)>
-<!ELEMENT par_endnotes (par_endnotes_hdr?, blk_nte+)>
-<!ELEMENT abstract_endnotes (abstract_endnotes_hdr?, blk_nte+)>
-<!ELEMENT refs_endnotes (refs_endnotes_hdr?, blk_nte+)>
+<!ELEMENT doc_endnotes (doc_endnotes_hdr?, nte+)>
+<!ELEMENT ch_endnotes (ch_endnotes_hdr?, nte+)>
+<!ELEMENT sec_endnotes (sec_endnotes_hdr?, nte+)>
+<!ELEMENT par_endnotes (par_endnotes_hdr?, nte+)>
+<!ELEMENT abstract_endnotes (abstract_endnotes_hdr?, nte+)>
+<!ELEMENT refs_endnotes (refs_endnotes_hdr?, nte+)>
 
 <!ELEMENT doc_endnotes_hdr (#PCDATA)>
 <!ELEMENT ch_endnotes_hdr (#PCDATA)>
@@ -650,14 +658,14 @@ let exml_schema () : string =
 <!ELEMENT abstract_endnotes_hdr (#PCDATA)>
 <!ELEMENT refs_endnotes_hdr (#PCDATA)>
 
-<!ELEMENT blk_nte (blk_nte_lbl, blk_nte_main)>
-<!ATTLIST blk_nte
+<!ELEMENT nte (nte_lbl, nte_main)>
+<!ATTLIST nte
     id CDATA #REQUIRED
 >
-<!ELEMENT blk_nte_lbl (#PCDATA)>
-<!ATTLIST blk_nte_lbl
+<!ELEMENT nte_lbl (#PCDATA)>
+<!ATTLIST nte_lbl
     href CDATA #REQUIRED
 >
 
-<!ELEMENT blk_nte_main (blk_txt | blk_blt | blk_itm | blk_dsp | blk_vrb | blk_qtn)+>
+<!ELEMENT nte_main (blk+)>
 "

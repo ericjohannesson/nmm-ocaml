@@ -159,7 +159,11 @@ and acc_of_ts_blk_dsp (doc_settings : t_doc_settings)
           | EXML acc_list -> (
               match aux auto_nr (EXML []) dsp_line_list with
               | EXML xml_list, nr ->
-                  let exml : Xml.xml = Xml.Element ("blk_dsp", [], xml_list) in
+                  let exml : Xml.xml =
+                    Xml.Element ("blk", [],
+                      [Xml.Element ("dsp", [], xml_list)]
+                    )
+                  in
                   (EXML (List.concat [ acc_list; [ exml ] ]), nr)
               | _ -> raise (Error "accumulator type"))))
 
@@ -348,12 +352,12 @@ and xml_of_blk_nte_inline (doc_settings : t_doc_settings)
         | _ -> []
       in
       let xml_lbl : Xml.xml =
-        Xml.Element ("blk_nte_lbl", attr_list_lbl, xml_list_lbl)
+        Xml.Element ("nte_lbl", attr_list_lbl, xml_list_lbl)
       in
       let xml_main : Xml.xml =
-        Xml.Element ("blk_nte_main", [], xml_list_main)
+        Xml.Element ("nte_main", [], xml_list_main)
       in
-      Xml.Element ("blk_nte", attr_list, [ xml_lbl; xml_main ])
+      Xml.Element ("nte", attr_list, [ xml_lbl; xml_main ])
 
 and xml_of_blk_nte_ref (doc_settings : t_doc_settings)
     (cref_table : t_cref_table) (path : t_path) (nte_ref : ts_nte_ref)
@@ -389,10 +393,10 @@ and xml_of_blk_nte_ref (doc_settings : t_doc_settings)
     match attr_list with [ ("id", s) ] -> [ ("href", "#ref_" ^ s) ] | _ -> []
   in
   let xml_lbl : Xml.xml =
-    Xml.Element ("blk_nte_lbl", attr_list_lbl, xml_list_lbl)
+    Xml.Element ("nte_lbl", attr_list_lbl, xml_list_lbl)
   in
-  let xml_main : Xml.xml = Xml.Element ("blk_nte_main", [], xml_list_main) in
-  Xml.Element ("blk_nte", attr_list, [ xml_lbl; xml_main ])
+  let xml_main : Xml.xml = Xml.Element ("nte_main", [], xml_list_main) in
+  Xml.Element ("nte", attr_list, [ xml_lbl; xml_main ])
 
 and xml_of_nte_table_opt (doc_settings : t_doc_settings)
     (cref_table : t_cref_table) (path : t_path) (nte_table : t_nte_table) :
@@ -518,9 +522,9 @@ and acc_of_tr_blk_itm (doc_settings : t_doc_settings)
         [ Exml_utils.xml_of_string (label_of_path doc_settings path) ]
       in
       let xml_main : Xml.xml =
-        Xml.Element ("blk_itm_main", [], xml_list_main)
+        Xml.Element ("itm_main", [], xml_list_main)
       in
-      let xml_lbl : Xml.xml = Xml.Element ("blk_itm_lbl", [], xml_list_lbl) in
+      let xml_lbl : Xml.xml = Xml.Element ("itm_lbl", [], xml_list_lbl) in
       let classes : string list =
         match path with
         | ITM_NODE (ITM_BIB_CUSTOM _) :: _ -> [ "bib_custom" ]
@@ -532,7 +536,9 @@ and acc_of_tr_blk_itm (doc_settings : t_doc_settings)
           blk_itm.fld_blk_itm_tag_or_id
       in
       let exml : Xml.xml =
-        Xml.Element ("blk_itm", attr_list, [ xml_lbl; xml_main ])
+        Xml.Element ("blk", [],
+          [Xml.Element ("itm", attr_list, [ xml_lbl; xml_main ])]
+        )
       in
       EXML (List.concat [ acc_list; [ exml ] ])
 
@@ -573,13 +579,15 @@ and acc_of_ts_blk_blt (doc_settings : t_doc_settings)
             [ Exml_utils.xml_of_string (label_of_path doc_settings path) ]
           in
           let xml_main : Xml.xml =
-            Xml.Element ("blk_blt_main", [], xml_list_main)
+            Xml.Element ("blt_main", [], xml_list_main)
           in
           let xml_lbl : Xml.xml =
-            Xml.Element ("blk_blt_lbl", [], xml_list_lbl)
+            Xml.Element ("blt_lbl", [], xml_list_lbl)
           in
           let exml : Xml.xml =
-            Xml.Element ("blk_blt", [], [ xml_lbl; xml_main ])
+            Xml.Element ("blk", [],
+              [Xml.Element ("blt", [], [ xml_lbl; xml_main ])]
+            )
           in
           EXML (List.concat [ acc_list; [ exml ] ]))
 
@@ -1073,15 +1081,17 @@ let acc_of_ts_abstract (doc_settings : t_doc_settings)
                 | Some xml -> [ xml ]
                 | None -> [])
           in
-          let exml : Xml.xml =
+          let main : Xml.xml =
             match
               acc_of_ts_blks doc_settings cref_table nte_table path (EXML [])
                 blks
             with
-            | EXML xml_list ->
-                Xml.Element
-                  ("abstract", [], List.concat [ hdr; xml_list; endnotes ])
+            | EXML xml_list -> Xml.Element ("abstract_main", [], xml_list)
             | _ -> raise (Error "accumulator type")
+          in
+          let exml : Xml.xml =
+            Xml.Element
+              ("abstract", [], List.concat [ hdr; [main]; endnotes ])
           in
           EXML [ exml ]
       | CREF_TABLE _ | MARGIN_LABELS _ | NTE_TABLE _ ->
@@ -1128,16 +1138,20 @@ let acc_of_ts_refs (doc_settings : t_doc_settings) (cref_table : t_cref_table)
                 | Some xml -> [ xml ]
                 | None -> [])
           in
-          match
-            acc_of_ts_blks doc_settings cref_table nte_table path (EXML []) blks
-          with
-          | EXML xml_list ->
-              EXML
-                [
-                  Xml.Element
-                    ("refs", [], List.concat [ hdr; xml_list; endnotes ]);
-                ]
-          | _ -> raise (Error "accumulator type"))
+          let main : Xml.xml =
+            match
+              acc_of_ts_blks doc_settings cref_table nte_table path (EXML [])
+                blks
+            with
+            | EXML xml_list -> Xml.Element ("refs_main", [], xml_list)
+            | _ -> raise (Error "accumulator type")
+          in
+          let exml : Xml.xml =
+            Xml.Element
+              ("refs", [], List.concat [ hdr; [main]; endnotes ])
+          in
+          EXML [ exml ]
+      )
       | CREF_TABLE _ | MARGIN_LABELS _ | NTE_TABLE _ ->
           acc_of_ts_blks doc_settings cref_table nte_table path acc blks)
 
