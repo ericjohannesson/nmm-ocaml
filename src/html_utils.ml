@@ -51,6 +51,11 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
         ( "h2",
           [ ("class", "abstract_hdr") ],
           List.map (html_of_exml doc_class) xml_list )
+  | Xml.Element ("abstract_main", _, xml_list) ->
+      Xml.Element
+        ( "div",
+          [ ("class", "abstract_main") ],
+          List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("refs", _, xml_list) ->
       Xml.Element
         ( "section",
@@ -60,6 +65,11 @@ let rec html_of_exml (doc_class : Common_utils.t_doc_class) (element : Xml.xml)
       Xml.Element
         ( "h2",
           [ ("class", "refs_hdr") ],
+          List.map (html_of_exml doc_class) xml_list )
+  | Xml.Element ("refs_main", _, xml_list) ->
+      Xml.Element
+        ( "div",
+          [ ("class", "refs_main") ],
           List.map (html_of_exml doc_class) xml_list )
   | Xml.Element ("doc_main", _, xml_list) ->
       Xml.Element
