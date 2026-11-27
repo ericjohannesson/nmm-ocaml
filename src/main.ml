@@ -6,19 +6,19 @@ let version () : string = "11"
 
 (* parsing nmm *)
 
+let parser_env_of_options (options : Common_utils.t_axml_options) : unit =
+  let _ : unit = Nmm_parser.parser_env.blk_itm_tag_patch <- Tags.tag_blk_itm_of_path_opt options.tags in
+  let _ : unit = Nmm_parser.parser_env.c_ref_tag_patch <- Tags.c_ref_or_wysiwyg_of_path_opt options.tags in
+  ()
+
+
 let doc_of_nmm (options : Common_utils.t_axml_options) (path : string) :
     Doc_types.tr_doc =
+  let _ : unit = parser_env_of_options options in
   try
     match path with
-    | "-" ->
-        Doc_of_nmm.doc_of_nmm_stdin_with_tags
-          (Tags.tag_blk_itm_of_path_opt options.tags)
-          (Tags.c_ref_or_wysiwyg_of_path_opt options.tags)
-    | _ ->
-        Doc_of_nmm.doc_of_nmm_file_with_tags
-          (Tags.tag_blk_itm_of_path_opt options.tags)
-          (Tags.c_ref_or_wysiwyg_of_path_opt options.tags)
-          path
+    | "-" -> Doc_of_nmm.doc_of_nmm_stdin false
+    | _ -> Doc_of_nmm.doc_of_nmm_file false path
   with Doc_of_nmm.Error e ->
     raise (Error (String.concat " " [ path; "->"; "Doc_of_nmm.Error:"; e ]))
 
