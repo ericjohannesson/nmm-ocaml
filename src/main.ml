@@ -181,11 +181,10 @@ let html_body_of_nmm (options : Common_utils.t_html_options)
 
 let doc_of_axml (path : string) : Doc_types.tr_doc =
   try
-    let print_tokens = false in
     let axml : Xml.xml =
       match path with
-      | "-" -> Xml_right.parse_stdin print_tokens
-      | _ -> Xml_right.parse_file print_tokens path
+      | "-" -> Xml_right.parse_stdin false
+      | _ -> Xml_right.parse_file false path
     in
     Doc_of_axml.f_tr_doc_of_axml axml
   with
@@ -275,14 +274,13 @@ let check_xml_schema (path : string) : string =
               ]))
 
 let validate_xml (path_to_dtd : string) (path_to_xml : string) : string =
-  let print_tokens = false in
   try
     let dtd : Dtd.dtd = Dtd.parse_file path_to_dtd in
     let checked_dtd : Dtd.checked = Dtd.check dtd in
     let xml : Xml.xml =
       match path_to_xml with
-      | "-" -> Xml_right.parse_stdin print_tokens
-      | path -> Xml_right.parse_file print_tokens path
+      | "-" -> Xml_right.parse_stdin false
+      | path -> Xml_right.parse_file false path
     in
     match xml with
     | Xml.Element (entry_point, _, _) ->
